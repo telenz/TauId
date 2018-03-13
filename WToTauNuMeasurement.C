@@ -13,7 +13,7 @@ void WToTauNuMeasurement() {
 
   loadWorkingPoints();
   initCuts();
-  loadFakeRates("output/FakeRates_FinerBinning/fakerates" + tauDecayMode + "_FinerBinning.root");
+  loadFakeRates("output/fakerates" + tauDecayMode + ".root");
   //loadFakeRates("output/fakerates_GenuineTauSubtraction.root");
   //loadFakeRates("output/fakerates_FINAL.root");
 
