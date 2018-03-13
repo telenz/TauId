@@ -92,8 +92,8 @@ void WToTauNuMeasurement() {
 
   TString var = "mttau";
 
-  const int nbins = 8;
-  double bins[nbins+1] = { 0 , 100 , 150 , 200 , 250 , 300 , 350 , 450 , 600 };
+  const int nbins = 10;
+  double bins[nbins+1] = { 0 , 100 , 200 , 300 , 400 , 500 , 600 , 700 , 800 , 900 , 1000};
 
   for(unsigned int idx_iso=0; idx_iso<iso.size(); idx_iso++){
 
