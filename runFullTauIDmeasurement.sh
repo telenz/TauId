@@ -1,5 +1,7 @@
 #!bin/sh
 
+# Please initialize CMSSW before
+
 # Make trigger efficiency curve for met trigger (afterwards you need to redo met ntuple)
 # root -l -b -q PlotTrigger.C # commented out since this is only executed once
 
@@ -18,7 +20,7 @@ root -l -b -q WToMuNuMeasurement.C
 root -l -b -q DatacardProducer_WToMuNu.C
 
 # Make datacards and run Combine
-iniCMSSW_7_4_7
+iniCMSSW_7_4_7   # needed for Combine (definition see below)
 cd datacards
 source RunCombine.sh
 cd ..
@@ -39,3 +41,11 @@ root -l -b -q MakePostFitPlots.C
 # root -l mlfit_Combined_TightMva.root
 # fit_s->Print()
 # fit_s->correlation("r","tauId")
+
+# iniCMSSW_7_4_7 needed for Combine and defined as
+# iniCMSSW_7_4_7() {
+#    cd /nfs/dust/cms/user/tlenz/13TeV/2016/CMSSW_7_4_7/src
+#    ini6 
+#    eval `scram runtime -sh`
+#    cd -
+# }
