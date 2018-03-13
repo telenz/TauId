@@ -18,7 +18,8 @@
 #include "TVector2.h"
 #include "TLorentzVector.h"
 
-TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2016/TauIdWithVirtualW/WTauId/NTuples/";
+//TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2016/TauIdWithVirtualW/WTauId/NTuples/";
+TString dir = "NTuples/";
 
 TString tauDecayMode = "";
 //TString tauDecayMode = "_3prong0pizeros";
