@@ -4,8 +4,6 @@
 
 void CalculateEWKfraction() {
 
-  bool recalculateEWKfraction = true;
-
   loadWorkingPoints();
   initCuts();
 
@@ -40,54 +38,43 @@ void CalculateEWKfraction() {
   TH1D* histo[2] = {0};  
   const int nBins  = 1;
   float bins[nBins+1] = {100,1000};  // tauPt binning
-	
-  for(unsigned int idx_iso=0; idx_iso<iso.size(); idx_iso++){
 
-    if(!recalculateEWKfraction) continue;
-    if(iso[idx_iso] != "TightMva") continue;
+  for (unsigned int i=0; i<samples.size(); ++i) {
 
-    cout<<endl<<"Process "<<iso[idx_iso]<<" : "<<endl;
-    
-    for (unsigned int i=0; i<samples.size(); ++i) {
+    // filling histograms
+    histo[i]  = new TH1D("h_" + samples[i].first,"",nBins,bins); 
 
-      // filling histograms
-      histo[i]  = new TH1D("h_" + samples[i].first,"",nBins,bins); 
+    TString var = "tauPt";
+    for(unsigned int idx_list=0; idx_list<samples[i].second.size(); idx_list++){
+      cout<<"---------- Sample "<<samples[i].second[idx_list]<<" processing. ---------- "<<endl;
 
-      TString var = "tauPt";
-      for(unsigned int idx_list=0; idx_list<samples[i].second.size(); idx_list++){
-	cout<<"---------- Sample "<<samples[i].second[idx_list]<<" processing. ---------- "<<endl;
-
-	makeSelection(dir+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),iso[idx_iso],cr_ewkFraction,histo[i],var,var,var);
-      }
+      makeSelection(dir+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),(TString) "VTightMva",cr_ewkFraction,histo[i],var,var,var);
     }
-    double nEWK_err;
-    double nEWK  = histo[0] -> IntegralAndError(1,nBins,nEWK_err);
-    double nData_err;
-    double nData = histo[1] -> IntegralAndError(1,nBins,nData_err);
-      
-    TH1D *h_fEWK = (TH1D*) histo[0]->Clone();
-    h_fEWK->Divide(histo[1]);
-    h_fEWK->SetName("h_fEWK");
-      
-    std::cout << "Fraction of electroweak events in antiisolated region -> " << std::endl;
-    std::cout << "EWK (from MC)     = " << nEWK       << " +/- " << nEWK_err << std::endl;
-    std::cout << "Total (from data) = " << nData      << " +/- " << nData_err << std::endl;
-    std::cout << "EWK/Total         = " << nEWK/nData << " +/- " << nEWK_err/nData << std::endl;
-    std::cout << "  pt > 100 GeV    = " << h_fEWK->GetBinContent(1) << " +/- " << h_fEWK->GetBinError(1) << endl;
-    std::cout << "  pt > 150 GeV    = " << h_fEWK->GetBinContent(2) << " +/- " << h_fEWK->GetBinError(2) << endl;
-    std::cout << "  pt > 200 GeV    = " << h_fEWK->GetBinContent(3) << " +/- " << h_fEWK->GetBinError(3) << endl;
-    std::cout << std::endl;
-      
-    // Save fraction of EWK events in root file
-    TFile* out = new TFile("output/fraction_EWK.root","RECREATE");
-    out->cd();
-    h_fEWK->Write();
-    out->Close();
   }
-
-  TFile* file = new TFile("output/fraction_EWK.root","READ");
-  TH1D* h_fEWK = 0;
-  file->GetObject("h_fEWK", h_fEWK);
+  double nEWK_err;
+  double nEWK  = histo[0] -> IntegralAndError(1,nBins,nEWK_err);
+  double nData_err;
+  double nData = histo[1] -> IntegralAndError(1,nBins,nData_err);
+      
+  TH1D *h_fEWK = (TH1D*) histo[0]->Clone();
+  h_fEWK->Divide(histo[1]);
+  h_fEWK->SetName("h_fEWK");
+      
+  std::cout << "Fraction of electroweak events in antiisolated region -> " << std::endl;
+  std::cout << "EWK (from MC)     = " << nEWK       << " +/- " << nEWK_err << std::endl;
+  std::cout << "Total (from data) = " << nData      << " +/- " << nData_err << std::endl;
+  std::cout << "EWK/Total         = " << nEWK/nData << " +/- " << nEWK_err/nData << std::endl;
+  std::cout << "  pt > 100 GeV    = " << h_fEWK->GetBinContent(1) << " +/- " << h_fEWK->GetBinError(1) << endl;
+  std::cout << "  pt > 150 GeV    = " << h_fEWK->GetBinContent(2) << " +/- " << h_fEWK->GetBinError(2) << endl;
+  std::cout << "  pt > 200 GeV    = " << h_fEWK->GetBinContent(3) << " +/- " << h_fEWK->GetBinError(3) << endl;
+  std::cout << std::endl;
+      
+  // Save fraction of EWK events in root file
+  TFile* out = new TFile("output/fraction_EWK.root","RECREATE");
+  out->cd();
+  h_fEWK->Write();
+  
+  // Read it again
   double *ratio  = new double[h_fEWK->GetNbinsX()];
   double *eratio = new double[h_fEWK->GetNbinsX()];
   for(int i=0; i<h_fEWK->GetNbinsX(); i++){
@@ -99,7 +86,7 @@ void CalculateEWKfraction() {
   TFile *DataFileJetHT = new TFile("output/JetHT_Run2016_fakeRate.root");
   TFile *DataFileSingleMu = new TFile("output/SingleMuon_Run2016_fakeRate.root");
   
-  TFile* out = new TFile("output/fakerates.root","RECREATE");
+  TFile* out_FakeRates = new TFile("output/fakerates.root","RECREATE");
 
   cout<<endl<<endl<<"Calculation of combined fake rate"<<endl<<endl;
   for(unsigned int idx_iso=0; idx_iso<iso.size(); idx_iso++){
@@ -126,7 +113,7 @@ void CalculateEWKfraction() {
 
     cout<<"Used EWK fraction = "<<ratio[0]<<endl;
     
-    out->cd();
+    out_FakeRates->cd();
     effCombined -> SetName(iso[idx_iso]);
     effCombined -> Write(iso[idx_iso]);
   }
