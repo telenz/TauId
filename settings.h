@@ -399,10 +399,10 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
   //TFile *f_met = new TFile("output/met_"+iso+"_WToTauNu_closure.root");
   //if(f_met) f_met->GetObject("ratioH",h_met);
 
-  TH2D* h_weights = 0;
-  TFile *f_weights = new TFile("output/ReweightingWeights_muonPt_mtmuon_WToMuNu.root");
-  if(f_weights) f_weights->GetObject("weights",h_weights);
-  else cout<<"File not available"<<endl;
+  //TH2D* h_weights = 0;
+  //TFile *f_weights = new TFile("output/ReweightingWeights_muonPt_mtmuon_WToMuNu.root");
+  //if(f_weights) f_weights->GetObject("weights",h_weights);
+  //else cout<<"File not available"<<endl;
 
   int nevtsProcessed = getNEventsProcessed(filename);
   double norm = xsec*luminosity/nevtsProcessed;
