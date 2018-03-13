@@ -65,8 +65,8 @@ void WToTauNuMeasurement() {
   std::vector<TString> WToTauNu_uesDown;
   WToTauNu_uesDown.push_back("WToTauNu_M-200_13TeV-pythia8_uesDown");
 
-  for(int i=1; i<=h_fakerate->at("TightMva").GetNbinsX(); i++){
-    for(int j=1; j<=h_fakerate->at("TightMva").GetNbinsY(); j++){
+  for(int i=1; i<=h_fakerate->begin()->second.GetNbinsX(); i++){
+    for(int j=1; j<=h_fakerate->begin()->second.GetNbinsY(); j++){
       std::vector<TString> fakeTaus_FRUp;
       fakeTaus_FRUp.push_back("MET_Run2016");
       std::vector<TString> fakeTaus_FRDown;
