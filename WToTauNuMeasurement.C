@@ -90,7 +90,7 @@ void WToTauNuMeasurement() {
   samples.push_back(make_pair("W_uesUp" , WToTauNu_uesUp));
   samples.push_back(make_pair("W_uesDown" , WToTauNu_uesDown));
 
-  TString var = "tauPt";
+  TString var = "mttau";
 
   const int nbins = 8;
   double bins[nbins+1] = { 0 , 100 , 150 , 200 , 250 , 300 , 350 , 450 , 600 };
