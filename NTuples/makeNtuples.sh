@@ -47,6 +47,7 @@
 ./qsub_seq.sh AnalysisNTupleProducer analysisNTupleProducer_MC.conf WToTauNu_M-200_13TeV-pythia8 2
 ./qsub_seq.sh AnalysisNTupleProducer analysisNTupleProducer_MC.conf WToMuNu_M-200_13TeV-pythia8 2
 
+# For systematic uncertainties
 ./qsub_seq.sh AnalysisNTupleProducer analysisNTupleProducer_jesDown.conf WToTauNu_M-200_13TeV-pythia8_jesDown 2
 ./qsub_seq.sh AnalysisNTupleProducer analysisNTupleProducer_jesUp.conf WToTauNu_M-200_13TeV-pythia8_jesUp 2
 ./qsub_seq.sh AnalysisNTupleProducer analysisNTupleProducer_uesDown.conf WToTauNu_M-200_13TeV-pythia8_uesDown 2
