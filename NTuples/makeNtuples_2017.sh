@@ -11,4 +11,4 @@
 
 
 # For fake rate (no trigger efficiencies need to be included)
-./qsub_seq.sh AnalysisNTupleProducer analysisNTupleProducer_tauid_Data.conf JetHT_Run2017 20
+./qsub_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_Data.conf JetHT_Run2017 20
