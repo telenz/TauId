@@ -19,7 +19,7 @@
 #include "TLorentzVector.h"
 
 //TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2016/TauIdWithVirtualW/WTauId/NTuples/";
-TString dir = "NTuples/";
+TString dir = "/nfs/dust/cms/user/mameyer/TauIdAndES_2017Data/TauId/NTuples/";
 
 TString tauDecayMode = "";
 //TString tauDecayMode = "_3prong0pizeros";
@@ -35,12 +35,11 @@ map<TString,TH2D>* h_fakerate = 0;
 //TF2* fakerateFunc;
 
 map<TString, double> xsecs = {
-{"W1JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8", 1.221*9644.5}, 
-{"W2JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8", 1.221*3144.5}, 
-{"W3JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8", 1.221*954.8},
-{"W4JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8", 1.221*485.6},
-{"WJetsToLNu_13TeV-madgraphMLM"                      , 61526.7},
-{"WJetsToLNu_13TeV-madgraphMLM-v1"                   , 61526.7},
+{"W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"     , 1.221*9644.5},
+{"W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"     , 1.221*3144.5},
+{"W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"     , 1.221*954.8},
+{"W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"     , 1.221*485.6},
+{"WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"      , 61526.7},
 {"ZJetsToNuNu_HT-100To200_13TeV-madgraph"            , 1.164*280.4},
 {"ZJetsToNuNu_HT-200To400_13TeV-madgraph"            , 1.164*77.67},
 {"ZJetsToNuNu_HT-400To600_13TeV-madgraph"            , 1.164*10.73},
@@ -390,7 +389,7 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
     pfJet450 = new TTreeReaderValue<Bool_t>(*myReader,"pfJet450");
     pfJet500 = new TTreeReaderValue<Bool_t>(*myReader,"pfJet500");
   }
-  
+
   TTreeReaderValue< Float_t >  var1(             *myReader,       variableToFill_1);
   TTreeReaderValue< Float_t >  var2(             *myReader,       variableToFill_2);
   TTreeReaderValue< Float_t >  var3(             *myReader,       variableToFill_3);
