@@ -5,6 +5,8 @@
 #include <TLegend.h>
 #include <TPaveText.h>
 #include <TLatex.h>
+#include <TGaxis.h>
+#include <TROOT.h>
 
 /// define common styles
 void SetStyle();
