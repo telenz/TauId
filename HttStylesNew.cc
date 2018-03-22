@@ -50,7 +50,7 @@ void SetStyle()
 
   // color palette for 2D temperature plots
   HttStyle->SetPalette(1,0);
-  
+
   // Pads
   HttStyle->SetPadColor       (0);
   HttStyle->SetPadBorderSize  (10);
@@ -94,7 +94,7 @@ void SetStyle()
 
   HttStyle->SetTitleBorderSize(0);
   HttStyle->SetTitleFillColor (0);
-  HttStyle->SetTitleX         (0.2);
+  //HttStyle->SetTitleX         (0.2);
 
   HttStyle->SetStripDecimals(kFALSE);
   HttStyle->SetLineStyleString(11,"20 10");
@@ -106,8 +106,8 @@ void SetStyle()
   HttStyle->SetLabelFont  (43,"XY");
   HttStyle->SetLabelSize  (30,"XY");
 
-  HttStyle->SetTextFont   (43);
-  HttStyle->SetTextSize   (25);
+  //HttStyle->SetTextFont   (43);
+  //HttStyle->SetTextSize   (30);
 
   HttStyle->SetStatFont   (43);
   HttStyle->SetTitleFont  (43);
