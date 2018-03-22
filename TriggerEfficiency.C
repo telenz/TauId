@@ -24,7 +24,7 @@ void TriggerEfficiency() {
   TH1::SetDefaultSumw2();
   TH2::SetDefaultSumw2();
 
-  double luminosity = 10000;
+  double luminosity = 40400;
 
   std::vector< std::pair<TString,std::vector<TString>> > samples;
 
@@ -41,10 +41,8 @@ void TriggerEfficiency() {
 
   std::map<TString,TH1D*> histoMap;
 
-  const int nbins  = 21;
-  float bins[nbins+1] = {0,30,60,90,120,140,160,180,200,220,240,260,280,300,340,380,420,460,500,600,800,1500};
-  
-  TString var = "metNoMu";
+  const int nbins  = 20;
+  float bins[nbins+1] = {60,90,100,110,120,130,140,150,160,170,180,190,200,220,240,280,320,380,480,600,800};
 
   // Needed for stitching
   double xsecIncl = xsecs["WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"];
@@ -74,43 +72,47 @@ void TriggerEfficiency() {
       
       TTreeReaderValue< Float_t >  mhtNoMu(          *myReader,       "mhtNoMu");
       TTreeReaderValue< Float_t >  metNoMu(          *myReader,       "metNoMu");
+      TTreeReaderValue< Float_t >  mht(              *myReader,       "mht");
+      TTreeReaderValue< Float_t >  met(              *myReader,       "met");
       TTreeReaderValue< Bool_t  >  IsW(              *myReader,       "IsW");
       TTreeReaderValue< Bool_t  >  trigger(          *myReader,       "trigger");
       TTreeReaderValue< UInt_t  >  npartons(         *myReader,       "npartons");
       TTreeReaderValue< Float_t >  mtmuon(           *myReader,       "mtmuon");
-      TTreeReaderValue< Float_t >  muonPt(           *myReader,       "muonPt");      
+      TTreeReaderValue< Float_t >  muonPt(           *myReader,       "muonPt");
+      TTreeReaderValue< Float_t >  muonEta(          *myReader,       "muonEta");
+      TTreeReaderValue< Float_t >  dPhiMetMuon(      *myReader,       "dPhiMetMuon");
 
-      cout<<"---------- Sample "<<samples[i].second[idx_list]<<" processing. ---------- "<<endl;
+      cout<<"---------- Processing  "<<samples[i].second[idx_list]<<"  ---------- "<<endl;
 
       while(myReader->Next()){
 
-	if(*IsW != true)   continue;
-	//if(*mhtNoMu < 100) continue;
-	if(*mtmuon < 50)   continue;
-	if(*muonPt < 28)   continue;
-
+	//if(*IsW != true)   continue; // this includes an mtmuon cut of 40GeV
+	//if(*mtmuon < 50)   continue;
+	
 	double weight = 1.;
 	double norm = 1.;
 	if(samples[i].first.Contains("MC") && samples[i].second.size()>1){
 	  if(*npartons == 0)      norm=luminosity/( nevtsProcessedIncl/xsecIncl );
-	  else if(*npartons == 1)norm=luminosity/( nevtsProcessed1Jet/xsec1Jet + nevtsProcessedIncl/xsecIncl );
+	  else if(*npartons == 1) norm=luminosity/( nevtsProcessed1Jet/xsec1Jet + nevtsProcessedIncl/xsecIncl );
 	  else if(*npartons == 2) norm=luminosity/( nevtsProcessed2Jet/xsec2Jet + nevtsProcessedIncl/xsecIncl );
 	  else if(*npartons == 3) norm=luminosity/( nevtsProcessed3Jet/xsec3Jet + nevtsProcessedIncl/xsecIncl );
-	  else if(*npartons == 4){
-	    norm=luminosity/( nevtsProcessed4Jet/xsec4Jet + nevtsProcessedIncl/xsecIncl );
-
-	  }
+	  else if(*npartons == 4) norm=luminosity/( nevtsProcessed4Jet/xsec4Jet + nevtsProcessedIncl/xsecIncl );
 	  else                    norm=luminosity/( nevtsProcessedIncl/xsecIncl );
 	}
 	
-	histo_den  -> Fill( *metNoMu, weight*norm );
-	
-	if(*trigger != true) continue;
+	// CUTS
 
-	histo_num  -> Fill( *metNoMu, weight*norm );
+	if(*mht < 60 )        continue;
+	if(*muonPt < 30)       continue;
+	if(*dPhiMetMuon > 1.5) continue;
+
+	histo_den  -> Fill( *met, weight*norm );
+	
+	if(*trigger != true)   continue;
+
+	histo_num  -> Fill( *met, weight*norm );
       }
     }
-    
     histoMap[samples[i].first + "_num"] = (TH1D*) histo_num -> Clone();
     histoMap[samples[i].first + "_num"] -> SetDirectory(0);
     histoMap[samples[i].first + "_den"] = (TH1D*) histo_den -> Clone();
@@ -122,12 +124,12 @@ void TriggerEfficiency() {
   TF1 * dataFunc;
   TF1 * mcFunc;
 
-  effData -> Divide(histoMap["Data_num"],histoMap["Data_den"]);
-  effMC   -> Divide(histoMap["MC_num"],histoMap["MC_den"]);
+  effData -> Divide(histoMap["Data_num"],histoMap["Data_den"] , "n");
+  effMC   -> Divide(histoMap["MC_num"],histoMap["MC_den"]     , "n");
 
-  effData->SetMarkerStyle(20);
-  effData->SetMarkerColor(1);
-  effData->SetMarkerSize(0.7);
+
+  // ################################# Fitting Starts ############
+  /*
   dataFunc = new TF1("dataFunc",FitFunc,bins[0],bins[nbins],6);
   dataFunc->SetParameter(0,0.5);
   dataFunc->SetParameter(1,80.);
@@ -138,12 +140,8 @@ void TriggerEfficiency() {
   dataFunc->SetParLimits(0,0.00001,0.99999);
   dataFunc->SetParLimits(5,0.00001,0.99999);
   dataFunc->SetLineColor(1);
-  //effData->Fit("dataFunc","RB");
+  effData->Fit("dataFunc","RB");
  
-  effMC->SetMarkerStyle(21);
-  effMC->SetMarkerColor(2);
-  effMC->SetLineColor(2);
-  effMC->SetMarkerSize(1);
   mcFunc = new TF1("mcFunc",FitFunc,bins[0],bins[nbins],6);
   mcFunc->SetParameter(0,0.5);
   mcFunc->SetParameter(1,80.);
@@ -154,7 +152,32 @@ void TriggerEfficiency() {
   mcFunc->SetParLimits(0,0.00001,0.99999);
   mcFunc->SetParLimits(5,0.00001,0.99999);
   mcFunc->SetLineColor(2);
-  //effMC->Fit("mcFunc","RB");
+  effMC->Fit("mcFunc","RB");
+  cout<<endl;
+  cout<<endl;
+  cout<<"Data results : "<<endl;
+  cout<<"Propability = "<<dataFunc->GetProb()<<endl;
+  cout<<"Chi**2      = "<<dataFunc->GetChisquare()<<endl;
+  cout<<"NDF         = "<<dataFunc->GetNDF()<<endl;
+  cout<<endl;
+  cout<<"MC results : "<<endl;
+  cout<<"Propability = "<<mcFunc->GetProb()<<endl;
+  cout<<"Chi**2      = "<<mcFunc->GetChisquare()<<endl;
+  cout<<"NDF         = "<<mcFunc->GetNDF()<<endl;
+  cout<<endl;
+  */
+  // ################################# Fitting Ends ############
+
+
+  // ################################ Plotting Starts ###########
+  effData->SetMarkerStyle(20);
+  effData->SetMarkerColor(1);
+  effData->SetLineColor(1);
+  effData->SetMarkerSize(0.7);
+  effMC->SetMarkerStyle(21);
+  effMC->SetMarkerColor(2);
+  effMC->SetLineColor(2);
+  effMC->SetMarkerSize(1);
 
   TCanvas * canv = new TCanvas("canv","",1400,1000);
   effData->GetYaxis()->SetTitle("Trigger Efficiency");
@@ -167,6 +190,18 @@ void TriggerEfficiency() {
   effData->Draw("ap");
   effMC->Draw("psame");
 
+  histoMap["Data_den"] -> SetMarkerStyle(20);
+  histoMap["Data_den"] -> SetMarkerColor(1);
+  histoMap["Data_den"] -> SetLineColor(1);
+  histoMap["MC_den"]   -> SetMarkerStyle(20);
+  histoMap["MC_den"]   -> SetMarkerColor(2);
+  histoMap["MC_den"]   -> SetLineColor(2);
+  
+  //histoMap["Data_den"] -> GetXaxis()->SetTitle("MET");
+  //histoMap["Data_den"] -> SetTitle("mht>120 & muonPt>30 & dPhi<1.5 & mt>0");
+  //histoMap["Data_den"] -> Draw("");
+  //histoMap["MC_den"]   -> Draw("same");
+
   TLegend * leg = NULL; 
   leg = new TLegend(0.6,0.2,0.9,0.45);
   SetLegendStyle(leg);
@@ -176,17 +211,22 @@ void TriggerEfficiency() {
   leg->AddEntry(effMC,"simulation","lp");
   leg->Draw();
   canv->Update();
-  canv->Print("figures/trigger_turnon.pdf","Portrait pdf");
+  //canv->Print("figures/trigger_turnon.pdf","Portrait pdf");
   canv->Print("figures/trigger_turnon.png");
+  //canv->Print("figures/histo_MET.png");
+  //canv -> SetLogy();
+  //canv->Print("figures/histo_MET_log.png");
+  // ################################ Plotting Ends ###########
   
+
+  // ################################ Saving Starts ###########
   TFile * fileOutput = new TFile("output/trigger_eff.root","recreate");
-  fileOutput->cd("");  
-  //TF1 * funcDataMhtGt100 = (TF1*)dataFunc->Clone("data");
-  //TF1 * funcMcMhtGt100 = (TF1*)mcFunc->Clone("mc");
-  //funcDataMhtGt100->Write("data");
-  //funcMcMhtGt100->Write("mc");
-  effData->Write("data");
-  effMC->Write("mc");
-  fileOutput->Close();
+  fileOutput-> cd("");  
+  //dataFunc  -> Write("dataFunc");
+  //mcFunc    -> Write("mcFunc");
+  effData   -> Write("data");
+  effMC     -> Write("mc");
+  fileOutput-> Close();
+  // ################################ Saving End ###########
 
 }
