@@ -35,21 +35,19 @@ map<TString,TH2D>* h_fakerate = 0;
 //TF2* fakerateFunc;
 
 map<TString, double> xsecs = {
+{"WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"      , 61526.7},
 {"W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"     , 1.221*9644.5},
 {"W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"     , 1.221*3144.5},
 {"W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"     , 1.221*954.8},
 {"W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"     , 1.221*485.6},
-{"WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"      , 61526.7},
+{"W1JetsToLNu_LHEWpT_50-150"                         , 1.0181*100},  // needs to be updated with correct xsec
+{"W1JetsToLNu_LHEWpT_150-250"                        , 1.0181*100},  // needs to be updated with correct xsec
+{"W1JetsToLNu_LHEWpT_250-400"                        , 1.0181*100},  // needs to be updated with correct xsec
+{"W1JetsToLNu_LHEWpT_400-inf"                        , 1.0181*100},  // needs to be updated with correct xsec
 {"ZJetsToNuNu_HT-100To200_13TeV-madgraph"            , 1.164*280.4},
 {"ZJetsToNuNu_HT-200To400_13TeV-madgraph"            , 1.164*77.67},
 {"ZJetsToNuNu_HT-400To600_13TeV-madgraph"            , 1.164*10.73},
 {"ZJetsToNuNu_HT-600To800_13TeV-madgraph"            , 1.164*4.116},
-{"WJetsToLNu_HT-70To100_13TeV-madgraphMLM-pythia8"   , 1.221*2589},
-{"WJetsToLNu_HT-100To200_13TeV-madgraphMLM-pythia8"  , 1.221*1345},
-{"WJetsToLNu_HT-200To400_13TeV-madgraphMLM-pythia8"  , 1.221*359.7},
-{"WJetsToLNu_HT-400To600_13TeV-madgraphMLM-pythia8"  , 1.221*48.91},
-{"WJetsToLNu_HT-600To800_13TeV-madgraphMLM-pythia8"  , 1.221*12.05},
-{"WJetsToLNu_HT-800To1200_13TeV-madgraphMLM-pythia8" , 1.221*5.501},
 {"VVTo2L2Nu_13TeV_amcatnloFXFX"                      , 11.95},
 {"WWToLNuQQ_13TeV_powheg"                            , 49.997},
 {"WZTo1L1Nu2Q_13TeV_amcatnloFXFX"                    , 10.71},
