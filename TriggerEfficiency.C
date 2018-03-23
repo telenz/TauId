@@ -102,7 +102,7 @@ void TriggerEfficiency() {
 	
 	// CUTS
 
-	if(*mht < 60 )        continue;
+	if(*mht < 60 )         continue;
 	if(*muonPt < 30)       continue;
 	if(*dPhiMetMuon > 1.5) continue;
 
@@ -179,9 +179,9 @@ void TriggerEfficiency() {
   effMC->SetLineColor(2);
   effMC->SetMarkerSize(1);
 
-  TCanvas * canv = new TCanvas("canv","",1400,1000);
+  TCanvas * canv = new TCanvas("canv","",1000,700);
   effData->GetYaxis()->SetTitle("Trigger Efficiency");
-  effData->GetXaxis()->SetTitle("E_{T,no#mu}^{mis} [GeV]");
+  effData->GetXaxis()->SetTitle("E_{T}^{mis} [GeV]");
   effData->GetYaxis()->SetTitleOffset(1.2);
   effData->GetXaxis()->SetTitleOffset(1.1);
   effData->SetMaximum(1.0);
