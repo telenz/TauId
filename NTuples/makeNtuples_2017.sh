@@ -13,8 +13,12 @@
 # For fake rate (no trigger efficiencies need to be included)
 ./qsub_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_Data.conf JetHT_Run2017 20
 
-# For n_EWK (including trigger efficiencies)
+./qsub_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_W1JetspT50-150.conf W1JetsToLNu_LHEWpT_50-150  10
+./qsub_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_W1JetspT150-250.conf W1JetsToLNu_LHEWpT_150-250 10
+./qsub_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_W1JetspT250-400.conf W1JetsToLNu_LHEWpT_250-400 10
+./qsub_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_W1JetspT400-inf.conf W1JetsToLNu_LHEWpT_400-inf 10
 
+# For n_EWK (including trigger efficiencies)
 ./qsub_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_Data.conf MET_Run2017 20
 ./qsub_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_WJets.conf WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8 10
 ./qsub_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_TTbarLep.conf TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8  10 
@@ -33,8 +37,16 @@
 ./qsub_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_DY4Jets.conf DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8 10
 ./qsub_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_DYJets.conf  DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8 10
 
+./qsub_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_ZToNuNuHT-100To200.conf ZJetsToNuNu_HT-100To200_13TeV-madgraph  10
+./qsub_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_ZToNuNuHT-200To400.conf ZJetsToNuNu_HT-200To400_13TeV-madgraph  10
+./qsub_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_ZToNuNuHT-400To600.conf ZJetsToNuNu_HT-400To600_13TeV-madgraph 10
+./qsub_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_ZToNuNuHT-600To800.conf ZJetsToNuNu_HT-600To800_13TeV-madgraph 10
+./qsub_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_ZToNuNuHT-800To1200.conf ZJetsToNuNu_HT-800To1200_13TeV-madgraph 10
+./qsub_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_ZToNuNuHT-1200To2500.conf ZJetsToNuNu_HT-1200To2500_13TeV-madgraph 10
+./qsub_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_ZToNuNuHT-2500ToInf.conf ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph 10
+
 
 # missing files: 
 #     - virtual W -> tau/mu nu --> use old (Summer17 MC) for now
-#     - HT binned Z+jets / W+jets 
-#     - Z to nunu +jets, HT binned 
+#     - HT binned Z+jets
+
