@@ -40,25 +40,28 @@ map<TString, double> xsecs = {
 {"W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"     , 1.221*3144.5},
 {"W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"     , 1.221*954.8},
 {"W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"     , 1.221*485.6},
-{"W1JetsToLNu_LHEWpT_50-150"                         , 1.0181*100},  // needs to be updated with correct xsec
+{"W1JetsToLNu_LHEWpT_50-150"                         , 1.0181*2661},  // from Adinda's Mail
 {"W1JetsToLNu_LHEWpT_150-250"                        , 1.0181*100},  // needs to be updated with correct xsec
-{"W1JetsToLNu_LHEWpT_250-400"                        , 1.0181*100},  // needs to be updated with correct xsec
-{"W1JetsToLNu_LHEWpT_400-inf"                        , 1.0181*100},  // needs to be updated with correct xsec
-{"ZJetsToNuNu_HT-100To200_13TeV-madgraph"            , 1.164*280.4},
-{"ZJetsToNuNu_HT-200To400_13TeV-madgraph"            , 1.164*77.67},
-{"ZJetsToNuNu_HT-400To600_13TeV-madgraph"            , 1.164*10.73},
-{"ZJetsToNuNu_HT-600To800_13TeV-madgraph"            , 1.164*4.116},
-{"VVTo2L2Nu_13TeV_amcatnloFXFX"                      , 11.95},
-{"WWToLNuQQ_13TeV_powheg"                            , 49.997},
-{"WZTo1L1Nu2Q_13TeV_amcatnloFXFX"                    , 10.71},
-{"WZTo1L3Nu_13TeV_amcatnloFXFX"                      , 3.05},
-{"WZTo2L2Q_13TeV_amcatnloFXFX"                       , 5.595},
-{"DYJetsToLL_M-50_13TeV-madgraphMLM"                 , 5765},
-{"TTJets_13TeV-powheg"                               , 831.76},
-{"ST_t-channel_top_4f_inclusiveDecays_13TeV-powheg"  , 136.95},
-{"ST_t-channel_antitop_4f_inclusiveDecays_13TeV-powheg", 80.95},
-{"ST_tW_top_5f_inclusiveDecays_13TeV-powheg"         , 35.6},
-{"ST_tW_antitop_5f_inclusiveDecays_13TeV-powheg"     , 35.6},
+{"W1JetsToLNu_LHEWpT_250-400"                        , 1.0181*8.05},  // from Adinda's Mail
+{"W1JetsToLNu_LHEWpT_400-inf"                        , 1.0181*0.885},  // from Adinda's Mail
+{"ZJetsToNuNu_HT-100To200_13TeV-madgraph"            , 1.164*280.4}, // needs to be checked
+{"ZJetsToNuNu_HT-200To400_13TeV-madgraph"            , 1.164*77.67}, // needs to be checked
+{"ZJetsToNuNu_HT-400To600_13TeV-madgraph"            , 1.164*10.73}, // needs to be checked
+{"ZJetsToNuNu_HT-600To800_13TeV-madgraph"            , 1.164*4.116}, // needs to be checked
+{"ZJetsToNuNu_HT-800To1200_13TeV-madgraph"           , 1.164*100},   // needs to be checked 
+{"ZJetsToNuNu_HT-1200To2500_13TeV-madgraph"          , 1.164*100},          // needs to be checked
+{"ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph"           , 1.164*100},          // needs to be checked
+{"ZZ_TuneCP5_13TeV-pythia8"                          , 10.32},              // needs to be checked
+{"WW_TuneCP5_13TeV-pythia8"                          , 63.21},              // needs to be checked
+{"WZ_TuneCP5_13TeV-pythia8"                          , 22.82},              // needs to be checked
+{"DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8" , 5765.4},
+{"TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8"           , 88.29},     // needs to be checked
+{"TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8"        , 377.96},    // needs to be checked
+{"TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8"    , 365.3},     // needs to be checked
+{"ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8"  , 136.95}, 
+{"ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8", 80.95},
+{"ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8"         , 35.6},
+{"ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8"     , 35.6},
 {"WToTauNu_M-200_13TeV-pythia8"                      , 1.3*6.37},
 {"WToTauNu_M-200_13TeV-pythia8_jesUp"                , 1.3*6.37},
 {"WToTauNu_M-200_13TeV-pythia8_jesDown"              , 1.3*6.37},
@@ -77,20 +80,17 @@ map<TString, double> xsecs = {
 {"WToMuNu_M-200_13TeV-pythia8_muDown"                , 1.3*6.32},
 {"WToMuNu_M-200_13TeV-pythia8_uesUp"                 , 1.3*6.32},
 {"WToMuNu_M-200_13TeV-pythia8_uesDown"               , 1.3*6.32},
-{"WZJToLLLNu_13TeV_amcatnloFXFX"                     , 4.708},
-{"ZZTo2L2Q_13TeV_amcatnloFXFX"                       , 3.22},
-{"ZZTo4L_13TeV_powheg"                               , 1.212}
 };
 // ----------------------------------------------------------------------------------------------------
 void loadWorkingPoints()
 {
-  iso.push_back("VTightMva");
-  iso.push_back("TightMva");
-  iso.push_back("MediumMva");
-  iso.push_back("LooseMva");
-  iso.push_back("Tight");
+   //iso.push_back("VTightMva");
+   //iso.push_back("TightMva");
+   //iso.push_back("MediumMva");
+  //iso.push_back("LooseMva");
+  //iso.push_back("Tight");
   iso.push_back("Medium");
-  iso.push_back("Loose");
+  //iso.push_back("Loose");
 }
 // ----------------------------------------------------------------------------------------------------
 double getXSec(TString sampleName)
@@ -355,7 +355,7 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
   TTreeReaderValue< Bool_t  >  tauAntiMuonLoose3(*myReader,       "tauAntiMuonTight3");
   TTreeReaderValue< Bool_t  >  tauAntiElectronLooseMVA6(*myReader,"tauAntiElectronVTightMVA6");
   TTreeReaderValue< Bool_t  >  tauIso(           *myReader,       "tau"+iso+"Iso");
-  TTreeReaderValue< Float_t >  fakeAntiL(        *myReader,       "fakeAntiL"+iso);
+  //TTreeReaderValue< Float_t >  fakeAntiL(        *myReader,       "fakeAntiL"+iso);
   TTreeReaderValue< Int_t   >  tauGenMatchDecay( *myReader,       "tauGenMatchDecay");
   TTreeReaderValue< UInt_t  >  tauGenMatch(      *myReader,       "tauGenMatch");
   TTreeReaderValue< Int_t   >  tauDecay(         *myReader,       "tauDecay");
@@ -368,7 +368,7 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
   TTreeReaderValue< Float_t >  Ht(               *myReader,       "Ht");
   TTreeReaderValue< Float_t >  mhtNoMu(          *myReader,       "mhtNoMu");
   TTreeReaderValue< Float_t >  metNoMu(          *myReader,       "metNoMu");
-  TTreeReaderValue< Bool_t  >  pfJet40(          *myReader,       "pfJet40");
+  //TTreeReaderValue< Bool_t  >  pfJet40(          *myReader,       "pfJet40");
   TTreeReaderValue< Bool_t  >  pfJet60(          *myReader,       "pfJet60");
   TTreeReaderValue< Bool_t  >  pfJet80(          *myReader,       "pfJet80");
   TTreeReaderValue< Bool_t  >  pfJet140(         *myReader,       "pfJet140");
@@ -409,7 +409,8 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
   while(myReader->Next()){
 
     if(*trig != sel.trigger && sel.selection == 3) continue;
-    if(sel.selection == 4 && (*pfJet40 != sel.pfJetTrigger && *pfJet60 != sel.pfJetTrigger && *pfJet80 != sel.pfJetTrigger && *pfJet140 != sel.pfJetTrigger && *(*pfJet200) != sel.pfJetTrigger && *(*pfJet260) != sel.pfJetTrigger && *(*pfJet320) != sel.pfJetTrigger && *(*pfJet400) != sel.pfJetTrigger && *(*pfJet450) != sel.pfJetTrigger && *(*pfJet500) != sel.pfJetTrigger)) continue;
+    //if(sel.selection == 4 && (*pfJet40 != sel.pfJetTrigger && *pfJet60 != sel.pfJetTrigger && *pfJet80 != sel.pfJetTrigger && *pfJet140 != sel.pfJetTrigger && *(*pfJet200) != sel.pfJetTrigger && *(*pfJet260) != sel.pfJetTrigger && *(*pfJet320) != sel.pfJetTrigger && *(*pfJet400) != sel.pfJetTrigger && *(*pfJet450) != sel.pfJetTrigger && *(*pfJet500) != sel.pfJetTrigger)) continue;
+    if(sel.selection == 4 && (*pfJet60 != sel.pfJetTrigger && *pfJet80 != sel.pfJetTrigger && *pfJet140 != sel.pfJetTrigger && *(*pfJet200) != sel.pfJetTrigger && *(*pfJet260) != sel.pfJetTrigger && *(*pfJet320) != sel.pfJetTrigger && *(*pfJet400) != sel.pfJetTrigger && *(*pfJet450) != sel.pfJetTrigger && *(*pfJet500) != sel.pfJetTrigger)) continue;
 
     if(*Selection != sel.selection) continue;
     if(*recoilRatio < sel.recoilRatioLow || *recoilRatio > sel.recoilRatioHigh) continue;
