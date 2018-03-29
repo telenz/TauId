@@ -21,48 +21,49 @@ void ComputeFakeRate() {
 
   std::vector< std::pair<TString,std::vector<TString>> > samples;
   std::vector<TString> data_SingleMuon;
-  data_SingleMuon.push_back("SingleMuon_Run2016");
+  data_SingleMuon.push_back("SingleMuon_Run2017");
   std::vector<TString> data_JetHT;
-  data_JetHT.push_back("JetHT_Run2016");
+  data_JetHT.push_back("JetHT_Run2017");
   std::vector<TString> wjets;
-  wjets.push_back("WJetsToLNu_HT-70To100_13TeV-madgraphMLM-pythia8");
-  wjets.push_back("WJetsToLNu_HT-100To200_13TeV-madgraphMLM-pythia8");
-  wjets.push_back("WJetsToLNu_HT-200To400_13TeV-madgraphMLM-pythia8");
-  wjets.push_back("WJetsToLNu_HT-400To600_13TeV-madgraphMLM-pythia8");
-  wjets.push_back("WJetsToLNu_HT-600To800_13TeV-madgraphMLM-pythia8");
-  wjets.push_back("WJetsToLNu_HT-800To1200_13TeV-madgraphMLM-pythia8");
-
+  wjets.push_back("W1JetsToLNu_LHEWpT_50-150");
+  wjets.push_back("W1JetsToLNu_LHEWpT_150-250");
+  wjets.push_back("W1JetsToLNu_LHEWpT_250-400");
+  wjets.push_back("W1JetsToLNu_LHEWpT_400-inf");
+ 
   std::vector<TString> genuineTaus;
-  genuineTaus.push_back("TTJets_13TeV-powheg");
-  genuineTaus.push_back("ST_t-channel_top_4f_inclusiveDecays_13TeV-powheg");
-  genuineTaus.push_back("ST_t-channel_antitop_4f_inclusiveDecays_13TeV-powheg");
-  genuineTaus.push_back("ST_tW_top_5f_inclusiveDecays_13TeV-powheg");
-  genuineTaus.push_back("ST_tW_antitop_5f_inclusiveDecays_13TeV-powheg");
-  genuineTaus.push_back("VVTo2L2Nu_13TeV_amcatnloFXFX");
-  genuineTaus.push_back("WWToLNuQQ_13TeV_powheg");
-  genuineTaus.push_back("WZTo1L1Nu2Q_13TeV_amcatnloFXFX");
-  genuineTaus.push_back("WZTo1L3Nu_13TeV_amcatnloFXFX");
-  genuineTaus.push_back("WZTo2L2Q_13TeV_amcatnloFXFX");
-  genuineTaus.push_back("DYJetsToLL_M-50_13TeV-madgraphMLM");
-  genuineTaus.push_back("ZJetsToNuNu_HT-100To200_13TeV-madgraph");
-  genuineTaus.push_back("ZJetsToNuNu_HT-200To400_13TeV-madgraph");
-  genuineTaus.push_back("ZJetsToNuNu_HT-400To600_13TeV-madgraph");
-  genuineTaus.push_back("ZJetsToNuNu_HT-600To800_13TeV-madgraph");
+  genuineTaus.push_back("TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8");
+  genuineTaus.push_back("TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8");
+  genuineTaus.push_back("TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8");
+  genuineTaus.push_back("ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8");
+  genuineTaus.push_back("ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8");
+  genuineTaus.push_back("ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8");
+  genuineTaus.push_back("ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8");
+  genuineTaus.push_back("ZZ_TuneCP5_13TeV-pythia8");
+  genuineTaus.push_back("WW_TuneCP5_13TeV-pythia8");
+  genuineTaus.push_back("WZ_TuneCP5_13TeV-pythia8");
+  genuineTaus.push_back("DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
+  // genuineTaus.push_back("ZJetsToNuNu_HT-100To200_13TeV-madgraph");  //does not contain real tau leptons, but can still be included, because events  do not pass cut on genmatchdecay
+  // genuineTaus.push_back("ZJetsToNuNu_HT-200To400_13TeV-madgraph");
+  // genuineTaus.push_back("ZJetsToNuNu_HT-400To600_13TeV-madgraph");
+  // genuineTaus.push_back("ZJetsToNuNu_HT-600To800_13TeV-madgraph");
+  // genuineTaus.push_back("ZJetsToNuNu_HT-800To1200_13TeV-madgraph");
+  // genuineTaus.push_back("ZJetsToNuNu_HT-1200To2500_13TeV-madgraph");
+  // genuineTaus.push_back("ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph");
 
   samples.push_back(make_pair("GenuineTausBkg" , genuineTaus));
-  samples.push_back(make_pair("WJetsToLNu_13TeV-madgraphMLM" , wjets));
-  samples.push_back(make_pair("SingleMuon_Run2016" , data_SingleMuon));
-  samples.push_back(make_pair("JetHT_Run2016" , data_JetHT));
+  samples.push_back(make_pair("W1JetsToLNu_LHEWpT" , wjets));
+  samples.push_back(make_pair("SingleMuon_Run2017" , data_SingleMuon));
+  samples.push_back(make_pair("JetHT_Run2017" , data_JetHT));
 
   std::map<TString,TH2D*> histoMap;
 
-  for (unsigned int idx_sample=0; idx_sample<samples.size(); ++idx_sample) {
+  for (unsigned int idx_sample=0; idx_sample<samples.size(); ++idx_sample) { // loop over samples
 
     TFile *fileOutput     = new TFile("output/"+samples[idx_sample].first+"_fakeRate"+tauDecayMode+".root","recreate");
     TFile *fileOutputUp   = new TFile("output/"+samples[idx_sample].first+"_fakeRate_Up"+tauDecayMode+".root","recreate");
     TFile *fileOutputDown = new TFile("output/"+samples[idx_sample].first+"_fakeRate_Down"+tauDecayMode+".root","recreate");
 
-    for(unsigned int idx_iso=0; idx_iso<iso.size(); idx_iso++){
+    for(unsigned int idx_iso=0; idx_iso<iso.size(); idx_iso++){  // loop over WPs
 
       cout<<endl<<"Process "<<iso[idx_iso]<<" : "<<endl;
       
@@ -75,13 +76,13 @@ void ComputeFakeRate() {
       TString var1 = "tauPt";
       TString var2 = "tauJetPt";
       TString var3 = "tauJetPt";
-      for(unsigned int idx_list=0; idx_list<samples[idx_sample].second.size(); idx_list++){
+      for(unsigned int idx_list=0; idx_list<samples[idx_sample].second.size(); idx_list++){ // loop over processes in samples
 	cout<<"---------- Sample "<<samples[idx_sample].second[idx_list]<<" processing. ---------- "<<endl;
 	selectionCuts select = cr_fakerate_num;
 	cr_fakerate_dijet_num.pfJetTrigger = true;
 	if(samples[idx_sample].second[idx_list].Contains("JetHT")) select =  cr_fakerate_dijet_num;
 	if(samples[idx_sample].first.Contains("Genuine")){
-	  select.tauGenMatchDecayLow   = 0;
+      select.tauGenMatchDecayLow   = 0;  // a matching to real tau is implicity done
 	  select.tauGenMatchDecayHigh  = 100000;
 	}
 	makeSelection(dir+samples[idx_sample].second[idx_list]+".root","NTuple",getXSec(samples[idx_sample].second[idx_list]),iso[idx_iso],select,h_num,var1,var2,var3);
@@ -124,9 +125,9 @@ void ComputeFakeRate() {
 	      if(samples[idx_sample].first.Contains("Genuine")) continue;
 	      if(h_num->GetBinContent(i,j)==0) h_num->SetBinError(i,j,1);
 	      if(h_num->GetBinContent(i,j)<0){
-		//cout<<endl<<"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Attention: There is a negative value in the numerator. Bin "<<i<<" " <<j<<"."<<endl<<endl;
+		cout<<endl<<"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Attention: There is a negative value in the numerator. Bin "<<i<<" " <<j<<"."<<endl<<endl;
 		if(h_num->GetBinContent(i,j) == (-1)*histoMap["GenuineTausBkg_"+iso[idx_iso]]->GetBinContent(i,j)){
-		  //cout<<"data was zero"<<endl<<endl;
+		  cout<<"data was zero"<<endl<<endl;
 		  h_num->SetBinContent(i,j,0);
 		  h_num->SetBinError(i,j, sqrt(1+pow(h_num->GetBinError(i,j),2)) );
 		}
@@ -147,13 +148,12 @@ void ComputeFakeRate() {
 	      double denE_bin = 0;
 	      double den_bin = h_den -> IntegralAndError(i,i,j,j,denE_bin);
 	      cout<<"Numerator   of "<<i<<". x-bin and "<<j<<". y-bin : "<<num_bin<<" +/- "<<numE_bin<<endl;
-	      //cout<<"Denominator of "<<i<<". x-bin and "<<j<<". y-bin : "<<den_bin<<" +/- "<<denE_bin<<endl;
+	      cout<<"Denominator of "<<i<<". x-bin and "<<j<<". y-bin : "<<den_bin<<" +/- "<<denE_bin<<endl;
 
 	    }
 	}
-
       h_fakerate_2d -> Divide(h_num,h_den);
-      h_fakerate_2d_woTrig -> Divide(h_num_woTrig,h_den_woTrig);
+      //h_fakerate_2d_woTrig -> Divide(h_num_woTrig,h_den_woTrig);
 
       // %%%%%%%%%%%%%%%%%% Plotting %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       h_fakerate_2d->GetXaxis()->SetTitle("pt (tau) / pt (jet faking the tau)");
@@ -309,5 +309,7 @@ void ComputeFakeRate() {
 
     }
     fileOutput->Close();
+    fileOutputUp->Close();
+    fileOutputDown->Close();
   }
 }
