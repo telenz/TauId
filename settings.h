@@ -374,18 +374,18 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
   TTreeReaderValue< Bool_t  >  pfJet140(         *myReader,       "pfJet140");
   
   TTreeReaderValue< Bool_t  >  *pfJet200 = NULL;
-  TTreeReaderValue< Bool_t  >  *pfJet260 = NULL;
-  TTreeReaderValue< Bool_t  >  *pfJet320 = NULL;
-  TTreeReaderValue< Bool_t  >  *pfJet400 = NULL;
-  TTreeReaderValue< Bool_t  >  *pfJet450 = NULL;
-  TTreeReaderValue< Bool_t  >  *pfJet500 = NULL;
+  // TTreeReaderValue< Bool_t  >  *pfJet260 = NULL;
+  // TTreeReaderValue< Bool_t  >  *pfJet320 = NULL;
+  // TTreeReaderValue< Bool_t  >  *pfJet400 = NULL;
+  // TTreeReaderValue< Bool_t  >  *pfJet450 = NULL;
+  // TTreeReaderValue< Bool_t  >  *pfJet500 = NULL;
   if(filename.Contains("JetHT")){
     pfJet200 = new TTreeReaderValue<Bool_t>(*myReader,"pfJet200");
-    pfJet260 = new TTreeReaderValue<Bool_t>(*myReader,"pfJet260");
-    pfJet320 = new TTreeReaderValue<Bool_t>(*myReader,"pfJet320");
-    pfJet400 = new TTreeReaderValue<Bool_t>(*myReader,"pfJet400");
-    pfJet450 = new TTreeReaderValue<Bool_t>(*myReader,"pfJet450");
-    pfJet500 = new TTreeReaderValue<Bool_t>(*myReader,"pfJet500");
+    // pfJet260 = new TTreeReaderValue<Bool_t>(*myReader,"pfJet260");
+    // pfJet320 = new TTreeReaderValue<Bool_t>(*myReader,"pfJet320");
+    // pfJet400 = new TTreeReaderValue<Bool_t>(*myReader,"pfJet400");
+    // pfJet450 = new TTreeReaderValue<Bool_t>(*myReader,"pfJet450");
+    // pfJet500 = new TTreeReaderValue<Bool_t>(*myReader,"pfJet500");
   }
 
   TTreeReaderValue< Float_t >  var1(             *myReader,       variableToFill_1);
@@ -410,31 +410,32 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
 
     if(*trig != sel.trigger && sel.selection == 3) continue;
     //if(sel.selection == 4 && (*pfJet40 != sel.pfJetTrigger && *pfJet60 != sel.pfJetTrigger && *pfJet80 != sel.pfJetTrigger && *pfJet140 != sel.pfJetTrigger && *(*pfJet200) != sel.pfJetTrigger && *(*pfJet260) != sel.pfJetTrigger && *(*pfJet320) != sel.pfJetTrigger && *(*pfJet400) != sel.pfJetTrigger && *(*pfJet450) != sel.pfJetTrigger && *(*pfJet500) != sel.pfJetTrigger)) continue;
-    if(sel.selection == 4 && (*pfJet60 != sel.pfJetTrigger && *pfJet80 != sel.pfJetTrigger && *pfJet140 != sel.pfJetTrigger && *(*pfJet200) != sel.pfJetTrigger && *(*pfJet260) != sel.pfJetTrigger && *(*pfJet320) != sel.pfJetTrigger && *(*pfJet400) != sel.pfJetTrigger && *(*pfJet450) != sel.pfJetTrigger && *(*pfJet500) != sel.pfJetTrigger)) continue;
-
+    if(sel.selection == 4 && (*pfJet60 != sel.pfJetTrigger && *pfJet80 != sel.pfJetTrigger && *pfJet140 != sel.pfJetTrigger && *(*pfJet200) != sel.pfJetTrigger)) continue;
+   
     if(*Selection != sel.selection) continue;
     if(*recoilRatio < sel.recoilRatioLow || *recoilRatio > sel.recoilRatioHigh) continue;
     if(*recoilDPhi < sel.recoilDPhiLow) continue;
+   
     if(*met < sel.metLow) continue;
     if((*tauPt < sel.tauPtLow || *tauPt > sel.tauPtHigh) && sel.selection!=2) continue;
     if(*metFilters != sel.metFilters) continue;
-
+   
     if(*nMuon<sel.nMuonLow || *nMuon>sel.nMuonHigh) continue;
     if(*nElec<sel.nElecLow || *nElec>sel.nElecHigh) continue;
     if(*nSelTaus<sel.nSelTausLow || *nSelTaus>sel.nSelTausHigh) continue;
     if(*nJetsCentral30<sel.nJetsCentral30Low || *nJetsCentral30>sel.nJetsCentral30High) continue;
     if(*nJetsForward30<sel.nJetsForward30Low || *nJetsForward30>sel.nJetsForward30High) continue;
-
+   
     if(*tauDM != sel.tauDM && sel.selection!=2) continue;
     if(*tauAntiMuonLoose3 != sel.tauAntiMuonLoose3 && sel.selection!=2) continue;
     if(*tauAntiElectronLooseMVA6 != sel.tauAntiElectronLooseMVA6 && sel.selection!=2) continue;
     if(*tauIso != sel.tauIso && sel.selection!=2) continue;
     if((*tauGenMatchDecay<sel.tauGenMatchDecayLow || *tauGenMatchDecay>sel.tauGenMatchDecayHigh) && !isData && sel.selection!=2) continue;
-
+   
     if(*mtmuon < sel.mtmuonLow || *mtmuon > sel.mtmuonHigh ) continue;
     if(abs(*muonEta) > sel.muonAbsEtaHigh && sel.selection == 2) continue;
     if(*muonPt < sel.muonPtLow && sel.selection == 2) continue;
-
+   
     Float_t fakerate = 1;
     if(sel.name.Contains("cr_antiiso")){
       fakerate = getFakeRates( *tauPt/(*tauJetPt),*tauJetPt,iso, sel.name(11,sel.name.Length()) );
@@ -443,25 +444,25 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
     if(!sel.name.Contains("cr_fakerate") && !sel.name.Contains("sr_munu")){*mueffweight=1;*mutrigweight=1;}
 
     // Stitching only for wjets MC
-    if(filename.Contains("W") && filename.Contains("JetsToLNu") && !filename.Contains("HT")){
-      double xsecIncl = xsecs["WJetsToLNu_13TeV-madgraphMLM"];
-      double xsec1Jet = xsecs["W1JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"];
-      double xsec2Jet = xsecs["W2JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"];
-      double xsec3Jet = xsecs["W3JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"];
-      double xsec4Jet = xsecs["W4JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"];
-      double nevtsProcessedIncl = 86731806;
-      double nevtsProcessed1Jet = 45367044;
-      double nevtsProcessed2Jet = 29878415;
-      double nevtsProcessed3Jet = 17548117;
-      double nevtsProcessed4Jet = 9020576;
+    // if(filename.Contains("W") && filename.Contains("JetsToLNu") && !filename.Contains("HT")){
+    //   double xsecIncl = xsecs["WJetsToLNu_13TeV-madgraphMLM"];
+    //   double xsec1Jet = xsecs["W1JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"];
+    //   double xsec2Jet = xsecs["W2JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"];
+    //   double xsec3Jet = xsecs["W3JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"];
+    //   double xsec4Jet = xsecs["W4JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"];
+    //   double nevtsProcessedIncl = 86731806;
+    //   double nevtsProcessed1Jet = 45367044;
+    //   double nevtsProcessed2Jet = 29878415;
+    //   double nevtsProcessed3Jet = 17548117;
+    //   double nevtsProcessed4Jet = 9020576;
 
-      if(*npartons == 0)       norm = luminosity/( nevtsProcessedIncl/xsecIncl );
-      else if (*npartons == 1) norm = luminosity/( nevtsProcessed1Jet/xsec1Jet + nevtsProcessedIncl/xsecIncl );
-      else if (*npartons == 2) norm = luminosity/( nevtsProcessed2Jet/xsec2Jet + nevtsProcessedIncl/xsecIncl );
-      else if (*npartons == 3) norm = luminosity/( nevtsProcessed3Jet/xsec3Jet + nevtsProcessedIncl/xsecIncl );
-      else if (*npartons == 4) norm = luminosity/( nevtsProcessed4Jet/xsec4Jet + nevtsProcessedIncl/xsecIncl );
-      else                     norm = luminosity/( nevtsProcessedIncl/xsecIncl );
-    }
+    //   if(*npartons == 0)       norm = luminosity/( nevtsProcessedIncl/xsecIncl );
+    //   else if (*npartons == 1) norm = luminosity/( nevtsProcessed1Jet/xsec1Jet + nevtsProcessedIncl/xsecIncl );
+    //   else if (*npartons == 2) norm = luminosity/( nevtsProcessed2Jet/xsec2Jet + nevtsProcessedIncl/xsecIncl );
+    //   else if (*npartons == 3) norm = luminosity/( nevtsProcessed3Jet/xsec3Jet + nevtsProcessedIncl/xsecIncl );
+    //   else if (*npartons == 4) norm = luminosity/( nevtsProcessed4Jet/xsec4Jet + nevtsProcessedIncl/xsecIncl );
+    //   else                     norm = luminosity/( nevtsProcessedIncl/xsecIncl );
+    // }
 
     if(*recoilPt<sel.recoilPtLow) continue;
 
