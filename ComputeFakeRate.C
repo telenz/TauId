@@ -79,7 +79,7 @@ void ComputeFakeRate() {
       for(unsigned int idx_list=0; idx_list<samples[idx_sample].second.size(); idx_list++){ // loop over processes in samples
 	cout<<"---------- Sample "<<samples[idx_sample].second[idx_list]<<" processing. ---------- "<<endl;
 	selectionCuts select = cr_fakerate_num;
-	cr_fakerate_dijet_num.pfJetTrigger = true;
+	cr_fakerate_dijet_num.pfJetTrigger = true;  //if set to true: only events that have been triggered by at least one dijet trigger pass selection
 	if(samples[idx_sample].second[idx_list].Contains("JetHT")) select =  cr_fakerate_dijet_num;
 	if(samples[idx_sample].first.Contains("Genuine")){
       select.tauGenMatchDecayLow   = 0;  // a matching to real tau is implicity done
@@ -96,7 +96,7 @@ void ComputeFakeRate() {
 	makeSelection(dir+samples[idx_sample].second[idx_list]+".root","NTuple",getXSec(samples[idx_sample].second[idx_list]),iso[idx_iso],select,h_den,var1,var2,var3);
 
 	// wo Trigger
-	cr_fakerate_dijet_num.pfJetTrigger = false;
+	cr_fakerate_dijet_num.pfJetTrigger = false; //if set to false: all events pass dijet trigger selection
 	if(samples[idx_sample].second[idx_list].Contains("JetHT")) select =  cr_fakerate_dijet_num;
 	//makeSelection(dir+samples[idx_sample].second[idx_list]+".root","NTuple",getXSec(samples[idx_sample].second[idx_list]),iso[idx_iso],select,h_num_woTrig,var1,var2,var3);
 	select = cr_fakerate_den;
@@ -209,19 +209,19 @@ void ComputeFakeRate() {
       h_woTrig_y->SetLineColor(kRed);
       h_woTrig_y->SetMarkerColor(kRed);
       h_x->Draw();
-      h_woTrig_x->Draw("same");
+      //h_woTrig_x->Draw("same");
       canv->SetLogy();
       TLegend * leg1 = new TLegend(0.35,0.2,0.89,0.4);
       SetLegendStyle(leg1);
       leg1->SetHeader(iso[idx_iso]);
-      leg1->AddEntry(h_x,"low pt triggers","lp");
-      leg1->AddEntry(h_woTrig_x,"all triggers","lp");
+      leg1->AddEntry(h_x,"fake factors","lp");
+      //leg1->AddEntry(h_woTrig_x,"all triggers","lp");
       leg1->Draw();
       canv->Print("figures/fakerate_"+samples[idx_sample].first+"_"+iso[idx_iso]+"_projectionX.png");
 
       canv->cd();
       h_y->Draw();
-      h_woTrig_y->Draw("same");
+      //h_woTrig_y->Draw("same");
       leg1->Draw();
       canv->Print("figures/fakerate_"+samples[idx_sample].first+"_"+iso[idx_iso]+"_projectionY.png");
 
