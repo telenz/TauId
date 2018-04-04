@@ -35,33 +35,33 @@ map<TString,TH2D>* h_fakerate = 0;
 //TF2* fakerateFunc;
 
 map<TString, double> xsecs = {
-{"WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"      , 61526.7},      // from: https://twiki.cern.ch/twiki/bin/viewauth/CMS/TauIDMeasurementsHelp, k-factor from ?
-{"W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"     , 1.221*9644.5}, // from: https://twiki.cern.ch/twiki/bin/viewauth/CMS/TauIDMeasurementsHelp, k-factor from ?
-{"W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"     , 1.221*3144.5}, // from: https://twiki.cern.ch/twiki/bin/viewauth/CMS/TauIDMeasurementsHelp, k-factor from ?
-{"W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"     , 1.221*954.8},  // from: https://twiki.cern.ch/twiki/bin/viewauth/CMS/TauIDMeasurementsHelp, k-factor from ?
-{"W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"     , 1.221*485.6},  // from: https://twiki.cern.ch/twiki/bin/viewauth/CMS/TauIDMeasurementsHelp, k-factor from ?
-{"W1JetsToLNu_LHEWpT_50-150"                         , 1.0181*2661},  // from Adinda's Mail from the 26th of March 2018, k-factor from Teresa's Email
-{"W1JetsToLNu_LHEWpT_150-250"                        , 1.0181*71.9},  // from Adinda's Mail from the 26th of March 2018, k-factor from Teresa's Email
-{"W1JetsToLNu_LHEWpT_250-400"                        , 1.0181*8.05},  // from Adinda's Mail from the 26th of March 2018, k-factor from Teresa's Email
-{"W1JetsToLNu_LHEWpT_400-inf"                        , 1.0181*0.885}, // from Adinda's Mail from the 26th of March 2018, k-factor from Teresa's Email
-{"ZJetsToNuNu_HT-100To200_13TeV-madgraph"            , 1.164*93.35*3},    // from: https://cms-gen-dev.cern.ch/xsdb (DAS=ZJetsToNuNu_HT-100To200_13TeV-madgraph), k-factor from ?
-{"ZJetsToNuNu_HT-200To400_13TeV-madgraph"            , 1.164*25.85*3},    // from: https://cms-gen-dev.cern.ch/xsdb (DAS=ZJetsToNuNu_HT-200To400_13TeV-madgraph), k-factor from ?
-{"ZJetsToNuNu_HT-400To600_13TeV-madgraph"            , 1.164*3.584*3},    // from: https://cms-gen-dev.cern.ch/xsdb (DAS=ZJetsToNuNu_HT-400To600_13TeV-madgraph), k-factor from ?
-{"ZJetsToNuNu_HT-600To800_13TeV-madgraph"            , 1.164*0.853*3},    // from: https://cms-gen-dev.cern.ch/xsdb (DAS=ZJetsToNuNu_HT-600To800_13TeV-madgraph), k-factor from ?
-{"ZJetsToNuNu_HT-800To1200_13TeV-madgraph"           , 1.164*0.3934*3},   // from: https://cms-gen-dev.cern.ch/xsdb (DAS=ZJetsToNuNu_HT-800To1200_13TeV-madgraph), k-factor from ?
-{"ZJetsToNuNu_HT-1200To2500_13TeV-madgraph"          , 1.164*0.09543*3},  // from: https://cms-gen-dev.cern.ch/xsdb (DAS=ZJetsToNuNu_HT-1200To2500_13TeV-madgraph), k-factor from ?
-{"ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph"           , 1.164*0.002304*3}, // from: https://cms-gen-dev.cern.ch/xsdb (DAS=ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph), k-factor from ?
-{"ZZ_TuneCP5_13TeV-pythia8"                          , 10.32},  // from: https://twiki.cern.ch/twiki/bin/viewauth/CMS/TauIDMeasurementsHelp
-{"WW_TuneCP5_13TeV-pythia8"                          , 63.21},  // from: https://twiki.cern.ch/twiki/bin/viewauth/CMS/TauIDMeasurementsHelp
-{"WZ_TuneCP5_13TeV-pythia8"                          , 22.82},  // from: https://twiki.cern.ch/twiki/bin/viewauth/CMS/TauIDMeasurementsHelp
-{"DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8" , 5765.4}, // from: https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat13TeV
-{"TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8"           , 88.29},  // from: https://cms-gen-dev.cern.ch/xsdb (DAS=TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8)
-{"TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8"        , 377.96}, // from: https://cms-gen-dev.cern.ch/xsdb (DAS=TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8)
-{"TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8"    , 365.34}, // from: https://cms-gen-dev.cern.ch/xsdb (DAS=TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8)
-{"ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8"  , 44.33},   // from: https://twiki.cern.ch/twiki/bin/viewauth/CMS/TauIDMeasurementsHelp
-{"ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8", 26.38}, // from: https://twiki.cern.ch/twiki/bin/viewauth/CMS/TauIDMeasurementsHelp
-{"ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8"         , 35.85},             // from: https://twiki.cern.ch/twiki/bin/viewauth/CMS/TauIDMeasurementsHelp
-{"ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8"     , 35.85},             // from: https://twiki.cern.ch/twiki/bin/viewauth/CMS/TauIDMeasurementsHelp
+{"WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"      , 61526.7}, // NNLO (1)      
+{"W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"     , 1.224*9625.0}, // NNLO (2) 
+{"W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"     , 1.224*3161.0}, // NNLO (3)
+{"W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"     , 1.224*954.8},  // NNLO (4) -> could be improved 
+{"W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"     , 1.224*494.6},  // NNLO (5)  
+{"W1JetsToLNu_LHEWpT_50-150"                         , 1.0181*2661},  // NNLO (6)
+{"W1JetsToLNu_LHEWpT_150-250"                        , 1.0181*71.9},  // NNLO (7)
+{"W1JetsToLNu_LHEWpT_250-400"                        , 1.0181*8.05},  // NNLO (8)
+{"W1JetsToLNu_LHEWpT_400-inf"                        , 1.0181*0.885}, // NNLO (9)
+{"ZJetsToNuNu_HT-100To200_13TeV-madgraph"            , 1.231*93.35*3},    // (N)NLO (10)
+{"ZJetsToNuNu_HT-200To400_13TeV-madgraph"            , 1.231*25.85*3},    // (N)NLO (11) 
+{"ZJetsToNuNu_HT-400To600_13TeV-madgraph"            , 1.231*3.584*3},    // (N)NLO (12) 
+{"ZJetsToNuNu_HT-600To800_13TeV-madgraph"            , 1.231*0.853*3},    // (N)NLO (13) 
+{"ZJetsToNuNu_HT-800To1200_13TeV-madgraph"           , 1.231*0.3934*3},   // (N)NLO (14) 
+{"ZJetsToNuNu_HT-1200To2500_13TeV-madgraph"          , 1.231*0.09543*3},  // (N)NLO (15) 
+{"ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph"           , 1.231*0.002304*3}, // (N)NLO (16) 
+{"ZZ_TuneCP5_13TeV-pythia8"                          , 10.16},  // LO (17) -> could be improved
+{"WW_TuneCP5_13TeV-pythia8"                          , 118.7},  // NNLO QCD (18)
+{"WZ_TuneCP5_13TeV-pythia8"                          , 23.43},  // LO (19) -> could be improved
+{"DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8" , 5765.4}, // NNLO (20) 
+{"TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8"           , 88.29},  // NNLO (21)
+{"TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8"        , 377.96}, // NNLO (22)
+{"TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8"    , 365.34}, // NNLO (23)
+{"ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8"    , 44.33}, // ? (24) -> could be improved
+{"ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8", 26.38}, // ? (25) -> could be improved
+{"ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8"         , 35.85},             // ? (26) -> could be improved
+{"ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8"     , 35.85},             // ? (27) -> could be improved
 {"WToTauNu_M-200_13TeV-pythia8"                      , 1.3*6.37},
 {"WToTauNu_M-200_13TeV-pythia8_jesUp"                , 1.3*6.37},
 {"WToTauNu_M-200_13TeV-pythia8_jesDown"              , 1.3*6.37},
@@ -81,6 +81,28 @@ map<TString, double> xsecs = {
 {"WToMuNu_M-200_13TeV-pythia8_uesUp"                 , 1.3*6.32},
 {"WToMuNu_M-200_13TeV-pythia8_uesDown"               , 1.3*6.32},
 };
+// Sources of xsecs:
+// (1) from: https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat13TeV -> k-factor = 61526.7/50260.0 (from: https://cms-gen-dev.cern.ch/xsdb (DAS=WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8)) = 1.224
+// (2) from: https://cms-gen-dev.cern.ch/xsdbfrom: (DAS=W1JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8), k-factor see (1)
+// (3) from: https://cms-gen-dev.cern.ch/xsdbfrom: (DAS=W2JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8), k-factor see (1)
+// (4) from: https://twiki.cern.ch/twiki/bin/viewauth/CMS/TauIDMeasurementsHelp, k-factor see (1) - xsec not available in xsdb
+// (5) from: https://cms-gen-dev.cern.ch/xsdbfrom: (DAS=W4JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8), k-factor see (1)
+// (6-9) from Adinda's Mail from the 26th of March 2018, k-factor from Teresa's Email
+// (10) from: https://cms-gen-dev.cern.ch/xsdb (DAS=ZJetsToNuNu_HT-100To200_13TeV-madgraph), k-factor calculated from information found in https://twiki.cern.ch/twiki/bin/view/CMS/SummaryTable1G25ns (280.35*1.23/(93.35*3))
+// (11) from: https://cms-gen-dev.cern.ch/xsdb (DAS=ZJetsToNuNu_HT-200To400_13TeV-madgraph), k-factor see (10)
+// (12) from: https://cms-gen-dev.cern.ch/xsdb (DAS=ZJetsToNuNu_HT-400To600_13TeV-madgraph), k-factor see (10)
+// (13) from: https://cms-gen-dev.cern.ch/xsdb (DAS=ZJetsToNuNu_HT-600To800_13TeV-madgraph), k-factor see (10)
+// (14) from: https://cms-gen-dev.cern.ch/xsdb (DAS=ZJetsToNuNu_HT-800To1200_13TeV-madgraph), k-factor see (10)
+// (15) from: https://cms-gen-dev.cern.ch/xsdb (DAS=ZJetsToNuNu_HT-1200To2500_13TeV-madgraph), k-factor see (10)
+// (16) from: https://cms-gen-dev.cern.ch/xsdb (DAS=ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph), k-factor see (10)
+// (17) from: https://cms-gen-dev.cern.ch/xsdb (DAS=ZZ_TuneCUETP8M1_13TeV-pythia8)
+// (18) from: https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat13TeVInclusive (LO xsec = 64.3 from https://cms-gen-dev.cern.ch/xsdb (DAS=WW_TuneCUETP8M1_13TeV-pythia8))
+// (19) from: https://cms-gen-dev.cern.ch/xsdb (DAS=WZ_TuneCUETP8M1_13TeV-pythia8)
+// (20) from: https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat13TeV
+// (21) from: https://cms-gen-dev.cern.ch/xsdb (DAS=TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8)
+// (22) from: https://cms-gen-dev.cern.ch/xsdb (DAS=TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8)
+// (23) from: https://cms-gen-dev.cern.ch/xsdb (DAS=TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8)
+// (24-26) from: https://twiki.cern.ch/twiki/bin/viewauth/CMS/TauIDMeasurementsHelp
 // ----------------------------------------------------------------------------------------------------
 void loadWorkingPoints()
 {
