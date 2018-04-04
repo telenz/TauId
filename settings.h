@@ -84,13 +84,13 @@ map<TString, double> xsecs = {
 // ----------------------------------------------------------------------------------------------------
 void loadWorkingPoints()
 {
-   //iso.push_back("VTightMva");
-   //iso.push_back("TightMva");
-   //iso.push_back("MediumMva");
-  //iso.push_back("LooseMva");
-  //iso.push_back("Tight");
-  iso.push_back("Medium");
-  //iso.push_back("Loose");
+   iso.push_back("VTightMva");
+   iso.push_back("TightMva");
+   iso.push_back("MediumMva");
+   iso.push_back("LooseMva");
+   iso.push_back("Tight");
+   iso.push_back("Medium");
+   iso.push_back("Loose");
 }
 // ----------------------------------------------------------------------------------------------------
 double getXSec(TString sampleName)
@@ -374,17 +374,17 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
   TTreeReaderValue< Bool_t  >  pfJet140(         *myReader,       "pfJet140");
   
   TTreeReaderValue< Bool_t  >  *pfJet200 = NULL;
-  // TTreeReaderValue< Bool_t  >  *pfJet260 = NULL;
-  // TTreeReaderValue< Bool_t  >  *pfJet320 = NULL;
-  // TTreeReaderValue< Bool_t  >  *pfJet400 = NULL;
-  // TTreeReaderValue< Bool_t  >  *pfJet450 = NULL;
+  TTreeReaderValue< Bool_t  >  *pfJet260 = NULL;
+  TTreeReaderValue< Bool_t  >  *pfJet320 = NULL;
+  TTreeReaderValue< Bool_t  >  *pfJet400 = NULL;
+  TTreeReaderValue< Bool_t  >  *pfJet450 = NULL;
   // TTreeReaderValue< Bool_t  >  *pfJet500 = NULL;
   if(filename.Contains("JetHT")){
     pfJet200 = new TTreeReaderValue<Bool_t>(*myReader,"pfJet200");
-    // pfJet260 = new TTreeReaderValue<Bool_t>(*myReader,"pfJet260");
-    // pfJet320 = new TTreeReaderValue<Bool_t>(*myReader,"pfJet320");
-    // pfJet400 = new TTreeReaderValue<Bool_t>(*myReader,"pfJet400");
-    // pfJet450 = new TTreeReaderValue<Bool_t>(*myReader,"pfJet450");
+    pfJet260 = new TTreeReaderValue<Bool_t>(*myReader,"pfJet260");
+    pfJet320 = new TTreeReaderValue<Bool_t>(*myReader,"pfJet320");
+    pfJet400 = new TTreeReaderValue<Bool_t>(*myReader,"pfJet400");
+    pfJet450 = new TTreeReaderValue<Bool_t>(*myReader,"pfJet450");
     // pfJet500 = new TTreeReaderValue<Bool_t>(*myReader,"pfJet500");
   }
 
@@ -410,7 +410,7 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
 
     if(*trig != sel.trigger && sel.selection == 3) continue;
     //if(sel.selection == 4 && (*pfJet40 != sel.pfJetTrigger && *pfJet60 != sel.pfJetTrigger && *pfJet80 != sel.pfJetTrigger && *pfJet140 != sel.pfJetTrigger && *(*pfJet200) != sel.pfJetTrigger && *(*pfJet260) != sel.pfJetTrigger && *(*pfJet320) != sel.pfJetTrigger && *(*pfJet400) != sel.pfJetTrigger && *(*pfJet450) != sel.pfJetTrigger && *(*pfJet500) != sel.pfJetTrigger)) continue;
-    if(sel.selection == 4 && (*pfJet60 != sel.pfJetTrigger && *pfJet80 != sel.pfJetTrigger && *pfJet140 != sel.pfJetTrigger && *(*pfJet200) != sel.pfJetTrigger)) continue;
+    if(sel.selection == 4 && (*pfJet60 != sel.pfJetTrigger && *pfJet80 != sel.pfJetTrigger && *pfJet140 != sel.pfJetTrigger && *(*pfJet200) != sel.pfJetTrigger && *(*pfJet260) != sel.pfJetTrigger && *(*pfJet320) != sel.pfJetTrigger && *(*pfJet400) != sel.pfJetTrigger && *(*pfJet450) != sel.pfJetTrigger)) continue;
    
     if(*Selection != sel.selection) continue;
     if(*recoilRatio < sel.recoilRatioLow || *recoilRatio > sel.recoilRatioHigh) continue;
