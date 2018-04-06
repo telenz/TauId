@@ -1,49 +1,50 @@
 # TauId
 ### Measurement of the Tau ID (MC to Data) scale factors. 
 
-###########################################
+#########################################################################
 ## Instruction to run the Tau ID analysis
 
 You can run runFullTauIDmeasurement.sh
 
-This file includes the execution of a collection of RooT macros used to perform measurements of the tauId efficiency with W*->tau+v events.
+This file includes the execution of a collection of RooT macros used to perform measurements of the tau Id efficiency scale factors with W*->tau+v events.
 
-PlotTrigger.C - Macro to compute trigger turn on curves for MET trigger. 
+**PlotTrigger.C** - Macro to compute trigger turn on curves for MET trigger. 
                 The macro produces as an output RooT file output/trigger_eff.root with functions describing efficiency of the MET trigger in dependence of offline MET and MHT variable. 
                 The newly created file should be placed in the directory $CMSSW_BASE/src/src/DesyTauAnalyses/NTupleMaker/data and specified in the configuration file. 
                 The MET sample should be redone with this trigger efficiency file where then the calculated trigger weight is added to the overall weight.
 
-ComputeFakeRate.C - Computes fake factor as a function of tau jet Pt (pt of the corresponding jet) and tau Pt/ tau jet Pt. 
+**ComputeFakeRate.C** - Computes fake factor as a function of tau jet Pt (pt of the corresponding jet) and tau Pt/ tau jet Pt. 
                     The fake factor is determined in data for the analysis. 
                     The script calculates also fake factors on MC to make a closure test.
                     The macro produces as an output the RooT file output/${dataset}_fakeRate.root where ${dataset} is either SingleMuon_Run2016 or JetHT_Run2016, or MC sample names.
 
-CalculateEWKfraction.C - Calculates the EWK fraction (n_EWK^MC/n_Data in the anti-isolated signal region) and combines the SingleMu and JetHT fake rates
+**CalculateEWKfraction.C** - Calculates the EWK fraction (n_EWK^MC/n_Data in the anti-isolated signal region) and combines the SingleMu and JetHT fake rates
                          Output: Root file output/fakerates.root
 
-WToTauNuMeasurement.C - Creates root file with final histogram and all relevant systematic uncertainties.
+**WToTauNuMeasurement.C** - Creates root file with final histogram and all relevant systematic uncertainties.
                         Is used as input for Combine.
 
-DatacardProducer_WToTauNu.C - Creates datacard for Combine
+**DatacardProducer_WToTauNu.C** - Creates datacard for Combine
 
-WToMuNuMeasurement.C - Creates root file with final histogram for W*->mu nu analysis and all relevant systematic uncertainties.
+**WToMuNuMeasurement.C** - Creates root file with final histogram for W*->mu nu analysis and all relevant systematic uncertainties.
                        Is used as input for Combine.
 
-DatacardProducer_WToMuNu.C - Creates root file with final histogram and all relevant systematic uncertainties.
+**DatacardProducer_WToMuNu.C** - Creates root file with final histogram and all relevant systematic uncertainties.
                         Is used as input for Combine.
 
 
-MakePostFitPlots.C - Makes post fit plots.
+**MakePostFitPlots.C** - Makes post fit plots.
 
-###########################################
+
+
 ## Instructions to make NTuples
 
 All ntuples are located in
-/nfs/dust/cms/user/mameyer/TauIdAndES_2017Data/TauId/NTuples
+*/nfs/dust/cms/user/mameyer/TauIdAndES_2017Data/TauId/NTuples*
 
 ### Instructions for running NTuple producer AnalysisNTupleProducer_TauID.cpp macro.
 
-The macro AnalysisNTupleProducer_TauID.cpp is located in DesyTauAnalysesRun2/NTupleMaker/bin executed with two arguments: the configuration file and the filelist.
+The macro AnalysisNTupleProducer_TauID.cpp is located in DesyTauAnalysesRun2/NTupleMaker/bin/ and is executed with two arguments: configuration file and filelist.
 An instruction to setup a CMSSW area including the DesyTauAnalysesRun2 package can be found [here](https://twiki.cern.ch/twiki/bin/viewauth/CMS/DesyTauAnalysesRun2#Instructions_to_synchronize_your)
 
 Examples of configuration files are
@@ -60,7 +61,7 @@ Example of filelist :
 
 Examples of running the macro
 
-> AnalysisNTupleProducer_TauID [analysisNTupleProducer_tauid_Data.conf](NTuples/analysisNTupleProducer_tauid_Data.conf) MET_Run2016G
+> AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_Data.conf MET_Run2016G
 
 > AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_DY2Jets.conf WToMuNu_M-200_13TeV-pythia8
 
@@ -77,7 +78,7 @@ requires three arguments :
 
 Example :
 
-> qsub.sh AnalysisNTupleProducer_TauID [analysisNTupleProducer_tauid_Data.conf](NTuples/analysisNTupleProducer_tauid_Data.conf) MET_Run2016G
+> qsub.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_Data.conf MET_Run2016G
 
 
 qsub_seq.sh - submits several jobs per filelist. The script requires
@@ -98,7 +99,7 @@ all RooT files can be merged by executing script hadd.sh
 
 > hadd.sh $filelist.
  
-###########################################
+
 ## Instruction to run fits
 
 The directory datacards contains all datacards for
