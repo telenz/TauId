@@ -3,13 +3,13 @@
 ##########################################################
 ##########################################################
 
-Measurement of the Tau ID (MC to Data) scale factors. 
+### Measurement of the Tau ID (MC to Data) scale factors. 
 
 ##########################################################
 ##########################################################
 
 ###########################################
-# Instruction to run the Tau ID analysis
+## Instruction to run the Tau ID analysis
 
 You can run runFullTauIDmeasurement.sh
 
@@ -43,38 +43,33 @@ DatacardProducer_WToMuNu.C - Creates root file with final histogram and all rele
 MakePostFitPlots.C - Makes post fit plots.
 
 ###########################################
-# Instructions to make ntuples
+## Instructions to make NTuples
 
 All ntuples are located in
-/nfs/dust/cms/user/rasp/Run/Run2016/TauID_2016
+/nfs/dust/cms/user/mameyer/TauIdAndES_2017Data/TauId/NTuples
 
+### Instructions for running NTuple producer AnalysisNTupleProducer_TauID.cpp macro.
 
-# Instructions for running AnalysisNTupleProducer macro.
-
-The macro AnalysisNTupleProducer is executed with two
-arguments, configuration file and filelist.
+The macro AnalysisNTupleProducer_TauID.cpp is located in DesyTauAnalysesRun2/NTupleMaker/bin executed with two arguments: the configuration file and the filelist.
+An instruction to setup a CMSSW area including the DesyTauAnalysesRun2 package can be found [here](https://twiki.cern.ch/twiki/bin/viewauth/CMS/DesyTauAnalysesRun2#Instructions_to_synchronize_your)
 
 Examples of configuration files are
 
-- analysisNTupleProducer.conf (to run on data) 
+- NTuples/analysisNTupleProducer_tauid_Data.conf (to run on data)
 
-- analysisNTupleProducer_MC.conf (to run on MC)
-
-
-Examples of filelists :
-
-MET_Run2016G
-
-WToTauNu_M-200_13TeV-pythia8
-
-WToMuNu_M-200_13TeV-pythia8
+- NTuples/analysisNTupleProducer_tauid_MC_DY2Jets.conf (to run on MC)
 
 
-Examples of running macro
+Example of filelist :
 
-> AnalysisNTupleProducer analysisNTupleProducer.conf MET_Run2016G
+- NTuples/
 
-> AnalysisNTupleProducer analysisNTupleProducer_MC.conf WToMuNu_M-200_13TeV-pythia8
+
+Examples of running the macro
+
+> AnalysisNTupleProducer_TauID [analysisNTupleProducer_tauid_Data.conf](NTuples/analysisNTupleProducer_tauid_Data.conf) MET_Run2016G
+
+> AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_DY2Jets.conf WToMuNu_M-200_13TeV-pythia8
 
 Useful scripts :
 
@@ -89,7 +84,7 @@ requires three arguments :
 
 Example :
 
-> qsub.sh AnalysisNTupleProducer analysisNTupleProducer.conf MET_Run2016G
+> qsub.sh AnalysisNTupleProducer_TauID [analysisNTupleProducer_tauid_Data.conf](NTuples/analysisNTupleProducer_tauid_Data.conf) MET_Run2016G
 
 
 qsub_seq.sh - submits several jobs per filelist. The script requires
@@ -103,7 +98,7 @@ four arguments :
 
 4) files per job
 
-The script creates directory named $filelis_files.
+The script creates a directory named $filelist_files.
 The directory will contain all RooT and output files
 created by separate jobs. Once all jobs are finished,
 all RooT files can be merged by executing script hadd.sh
@@ -111,7 +106,7 @@ all RooT files can be merged by executing script hadd.sh
 > hadd.sh $filelist.
  
 ###########################################
-# Instruction to run fits
+## Instruction to run fits
 
 The directory datacards contains all datacards for
 statistical inference and results of the fits.
