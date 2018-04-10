@@ -14,7 +14,7 @@ void ClosureTest_FakeRate() {
 
   loadWorkingPoints();
   initCuts();
-  loadFakeRates("output/WJetsToLNu_13TeV-madgraphMLM_fakeRate.root");
+  loadFakeRates("output/W1JetsToLNu_LHEWpT_fakeRate.root");
 
   std::vector<TString> obs;
   std::vector<TString> pred;
@@ -23,25 +23,27 @@ void ClosureTest_FakeRate() {
   obs.push_back("ZJetsToNuNu_HT-200To400_13TeV-madgraph");
   obs.push_back("ZJetsToNuNu_HT-400To600_13TeV-madgraph");
   obs.push_back("ZJetsToNuNu_HT-600To800_13TeV-madgraph");
+  obs.push_back("ZJetsToNuNu_HT-800To1200_13TeV-madgraph");
+  obs.push_back("ZJetsToNuNu_HT-1200To2500_13TeV-madgraph");
+  obs.push_back("ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph");
 
   pred.push_back("ZJetsToNuNu_HT-100To200_13TeV-madgraph");
   pred.push_back("ZJetsToNuNu_HT-200To400_13TeV-madgraph");
   pred.push_back("ZJetsToNuNu_HT-400To600_13TeV-madgraph");
   pred.push_back("ZJetsToNuNu_HT-600To800_13TeV-madgraph");
+  pred.push_back("ZJetsToNuNu_HT-800To1200_13TeV-madgraph");
+  pred.push_back("ZJetsToNuNu_HT-1200To2500_13TeV-madgraph");
+  pred.push_back("ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph");
 
-  obs.push_back("WJetsToLNu_HT-70To100_13TeV-madgraphMLM-pythia8");
-  obs.push_back("WJetsToLNu_HT-100To200_13TeV-madgraphMLM-pythia8");
-  obs.push_back("WJetsToLNu_HT-200To400_13TeV-madgraphMLM-pythia8");
-  obs.push_back("WJetsToLNu_HT-400To600_13TeV-madgraphMLM-pythia8");
-  obs.push_back("WJetsToLNu_HT-600To800_13TeV-madgraphMLM-pythia8");
-  obs.push_back("WJetsToLNu_HT-800To1200_13TeV-madgraphMLM-pythia8");
+  obs.push_back("W1JetsToLNu_LHEWpT_50-150");
+  obs.push_back("W1JetsToLNu_LHEWpT_150-250");
+  obs.push_back("W1JetsToLNu_LHEWpT_250-400");
+  obs.push_back("W1JetsToLNu_LHEWpT_400-inf");
 
-  pred.push_back("WJetsToLNu_HT-70To100_13TeV-madgraphMLM-pythia8");
-  pred.push_back("WJetsToLNu_HT-100To200_13TeV-madgraphMLM-pythia8");
-  pred.push_back("WJetsToLNu_HT-200To400_13TeV-madgraphMLM-pythia8");
-  pred.push_back("WJetsToLNu_HT-400To600_13TeV-madgraphMLM-pythia8");
-  pred.push_back("WJetsToLNu_HT-600To800_13TeV-madgraphMLM-pythia8");
-  pred.push_back("WJetsToLNu_HT-800To1200_13TeV-madgraphMLM-pythia8");
+  pred.push_back("W1JetsToLNu_LHEWpT_50-150");
+  pred.push_back("W1JetsToLNu_LHEWpT_150-250");
+  pred.push_back("W1JetsToLNu_LHEWpT_250-400");
+  pred.push_back("W1JetsToLNu_LHEWpT_400-inf");
 
   std::vector<double> obs_xsec;
   for(unsigned int i=0; i<obs.size(); i++) obs_xsec.push_back( getXSec(obs[i]) );
@@ -52,7 +54,8 @@ void ClosureTest_FakeRate() {
   TString dir      = "NTuples/"; 
 
   // Binning and titles of axis
-  TString xtitle = "m_{T} [GeV]";
+  //TString xtitle = "m_{T} [GeV]";
+  TString xtitle = "p_{T}^{#tau} [GeV]";
   TString ytitle = "Events / 100 GeV";
   
   for(unsigned int idx_iso=0; idx_iso<iso.size(); idx_iso++){
@@ -77,23 +80,23 @@ void ClosureTest_FakeRate() {
     TH1D * prediction  = new TH1D("prediction_"+iso[idx_iso],"",nBins,bins); 
 
     // Make selection and fill histograms for sr and cr
-    for (unsigned int i=0; i<obs.size(); ++i) {
+    for (unsigned int i=0; i<obs.size(); ++i) { //W+jets and Znuu main backgrounds, check how many fakes we select in our SR
       TH1D* histo = new TH1D("obs_" + obs[i],"",nBins,bins);
       makeSelection(dir+"/"+obs[i]+".root", "NTuple", obs_xsec[i],iso[idx_iso],sr,histo,var,var,var);
       observation->Add(histo);
       observation->SetName(histo->GetName());
     }
-    for (unsigned int i=0; i<pred.size(); ++i) {
+    for (unsigned int i=0; i<pred.size(); ++i) {//fake factors are applied in makeselection
 
-      loadFakeRates("output/WJetsToLNu_13TeV-madgraphMLM_fakeRate.root");
+      loadFakeRates("output/W1JetsToLNu_LHEWpT_fakeRate"+tauDecayMode+".root");
       TH1D* histo = new TH1D("pred_" + pred[i],"",nBins,bins);
       makeSelection(dir+"/"+pred[i]+".root","NTuple",pred_xsec[i],iso[idx_iso],cr_antiiso,histo,var,var,var);
 
-      loadFakeRates("output/WJetsToLNu_13TeV-madgraphMLM_fakeRate_Up.root");
+      loadFakeRates("output/W1JetsToLNu_LHEWpT_fakeRate_Up"+tauDecayMode+".root");
       TH1D* histoUp = new TH1D("pred_" + pred[i] + "_Up","",nBins,bins);
       makeSelection(dir+"/"+pred[i]+".root","NTuple",pred_xsec[i],iso[idx_iso],cr_antiiso,histoUp,var,var,var);
 
-      loadFakeRates("output/WJetsToLNu_13TeV-madgraphMLM_fakeRate_Down.root");
+      loadFakeRates("output/W1JetsToLNu_LHEWpT_fakeRate_Down"+tauDecayMode+".root");
       TH1D* histoDown = new TH1D("pred_" + pred[i] + "_Down","",nBins,bins);
       makeSelection(dir+"/"+pred[i]+".root","NTuple",pred_xsec[i],iso[idx_iso],cr_antiiso,histoDown,var,var,var);
 
