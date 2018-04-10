@@ -12,12 +12,26 @@ void ComputeFakeRate() {
   TH1::SetDefaultSumw2();
   TH2::SetDefaultSumw2();
 
-  const int nBinsRatio =4;
-  double binsRatio[nBinsRatio+1] = { 0.0 , 0.75 , 0.825 , 0.9 , 2. };
+  //ok: double binsRatio[nBinsRatio+1] = { 0.0 ,0.5, 0.75,  0.775,0.85 , 0.95 , 2. };
+  //ok:  {100 , 170 , 220 , 350 , 500 , 1200};
+
+  const int nBinsRatio =3;
+  //double binsRatio[nBinsRatio+1] = { 0.0 ,0.5, 0.75,  0.775,0.85 , 0.95 , 2. };
+  //double binsRatio[nBinsRatio+1] = { 0.0 ,0.5, 0.75,  0.775,0.85 , 0.95 , 2. };
+  //double binsRatio[nBinsRatio+1] = { 0.0 , 0.775, 0.9 , 2. };//ok, use this also for eta binning
+  double binsRatio[nBinsRatio+1] = { 0.0 , 0.775, 0.9 , 2. }; //use these for taupt and jetpt ratio
+  //double binsRatio[nBinsRatio+1] = { 0.0 , 0.775,0.825, 0.85 , 0.9 , 2. };
+  //double binsRatio[nBinsRatio+1] = { 0.0 ,0.75,  0.85 , 0.95 , 2. };
   const int nBinsJetPt = 5;
-  double binsJetPt[nBinsJetPt+1] = {100 , 150 , 200 , 350 , 500 , 1200};
+  //double binsJetPt[nBinsJetPt+1] = {100 , 130, 170 , 220 , 270, 350 , 400, 600 , 1200};
+  double binsJetPt[nBinsJetPt+1] ={100 , 170 , 220 , 350 , 500 , 1200}; //use these for taupt and jetpt ratio
+  //double binsJetPt[nBinsJetPt+1] ={100 , 170 , 220 , 350 ,1200};
+  //double binsJetPt[nBinsJetPt+1] = {100 , 140, 170 , 220 , 350 , 500 , 1200};
+  //100 , 150, 200 , 350 , 500 , 1200};
+  //const int nBinsTauEta = 6;
+  //double binsTauEta[nBinsTauEta+1]={0,0.25, 0.5,0.75, 1.1,1.6, 2.3};
+
   TH2D* h_fakerate_2d = new TH2D("h_fakerate_2d","h_fakerate_2d",nBinsRatio,binsRatio,nBinsJetPt,binsJetPt);
-  TH2D* h_fakerate_2d_woTrig = new TH2D("h_fakerate_2d_woTrig","h_fakerate_2d_woTrig",nBinsRatio,binsRatio,nBinsJetPt,binsJetPt);
 
   std::vector< std::pair<TString,std::vector<TString>> > samples;
   std::vector<TString> data_SingleMuon;
@@ -70,12 +84,11 @@ void ComputeFakeRate() {
       // filling histograms
       TH2D* h_den = new TH2D(samples[idx_sample].first+"_"+iso[idx_iso]+"_den",samples[idx_sample].first+"_"+iso[idx_iso]+"_den",nBinsRatio,binsRatio,nBinsJetPt,binsJetPt);
       TH2D* h_num = new TH2D(samples[idx_sample].first+"_"+iso[idx_iso]+"_num",samples[idx_sample].first+"_"+iso[idx_iso]+"_num",nBinsRatio,binsRatio,nBinsJetPt,binsJetPt);
-      TH2D* h_den_woTrig = new TH2D(samples[idx_sample].first+"_"+iso[idx_iso]+"_den_woTrig",samples[idx_sample].first+"_"+iso[idx_iso]+"_den_woTrig",nBinsRatio,binsRatio,nBinsJetPt,binsJetPt);
-      TH2D* h_num_woTrig = new TH2D(samples[idx_sample].first+"_"+iso[idx_iso]+"_num_woTrig",samples[idx_sample].first+"_"+iso[idx_iso]+"_num_woTrig",nBinsRatio,binsRatio,nBinsJetPt,binsJetPt);
 
       TString var1 = "tauPt";
       TString var2 = "tauJetPt";
       TString var3 = "tauJetPt";
+
       for(unsigned int idx_list=0; idx_list<samples[idx_sample].second.size(); idx_list++){ // loop over processes in samples
 	cout<<"---------- Sample "<<samples[idx_sample].second[idx_list]<<" processing. ---------- "<<endl;
 	selectionCuts select = cr_fakerate_num;
@@ -94,15 +107,6 @@ void ComputeFakeRate() {
 	  select.tauGenMatchDecayHigh  = 100000;
 	}
 	makeSelection(dir+samples[idx_sample].second[idx_list]+".root","NTuple",getXSec(samples[idx_sample].second[idx_list]),iso[idx_iso],select,h_den,var1,var2,var3);
-
-	// wo Trigger
-	cr_fakerate_dijet_num.pfJetTrigger = false; //if set to false: all events pass dijet trigger selection
-	if(samples[idx_sample].second[idx_list].Contains("JetHT")) select =  cr_fakerate_dijet_num;
-	//makeSelection(dir+samples[idx_sample].second[idx_list]+".root","NTuple",getXSec(samples[idx_sample].second[idx_list]),iso[idx_iso],select,h_num_woTrig,var1,var2,var3);
-	select = cr_fakerate_den;
-	cr_fakerate_dijet_den.pfJetTrigger = false;
- 	if(samples[idx_sample].second[idx_list].Contains("JetHT")) select =  cr_fakerate_dijet_den;
-	//makeSelection(dir+samples[idx_sample].second[idx_list]+".root","NTuple",getXSec(samples[idx_sample].second[idx_list]),iso[idx_iso],select,h_den_woTrig,var1,var2,var3);
       }
 
       histoMap[samples[idx_sample].first + "_" + iso[idx_iso]] = (TH2D*) h_num -> Clone();
@@ -144,16 +148,17 @@ void ComputeFakeRate() {
 	{for(int j=1; j<=h_num->GetNbinsY(); j++)
 	    {
 	      double numE_bin = 0;
-	      double num_bin = h_num -> IntegralAndError(i,i,j,j,numE_bin);
-	      double denE_bin = 0;
+	      //double num_bin = h_num -> IntegralAndError(i,i,j,j,numE_bin);
+	      double num_bin = h_num -> GetBinContent(i,j);
+         numE_bin=TMath::Sqrt(num_bin);
+         double denE_bin = 0;
 	      double den_bin = h_den -> IntegralAndError(i,i,j,j,denE_bin);
-	      cout<<"Numerator   of "<<i<<". x-bin and "<<j<<". y-bin : "<<num_bin<<" +/- "<<numE_bin<<endl;
-	      cout<<"Denominator of "<<i<<". x-bin and "<<j<<". y-bin : "<<den_bin<<" +/- "<<denE_bin<<endl;
+             cout<<"Numerator   of "<<i<<". x-bin and "<<j<<". y-bin : "<<num_bin<<" +/- "<<numE_bin<<endl;
+	      //cout<<"Denominator of "<<i<<". x-bin and "<<j<<". y-bin : "<<den_bin<<" +/- "<<denE_bin<<endl;
 
 	    }
 	}
       h_fakerate_2d -> Divide(h_num,h_den);
-      //h_fakerate_2d_woTrig -> Divide(h_num_woTrig,h_den_woTrig);
 
       // %%%%%%%%%%%%%%%%%% Plotting %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       h_fakerate_2d->GetXaxis()->SetTitle("pt (tau) / pt (jet faking the tau)");
@@ -182,64 +187,45 @@ void ComputeFakeRate() {
       canv->Print("figures/fakerate_"+samples[idx_sample].first+"_"+iso[idx_iso]+".png");
 
       // Make 1d plots dependent on tauPt/tauJetPt 
-      TH1D* h_num_1D_x        = h_num -> ProjectionX("fakerate_projection_withTrig_num_x",1,nBinsJetPt);
-      TH1D* h_den_1D_x        = h_den -> ProjectionX("fakerate_projection_withTrig_den_x",1,nBinsJetPt);
-      TH1D* h_num_woTrig_1D_x = h_num_woTrig -> ProjectionX("fakerate_projection_woTrig_num_x",1,nBinsJetPt);
-      TH1D* h_den_woTrig_1D_x = h_den_woTrig -> ProjectionX("fakerate_projection_woTrig_den_x",1,nBinsJetPt);
+      TH1D* h_num_1D_x        = h_num -> ProjectionX("fakerate_projection_withTrig_num_x",1,nBinsRatio);
+      TH1D* h_den_1D_x        = h_den -> ProjectionX("fakerate_projection_withTrig_den_x",1,nBinsRatio);
       TH1D* h_num_1D_y        = h_num -> ProjectionY("fakerate_projection_withTrig_num_y",1,nBinsJetPt);
       TH1D* h_den_1D_y        = h_den -> ProjectionY("fakerate_projection_withTrig_den_y",1,nBinsJetPt);
-      TH1D* h_num_woTrig_1D_y = h_num_woTrig -> ProjectionY("fakerate_projection_woTrig_num_y",1,nBinsJetPt);
-      TH1D* h_den_woTrig_1D_y = h_den_woTrig -> ProjectionY("fakerate_projection_woTrig_den_y",1,nBinsJetPt);
 
       TH1D* h_x = (TH1D*) h_num_1D_x->Clone();
       h_x->Divide(h_den_1D_x);
-      TH1D* h_woTrig_x = (TH1D*) h_num_woTrig_1D_x->Clone();
-      h_woTrig_x->Divide(h_den_woTrig_1D_x);
       TH1D* h_y = (TH1D*) h_num_1D_y->Clone();
       h_y->Divide(h_den_1D_y);
-      TH1D* h_woTrig_y = (TH1D*) h_num_woTrig_1D_y->Clone();
-      h_woTrig_y->Divide(h_den_woTrig_1D_y);
 
       h_x->SetMaximum(1.);
       h_x->SetMinimum(0.0001);
       h_y->SetMaximum(1.);
       h_y->SetMinimum(0.0001);
-      h_woTrig_x->SetLineColor(kRed);
-      h_woTrig_x->SetMarkerColor(kRed);
-      h_woTrig_y->SetLineColor(kRed);
-      h_woTrig_y->SetMarkerColor(kRed);
       h_x->Draw();
-      //h_woTrig_x->Draw("same");
+
       canv->SetLogy();
       TLegend * leg1 = new TLegend(0.35,0.2,0.89,0.4);
       SetLegendStyle(leg1);
       leg1->SetHeader(iso[idx_iso]);
       leg1->AddEntry(h_x,"fake factors","lp");
-      //leg1->AddEntry(h_woTrig_x,"all triggers","lp");
       leg1->Draw();
-      canv->Print("figures/fakerate_"+samples[idx_sample].first+"_"+iso[idx_iso]+"_projectionX.png");
+      canv->Print("figures/fakerate_"+samples[idx_sample].first+"_"+iso[idx_iso]+tauDecayMode+"_projectionX.png");
 
       canv->cd();
       h_y->Draw();
-      //h_woTrig_y->Draw("same");
       leg1->Draw();
-      canv->Print("figures/fakerate_"+samples[idx_sample].first+"_"+iso[idx_iso]+"_projectionY.png");
+      canv->Print("figures/fakerate_"+samples[idx_sample].first+"_"+iso[idx_iso]+tauDecayMode+"_projectionY.png");
 
        TH1D* h_unrolled = new TH1D("h_unrolled_"+samples[idx_sample].first+"_"+iso[idx_iso],"unrolled distribution",nBinsRatio*nBinsJetPt,1,nBinsRatio*nBinsJetPt+1);
-       TH1D* h_unrolled_woTrig = (TH1D*) h_unrolled->Clone("h_unrolled_woTrig_"+samples[idx_sample].first+"_"+iso[idx_iso]);
 
        int index=1;
-      for(int i=1; i<=nBinsRatio; i++){
-	for(int j=1; j<=nBinsJetPt; j++){
-	  double a    = h_fakerate_2d_woTrig->GetBinContent(i,j);
-	  double b    = h_fakerate_2d->GetBinContent(i,j);
-	  double aErr = h_fakerate_2d_woTrig->GetBinError(i,j);
-	  double bErr = h_fakerate_2d->GetBinError(i,j);
+       for(int i=1; i<=nBinsRatio; i++){
+          for(int j=1; j<=nBinsJetPt; j++){
+             double b    = h_fakerate_2d->GetBinContent(i,j);
+             double bErr = h_fakerate_2d->GetBinError(i,j);
 
-	  h_unrolled_woTrig -> SetBinContent(index,a);
-	  h_unrolled_woTrig -> SetBinError(index,aErr);
-	  h_unrolled        -> SetBinContent(index,b);
-	  h_unrolled        -> SetBinError(index,bErr);
+             h_unrolled        -> SetBinContent(index,b);
+             h_unrolled        -> SetBinError(index,bErr);
 
 	  index += 1;
 	}
@@ -252,9 +238,7 @@ void ComputeFakeRate() {
       h_unrolled->GetYaxis()->SetTitle("fake rate");
       h_unrolled->GetXaxis()->SetTitle("bin number");
       h_unrolled->Draw();
-      h_unrolled_woTrig->SetLineColor(kRed);
-      h_unrolled_woTrig->SetMarkerColor(kRed);
-      h_unrolled_woTrig->Draw("same");
+
       leg1->Draw("same");
       upper->SetLogy();
       upper->Draw("same");
@@ -263,7 +247,6 @@ void ComputeFakeRate() {
       upper->Update();
       canv->cd();
       TH1D* ratio = (TH1D*) h_unrolled->Clone("ratio_"+samples[idx_sample].first+"_"+iso[idx_iso]);
-      ratio->Divide(h_unrolled_woTrig);
       ratio->GetYaxis()->SetTitle("low pt/all");
       ratio->GetXaxis()->SetTitle("");
       ratio->GetYaxis()->CenterTitle();
@@ -288,6 +271,10 @@ void ComputeFakeRate() {
       fileOutput->cd("");
       h_fakerate_2d->SetName(iso[idx_iso]);
       h_fakerate_2d->Write(iso[idx_iso]);
+      h_x->SetName(iso[idx_iso]+"_ProjX");
+      h_x->Write(iso[idx_iso]+"_ProjX");
+      h_y->SetName(iso[idx_iso]+"_ProjY");
+      h_y->Write(iso[idx_iso]+"_ProjY");
       delete canv;
       cout<<endl;
 
