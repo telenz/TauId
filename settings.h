@@ -106,13 +106,13 @@ map<TString, double> xsecs = {
 // ----------------------------------------------------------------------------------------------------
 void loadWorkingPoints()
 {
-   iso.push_back("VTightMva");
-   iso.push_back("TightMva");
-   iso.push_back("MediumMva");
-   iso.push_back("LooseMva");
-   iso.push_back("Tight");
-   iso.push_back("Medium");
-   iso.push_back("Loose");
+  iso.push_back("VTightMva");
+  iso.push_back("TightMva");
+  iso.push_back("MediumMva");
+  iso.push_back("LooseMva");
+  iso.push_back("Tight");
+  iso.push_back("Medium");
+  iso.push_back("Loose");
 }
 // ----------------------------------------------------------------------------------------------------
 double getXSec(TString sampleName)
@@ -145,7 +145,7 @@ struct selectionCuts {
   bool pfJetTrigger = false;
   float muonAbsEtaHigh = 5.0;
   float muonPtLow = 0.;
-} sr, sr_trueTaus, cr_antiiso, cr_fakerate_den, cr_fakerate_num,cr_fakerate_dijet_den, cr_fakerate_dijet_num, cr_ewkFraction, sr_munu;
+} sr, sr_trueTaus, sr_fakeTaus, cr_antiiso,  cr_antiiso_trueTaus, cr_antiiso_fakeTaus, cr_fakerate_den, cr_fakerate_num, cr_fakerate_dijet_den, cr_fakerate_dijet_num, sr_munu;
 // ----------------------------------------------------------------------------------------------------
 void initCuts()
 {
@@ -174,8 +174,8 @@ void initCuts()
   sr.tauAntiMuonLoose3 = true;
   sr.tauAntiElectronLooseMVA6 = true;
   sr.tauIso = true;
-  sr.tauGenMatchDecayLow  = -10000000;
-  sr.tauGenMatchDecayHigh = -1;
+  sr.tauGenMatchDecayLow  = -1000;
+  sr.tauGenMatchDecayHigh = 1000;
   sr.mtmuonLow  = 0;
   sr.mtmuonHigh = 100000000;
   sr.mttauLow  = 0;
@@ -185,7 +185,13 @@ void initCuts()
   sr_trueTaus = sr;
   sr_trueTaus.name = "sr_trueTaus";
   sr_trueTaus.tauGenMatchDecayLow  = 0;
-  sr_trueTaus.tauGenMatchDecayHigh = 1000000000;
+  sr_trueTaus.tauGenMatchDecayHigh = 1000;
+
+  // sr for fake taus
+  sr_fakeTaus = sr;
+  sr_fakeTaus.name = "sr_fakeTaus";
+  sr_fakeTaus.tauGenMatchDecayLow  = -1000;
+  sr_fakeTaus.tauGenMatchDecayHigh = -1;
   
   // sr for W->munu selection
   sr_munu = sr;
@@ -208,9 +214,15 @@ void initCuts()
   cr_antiiso.name = "cr_antiiso";
   cr_antiiso.tauIso = false;
 
-  // cr for ewk fraction
-  cr_ewkFraction = cr_antiiso;
-  cr_ewkFraction.name = "cr_ewkFraction"; 
+  // antiiso region true taus
+  cr_antiiso_trueTaus = sr_trueTaus;
+  cr_antiiso_trueTaus.name = "cr_antiiso_trueTaus";
+  cr_antiiso_trueTaus.tauIso = false;
+
+  // antiiso region fake taus
+  cr_antiiso_fakeTaus = sr_fakeTaus;
+  cr_antiiso_fakeTaus.name = "cr_antiiso_fakeTaus";
+  cr_antiiso_fakeTaus.tauIso = false;
 
   // cr_fakerate_den
   cr_fakerate_den = sr;
@@ -231,6 +243,7 @@ void initCuts()
   cr_fakerate_den.recoilDPhiLow = 2.8;
   cr_fakerate_den.tauPtLow = 100;
   cr_fakerate_den.recoilPtLow = 120.;
+
   // cr_fakerate_num
   cr_fakerate_num = cr_fakerate_den;
   cr_fakerate_num.name = "cr_fakerate_num";
@@ -259,10 +272,11 @@ void initCuts()
   cr_fakerate_dijet_den.tauAntiMuonLoose3 = true;
   cr_fakerate_dijet_den.tauAntiElectronLooseMVA6 = true;
   cr_fakerate_dijet_den.tauIso = false;
-  cr_fakerate_dijet_den.tauGenMatchDecayLow  = -10000000;
+  cr_fakerate_dijet_den.tauGenMatchDecayLow  = -1000;
   cr_fakerate_dijet_den.tauGenMatchDecayHigh = -1;
   cr_fakerate_dijet_den.recoilPtLow = 120.;
   cr_fakerate_dijet_den.pfJetTrigger  = true;
+
   // cr_fakerate_num
   cr_fakerate_dijet_num = cr_fakerate_dijet_den;
   cr_fakerate_dijet_num.name = "cr_fakerate_dijet_num";
@@ -377,7 +391,6 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
   TTreeReaderValue< Bool_t  >  tauAntiMuonLoose3(*myReader,       "tauAntiMuonTight3");
   TTreeReaderValue< Bool_t  >  tauAntiElectronLooseMVA6(*myReader,"tauAntiElectronVTightMVA6");
   TTreeReaderValue< Bool_t  >  tauIso(           *myReader,       "tau"+iso+"Iso");
-  //TTreeReaderValue< Float_t >  fakeAntiL(        *myReader,       "fakeAntiL"+iso);
   TTreeReaderValue< Int_t   >  tauGenMatchDecay( *myReader,       "tauGenMatchDecay");
   TTreeReaderValue< UInt_t  >  tauGenMatch(      *myReader,       "tauGenMatch");
   TTreeReaderValue< Int_t   >  tauDecay(         *myReader,       "tauDecay");
@@ -390,7 +403,6 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
   TTreeReaderValue< Float_t >  Ht(               *myReader,       "Ht");
   TTreeReaderValue< Float_t >  mhtNoMu(          *myReader,       "mhtNoMu");
   TTreeReaderValue< Float_t >  metNoMu(          *myReader,       "metNoMu");
-  //TTreeReaderValue< Bool_t  >  pfJet40(          *myReader,       "pfJet40");
   TTreeReaderValue< Bool_t  >  pfJet60(          *myReader,       "pfJet60");
   TTreeReaderValue< Bool_t  >  pfJet80(          *myReader,       "pfJet80");
   TTreeReaderValue< Bool_t  >  pfJet140(         *myReader,       "pfJet140");
@@ -400,29 +412,17 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
   TTreeReaderValue< Bool_t  >  *pfJet320 = NULL;
   TTreeReaderValue< Bool_t  >  *pfJet400 = NULL;
   TTreeReaderValue< Bool_t  >  *pfJet450 = NULL;
-  // TTreeReaderValue< Bool_t  >  *pfJet500 = NULL;
   if(filename.Contains("JetHT")){
     pfJet200 = new TTreeReaderValue<Bool_t>(*myReader,"pfJet200");
     pfJet260 = new TTreeReaderValue<Bool_t>(*myReader,"pfJet260");
     pfJet320 = new TTreeReaderValue<Bool_t>(*myReader,"pfJet320");
     pfJet400 = new TTreeReaderValue<Bool_t>(*myReader,"pfJet400");
     pfJet450 = new TTreeReaderValue<Bool_t>(*myReader,"pfJet450");
-    // pfJet500 = new TTreeReaderValue<Bool_t>(*myReader,"pfJet500");
   }
 
   TTreeReaderValue< Float_t >  var1(             *myReader,       variableToFill_1);
   TTreeReaderValue< Float_t >  var2(             *myReader,       variableToFill_2);
   TTreeReaderValue< Float_t >  var3(             *myReader,       variableToFill_3);
-
-  // Read Met reweighting histo
-  //TH1D* h_met = 0;
-  //TFile *f_met = new TFile("output/met_"+iso+"_WToTauNu_closure.root");
-  //if(f_met) f_met->GetObject("ratioH",h_met);
-
-  //TH2D* h_weights = 0;
-  //TFile *f_weights = new TFile("output/ReweightingWeights_muonPt_mtmuon_WToMuNu.root");
-  //if(f_weights) f_weights->GetObject("weights",h_weights);
-  //else cout<<"File not available"<<endl;
 
   int nevtsProcessed = getNEventsProcessed(filename);
   double norm = xsec*luminosity/nevtsProcessed;
@@ -452,7 +452,7 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
     if(*tauAntiMuonLoose3 != sel.tauAntiMuonLoose3 && sel.selection!=2) continue;
     if(*tauAntiElectronLooseMVA6 != sel.tauAntiElectronLooseMVA6 && sel.selection!=2) continue;
     if(*tauIso != sel.tauIso && sel.selection!=2) continue;
-    if((*tauGenMatchDecay<sel.tauGenMatchDecayLow || *tauGenMatchDecay>sel.tauGenMatchDecayHigh) && !isData && sel.selection!=2) continue;
+    if((*tauGenMatchDecay<sel.tauGenMatchDecayLow || *tauGenMatchDecay>sel.tauGenMatchDecayHigh) && !isData) continue;
    
     if(*mtmuon < sel.mtmuonLow || *mtmuon > sel.mtmuonHigh ) continue;
     if(abs(*muonEta) > sel.muonAbsEtaHigh && sel.selection == 2) continue;
@@ -495,45 +495,6 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
     if((*tauDecay < 1 || *tauDecay>4) && sel.selection != 2 && tauDecayMode == "_1prongUpTo4pizeros") continue;
     if(*tauDecay != 0 && sel.selection != 2 && tauDecayMode == "_1prong0pizeros") continue;
     if(*tauDecay != 10 && sel.selection != 2 && tauDecayMode == "_3prong0pizeros") continue;
-
-    // Reweight according to MET distribution
-    //if(sel.name.Contains("cr_antiiso") && isData){
-    //weight = weight*h_met->GetBinContent(h_met->FindBin(*met));
-    //}
-
-    
-    // Reweight mtmuon-muontPt
-    /*
-    if(filename.Contains("WToTauNu") && !isData){
-      double rew_weight = h_weights->GetBinContent(h_weights->GetXaxis()->FindBin(*genTauWPt),h_weights->GetYaxis()->FindBin(*mtgen));
-      if(rew_weight != 0) weight = weight*rew_weight;
-      //else{
-      //	cout<<"weight is zero"<<endl;
-      //cout<<"mttau = "<<*mttau<<endl;
-      //}
-      //cout<<"weight = "<<weight<<endl<<endl;
-    }
-    */
-    /*
-    TLorentzVector genTau;
-    genTau.SetPtEtaPhiE(*genTauWPt,*genTauWEta,*genTauWPhi,*genTauWE);
-    TLorentzVector genVisTau;
-    genVisTau.SetPtEtaPhiE(*lepWPt,*lepWEta,*lepWPhi,*lepWE);
-    TLorentzVector genNu;
-    genNu = genTau - genVisTau;
-    TVector3 tauBoost = genTau.Vect();
-    tauBoost = (1./genTau.E()) * tauBoost;
-    //genNu.Boost(-1.*tauBoost);
-    //double angle = genNu.Vect().Angle(tauBoost);
-    //double angle = genNu.Vect()*tauBoost/(genNu.Vect().Mag() * tauBoost.Mag());
-    double angle = genNu.Pt()/genVisTau.Pt();
-    *var1 = angle;
-    *var2 = angle;
-    *var3 = angle;
-    */
-    
-    //if(*genTauWPt>400 && *genTauWPt<500) continue;
-    //if(isData) continue;
 
     if( histo->InheritsFrom("TH2") ){
       if(variableToFill_1==variableToFill_2) ((TH2*) histo) -> Fill(abs(*var1), abs(*var3), weight);
