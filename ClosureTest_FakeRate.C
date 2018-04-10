@@ -66,15 +66,16 @@ void ClosureTest_FakeRate() {
     TH1::SetDefaultSumw2();
     TH2::SetDefaultSumw2();
 
-    TString var = "mttau";
+    TString var = "tauMass";
 
     //const int nBins = 10;
     //double bins[nBins+1] = {0 , 0.4 , 0.5 , 0.6 , 0.7 , 0.75 , 0.8 , 0.85 , 0.9 , 0.95 , 2.};
-    const int nBins  = 5;
+    const int nBins  = 7;
     //float bins[nBins+1] = {100,150,200,250,300,500};  // tauPt binning
     //float bins[nBins+1] = {100,200,300,400,500,700};  // met binning
     //float bins[nBins+1] = {100,170,240,310,400,700};  // tauJetPt binning
-    float bins[nBins+1] = {200,300,400,500,600,800};  // mttau binning
+    //float bins[nBins+1] = {200,300,400,500,600,800};  // mttau binning
+    float bins[nBins+1] = {0.4,0.6,0.8,1.0,1.2,1.4,1.6,1.8};  // tauMass binning
     //float bins[nBins+1] = {0,0.5,1.1,2.3}; //tauEta binning
     TH1D * observation = new TH1D("observation_"+iso[idx_iso],"",nBins,bins); 
     TH1D * prediction  = new TH1D("prediction_"+iso[idx_iso],"",nBins,bins); 
