@@ -82,8 +82,8 @@ void ComputeFakeRate() {
       cout<<endl<<"Process "<<iso[idx_iso]<<" : "<<endl;
       
       // filling histograms
-      TH2D* h_den = new TH2D(samples[idx_sample].first+"_"+iso[idx_iso]+"_den",samples[idx_sample].first+"_"+iso[idx_iso]+"_den",nBinsRatio,binsRatio,nBinsJetPt,binsJetPt);
-      TH2D* h_num = new TH2D(samples[idx_sample].first+"_"+iso[idx_iso]+"_num",samples[idx_sample].first+"_"+iso[idx_iso]+"_num",nBinsRatio,binsRatio,nBinsJetPt,binsJetPt);
+      TH2D* h_den = new TH2D(samples[idx_sample].first+"_"+iso[idx_iso],samples[idx_sample].first+"_"+iso[idx_iso],nBinsRatio,binsRatio,nBinsJetPt,binsJetPt);
+      TH2D* h_num = new TH2D(samples[idx_sample].first+"_"+iso[idx_iso],samples[idx_sample].first+"_"+iso[idx_iso],nBinsRatio,binsRatio,nBinsJetPt,binsJetPt);
 
       TString var1 = "tauPt";
       TString var2 = "tauJetPt";
@@ -95,7 +95,7 @@ void ComputeFakeRate() {
 	cr_fakerate_dijet_num.pfJetTrigger = true;  //if set to true: only events that have been triggered by at least one dijet trigger pass selection
 	if(samples[idx_sample].second[idx_list].Contains("JetHT")) select =  cr_fakerate_dijet_num;
 	if(samples[idx_sample].first.Contains("Genuine")){
-      select.tauGenMatchDecayLow   = 0;  // a matching to real tau is implicity done
+	  select.tauGenMatchDecayLow   = 0;  // a matching to real tau is implicity done
 	  select.tauGenMatchDecayHigh  = 100000;
 	}
 	makeSelection(dir+samples[idx_sample].second[idx_list]+".root","NTuple",getXSec(samples[idx_sample].second[idx_list]),iso[idx_iso],select,h_num,var1,var2,var3);
@@ -126,7 +126,7 @@ void ComputeFakeRate() {
       for(int i=1; i<=h_num->GetNbinsX(); i++){
 	for(int j=1; j<=h_num->GetNbinsY(); j++){
 
-	      if(samples[idx_sample].first.Contains("Genuine")) continue;
+	      if(!samples[idx_sample].first.Contains("SingleMu")) continue;
 	      if(h_num->GetBinContent(i,j)==0) h_num->SetBinError(i,j,1);
 	      if(h_num->GetBinContent(i,j)<0){
 		cout<<endl<<"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Attention: There is a negative value in the numerator. Bin "<<i<<" " <<j<<"."<<endl<<endl;
@@ -148,14 +148,11 @@ void ComputeFakeRate() {
 	{for(int j=1; j<=h_num->GetNbinsY(); j++)
 	    {
 	      double numE_bin = 0;
-	      //double num_bin = h_num -> IntegralAndError(i,i,j,j,numE_bin);
-	      double num_bin = h_num -> GetBinContent(i,j);
-         numE_bin=TMath::Sqrt(num_bin);
-         double denE_bin = 0;
-	      double den_bin = h_den -> IntegralAndError(i,i,j,j,denE_bin);
-             cout<<"Numerator   of "<<i<<". x-bin and "<<j<<". y-bin : "<<num_bin<<" +/- "<<numE_bin<<endl;
+	      double num_bin  = h_num -> IntegralAndError(i,i,j,j,numE_bin);
+	      double denE_bin = 0;
+	      double den_bin  = h_den -> IntegralAndError(i,i,j,j,denE_bin);
+	      cout<<"Numerator   of "<<i<<". x-bin and "<<j<<". y-bin : "<<num_bin<<" +/- "<<numE_bin<<endl;
 	      //cout<<"Denominator of "<<i<<". x-bin and "<<j<<". y-bin : "<<den_bin<<" +/- "<<denE_bin<<endl;
-
 	    }
 	}
       h_fakerate_2d -> Divide(h_num,h_den);
@@ -209,12 +206,12 @@ void ComputeFakeRate() {
       leg1->SetHeader(iso[idx_iso]);
       leg1->AddEntry(h_x,"fake factors","lp");
       leg1->Draw();
-      canv->Print("figures/fakerate_"+samples[idx_sample].first+"_"+iso[idx_iso]+tauDecayMode+"_projectionX.png");
+      canv->Print("figures/fakerate_"+samples[idx_sample].first+"_"+iso[idx_iso]+tauDecayMode+"_projectionX_ratioDependence.png");
 
       canv->cd();
       h_y->Draw();
       leg1->Draw();
-      canv->Print("figures/fakerate_"+samples[idx_sample].first+"_"+iso[idx_iso]+tauDecayMode+"_projectionY.png");
+      canv->Print("figures/fakerate_"+samples[idx_sample].first+"_"+iso[idx_iso]+tauDecayMode+"_projectionY_tauJetPtDependence.png");
 
        TH1D* h_unrolled = new TH1D("h_unrolled_"+samples[idx_sample].first+"_"+iso[idx_iso],"unrolled distribution",nBinsRatio*nBinsJetPt,1,nBinsRatio*nBinsJetPt+1);
 
@@ -294,6 +291,14 @@ void ComputeFakeRate() {
       h_fakerate_2d_down->SetName(iso[idx_iso]);
       h_fakerate_2d_down->Write(iso[idx_iso]);
 
+      delete h_num;
+      delete h_den;
+      delete h_num_1D_x;
+      delete h_den_1D_x;
+      delete h_num_1D_y;
+      delete h_den_1D_y;
+      delete h_x;
+      delete h_y;
     }
     fileOutput->Close();
     fileOutputUp->Close();
