@@ -15,16 +15,16 @@ void ComputeFakeRate() {
   //ok: double binsRatio[nBinsRatio+1] = { 0.0 ,0.5, 0.75,  0.775,0.85 , 0.95 , 2. };
   //ok:  {100 , 170 , 220 , 350 , 500 , 1200};
 
-  const int nBinsRatio =3;
+  const int nBinsRatio =4;
   //double binsRatio[nBinsRatio+1] = { 0.0 ,0.5, 0.75,  0.775,0.85 , 0.95 , 2. };
   //double binsRatio[nBinsRatio+1] = { 0.0 ,0.5, 0.75,  0.775,0.85 , 0.95 , 2. };
   //double binsRatio[nBinsRatio+1] = { 0.0 , 0.775, 0.9 , 2. };//ok, use this also for eta binning
-  double binsRatio[nBinsRatio+1] = { 0.0 , 0.775, 0.9 , 2. }; //use these for taupt and jetpt ratio
+  double binsRatio[nBinsRatio+1] = { 0.0 , 0.7 , 0.775, 0.9 , 2. }; //use these for taupt and jetpt ratio
   //double binsRatio[nBinsRatio+1] = { 0.0 , 0.775,0.825, 0.85 , 0.9 , 2. };
   //double binsRatio[nBinsRatio+1] = { 0.0 ,0.75,  0.85 , 0.95 , 2. };
-  const int nBinsJetPt = 5;
+  const int nBinsJetPt = 6;
   //double binsJetPt[nBinsJetPt+1] = {100 , 130, 170 , 220 , 270, 350 , 400, 600 , 1200};
-  double binsJetPt[nBinsJetPt+1] ={100 , 170 , 220 , 350 , 500 , 1200}; //use these for taupt and jetpt ratio
+  double binsJetPt[nBinsJetPt+1] ={100 , 170 , 220 , 280 , 350 , 500 , 1200}; //use these for taupt and jetpt ratio
   //double binsJetPt[nBinsJetPt+1] ={100 , 170 , 220 , 350 ,1200};
   //double binsJetPt[nBinsJetPt+1] = {100 , 140, 170 , 220 , 350 , 500 , 1200};
   //100 , 150, 200 , 350 , 500 , 1200};
