@@ -145,6 +145,7 @@ struct selectionCuts {
   bool pfJetTrigger = false;
   float muonAbsEtaHigh = 5.0;
   float muonPtLow = 0.;
+  float dPhiMetTauLow = 0;
 } sr, sr_trueTaus, sr_fakeTaus, cr_antiiso,  cr_antiiso_trueTaus, cr_antiiso_fakeTaus, cr_fakerate_den, cr_fakerate_num, cr_fakerate_dijet_den, cr_fakerate_dijet_num, sr_munu;
 // ----------------------------------------------------------------------------------------------------
 void initCuts()
@@ -236,13 +237,14 @@ void initCuts()
   cr_fakerate_den.nJetsCentral30High = 1;
   cr_fakerate_den.recoilRatioLow  = 0.0;
   cr_fakerate_den.recoilRatioHigh = 10000.;
-  cr_fakerate_den.mtmuonLow = 40;
-  cr_fakerate_den.metLow = 0;
+  cr_fakerate_den.mtmuonLow = 0;
+  cr_fakerate_den.metLow = 120;
   cr_fakerate_den.tauIso = false;
   cr_fakerate_den.mttauLow = 0;
-  cr_fakerate_den.recoilDPhiLow = 2.8;
+  cr_fakerate_den.recoilDPhiLow = 0.0;
   cr_fakerate_den.tauPtLow = 100;
-  cr_fakerate_den.recoilPtLow = 120.;
+  cr_fakerate_den.recoilPtLow = 0.;
+  cr_fakerate_den.dPhiMetTauLow = 2.8;
 
   // cr_fakerate_num
   cr_fakerate_num = cr_fakerate_den;
@@ -362,6 +364,7 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
   TTreeReaderValue< Int_t   >  Selection(        *myReader,       "Selection");
   TTreeReaderValue< Float_t >  recoilRatio(      *myReader,       "recoilRatio");
   TTreeReaderValue< Float_t >  recoilDPhi(       *myReader,       "recoilDPhi");
+  TTreeReaderValue< Float_t >  dPhiMetTau(       *myReader,       "dPhiMetTau");
   TTreeReaderValue< Float_t >  met(              *myReader,       "met");
   TTreeReaderValue< Float_t >  metphi(           *myReader,       "metphi");
   TTreeReaderValue< Float_t >  tauPt(            *myReader,       "tauPt");
@@ -487,6 +490,7 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
     // }
 
     if(*recoilPt<sel.recoilPtLow) continue;
+    if(*dPhiMetTau<sel.dPhiMetTauLow) continue;
 
     double weight = (*mueffweight)*(*mutrigweight)*(*puWeight)*(*trigWeight)*(*genWeight)*norm*fakerate;
     if(isData) weight =1;
