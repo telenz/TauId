@@ -82,8 +82,8 @@ void ComputeFakeRate() {
       cout<<endl<<"Process "<<iso[idx_iso]<<" : "<<endl;
       
       // filling histograms
-      TH2D* h_den = new TH2D(samples[idx_sample].first+"_"+iso[idx_iso],samples[idx_sample].first+"_"+iso[idx_iso],nBinsRatio,binsRatio,nBinsJetPt,binsJetPt);
-      TH2D* h_num = new TH2D(samples[idx_sample].first+"_"+iso[idx_iso],samples[idx_sample].first+"_"+iso[idx_iso],nBinsRatio,binsRatio,nBinsJetPt,binsJetPt);
+      TH2D* h_den = new TH2D(samples[idx_sample].first+"_"+iso[idx_iso]+"_den",samples[idx_sample].first+"_"+iso[idx_iso],nBinsRatio,binsRatio,nBinsJetPt,binsJetPt);
+      TH2D* h_num = new TH2D(samples[idx_sample].first+"_"+iso[idx_iso]+"_num",samples[idx_sample].first+"_"+iso[idx_iso],nBinsRatio,binsRatio,nBinsJetPt,binsJetPt);
 
       TString var1 = "tauPt";
       TString var2 = "tauJetPt";
