@@ -14,7 +14,7 @@ void ClosureTest_FakeRate() {
 
   loadWorkingPoints();
   initCuts();
-  loadFakeRates("output/W1JetsToLNu_LHEWpT_fakeRate.root");
+  loadFakeRates("output/W1JetsToLNu_LHEWpT_fakeRate"+tauDecayMode+".root");
 
   std::vector<TString> obs;
   std::vector<TString> pred;
@@ -178,7 +178,7 @@ void ClosureTest_FakeRate() {
     delete canv1;
 
     // Save ratio plot as root file
-    TFile *outFile = new TFile("output/"+(TString)observation->GetName()+"_"+iso[idx_iso]+"_WToTauNu_closure.root","RECREATE");
+    TFile *outFile = new TFile("output/"+(TString)observation->GetName()+"_"+iso[idx_iso]+"_WToTauNu_closure"+tauDecayMode+".root","RECREATE");
     outFile -> cd();
     ratioH  -> Write();
     outFile -> Close();
