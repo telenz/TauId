@@ -151,8 +151,8 @@ void ComputeFakeRate() {
 	      double num_bin  = h_num -> IntegralAndError(i,i,j,j,numE_bin);
 	      double denE_bin = 0;
 	      double den_bin  = h_den -> IntegralAndError(i,i,j,j,denE_bin);
-	      cout<<"Numerator   of "<<i<<". x-bin and "<<j<<". y-bin : "<<num_bin<<" +/- "<<numE_bin<<endl;
-	      //cout<<"Denominator of "<<i<<". x-bin and "<<j<<". y-bin : "<<den_bin<<" +/- "<<denE_bin<<endl;
+	      cout<<"Numerator   of "<<i<<". x-bin (ratio) and "<<j<<". y-bin (tauJetPt) : "<<num_bin<<" +/- "<<numE_bin<<endl;
+	      //cout<<"Denominator of "<<i<<". x-bin (ratio) and "<<j<<". y-bin (tauJetPt) : "<<den_bin<<" +/- "<<denE_bin<<endl;
 	    }
 	}
       h_fakerate_2d -> Divide(h_num,h_den);
