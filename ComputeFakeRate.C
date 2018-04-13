@@ -126,12 +126,22 @@ void ComputeFakeRate() {
       for(int i=1; i<=h_num->GetNbinsX(); i++){
 	for(int j=1; j<=h_num->GetNbinsY(); j++){
 
-	      if(!samples[idx_sample].first.Contains("SingleMu")) continue;
-	      if(h_num->GetBinContent(i,j)==0) h_num->SetBinError(i,j,1);
+	  if(samples[idx_sample].first.Contains("GenuineTausBkg")) continue;
+
+	  if(h_num->GetBinContent(i,j)==0) h_num->SetBinError(i,j,1);
+
+	  else if(h_num->GetBinContent(i,j)<0){
+
+	    if(samples[idx_sample].first.Contains("W1JetsToLNu_LHEWpT")){
+	      h_num->SetBinContent(i,j,0);
+	      h_num->SetBinError(i,j, h_num->GetBinError(i,j) );
+	    }
+
+	    if(samples[idx_sample].first.Contains("SingleMu")){
 	      if(h_num->GetBinContent(i,j)<0){
 		cout<<endl<<"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Attention: There is a negative value in the numerator. Bin "<<i<<" " <<j<<"."<<endl<<endl;
 		if(h_num->GetBinContent(i,j) == (-1)*histoMap["GenuineTausBkg_"+iso[idx_iso]]->GetBinContent(i,j)){
-		  cout<<"data was zero"<<endl<<endl;
+		  cout<<"SingleMu data was zero"<<endl<<endl;
 		  h_num->SetBinContent(i,j,0);
 		  h_num->SetBinError(i,j, sqrt(1+pow(h_num->GetBinError(i,j),2)) );
 		}
@@ -140,9 +150,12 @@ void ComputeFakeRate() {
 		  h_num->SetBinError(i,j, h_num->GetBinError(i,j) );
 		}
 	      }
+	    }
+	  }
 
 	}
       }
+
       // Statistical precision of fakerate:
       for(int i=1; i<=h_num->GetNbinsX(); i++)
 	{for(int j=1; j<=h_num->GetNbinsY(); j++)
