@@ -65,9 +65,9 @@ void ComputeFakeRate() {
   // genuineTaus.push_back("ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph");
 
   samples.push_back(make_pair("GenuineTausBkg" , genuineTaus));
-  samples.push_back(make_pair("W1JetsToLNu_LHEWpT" , wjets));
-  samples.push_back(make_pair("SingleMuon_Run2017" , data_SingleMuon));
-  samples.push_back(make_pair("JetHT_Run2017" , data_JetHT));
+  samples.push_back(make_pair("WJetsToLNu" , wjets));
+  samples.push_back(make_pair("SingleMuon" , data_SingleMuon));
+  samples.push_back(make_pair("JetHT" , data_JetHT));
 
   std::map<TString,TH2D*> histoMap;
 
@@ -120,45 +120,21 @@ void ComputeFakeRate() {
       cout<<samples[idx_sample].first<<" : "<<num<<"/"<<den<<" = "<<num/den<<" +/- "<<numE/den<<" (nevents = "<<h_num->GetEntries()<<"/"<<h_den->GetEntries()<<")"<<endl<<endl;
       
       // Subtract genuine taus and get correct error estimates
-      if(samples[idx_sample].first.Contains("SingleMu")) h_num -> Add(histoMap["GenuineTausBkg_"+iso[idx_iso]],-1);
+      if(samples[idx_sample].first.Contains("SingleMuon")) h_num -> Add(histoMap["GenuineTausBkg_"+iso[idx_iso]],-1);
 
-      // Ckeck negative or zero values
+      // Ckeck negative values
       for(int i=1; i<=h_num->GetNbinsX(); i++){
 	for(int j=1; j<=h_num->GetNbinsY(); j++){
 
-	  if(samples[idx_sample].first.Contains("GenuineTausBkg")) continue;
-
-	  if(h_num->GetBinContent(i,j)==0) h_num->SetBinError(i,j,1);
-
-	  else if(h_num->GetBinContent(i,j)<0){
-
-	    if(samples[idx_sample].first.Contains("W1JetsToLNu_LHEWpT")){
-	      h_num->SetBinContent(i,j,0);
-	      h_num->SetBinError(i,j, h_num->GetBinError(i,j) );
-	    }
-
-	    if(samples[idx_sample].first.Contains("SingleMu")){
-	      if(h_num->GetBinContent(i,j)<0){
-		cout<<endl<<"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Attention: There is a negative value in the numerator. Bin "<<i<<" " <<j<<"."<<endl<<endl;
-		if(h_num->GetBinContent(i,j) == (-1)*histoMap["GenuineTausBkg_"+iso[idx_iso]]->GetBinContent(i,j)){
-		  cout<<"SingleMu data was zero"<<endl<<endl;
-		  h_num->SetBinContent(i,j,0);
-		  h_num->SetBinError(i,j, sqrt(1+pow(h_num->GetBinError(i,j),2)) );
-		}
-		else{
-		  h_num->SetBinContent(i,j,0);
-		  h_num->SetBinError(i,j, h_num->GetBinError(i,j) );
-		}
-	      }
-	    }
-	  }
+	  if(h_num->GetBinContent(i,j)<0)  h_num->SetBinContent(i,j,0);
+	  if(h_den->GetBinContent(i,j)<0)  h_den->SetBinContent(i,j,0);
 
 	}
       }
 
       h_fakerate_2d -> Divide(h_num,h_den);
 
-      // %%%%%%%%%%%%%%%%%%%%%%%%%  Correct error estimates  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      // %%%%%%%%%%%%%%%%%%%%%%%%%  Get correct error estimates  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       // Calculate statistical uncertainty with correct poisson errors for data samples
       // (see : https://twiki.cern.ch/twiki/bin/viewauth/CMS/PoissonErrorBars)
 
@@ -168,32 +144,42 @@ void ComputeFakeRate() {
       TH2D* h_fakerate_2d_down = (TH2D*) h_fakerate_2d->Clone();
       const double alpha = 1 - 0.6827;
 
-      // For MC
-      for(int i=1; i<=h_fakerate_2d->GetNbinsX(); i++){
-	for(int j=1; j<=h_fakerate_2d->GetNbinsY(); j++){
-	  double N = h_fakerate_2d->GetBinContent(i,j);
-	  double E = h_fakerate_2d->GetBinError(i,j);
-	  h_fakerate_2d_up   -> SetBinContent(i,j , N+E);
-	  h_fakerate_2d_down -> SetBinContent(i,j , N-E);
-	}
-      }
 
-      // For Data
-      if(samples[idx_sample].first.Contains("SingleMuon") || samples[idx_sample].first.Contains("JetHT")){
-	for(int i=1; i<=h_fakerate_2d->GetNbinsX(); i++){
-	  for(int j=1; j<=h_fakerate_2d->GetNbinsY(); j++){
+      for(int i=1; i<=h_num->GetNbinsX(); i++){
+	for(int j=1; j<=h_num->GetNbinsY(); j++){
 
+	  if(samples[idx_sample].first.Contains("WJetsToLNu")){
+	    if(h_num->GetBinContent(i,j)==0){
+	      h_num_up->SetBinContent(i,j,1);
+	      h_num_down->SetBinContent(i,j,0);
+	    }
+	  } 
+	  else if(samples[idx_sample].first.Contains("JetHT")){
 	    int N = h_num->GetBinContent(i,j);
 	    double L =  (N==0) ? 0  : (ROOT::Math::gamma_quantile(alpha/2,N,1.));
 	    double U =  ROOT::Math::gamma_quantile_c(alpha/2,N+1,1);
 	    h_num_up   -> SetBinContent(i,j , U );
 	    h_num_down -> SetBinContent(i,j , L );
-
 	  }
+	  else if(samples[idx_sample].first.Contains("SingleMuon")){
+	    int N = histoMap["SingleMuon_"+iso[idx_iso]]->GetBinContent(i,j);
+	    double L =  (N==0) ? 0  : (ROOT::Math::gamma_quantile(alpha/2,N,1.));
+	    double U =  ROOT::Math::gamma_quantile_c(alpha/2,N+1,1);
+	    double errUp   = U-N;
+	    double errDown = N-L;
+	    // Now add GenuineTausBkg uncertainy
+	    errUp   = TMath::Sqrt( pow(errUp,2)   + pow(histoMap["GenuineTausBkg_"+iso[idx_iso]]->GetBinError(i,j),2) );
+	    errDown = TMath::Sqrt( pow(errDown,2) + pow(histoMap["GenuineTausBkg_"+iso[idx_iso]]->GetBinError(i,j),2) );
+	    if( errDown > h_num->GetBinContent(i,j)) errDown = h_num->GetBinContent(i,j);
+	    h_num_up   -> SetBinContent(i,j , h_num->GetBinContent(i,j) + errUp );
+	    h_num_down -> SetBinContent(i,j , h_num->GetBinContent(i,j) - errDown );
+	  }
+
 	}
-	h_fakerate_2d_up   -> Divide(h_num_up,h_den);    // gaussian error propagation not valid -> denominator error has negligible impact
-	h_fakerate_2d_down -> Divide(h_num_down,h_den);
       }
+
+      h_fakerate_2d_up   -> Divide(h_num_up,h_den);    // gaussian error propagation not valid -> denominator error has negligible impact
+      h_fakerate_2d_down -> Divide(h_num_down,h_den);
 
       // Statistical precision of fakerate:
       for(int i=1; i<=h_num->GetNbinsX(); i++){
@@ -209,7 +195,7 @@ void ComputeFakeRate() {
 	  double denE_bin = 0;
 	  double den_bin  = h_den -> IntegralAndError(i,i,j,j,denE_bin);
 	  cout<<"Numerator   of "<<i<<". x-bin (ratio) and "<<j<<". y-bin (tauJetPt) : "<<num_bin<<" + "<<numEup_bin<<" - "<<numEdown_bin<<endl;
-	  cout<<"Denominator of "<<i<<". x-bin (ratio) and "<<j<<". y-bin (tauJetPt) : "<<den_bin<<" +/- "<<denE_bin<<endl;
+	  //cout<<"Denominator of "<<i<<". x-bin (ratio) and "<<j<<". y-bin (tauJetPt) : "<<den_bin<<" +/- "<<denE_bin<<endl;
 	}
       }
 
