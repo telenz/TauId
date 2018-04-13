@@ -146,7 +146,7 @@ struct selectionCuts {
   float muonAbsEtaHigh = 5.0;
   float muonPtLow = 0.;
   float dPhiMetTauLow = 0;
-} sr, sr_trueTaus, sr_fakeTaus, cr_antiiso,  cr_antiiso_trueTaus, cr_antiiso_fakeTaus, cr_fakerate_den, cr_fakerate_num, cr_fakerate_dijet_den, cr_fakerate_dijet_num, sr_munu;
+} sr, sr_trueTaus, sr_fakeTaus, cr_antiiso,  cr_antiiso_trueTaus, cr_antiiso_fakeTaus, cr_ewkFraction, cr_fakerate_den, cr_fakerate_num, cr_fakerate_dijet_den, cr_fakerate_dijet_num, sr_munu;
 // ----------------------------------------------------------------------------------------------------
 void initCuts()
 {
@@ -224,6 +224,10 @@ void initCuts()
   cr_antiiso_fakeTaus = sr_fakeTaus;
   cr_antiiso_fakeTaus.name = "cr_antiiso_fakeTaus";
   cr_antiiso_fakeTaus.tauIso = false;
+
+  // cr for ewk fraction (fake factor weight is not applied)
+  cr_ewkFraction = cr_antiiso;
+  cr_ewkFraction.name = "cr_ewkFraction";
 
   // cr_fakerate_den
   cr_fakerate_den = sr;
