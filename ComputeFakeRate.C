@@ -39,7 +39,9 @@ void ComputeFakeRate() {
   std::vector<TString> data_JetHT;
   data_JetHT.push_back("JetHT_Run2017");
   std::vector<TString> wjets;
-  wjets.push_back("W1JetsToLNu_LHEWpT_50-150");
+  //wjets.push_back("WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
+  //wjets.push_back("W1JetsToLNu_LHEWpT_50-150");
+  wjets.push_back("W1JetsToLNu_LHEWpT_100-150");
   wjets.push_back("W1JetsToLNu_LHEWpT_150-250");
   wjets.push_back("W1JetsToLNu_LHEWpT_250-400");
   wjets.push_back("W1JetsToLNu_LHEWpT_400-inf");
@@ -144,25 +146,24 @@ void ComputeFakeRate() {
       TH2D* h_fakerate_2d_down = (TH2D*) h_fakerate_2d->Clone();
       const double alpha = 1 - 0.6827;
 
-
       for(int i=1; i<=h_num->GetNbinsX(); i++){
 	for(int j=1; j<=h_num->GetNbinsY(); j++){
 
 	  if(samples[idx_sample].first.Contains("WJetsToLNu")){
-	    if(h_num->GetBinContent(i,j)==0){
+	    if(h_num->GetBinError(i,j)==0){
 	      h_num_up->SetBinContent(i,j,1);
 	      h_num_down->SetBinContent(i,j,0);
 	    }
-	  } 
+	  }
 	  else if(samples[idx_sample].first.Contains("JetHT")){
-	    int N = h_num->GetBinContent(i,j);
+	    int N    = h_num->GetBinContent(i,j);
 	    double L =  (N==0) ? 0  : (ROOT::Math::gamma_quantile(alpha/2,N,1.));
 	    double U =  ROOT::Math::gamma_quantile_c(alpha/2,N+1,1);
 	    h_num_up   -> SetBinContent(i,j , U );
 	    h_num_down -> SetBinContent(i,j , L );
 	  }
 	  else if(samples[idx_sample].first.Contains("SingleMuon")){
-	    int N = histoMap["SingleMuon_"+iso[idx_iso]]->GetBinContent(i,j);
+	    int N    = histoMap["SingleMuon_"+iso[idx_iso]]->GetBinContent(i,j);
 	    double L =  (N==0) ? 0  : (ROOT::Math::gamma_quantile(alpha/2,N,1.));
 	    double U =  ROOT::Math::gamma_quantile_c(alpha/2,N+1,1);
 	    double errUp   = U-N;
@@ -184,14 +185,9 @@ void ComputeFakeRate() {
       // Statistical precision of fakerate:
       for(int i=1; i<=h_num->GetNbinsX(); i++){
 	for(int j=1; j<=h_num->GetNbinsY(); j++){
-	  double numEup_bin   = 0;
-	  double numEdown_bin = 0;
-	  double num_bin  = h_num -> IntegralAndError(i,i,j,j,numEup_bin);
-	  if(samples[idx_sample].first.Contains("SingleMuon") || samples[idx_sample].first.Contains("JetHT")){
-	    numEup_bin   = h_num_up->GetBinContent(i,j) - h_num->GetBinContent(i,j);
-	    numEdown_bin = h_num->GetBinContent(i,j)    - h_num_down->GetBinContent(i,j);
-	  }
-	  else numEdown_bin = numEup_bin;
+	  double num_bin      = h_num -> GetBinContent(i,j);
+	  double numEup_bin   = h_num_up->GetBinContent(i,j) - h_num->GetBinContent(i,j);
+	  double numEdown_bin = h_num->GetBinContent(i,j)    - h_num_down->GetBinContent(i,j);
 	  double denE_bin = 0;
 	  double den_bin  = h_den -> IntegralAndError(i,i,j,j,denE_bin);
 	  cout<<"Numerator   of "<<i<<". x-bin (ratio) and "<<j<<". y-bin (tauJetPt) : "<<num_bin<<" + "<<numEup_bin<<" - "<<numEdown_bin<<endl;
