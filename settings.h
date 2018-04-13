@@ -20,6 +20,7 @@
 
 //TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2016/TauIdWithVirtualW/WTauId/NTuples/";
 TString dir = "/nfs/dust/cms/user/mameyer/TauIdAndES_2017Data/TauId/NTuples/";
+//TString dir = "NTuples/";
 
 TString tauDecayMode = "";
 //TString tauDecayMode = "_3prong0pizeros";
@@ -41,6 +42,7 @@ map<TString, double> xsecs = {
 {"W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"     , 1.224*954.8},  // NNLO (4) -> could be improved 
 {"W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"     , 1.224*494.6},  // NNLO (5)  
 {"W1JetsToLNu_LHEWpT_50-150"                         , 1.0181*2661},  // NNLO (6)
+{"W1JetsToLNu_LHEWpT_100-150"                        , 1.0181*286.1}, // NNLO (6a)
 {"W1JetsToLNu_LHEWpT_150-250"                        , 1.0181*71.9},  // NNLO (7)
 {"W1JetsToLNu_LHEWpT_250-400"                        , 1.0181*8.05},  // NNLO (8)
 {"W1JetsToLNu_LHEWpT_400-inf"                        , 1.0181*0.885}, // NNLO (9)
@@ -427,12 +429,31 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
     pfJet450 = new TTreeReaderValue<Bool_t>(*myReader,"pfJet450");
   }
 
+  TTreeReaderValue< Float_t >  *lheWPt = NULL;
+  if(filename.Contains("ToLNu")){
+    lheWPt = new TTreeReaderValue<Float_t>(*myReader,"lheWPt");
+  }
+
   TTreeReaderValue< Float_t >  var1(             *myReader,       variableToFill_1);
   TTreeReaderValue< Float_t >  var2(             *myReader,       variableToFill_2);
   TTreeReaderValue< Float_t >  var3(             *myReader,       variableToFill_3);
 
   int nevtsProcessed = getNEventsProcessed(filename);
   double norm = xsec*luminosity/nevtsProcessed;
+
+  // needed later for stitching
+  double nevtsProcessedIncl         = getNEventsProcessed(dir+"WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+  double nevtsProcessedWpT50To150   = getNEventsProcessed(dir+"W1JetsToLNu_LHEWpT_50-150.root");
+  double nevtsProcessedWpT100To150  = getNEventsProcessed(dir+"W1JetsToLNu_LHEWpT_100-150.root");
+  double nevtsProcessedWpT150To250  = getNEventsProcessed(dir+"W1JetsToLNu_LHEWpT_150-250.root");
+  double nevtsProcessedWpT250To400  = getNEventsProcessed(dir+"W1JetsToLNu_LHEWpT_250-400.root");
+  double nevtsProcessedWpT400ToInf  = getNEventsProcessed(dir+"W1JetsToLNu_LHEWpT_400-inf.root");
+  double xsecIncl        = xsecs["WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"];
+  double xsecWpT50To150  = xsecs["W1JetsToLNu_LHEWpT_50-150"];
+  double xsecWpT100To150 = xsecs["W1JetsToLNu_LHEWpT_100-150"];
+  double xsecWpT150To250 = xsecs["W1JetsToLNu_LHEWpT_150-250"];
+  double xsecWpT250To400 = xsecs["W1JetsToLNu_LHEWpT_250-400"];
+  double xsecWpT400ToInf = xsecs["W1JetsToLNu_LHEWpT_400-inf"];
 
   bool isData = filename.Contains("SingleMuon") || filename.Contains("JetHT") || filename.Contains("MET");
   while(myReader->Next()){
@@ -472,26 +493,20 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
     if(sel.name.Contains("cr_fakerate") || sel.name.Contains("sr_munu")) *trigWeight = 1;
     if(!sel.name.Contains("cr_fakerate") && !sel.name.Contains("sr_munu")){*mueffweight=1;*mutrigweight=1;}
 
-    // Stitching only for wjets MC
-    // if(filename.Contains("W") && filename.Contains("JetsToLNu") && !filename.Contains("HT")){
-    //   double xsecIncl = xsecs["WJetsToLNu_13TeV-madgraphMLM"];
-    //   double xsec1Jet = xsecs["W1JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"];
-    //   double xsec2Jet = xsecs["W2JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"];
-    //   double xsec3Jet = xsecs["W3JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"];
-    //   double xsec4Jet = xsecs["W4JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"];
-    //   double nevtsProcessedIncl = 86731806;
-    //   double nevtsProcessed1Jet = 45367044;
-    //   double nevtsProcessed2Jet = 29878415;
-    //   double nevtsProcessed3Jet = 17548117;
-    //   double nevtsProcessed4Jet = 9020576;
-
-    //   if(*npartons == 0)       norm = luminosity/( nevtsProcessedIncl/xsecIncl );
-    //   else if (*npartons == 1) norm = luminosity/( nevtsProcessed1Jet/xsec1Jet + nevtsProcessedIncl/xsecIncl );
-    //   else if (*npartons == 2) norm = luminosity/( nevtsProcessed2Jet/xsec2Jet + nevtsProcessedIncl/xsecIncl );
-    //   else if (*npartons == 3) norm = luminosity/( nevtsProcessed3Jet/xsec3Jet + nevtsProcessedIncl/xsecIncl );
-    //   else if (*npartons == 4) norm = luminosity/( nevtsProcessed4Jet/xsec4Jet + nevtsProcessedIncl/xsecIncl );
-    //   else                     norm = luminosity/( nevtsProcessedIncl/xsecIncl );
-    // }
+    // Stitching only for wjets MC in lheWPt and npartons
+    /*
+    if( (filename.Contains("W1JetsToLNu_LHEWpT") || filename.Contains("WJetsToLNu")) && !filename.Contains("HT")){
+      if (*npartons == 1){
+	if(*lheWPt<50)                      norm = luminosity/( nevtsProcessedIncl/xsecIncl );
+	else if(*lheWPt>50  && *lheWPt<100) norm = luminosity/( nevtsProcessedWpT50To150/xsecWpT50To150   + nevtsProcessedIncl/xsecIncl );
+	else if(*lheWPt>100 && *lheWPt<150) norm = luminosity/( nevtsProcessedWpT50To150/xsecWpT50To150   + nevtsProcessedWpT100To150/xsecWpT100To150 + nevtsProcessedIncl/xsecIncl );
+	else if(*lheWPt>150 && *lheWPt<250) norm = luminosity/( nevtsProcessedWpT150To250/xsecWpT150To250 + nevtsProcessedIncl/xsecIncl );
+	else if(*lheWPt>250 && *lheWPt<400) norm = luminosity/( nevtsProcessedWpT250To400/xsecWpT250To400 + nevtsProcessedIncl/xsecIncl );
+	else                                norm = luminosity/( nevtsProcessedWpT400ToInf/xsecWpT400ToInf + nevtsProcessedIncl/xsecIncl );
+      }
+      else norm = luminosity/( nevtsProcessedIncl/xsecIncl );
+    }
+    */
 
     if(*recoilPt<sel.recoilPtLow) continue;
     if(*dPhiMetTau<sel.dPhiMetTauLow) continue;
