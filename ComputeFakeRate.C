@@ -149,6 +149,9 @@ void ComputeFakeRate() {
       for(int i=1; i<=h_num->GetNbinsX(); i++){
 	for(int j=1; j<=h_num->GetNbinsY(); j++){
 
+	  h_num_up   -> SetBinContent(i,j, h_num->GetBinContent(i,j) + h_num->GetBinError(i,j) );
+	  h_num_down -> SetBinContent(i,j, h_num->GetBinContent(i,j) - h_num->GetBinError(i,j) );
+
 	  if(samples[idx_sample].first.Contains("WJetsToLNu")){
 	    if(h_num->GetBinError(i,j)==0){
 	      h_num_up->SetBinContent(i,j,1);
