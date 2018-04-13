@@ -14,7 +14,7 @@ void ClosureTest_FakeRate() {
 
   loadWorkingPoints();
   initCuts();
-  loadFakeRates("output/W1JetsToLNu_LHEWpT_fakeRate"+tauDecayMode+".root");
+  loadFakeRates("output/WJetsToLNu_fakeRate"+tauDecayMode+".root");
 
   std::vector<TString> obs;
   std::vector<TString> pred;
@@ -91,15 +91,15 @@ void ClosureTest_FakeRate() {
     }
     for (unsigned int i=0; i<pred.size(); ++i) {//fake factors are applied in makeselection
 
-      loadFakeRates("output/W1JetsToLNu_LHEWpT_fakeRate"+tauDecayMode+".root");
+      loadFakeRates("output/WJetsToLNu_fakeRate"+tauDecayMode+".root");
       TH1D* histo = new TH1D("pred_" + pred[i],"",nBins,bins);
       makeSelection(dir+"/"+pred[i]+".root","NTuple",pred_xsec[i],iso[idx_iso],cr_antiiso,histo,var,var,var);
 
-      loadFakeRates("output/W1JetsToLNu_LHEWpT_fakeRate_Up"+tauDecayMode+".root");
+      loadFakeRates("output/WJetsToLNu_fakeRate_Up"+tauDecayMode+".root");
       TH1D* histoUp = new TH1D("pred_" + pred[i] + "_Up","",nBins,bins);
       makeSelection(dir+"/"+pred[i]+".root","NTuple",pred_xsec[i],iso[idx_iso],cr_antiiso,histoUp,var,var,var);
 
-      loadFakeRates("output/W1JetsToLNu_LHEWpT_fakeRate_Down"+tauDecayMode+".root");
+      loadFakeRates("output/WJetsToLNu_fakeRate_Down"+tauDecayMode+".root");
       TH1D* histoDown = new TH1D("pred_" + pred[i] + "_Down","",nBins,bins);
       makeSelection(dir+"/"+pred[i]+".root","NTuple",pred_xsec[i],iso[idx_iso],cr_antiiso,histoDown,var,var,var);
 
