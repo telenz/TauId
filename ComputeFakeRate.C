@@ -156,19 +156,62 @@ void ComputeFakeRate() {
 	}
       }
 
-      // Statistical precision of fakerate:
-      for(int i=1; i<=h_num->GetNbinsX(); i++)
-	{for(int j=1; j<=h_num->GetNbinsY(); j++)
-	    {
-	      double numE_bin = 0;
-	      double num_bin  = h_num -> IntegralAndError(i,i,j,j,numE_bin);
-	      double denE_bin = 0;
-	      double den_bin  = h_den -> IntegralAndError(i,i,j,j,denE_bin);
-	      cout<<"Numerator   of "<<i<<". x-bin (ratio) and "<<j<<". y-bin (tauJetPt) : "<<num_bin<<" +/- "<<numE_bin<<endl;
-	      //cout<<"Denominator of "<<i<<". x-bin (ratio) and "<<j<<". y-bin (tauJetPt) : "<<den_bin<<" +/- "<<denE_bin<<endl;
-	    }
-	}
       h_fakerate_2d -> Divide(h_num,h_den);
+
+      // %%%%%%%%%%%%%%%%%%%%%%%%%  Correct error estimates  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      // Calculate statistical uncertainty with correct poisson errors for data samples
+      // (see : https://twiki.cern.ch/twiki/bin/viewauth/CMS/PoissonErrorBars)
+
+      TH2D* h_num_up    = (TH2D*) h_num->Clone();
+      TH2D* h_num_down  = (TH2D*) h_num->Clone();
+      TH2D* h_fakerate_2d_up   = (TH2D*) h_fakerate_2d->Clone();
+      TH2D* h_fakerate_2d_down = (TH2D*) h_fakerate_2d->Clone();
+      const double alpha = 1 - 0.6827;
+
+      // For MC
+      for(int i=1; i<=h_fakerate_2d->GetNbinsX(); i++){
+	for(int j=1; j<=h_fakerate_2d->GetNbinsY(); j++){
+	  double N = h_fakerate_2d->GetBinContent(i,j);
+	  double E = h_fakerate_2d->GetBinError(i,j);
+	  h_fakerate_2d_up   -> SetBinContent(i,j , N+E);
+	  h_fakerate_2d_down -> SetBinContent(i,j , N-E);
+	}
+      }
+
+      // For Data
+      if(samples[idx_sample].first.Contains("SingleMuon") || samples[idx_sample].first.Contains("JetHT")){
+	for(int i=1; i<=h_fakerate_2d->GetNbinsX(); i++){
+	  for(int j=1; j<=h_fakerate_2d->GetNbinsY(); j++){
+
+	    int N = h_num->GetBinContent(i,j);
+	    double L =  (N==0) ? 0  : (ROOT::Math::gamma_quantile(alpha/2,N,1.));
+	    double U =  ROOT::Math::gamma_quantile_c(alpha/2,N+1,1);
+	    h_num_up   -> SetBinContent(i,j , U );
+	    h_num_down -> SetBinContent(i,j , L );
+
+	  }
+	}
+	h_fakerate_2d_up   -> Divide(h_num_up,h_den);    // gaussian error propagation not valid -> denominator error has negligible impact
+	h_fakerate_2d_down -> Divide(h_num_down,h_den);
+      }
+
+      // Statistical precision of fakerate:
+      for(int i=1; i<=h_num->GetNbinsX(); i++){
+	for(int j=1; j<=h_num->GetNbinsY(); j++){
+	  double numEup_bin   = 0;
+	  double numEdown_bin = 0;
+	  double num_bin  = h_num -> IntegralAndError(i,i,j,j,numEup_bin);
+	  if(samples[idx_sample].first.Contains("SingleMuon") || samples[idx_sample].first.Contains("JetHT")){
+	    numEup_bin   = h_num_up->GetBinContent(i,j) - h_num->GetBinContent(i,j);
+	    numEdown_bin = h_num->GetBinContent(i,j)    - h_num_down->GetBinContent(i,j);
+	  }
+	  else numEdown_bin = numEup_bin;
+	  double denE_bin = 0;
+	  double den_bin  = h_den -> IntegralAndError(i,i,j,j,denE_bin);
+	  cout<<"Numerator   of "<<i<<". x-bin (ratio) and "<<j<<". y-bin (tauJetPt) : "<<num_bin<<" + "<<numEup_bin<<" - "<<numEdown_bin<<endl;
+	  cout<<"Denominator of "<<i<<". x-bin (ratio) and "<<j<<". y-bin (tauJetPt) : "<<den_bin<<" +/- "<<denE_bin<<endl;
+	}
+      }
 
       // %%%%%%%%%%%%%%%%%% Plotting %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       h_fakerate_2d->GetXaxis()->SetTitle("pt (tau) / pt (jet faking the tau)");
@@ -288,15 +331,6 @@ void ComputeFakeRate() {
       delete canv;
       cout<<endl;
 
-      // Save also up- and downward variations
-      TH1D* h_fakerate_2d_up = (TH1D*) h_fakerate_2d->Clone();
-      TH1D* h_fakerate_2d_down = (TH1D*) h_fakerate_2d->Clone();
-      for(int i=1; i<=h_fakerate_2d->GetNbinsX(); i++){
-	for(int j=1; j<=h_fakerate_2d->GetNbinsY(); j++){
-	  h_fakerate_2d_up->SetBinContent(i,j , h_fakerate_2d->GetBinContent(i,j) + h_fakerate_2d->GetBinError(i,j) );
-	  h_fakerate_2d_down->SetBinContent(i,j , h_fakerate_2d->GetBinContent(i,j) - h_fakerate_2d->GetBinError(i,j) );
-	}
-      }
       fileOutputUp->cd("");
       h_fakerate_2d_up->SetName(iso[idx_iso]);
       h_fakerate_2d_up->Write(iso[idx_iso]);
