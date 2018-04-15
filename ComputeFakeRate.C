@@ -28,10 +28,11 @@ void ComputeFakeRate() {
   //Float_t binsJetPt[] ={100 , 170 , 220 , 350 ,1200};
   //Float_t binsJetPt[] = {100 , 140, 170 , 220 , 350 , 500 , 1200};
   //100 , 150, 200 , 350 , 500 , 1200};
-  //double binsTauEta[]={0,0.25, 0.5,0.75, 1.1,1.6, 2.3};
+  //Float_t binsTauEta[]={0,0.25, 0.5,0.75, 1.1,1.6, 2.3};
+  //const int nBinsTauEta= sizeof(binsTauEta)/sizeof(Float_t) - 1;
+
   const int nBinsRatio = sizeof(binsRatio)/sizeof(Float_t) - 1;
   const int nBinsJetPt = sizeof(binsJetPt)/sizeof(Float_t) - 1;
-  const int nBinsTauEta= sizeof(binsTauEta)/sizeof(Float_t) - 1;
 
   TH2D* h_fakerate_2d = new TH2D("h_fakerate_2d","h_fakerate_2d",nBinsRatio,binsRatio,nBinsJetPt,binsJetPt);
 
