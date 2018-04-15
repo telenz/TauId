@@ -15,21 +15,23 @@ void ComputeFakeRate() {
   //ok: double binsRatio[nBinsRatio+1] = { 0.0 ,0.5, 0.75,  0.775,0.85 , 0.95 , 2. };
   //ok:  {100 , 170 , 220 , 350 , 500 , 1200};
 
-  const int nBinsRatio =4;
-  //double binsRatio[nBinsRatio+1] = { 0.0 ,0.5, 0.75,  0.775,0.85 , 0.95 , 2. };
-  //double binsRatio[nBinsRatio+1] = { 0.0 ,0.5, 0.75,  0.775,0.85 , 0.95 , 2. };
-  //double binsRatio[nBinsRatio+1] = { 0.0 , 0.775, 0.9 , 2. };//ok, use this also for eta binning
-  double binsRatio[nBinsRatio+1] = { 0.0 , 0.7 , 0.775, 0.9 , 2. }; //use these for taupt and jetpt ratio
-  //double binsRatio[nBinsRatio+1] = { 0.0 , 0.775,0.825, 0.85 , 0.9 , 2. };
-  //double binsRatio[nBinsRatio+1] = { 0.0 ,0.75,  0.85 , 0.95 , 2. };
-  const int nBinsJetPt = 6;
-  //double binsJetPt[nBinsJetPt+1] = {100 , 130, 170 , 220 , 270, 350 , 400, 600 , 1200};
-  double binsJetPt[nBinsJetPt+1] ={100 , 170 , 220 , 280 , 350 , 500 , 1200}; //use these for taupt and jetpt ratio
-  //double binsJetPt[nBinsJetPt+1] ={100 , 170 , 220 , 350 ,1200};
-  //double binsJetPt[nBinsJetPt+1] = {100 , 140, 170 , 220 , 350 , 500 , 1200};
+  //Float_t binsRatio[] = { 0.0 ,0.5, 0.75,  0.775,0.85 , 0.95 , 2. };
+  //Float_t binsRatio[] = { 0.0 ,0.5, 0.75,  0.775,0.85 , 0.95 , 2. };
+  //Float_t binsRatio[] = { 0.0 , 0.775, 0.9 , 2. };//ok, use this also for eta binning
+  Float_t binsRatio[] = { 0.0 , 0.7 , 0.775, 0.9 , 2. }; //use these for taupt and jetpt ratio (normal binning)
+  //Float_t binsRatio[] = { 0.0 , 0.4 , 0.45 , 0.5 , 0.6 , 0.65 , 0.7 , 0.75 , 0.80, 0.85 , 0.9 , 0.95 , 1.0 , 2. }; //looks good
+  //Float_t binsRatio[] = { 0.0 , 0.775,0.825, 0.85 , 0.9 , 2. };
+  //Float_t binsRatio[] = { 0.0 ,0.75,  0.85 , 0.95 , 2. };
+
+  //Float_t binsJetPt[] = {100 , 130, 170 , 220 , 270, 350 , 400, 600 , 1200};
+  Float_t binsJetPt[] ={100 , 170 , 220 , 280 , 350 , 500 , 1200}; //use these for taupt and jetpt ratio (normal binning)
+  //Float_t binsJetPt[] ={100 , 170 , 220 , 350 ,1200};
+  //Float_t binsJetPt[] = {100 , 140, 170 , 220 , 350 , 500 , 1200};
   //100 , 150, 200 , 350 , 500 , 1200};
-  //const int nBinsTauEta = 6;
-  //double binsTauEta[nBinsTauEta+1]={0,0.25, 0.5,0.75, 1.1,1.6, 2.3};
+  //double binsTauEta[]={0,0.25, 0.5,0.75, 1.1,1.6, 2.3};
+  const int nBinsRatio = sizeof(binsRatio)/sizeof(Float_t) - 1;
+  const int nBinsJetPt = sizeof(binsJetPt)/sizeof(Float_t) - 1;
+  const int nBinsTauEta= sizeof(binsTauEta)/sizeof(Float_t) - 1;
 
   TH2D* h_fakerate_2d = new TH2D("h_fakerate_2d","h_fakerate_2d",nBinsRatio,binsRatio,nBinsJetPt,binsJetPt);
 
@@ -39,12 +41,14 @@ void ComputeFakeRate() {
   std::vector<TString> data_JetHT;
   data_JetHT.push_back("JetHT_Run2017");
   std::vector<TString> wjets;
-  //wjets.push_back("WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
-  //wjets.push_back("W1JetsToLNu_LHEWpT_50-150");
   wjets.push_back("W1JetsToLNu_LHEWpT_100-150");
   wjets.push_back("W1JetsToLNu_LHEWpT_150-250");
   wjets.push_back("W1JetsToLNu_LHEWpT_250-400");
   wjets.push_back("W1JetsToLNu_LHEWpT_400-inf");
+  //wjets.push_back("W1JetsToLNu_LHEWpT_100-150_Selection_1");
+  //wjets.push_back("W1JetsToLNu_LHEWpT_150-250_Selection_1");
+  //wjets.push_back("W1JetsToLNu_LHEWpT_250-400_Selection_1");
+  //wjets.push_back("W1JetsToLNu_LHEWpT_400-inf_Selection_1");
  
   std::vector<TString> genuineTaus;
   genuineTaus.push_back("TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8");
@@ -236,9 +240,9 @@ void ComputeFakeRate() {
       h_y->Divide(h_den_1D_y);
 
       h_x->SetMaximum(1.);
-      h_x->SetMinimum(0.0001);
+      h_x->SetMinimum(0.000001);
       h_y->SetMaximum(1.);
-      h_y->SetMinimum(0.0001);
+      h_y->SetMinimum(0.000001);
       h_x->Draw();
 
       canv->SetLogy();
