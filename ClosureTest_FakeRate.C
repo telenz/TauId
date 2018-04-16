@@ -12,9 +12,13 @@ using namespace std;
 
 void ClosureTest_FakeRate() {
 
+  TString fakerateFile     = "output/WJetsToLNu_fakeRate"+tauDecayMode+".root";
+  TString fakerateFileUp   = "output/WJetsToLNu_fakeRate_Up"+tauDecayMode+".root";
+  TString fakerateFileDown = "output/WJetsToLNu_fakeRate_Down"+tauDecayMode+".root";
+
   loadWorkingPoints();
   initCuts();
-  loadFakeRates("output/WJetsToLNu_fakeRate"+tauDecayMode+".root");
+  loadFakeRates(fakerateFile);
 
   std::vector<TString> obs;
   std::vector<TString> pred;
@@ -44,14 +48,12 @@ void ClosureTest_FakeRate() {
   pred.push_back("W1JetsToLNu_LHEWpT_150-250");
   pred.push_back("W1JetsToLNu_LHEWpT_250-400");
   pred.push_back("W1JetsToLNu_LHEWpT_400-inf");
-  
+
   std::vector<double> obs_xsec;
   for(unsigned int i=0; i<obs.size(); i++) obs_xsec.push_back( getXSec(obs[i]) );
   
   std::vector<double> pred_xsec;
   for(unsigned int i=0; i<pred.size(); i++) pred_xsec.push_back( getXSec(pred[i]) );
-
-  TString dir      = "NTuples/"; 
 
   // Binning and titles of axis
   //TString xtitle = "m_{T} [GeV]";
@@ -69,7 +71,7 @@ void ClosureTest_FakeRate() {
     TString var1 = "tauPt";
     TString var2 = var1;
 
-    Float_t bins[] = {100,150,200,250,300,500};  // tauPt binning
+    Float_t bins[] = {100,150,200,250,300,400,500};  // tauPt binning
     //Float_t bins[] = {100,200,300,400,500,700};  // met binning
     //Float_t bins[] = {100,170,220,350,500,1200};  // tauJetPt binning
     //Float_t bins[] = {200,300,400,500,600,800};  // mttau binning
@@ -90,15 +92,15 @@ void ClosureTest_FakeRate() {
     }
     for (unsigned int i=0; i<pred.size(); ++i) {//fake factors are applied in makeselection
 
-      loadFakeRates("output/WJetsToLNu_fakeRate"+tauDecayMode+".root");
+      loadFakeRates(fakerateFile);
       TH1D* histo = new TH1D("pred_" + pred[i],"",nBins,bins);
       makeSelection(dir+"/"+pred[i]+".root","NTuple",pred_xsec[i],iso[idx_iso],cr_antiiso,histo,var1,var2,var2);
 
-      loadFakeRates("output/WJetsToLNu_fakeRate_Up"+tauDecayMode+".root");
+      loadFakeRates(fakerateFileUp);
       TH1D* histoUp = new TH1D("pred_" + pred[i] + "_Up","",nBins,bins);
       makeSelection(dir+"/"+pred[i]+".root","NTuple",pred_xsec[i],iso[idx_iso],cr_antiiso,histoUp,var1,var2,var2);
 
-      loadFakeRates("output/WJetsToLNu_fakeRate_Down"+tauDecayMode+".root");
+      loadFakeRates(fakerateFileDown);
       TH1D* histoDown = new TH1D("pred_" + pred[i] + "_Down","",nBins,bins);
       makeSelection(dir+"/"+pred[i]+".root","NTuple",pred_xsec[i],iso[idx_iso],cr_antiiso,histoDown,var1,var2,var2);
 
@@ -126,7 +128,7 @@ void ClosureTest_FakeRate() {
     prediction->SetMarkerColor(kRed);
     prediction->SetFillStyle(0);
 
-    observation->SetMinimum(0);
+    observation->SetMinimum(1);
     observation->GetXaxis()->SetTitle(observation->GetName());
     observation->Draw("e1");
     prediction->Draw("sameh");
