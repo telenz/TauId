@@ -35,18 +35,16 @@ void ClosureTest_FakeRate() {
   pred.push_back("ZJetsToNuNu_HT-1200To2500_13TeV-madgraph");
   pred.push_back("ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph");
 
-  //obs.push_back("W1JetsToLNu_LHEWpT_50-150");
   obs.push_back("W1JetsToLNu_LHEWpT_100-150");
   obs.push_back("W1JetsToLNu_LHEWpT_150-250");
   obs.push_back("W1JetsToLNu_LHEWpT_250-400");
   obs.push_back("W1JetsToLNu_LHEWpT_400-inf");
 
-  //pred.push_back("W1JetsToLNu_LHEWpT_50-150");
   pred.push_back("W1JetsToLNu_LHEWpT_100-150");
   pred.push_back("W1JetsToLNu_LHEWpT_150-250");
   pred.push_back("W1JetsToLNu_LHEWpT_250-400");
   pred.push_back("W1JetsToLNu_LHEWpT_400-inf");
-
+  
   std::vector<double> obs_xsec;
   for(unsigned int i=0; i<obs.size(); i++) obs_xsec.push_back( getXSec(obs[i]) );
   
@@ -68,24 +66,25 @@ void ClosureTest_FakeRate() {
     TH1::SetDefaultSumw2();
     TH2::SetDefaultSumw2();
 
-    TString var = "tauPt";
+    TString var1 = "tauPt";
+    TString var2 = var1;
 
-    //const int nBins = 10;
-    //double bins[nBins+1] = {0 , 0.4 , 0.5 , 0.6 , 0.7 , 0.75 , 0.8 , 0.85 , 0.9 , 0.95 , 2.};
-    const int nBins  = 5;
-    float bins[nBins+1] = {100,150,200,250,300,500};  // tauPt binning
-    //float bins[nBins+1] = {100,200,300,400,500,700};  // met binning
-    //float bins[nBins+1] = {100,170,220,350,500,1200};  // tauJetPt binning
-    //float bins[nBins+1] = {200,300,400,500,600,800};  // mttau binning
-    //float bins[nBins+1] = {0.4,0.6,0.8,1.0,1.2,1.4,1.6,1.8};  // tauMass binning
-    //float bins[nBins+1] = {0,0.5,1.1,2.3}; //tauEta binning
+    Float_t bins[] = {100,150,200,250,300,500};  // tauPt binning
+    //Float_t bins[] = {100,200,300,400,500,700};  // met binning
+    //Float_t bins[] = {100,170,220,350,500,1200};  // tauJetPt binning
+    //Float_t bins[] = {200,300,400,500,600,800};  // mttau binning
+    //Float_t bins[] = {0.4,0.6,0.8,1.0,1.2,1.4,1.6,1.8};  // tauMass binning
+    //Float_t bins[] = {0,0.5,1.1,2.3}; //tauEta binning
+    //Float_t bins[] = {0.0,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0,2.0}; //ratio binning
+    const int nBins = sizeof(bins)/sizeof(Float_t) - 1;
+
     TH1D * observation = new TH1D("observation_"+iso[idx_iso],"",nBins,bins); 
     TH1D * prediction  = new TH1D("prediction_"+iso[idx_iso],"",nBins,bins); 
 
     // Make selection and fill histograms for sr and cr
     for (unsigned int i=0; i<obs.size(); ++i) { //W+jets and Znuu main backgrounds, check how many fakes we select in our SR
       TH1D* histo = new TH1D("obs_" + obs[i],"",nBins,bins);
-      makeSelection(dir+"/"+obs[i]+".root", "NTuple", obs_xsec[i],iso[idx_iso],sr,histo,var,var,var);
+      makeSelection(dir+"/"+obs[i]+".root", "NTuple", obs_xsec[i],iso[idx_iso],sr,histo,var1,var2,var2);
       observation->Add(histo);
       observation->SetName(histo->GetName());
     }
@@ -93,15 +92,15 @@ void ClosureTest_FakeRate() {
 
       loadFakeRates("output/WJetsToLNu_fakeRate"+tauDecayMode+".root");
       TH1D* histo = new TH1D("pred_" + pred[i],"",nBins,bins);
-      makeSelection(dir+"/"+pred[i]+".root","NTuple",pred_xsec[i],iso[idx_iso],cr_antiiso,histo,var,var,var);
+      makeSelection(dir+"/"+pred[i]+".root","NTuple",pred_xsec[i],iso[idx_iso],cr_antiiso,histo,var1,var2,var2);
 
       loadFakeRates("output/WJetsToLNu_fakeRate_Up"+tauDecayMode+".root");
       TH1D* histoUp = new TH1D("pred_" + pred[i] + "_Up","",nBins,bins);
-      makeSelection(dir+"/"+pred[i]+".root","NTuple",pred_xsec[i],iso[idx_iso],cr_antiiso,histoUp,var,var,var);
+      makeSelection(dir+"/"+pred[i]+".root","NTuple",pred_xsec[i],iso[idx_iso],cr_antiiso,histoUp,var1,var2,var2);
 
       loadFakeRates("output/WJetsToLNu_fakeRate_Down"+tauDecayMode+".root");
       TH1D* histoDown = new TH1D("pred_" + pred[i] + "_Down","",nBins,bins);
-      makeSelection(dir+"/"+pred[i]+".root","NTuple",pred_xsec[i],iso[idx_iso],cr_antiiso,histoDown,var,var,var);
+      makeSelection(dir+"/"+pred[i]+".root","NTuple",pred_xsec[i],iso[idx_iso],cr_antiiso,histoDown,var1,var2,var2);
 
       // Set correct uncertainties
       for(int i=1; i<histo->GetNbinsX(); i++){
@@ -156,7 +155,7 @@ void ClosureTest_FakeRate() {
     ratioH->SetMarkerStyle(20);
     ratioH->SetMarkerSize(1.2);
     ratioH->SetLineColor(1);
-    ratioH->GetYaxis()->SetRangeUser(0.0,2.);
+    ratioH->GetYaxis()->SetRangeUser(0.5,1.5);
     ratioH->GetYaxis()->SetTitle("pred/obs");
     ratioH->GetXaxis()->SetTitle("");
     ratioH->GetYaxis()->CenterTitle();
