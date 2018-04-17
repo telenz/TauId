@@ -2,3 +2,6 @@
 *.png
 *.root
 *.pdf
+*.d
+*.so
+*.pcm
