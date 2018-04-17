@@ -52,7 +52,7 @@ void ComputeFakeRate() {
   // wjets.push_back("W1JetsToLNu_LHEWpT_150-250_Selection_1");
   // wjets.push_back("W1JetsToLNu_LHEWpT_250-400_Selection_1");
   // wjets.push_back("W1JetsToLNu_LHEWpT_400-inf_Selection_1");
- 
+
   std::vector<TString> genuineTaus;
   genuineTaus.push_back("TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8");
   genuineTaus.push_back("TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8");
@@ -122,7 +122,8 @@ void ComputeFakeRate() {
       cout<<samples[idx_sample].first<<" : "<<num<<"/"<<den<<" = "<<num/den<<" +/- "<<numE/den<<" (nevents = "<<h_num->GetEntries()<<"/"<<h_den->GetEntries()<<")"<<endl<<endl;
       
       // Subtract genuine taus and get correct error estimates
-      if(samples[idx_sample].first.Contains("SingleMuon")) h_num -> Add(histoMap["GenuineTausBkg_"+iso[idx_iso]],-1);
+      bool genuineTauHistoExists = histoMap.find("GenuineTausBkg_"+iso[idx_iso]) != histoMap.end();
+      if(samples[idx_sample].first.Contains("SingleMuon") && genuineTauHistoExists) h_num -> Add(histoMap["GenuineTausBkg_"+iso[idx_iso]],-1);
 
       // Ckeck negative values
       for(int i=1; i<=h_num->GetNbinsX(); i++){
@@ -172,8 +173,10 @@ void ComputeFakeRate() {
 	    double errUp   = U-N;
 	    double errDown = N-L;
 	    // Now add GenuineTausBkg uncertainy
-	    errUp   = TMath::Sqrt( pow(errUp,2)   + pow(histoMap["GenuineTausBkg_"+iso[idx_iso]]->GetBinError(i,j),2) );
-	    errDown = TMath::Sqrt( pow(errDown,2) + pow(histoMap["GenuineTausBkg_"+iso[idx_iso]]->GetBinError(i,j),2) );
+	    if(genuineTauHistoExists){
+	      errUp   = TMath::Sqrt( pow(errUp,2)   + pow(histoMap["GenuineTausBkg_"+iso[idx_iso]]->GetBinError(i,j),2) );
+	      errDown = TMath::Sqrt( pow(errDown,2) + pow(histoMap["GenuineTausBkg_"+iso[idx_iso]]->GetBinError(i,j),2) );
+	    }
 	    if( errDown > h_num->GetBinContent(i,j)) errDown = h_num->GetBinContent(i,j);
 	    h_num_up   -> SetBinContent(i,j , h_num->GetBinContent(i,j) + errUp );
 	    h_num_down -> SetBinContent(i,j , h_num->GetBinContent(i,j) - errDown );
