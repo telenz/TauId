@@ -121,7 +121,7 @@ void CalculateEWKfraction() {
 
 	double FFJetHT            = effJetHT->GetBinContent(i,j);
 	double FFJetHTErr_Up      = effJetHT_Up->GetBinContent(i,j) - effJetHT->GetBinContent(i,j);
-       	double FFJetHTErr_Down    = effJetHT->GetBinContent(i,j) - effJetHT_Down->GetBinContent(i,j);
+	double FFJetHTErr_Down    = effJetHT->GetBinContent(i,j) - effJetHT_Down->GetBinContent(i,j);
 	double FFSingleMu         = effSingleMu->GetBinContent(i,j);
 	double FFSingleMuErr_Up   = effSingleMu_Up->GetBinContent(i,j) - effSingleMu->GetBinContent(i,j);
 	double FFSingleMuErr_Down = effSingleMu->GetBinContent(i,j) - effSingleMu_Down->GetBinContent(i,j);
