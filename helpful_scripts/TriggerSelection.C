@@ -5,7 +5,7 @@
 #include "THStack.h"
 #include "TLegend.h"
 
-void WToMuNuMeasurement() {
+void TriggerSelection() {
 
   SetStyle();
   TH1::SetDefaultSumw2();
@@ -15,64 +15,55 @@ void WToMuNuMeasurement() {
 
   std::vector< std::pair<TString,std::vector<TString>> > samples;
   std::vector<TString> data;
-  data.push_back("SingleMuon_Run2016");
+  data.push_back("SingleMuon_Run2017");
+
+  std::vector<TString> WToMuNu;
+  WToMuNu.push_back("WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
+  WToMuNu.push_back("W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
+  WToMuNu.push_back("W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
+  WToMuNu.push_back("W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
+  WToMuNu.push_back("W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
 
   std::vector<TString> ewk;
-  ewk.push_back("VVTo2L2Nu_13TeV_amcatnloFXFX");
-  ewk.push_back("WWToLNuQQ_13TeV_powheg");
-  ewk.push_back("WZTo1L1Nu2Q_13TeV_amcatnloFXFX");
-  ewk.push_back("WZTo1L3Nu_13TeV_amcatnloFXFX");
-  ewk.push_back("WZTo2L2Q_13TeV_amcatnloFXFX");
-  ewk.push_back("DYJetsToLL_M-50_13TeV-madgraphMLM");
-  ewk.push_back("D1YJetsToLL_M-50_13TeV-madgraphMLM");
-  ewk.push_back("D2YJetsToLL_M-50_13TeV-madgraphMLM");
-  ewk.push_back("D3YJetsToLL_M-50_13TeV-madgraphMLM");
-  ewk.push_back("D4YJetsToLL_M-50_13TeV-madgraphMLM");
+  ewk.push_back("WW_TuneCP5_13TeV-pythia8");
+  ewk.push_back("WZ_TuneCP5_13TeV-pythia8");
+  ewk.push_back("ZZ_TuneCP5_13TeV-pythia8");
+  ewk.push_back("DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
   ewk.push_back("ZJetsToNuNu_HT-100To200_13TeV-madgraph");
   ewk.push_back("ZJetsToNuNu_HT-200To400_13TeV-madgraph");
   ewk.push_back("ZJetsToNuNu_HT-400To600_13TeV-madgraph");
   ewk.push_back("ZJetsToNuNu_HT-600To800_13TeV-madgraph");
-  ewk.push_back("WZJToLLLNu_13TeV_amcatnloFXFX");
-  ewk.push_back("ZZTo2L2Q_13TeV_amcatnloFXFX");
-  ewk.push_back("ZZTo4L_13TeV_powheg");
+  ewk.push_back("ZJetsToNuNu_HT-800To1200_13TeV-madgraph");
+  ewk.push_back("ZJetsToNuNu_HT-1200To2500_13TeV-madgraph");
+  ewk.push_back("ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph");
 
   std::vector<TString> tt;
-  tt.push_back("TTJets_13TeV-powheg");
-  tt.push_back("ST_t-channel_top_4f_inclusiveDecays_13TeV-powheg");
-  tt.push_back("ST_t-channel_antitop_4f_inclusiveDecays_13TeV-powheg");
-  tt.push_back("ST_tW_top_5f_inclusiveDecays_13TeV-powheg");
-  tt.push_back("ST_tW_antitop_5f_inclusiveDecays_13TeV-powheg");
-
-  std::vector<TString> WToMuNu;
-  WToMuNu.push_back("WToMuNu_M-200_13TeV-pythia8");
-
-  std::vector<TString> WToMuNu_jesUp;
-  WToMuNu_jesUp.push_back("WToMuNu_M-200_13TeV-pythia8_jesUp");
-  std::vector<TString> WToMuNu_jesDown;
-  WToMuNu_jesDown.push_back("WToMuNu_M-200_13TeV-pythia8_jesDown");
-  std::vector<TString> WToMuNu_muUp;
-  WToMuNu_muUp.push_back("WToMuNu_M-200_13TeV-pythia8_muUp");
-  std::vector<TString> WToMuNu_muDown;
-  WToMuNu_muDown.push_back("WToMuNu_M-200_13TeV-pythia8_muDown");
-  std::vector<TString> WToMuNu_uesUp;
-  WToMuNu_uesUp.push_back("WToMuNu_M-200_13TeV-pythia8_uesUp");
-  std::vector<TString> WToMuNu_uesDown;
-  WToMuNu_uesDown.push_back("WToMuNu_M-200_13TeV-pythia8_uesDown");
+  tt.push_back("TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8");
+  tt.push_back("TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8");
+  tt.push_back("TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8");
+  tt.push_back("ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8");
+  tt.push_back("ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8");
+  tt.push_back("ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8");
+  tt.push_back("ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8");
 
   samples.push_back(make_pair("data_obs" , data));
+  samples.push_back(make_pair("W" , WToMuNu));
   samples.push_back(make_pair("EWK" , ewk));
   samples.push_back(make_pair("TT" , tt));
-  samples.push_back(make_pair("W" , WToMuNu));
-  samples.push_back(make_pair("W_jesUp" , WToMuNu_jesUp));
-  samples.push_back(make_pair("W_jesDown" , WToMuNu_jesDown));
-  samples.push_back(make_pair("W_muUp" , WToMuNu_muUp));
-  samples.push_back(make_pair("W_muDown" , WToMuNu_muDown));
-  samples.push_back(make_pair("W_uesUp" , WToMuNu_uesUp));
-  samples.push_back(make_pair("W_uesDown" , WToMuNu_uesDown));
 
-  TString var = "mtmuon";
+  // Needed for stitching
+  double xsecIncl = xsecs["WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"];
+  double xsec1Jet = xsecs["W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"];
+  double xsec2Jet = xsecs["W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"];
+  double xsec3Jet = xsecs["W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"];
+  double xsec4Jet = xsecs["W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"];
+  double nevtsProcessedIncl = getNEventsProcessed(dir+"WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+  double nevtsProcessed1Jet = getNEventsProcessed(dir+"W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+  double nevtsProcessed2Jet = getNEventsProcessed(dir+"W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+  double nevtsProcessed3Jet = getNEventsProcessed(dir+"W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+  double nevtsProcessed4Jet = getNEventsProcessed(dir+"W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8.root");
 
-  THStack *stack = new THStack("stack_mtmuon","");
+  THStack *stack = new THStack("stack_met","");
   TH1D* h_data = 0;
   std::map<TString,TH1D*> histoMap;
 
@@ -84,11 +75,62 @@ void WToMuNuMeasurement() {
     
     for(unsigned int idx_list=0; idx_list<samples[i].second.size(); idx_list++){
 
-      cout<<".............. Sample : "<<samples[i].second[idx_list]<<endl;
 
       TH1D* histo = new TH1D(samples[i].second[idx_list],samples[i].second[idx_list],10,0,1000);
-      selectionCuts select = sr_munu;
-      makeSelection(dir+"/"+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),"Tight",select,histo,var,var,var);
+
+      TString filename = dir+samples[i].second[idx_list]+".root";
+      TFile * file = new TFile(filename);
+      if(!file)	cout<<"The following tree does not exit: "<<filename<<" .   Please Check."<<endl;
+
+      TTreeReader *myReader = new TTreeReader("TriggerNTuple",file);
+      
+      TTreeReaderValue< Float_t >  mhtNoMu(          *myReader,       "mhtNoMu");
+      TTreeReaderValue< Float_t >  metNoMu(          *myReader,       "metNoMu");
+      TTreeReaderValue< Float_t >  mht(              *myReader,       "mht");
+      TTreeReaderValue< Float_t >  met(              *myReader,       "met");
+      TTreeReaderValue< Bool_t  >  IsW(              *myReader,       "IsW");
+      TTreeReaderValue< Bool_t  >  trigger(          *myReader,       "trigger");
+      TTreeReaderValue< UInt_t  >  npartons(         *myReader,       "npartons");
+      TTreeReaderValue< Float_t >  mtmuon(           *myReader,       "mtmuon");
+      TTreeReaderValue< Float_t >  muonPt(           *myReader,       "muonPt");
+      TTreeReaderValue< Float_t >  muonEta(          *myReader,       "muonEta");
+      TTreeReaderValue< Float_t >  dPhiMetMuon(      *myReader,       "dPhiMetMuon");
+
+      cout<<".............. Sample : "<<samples[i].second[idx_list]<<endl;
+      
+      bool isData = filename.Contains("SingleMuon") || filename.Contains("JetHT") || filename.Contains("MET");
+      int nevtsProcessed = getNEventsProcessed(filename);
+      double xsec        = getXSec(samples[i].second[idx_list]);
+      double norm        = xsec*luminosity/nevtsProcessed;
+      if(isData) norm = 1;
+
+      while(myReader->Next()){
+
+	//if(*IsW != true)   continue; // this includes an mtmuon cut of 40GeV
+	//if(*mtmuon < 50)   continue;
+	
+	if(samples[i].first.EqualTo("W") && samples[i].second.size()>1){
+	  if(*npartons == 0)      norm=luminosity/( nevtsProcessedIncl/xsecIncl );
+	  else if(*npartons == 1) norm=luminosity/( nevtsProcessed1Jet/xsec1Jet + nevtsProcessedIncl/xsecIncl );
+	  else if(*npartons == 2) norm=luminosity/( nevtsProcessed2Jet/xsec2Jet + nevtsProcessedIncl/xsecIncl );
+	  else if(*npartons == 3) norm=luminosity/( nevtsProcessed3Jet/xsec3Jet + nevtsProcessedIncl/xsecIncl );
+	  else if(*npartons == 4) norm=luminosity/( nevtsProcessed4Jet/xsec4Jet + nevtsProcessedIncl/xsecIncl );
+	  else                    norm=luminosity/( nevtsProcessedIncl/xsecIncl );
+	}
+	
+	double weight = norm;
+	
+	// CUTS
+
+	if(*mht < 120 )        continue;
+	if(*muonPt < 30)       continue;
+	if(*dPhiMetMuon > 1.5) continue;
+
+	//if(*trigger != true)   continue;
+
+	histo -> Fill( *met, weight );
+      }
+
       histoSamples->Add(histo);
       histoSamples->SetFillStyle(1001);
       if(samples[i].first.Contains("TT"))       histoSamples->SetFillColor(TColor::GetColor("#FFCCFF"));
@@ -104,28 +146,11 @@ void WToMuNuMeasurement() {
     cout<<samples[i].first<<" = "<<histoSamples->GetSumOfWeights()<<" ( Entries = "<<histoSamples->GetEntries()<<" )"<<endl<<endl;
   }
 
-  // ------------------ Computation of all uncertainties : START  -------
-  TH1D * bkgdErr = (TH1D*)stack->GetStack()->Last()->Clone("bkgdErr");
-  bkgdErr->SetFillStyle(3013);
-  bkgdErr->SetFillColor(1);
-  bkgdErr->SetMarkerStyle(21);
-  bkgdErr->SetMarkerSize(0);  
-  double addErr = 0;
-  for(int i=1; i<=bkgdErr->GetNbinsX(); i++){
-    // 1.) Uncertainty on JES, Mu, UES
-    addErr = histoMap["W_jesUp"]->GetBinContent(i) - histoMap["W"]->GetBinContent(i); 
-    bkgdErr->SetBinError(i,sqrt( pow(bkgdErr->GetBinError(i),2) + pow(addErr,2)));      
-    addErr = histoMap["W_muUp"]->GetBinContent(i) - histoMap["W"]->GetBinContent(i); 
-    bkgdErr->SetBinError(i,sqrt( pow(bkgdErr->GetBinError(i),2) + pow(addErr,2)));
-    addErr = histoMap["W_uesUp"]->GetBinContent(i) - histoMap["W"]->GetBinContent(i); 
-    bkgdErr->SetBinError(i,sqrt( pow(bkgdErr->GetBinError(i),2) + pow(addErr,2)));
-  }
-  // ------------------ Computation of all uncertainties : END  -------
-
   TCanvas * canv = new TCanvas("canv","",700,800);
   TPad* upper = new TPad("upper","pad",0,0.19,1,1);
   upper->Draw();
   upper->cd();
+  //upper->SetLogy();
 
   stack->Draw("hist");
   stack->SetMaximum(stack->GetMaximum()*1.2);
@@ -135,7 +160,6 @@ void WToMuNuMeasurement() {
   gPad->Modified(); 
   if(h_data){
     h_data->Draw("e1 same");
-    bkgdErr->Draw("e2same");
   }
 
   TLegend * leg = new TLegend(0.55,0.4,0.85,0.78);
@@ -155,7 +179,7 @@ void WToMuNuMeasurement() {
     ratioH = (TH1D*) h_data->Clone("ratioH");
     ratioH->Divide((TH1D*)stack->GetStack()->Last());
     ratioH->GetYaxis()->SetTitle("Obs./Exp.");
-    ratioH->GetXaxis()->SetTitle("m_{T} [GeV]");
+    ratioH->GetXaxis()->SetTitle("MET [GeV]");
     //ratioH->GetXaxis()->SetTitle(var);
     ratioH->GetXaxis()->SetTitleOffset(3.5);
     ratioH->GetYaxis()->SetNdivisions(505);
@@ -163,16 +187,6 @@ void WToMuNuMeasurement() {
     ratioH->GetYaxis()->CenterTitle();
     ratioH->GetXaxis()->SetLabelSize(30);
   }
-  TH1D * ratioErrH = (TH1D*)bkgdErr->Clone("ratioErrH");
-  for(int i=1; i<=bkgdErr->GetNbinsX(); i++){
-    ratioErrH->SetBinError(i,bkgdErr->GetBinError(i)/bkgdErr->GetBinContent(i));
-    if(bkgdErr->GetBinContent(i)==0) ratioErrH->SetBinError(i,0);
-    ratioErrH->SetBinContent(i,1);
-  }
-  ratioErrH->SetFillStyle(3013);
-  ratioErrH->SetFillColor(1);
-  ratioErrH->SetMarkerStyle(21);
-  ratioErrH->SetMarkerSize(0);
 
   canv->cd();
   TPad * lower = new TPad("lower", "pad",0,0,1,0.31);
@@ -181,12 +195,11 @@ void WToMuNuMeasurement() {
   lower->Draw();
   lower->cd();
   if(h_data) ratioH->Draw("e1");
-  ratioErrH->Draw("e2 same");
   canv->cd();
   canv->Modified();
   canv->SetSelected(canv);
   canv->Update();
-  canv->Print("figures/" + var + "_WToMuNu.pdf");
+  canv->Print("figures/MET_Trigger.pdf");
 
 
   // Get bin-by-bin uncertainties for WMuNu
@@ -223,7 +236,7 @@ void WToMuNuMeasurement() {
   }
 
   // Save all histograms in one file
-  TFile *out = new TFile("output/" + var + "_WToMuNu_shapes.root","RECREATE");
+  TFile *out = new TFile("output/MET_Trigger.root","RECREATE");
   out->cd();
 
   map<TString,TH1D*>::iterator it;

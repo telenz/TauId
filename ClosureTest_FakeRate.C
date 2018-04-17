@@ -86,7 +86,7 @@ void ClosureTest_FakeRate() {
     // Make selection and fill histograms for sr and cr
     for (unsigned int i=0; i<obs.size(); ++i) { //W+jets and Znuu main backgrounds, check how many fakes we select in our SR
       TH1D* histo = new TH1D("obs_" + obs[i],"",nBins,bins);
-      makeSelection(dir+"/"+obs[i]+".root", "NTuple", obs_xsec[i],iso[idx_iso],sr,histo,var1,var2,var2);
+      makeSelection(dir+"/"+obs[i]+".root","NTuple",obs_xsec[i],iso[idx_iso],sr_fakeTaus,histo,var1,var2,var2);
       observation->Add(histo);
       observation->SetName(histo->GetName());
     }
