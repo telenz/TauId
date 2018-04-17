@@ -229,7 +229,7 @@ void ComputeFakeRate() {
       leg->AddEntry(h_fakerate_2d,samples[idx_sample].first,"lp");
       leg->Draw();
       canv->Update();
-      canv->Print("figures/fakerate_"+samples[idx_sample].first+"_"+iso[idx_iso]+".png");
+      canv->Print("figures/fakerate_"+samples[idx_sample].first+"_"+iso[idx_iso]+tauDecayMode+".png");
 
       // Make 1d plots dependent on tauPt/tauJetPt 
       TH1D* h_num_1D_x        = h_num -> ProjectionX("fakerate_projection_withTrig_num_x",1,nBinsRatio);
@@ -310,7 +310,7 @@ void ComputeFakeRate() {
       canv->cd();
       canv->SetSelected(canv);
       canv->Update();
-      canv->Print("figures/Unrolled_fakerate_differences_" + iso[idx_iso] + ".png");
+      canv->Print("figures/Unrolled_fakerate_differences_" + iso[idx_iso] + tauDecayMode+ ".png");
 
       // %%%%%%%%%%%%%%%%%%%%%%%%%  Write fake rates to root file %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       fileOutput->cd("");

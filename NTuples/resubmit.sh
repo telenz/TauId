@@ -14,11 +14,13 @@ do
 	if [[ $exit -ne 0 ]]; then
 	   echo "resubmit" $list
 	   echo reason $exit
-
-	   params=$(while read line; do if [[ -n $line ]]; then if [[ ${line::1} != "#" ]]; then echo ${line}; break; fi; fi; done < $file)
-	   stringarray=($params)
-	   echo $params
-	   ./qsub.sh "${stringarray[0]}" "${stringarray[1]}" "${stringarray[2]}"
+      #$(echo ${list}.zsh)
+      #$echo $resub
+      qsub  $(echo ${list}.zsh)
+	   #params=$(while read line; do if [[ -n $line ]]; then if [[ ${line::1} != "#" ]]; then echo ${line}; break; fi; fi; done < $file)
+	   #stringarray=($params)
+	   #echo $params
+	   #./qsub.sh "${stringarray[0]}" "${stringarray[1]}" "${stringarray[2]}"
 	   echo ""
 	fi
     done
