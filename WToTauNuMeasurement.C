@@ -14,85 +14,86 @@ void WToTauNuMeasurement() {
   loadWorkingPoints();
   initCuts();
   loadFakeRates("output/fakerates" + tauDecayMode + ".root");
-  //loadFakeRates("output/fakerates_GenuineTauSubtraction.root");
-  //loadFakeRates("output/fakerates_FINAL.root");
 
   std::vector< std::pair<TString,std::vector<TString>> > samples;
   std::vector<TString> data_MET;
-  data_MET.push_back("MET_Run2016");
+  data_MET.push_back("MET_Run2017");
 
   std::vector<TString> trueTaus;
-  trueTaus.push_back("TTJets_13TeV-powheg");
-  trueTaus.push_back("ST_t-channel_top_4f_inclusiveDecays_13TeV-powheg");
-  trueTaus.push_back("ST_t-channel_antitop_4f_inclusiveDecays_13TeV-powheg");
-  trueTaus.push_back("ST_tW_top_5f_inclusiveDecays_13TeV-powheg");
-  trueTaus.push_back("ST_tW_antitop_5f_inclusiveDecays_13TeV-powheg");
-  trueTaus.push_back("VVTo2L2Nu_13TeV_amcatnloFXFX");
-  trueTaus.push_back("WWToLNuQQ_13TeV_powheg");
-  trueTaus.push_back("WZTo1L1Nu2Q_13TeV_amcatnloFXFX");
-  trueTaus.push_back("WZTo1L3Nu_13TeV_amcatnloFXFX");
-  trueTaus.push_back("WZTo2L2Q_13TeV_amcatnloFXFX");
-  trueTaus.push_back("DYJetsToLL_M-50_13TeV-madgraphMLM");
-  trueTaus.push_back("DY1JetsToLL_M-50_13TeV-madgraphMLM");
-  trueTaus.push_back("DY2JetsToLL_M-50_13TeV-madgraphMLM");
-  trueTaus.push_back("DY3JetsToLL_M-50_13TeV-madgraphMLM");
-  trueTaus.push_back("DY4JetsToLL_M-50_13TeV-madgraphMLM");
+  trueTaus.push_back("TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8");
+  trueTaus.push_back("TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8");
+  trueTaus.push_back("TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8");
+  trueTaus.push_back("ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8");
+  trueTaus.push_back("ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8");
+  trueTaus.push_back("ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8");
+  trueTaus.push_back("ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8");
+  trueTaus.push_back("ZZ_TuneCP5_13TeV-pythia8");
+  trueTaus.push_back("WW_TuneCP5_13TeV-pythia8");
+  trueTaus.push_back("WZ_TuneCP5_13TeV-pythia8");
+  trueTaus.push_back("DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
+  trueTaus.push_back("DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
+  trueTaus.push_back("DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
+  trueTaus.push_back("DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
+  trueTaus.push_back("DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
   trueTaus.push_back("ZJetsToNuNu_HT-100To200_13TeV-madgraph");
   trueTaus.push_back("ZJetsToNuNu_HT-200To400_13TeV-madgraph");
   trueTaus.push_back("ZJetsToNuNu_HT-400To600_13TeV-madgraph");
   trueTaus.push_back("ZJetsToNuNu_HT-600To800_13TeV-madgraph");
+  trueTaus.push_back("ZJetsToNuNu_HT-800To1200_13TeV-madgraph");
+  trueTaus.push_back("ZJetsToNuNu_HT-1200To2500_13TeV-madgraph");
+  trueTaus.push_back("ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph");
 
   std::vector<TString> fakeTaus;
-  fakeTaus.push_back("MET_Run2016");
+  fakeTaus.push_back("MET_Run2017");
 
   std::vector<TString> WToTauNu;
-  WToTauNu.push_back("WToTauNu_M-200_13TeV-pythia8");
+  WToTauNu.push_back("WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola");
 
   std::vector<TString> WToTauNu_jesUp;
-  WToTauNu_jesUp.push_back("WToTauNu_M-200_13TeV-pythia8_jesUp");
+  WToTauNu_jesUp.push_back("WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_jesUp");
   std::vector<TString> WToTauNu_jesDown;
-  WToTauNu_jesDown.push_back("WToTauNu_M-200_13TeV-pythia8_jesDown");
+  WToTauNu_jesDown.push_back("WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_jesDown");
   std::vector<TString> WToTauNu_taues_1prong0pizerosUp;
-  WToTauNu_taues_1prong0pizerosUp.push_back("WToTauNu_M-200_13TeV-pythia8_taues_1prong0pizerosUp");
+  WToTauNu_taues_1prong0pizerosUp.push_back("WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prong0pizerosUp");
   std::vector<TString> WToTauNu_taues_1prong0pizerosDown;
-  WToTauNu_taues_1prong0pizerosDown.push_back("WToTauNu_M-200_13TeV-pythia8_taues_1prong0pizerosDown");
+  WToTauNu_taues_1prong0pizerosDown.push_back("WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prong0pizerosDown");
   std::vector<TString> WToTauNu_taues_1prongUpTo4pizerosUp;
-  WToTauNu_taues_1prongUpTo4pizerosUp.push_back("WToTauNu_M-200_13TeV-pythia8_taues_1prongUpTo4pizerosUp");
+  WToTauNu_taues_1prongUpTo4pizerosUp.push_back("WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prongUpTo4pizerosUp");
   std::vector<TString> WToTauNu_taues_1prongUpTo4pizerosDown;
-  WToTauNu_taues_1prongUpTo4pizerosDown.push_back("WToTauNu_M-200_13TeV-pythia8_taues_1prongUpTo4pizerosDown");
+  WToTauNu_taues_1prongUpTo4pizerosDown.push_back("WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prongUpTo4pizerosDown");
   std::vector<TString> WToTauNu_taues_3prong0pizerosUp;
-  WToTauNu_taues_3prong0pizerosUp.push_back("WToTauNu_M-200_13TeV-pythia8_taues_3prong0pizerosUp");
+  WToTauNu_taues_3prong0pizerosUp.push_back("WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_3prong0pizerosUp");
   std::vector<TString> WToTauNu_taues_3prong0pizerosDown;
-  WToTauNu_taues_3prong0pizerosDown.push_back("WToTauNu_M-200_13TeV-pythia8_taues_3prong0pizerosDown");
+  WToTauNu_taues_3prong0pizerosDown.push_back("WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_3prong0pizerosDown");
   std::vector<TString> WToTauNu_uesUp;
-  WToTauNu_uesUp.push_back("WToTauNu_M-200_13TeV-pythia8_uesUp");
+  WToTauNu_uesUp.push_back("WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_uesUp");
   std::vector<TString> WToTauNu_uesDown;
-  WToTauNu_uesDown.push_back("WToTauNu_M-200_13TeV-pythia8_uesDown");
+  WToTauNu_uesDown.push_back("WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_uesDown");
 
   for(int i=1; i<=h_fakerate->begin()->second.GetNbinsX(); i++){
     for(int j=1; j<=h_fakerate->begin()->second.GetNbinsY(); j++){
       std::vector<TString> fakeTaus_FRUp;
-      fakeTaus_FRUp.push_back("MET_Run2016");
+      fakeTaus_FRUp.push_back("MET_Run2017");
       std::vector<TString> fakeTaus_FRDown;
-      fakeTaus_FRDown.push_back("MET_Run2016");
-      samples.push_back(make_pair(Form("FakeTaus_FR%i%iUp",i,j) , fakeTaus_FRUp));
-      samples.push_back(make_pair(Form("FakeTaus_FR%i%iDown",i,j) , fakeTaus_FRDown));
+      fakeTaus_FRDown.push_back("MET_Run2017");
+      // samples.push_back(make_pair(Form("FakeTaus_FR%i%iUp",i,j) , fakeTaus_FRUp));
+      // samples.push_back(make_pair(Form("FakeTaus_FR%i%iDown",i,j) , fakeTaus_FRDown));
     }
   }
   samples.push_back(make_pair("TrueTaus" , trueTaus));
   samples.push_back(make_pair("FakeTaus" , fakeTaus));
   samples.push_back(make_pair("W" , WToTauNu));
   samples.push_back(make_pair("data_obs" , data_MET));
-  samples.push_back(make_pair("W_jesUp" , WToTauNu_jesUp));
-  samples.push_back(make_pair("W_jesDown" , WToTauNu_jesDown));
-  samples.push_back(make_pair("W_taues_1prong0pizerosUp" , WToTauNu_taues_1prong0pizerosUp));
-  samples.push_back(make_pair("W_taues_1prong0pizerosDown" , WToTauNu_taues_1prong0pizerosDown));
-  samples.push_back(make_pair("W_taues_1prongUpTo4pizerosUp" , WToTauNu_taues_1prongUpTo4pizerosUp));
-  samples.push_back(make_pair("W_taues_1prongUpTo4pizerosDown" , WToTauNu_taues_1prongUpTo4pizerosDown));
-  samples.push_back(make_pair("W_taues_3prong0pizerosUp" , WToTauNu_taues_3prong0pizerosUp));
-  samples.push_back(make_pair("W_taues_3prong0pizerosDown" , WToTauNu_taues_3prong0pizerosDown));
-  samples.push_back(make_pair("W_uesUp" , WToTauNu_uesUp));
-  samples.push_back(make_pair("W_uesDown" , WToTauNu_uesDown));
+  // samples.push_back(make_pair("W_jesUp" , WToTauNu_jesUp));
+  // samples.push_back(make_pair("W_jesDown" , WToTauNu_jesDown));
+  // samples.push_back(make_pair("W_taues_1prong0pizerosUp" , WToTauNu_taues_1prong0pizerosUp));
+  // samples.push_back(make_pair("W_taues_1prong0pizerosDown" , WToTauNu_taues_1prong0pizerosDown));
+  // samples.push_back(make_pair("W_taues_1prongUpTo4pizerosUp" , WToTauNu_taues_1prongUpTo4pizerosUp));
+  // samples.push_back(make_pair("W_taues_1prongUpTo4pizerosDown" , WToTauNu_taues_1prongUpTo4pizerosDown));
+  // samples.push_back(make_pair("W_taues_3prong0pizerosUp" , WToTauNu_taues_3prong0pizerosUp));
+  // samples.push_back(make_pair("W_taues_3prong0pizerosDown" , WToTauNu_taues_3prong0pizerosDown));
+  // samples.push_back(make_pair("W_uesUp" , WToTauNu_uesUp));
+  // samples.push_back(make_pair("W_uesDown" , WToTauNu_uesDown));
 
   TString var = "mttau";
 
@@ -153,16 +154,26 @@ void WToTauNuMeasurement() {
     double addErr = 0;
     for(int i=1; i<=bkgdErr->GetNbinsX(); i++){
       // 1.) Uncertainty on JES, TauES, UES
-      addErr = histoMap["W_jesUp"]->GetBinContent(i) - histoMap["W"]->GetBinContent(i); 
-      bkgdErr->SetBinError(i,sqrt( pow(bkgdErr->GetBinError(i),2) + pow(addErr,2)));      
-      addErr = histoMap["W_taues_1prong0pizerosUp"]->GetBinContent(i) - histoMap["W"]->GetBinContent(i); 
-      bkgdErr->SetBinError(i,sqrt( pow(bkgdErr->GetBinError(i),2) + pow(addErr,2)));
-      addErr = histoMap["W_taues_1prongUpTo4pizerosUp"]->GetBinContent(i) - histoMap["W"]->GetBinContent(i); 
-      bkgdErr->SetBinError(i,sqrt( pow(bkgdErr->GetBinError(i),2) + pow(addErr,2)));
-      addErr = histoMap["W_taues_3prong0pizerosUp"]->GetBinContent(i) - histoMap["W"]->GetBinContent(i); 
-      bkgdErr->SetBinError(i,sqrt( pow(bkgdErr->GetBinError(i),2) + pow(addErr,2)));
-      addErr = histoMap["W_uesUp"]->GetBinContent(i) - histoMap["W"]->GetBinContent(i); 
-      bkgdErr->SetBinError(i,sqrt( pow(bkgdErr->GetBinError(i),2) + pow(addErr,2)));
+      if( histoMap.find("W_jesUp") != histoMap.end() ){
+	addErr = histoMap["W_jesUp"]->GetBinContent(i) - histoMap["W"]->GetBinContent(i);
+	bkgdErr->SetBinError(i,sqrt( pow(bkgdErr->GetBinError(i),2) + pow(addErr,2)));
+      }
+      if( histoMap.find("W_taues_1prong0pizerosUp") != histoMap.end() ){
+	addErr = histoMap["W_taues_1prong0pizerosUp"]->GetBinContent(i) - histoMap["W"]->GetBinContent(i);
+	bkgdErr->SetBinError(i,sqrt( pow(bkgdErr->GetBinError(i),2) + pow(addErr,2)));
+      }
+      if( histoMap.find("W_taues_1prongUpTo4pizerosUp") != histoMap.end() ){
+	addErr = histoMap["W_taues_1prongUpTo4pizerosUp"]->GetBinContent(i) - histoMap["W"]->GetBinContent(i);
+	bkgdErr->SetBinError(i,sqrt( pow(bkgdErr->GetBinError(i),2) + pow(addErr,2)));
+      }
+      if( histoMap.find("W_taues_3prong0pizerosUp") != histoMap.end() ){
+	addErr = histoMap["W_taues_3prong0pizerosUp"]->GetBinContent(i) - histoMap["W"]->GetBinContent(i);
+	bkgdErr->SetBinError(i,sqrt( pow(bkgdErr->GetBinError(i),2) + pow(addErr,2)));
+      }
+      if( histoMap.find("W_uesUp") != histoMap.end() ){
+	addErr = histoMap["W_uesUp"]->GetBinContent(i) - histoMap["W"]->GetBinContent(i);
+	bkgdErr->SetBinError(i,sqrt( pow(bkgdErr->GetBinError(i),2) + pow(addErr,2)));
+      }
       // 2.) Tau normalization uncertainty
       addErr = 0.3*histoMap["TrueTaus"]->GetBinContent(i);
       bkgdErr->SetBinError(i,sqrt( pow(bkgdErr->GetBinError(i),2) + pow(addErr,2)));
@@ -181,7 +192,7 @@ void WToTauNuMeasurement() {
     TPad* upper = new TPad("upper","pad",0,0.19,1,1);
     upper->Draw();
     upper->cd();
-    upper->SetLogy();
+    //upper->SetLogy();
 
     if(stack->GetMaximum()>h_data->GetMaximum()){    
       h_data->SetMaximum(stack->GetMaximum()*5);
