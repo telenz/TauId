@@ -2,6 +2,8 @@
 #include "TStyle.h"
 #include "TF2.h"
 #include "settings.h"
+#include "TMath.h"
+#include "Math/QuantFuncMathCore.h"
 
 void ComputeFakeRate() {
 
