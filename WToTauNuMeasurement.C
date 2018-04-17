@@ -33,6 +33,10 @@ void WToTauNuMeasurement() {
   trueTaus.push_back("WZTo1L3Nu_13TeV_amcatnloFXFX");
   trueTaus.push_back("WZTo2L2Q_13TeV_amcatnloFXFX");
   trueTaus.push_back("DYJetsToLL_M-50_13TeV-madgraphMLM");
+  trueTaus.push_back("DY1JetsToLL_M-50_13TeV-madgraphMLM");
+  trueTaus.push_back("DY2JetsToLL_M-50_13TeV-madgraphMLM");
+  trueTaus.push_back("DY3JetsToLL_M-50_13TeV-madgraphMLM");
+  trueTaus.push_back("DY4JetsToLL_M-50_13TeV-madgraphMLM");
   trueTaus.push_back("ZJetsToNuNu_HT-100To200_13TeV-madgraph");
   trueTaus.push_back("ZJetsToNuNu_HT-200To400_13TeV-madgraph");
   trueTaus.push_back("ZJetsToNuNu_HT-400To600_13TeV-madgraph");

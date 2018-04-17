@@ -38,6 +38,10 @@ void CalculateEWKfraction() {
   ewk.push_back("WW_TuneCP5_13TeV-pythia8");
   ewk.push_back("WZ_TuneCP5_13TeV-pythia8");
   ewk.push_back("DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
+  ewk.push_back("DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
+  ewk.push_back("DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
+  ewk.push_back("DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
+  ewk.push_back("DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
 
   samples.push_back(make_pair("EWK_MC" , ewk));
   samples.push_back(make_pair("MET_Run2016" , data_MET));

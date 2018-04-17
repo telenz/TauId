@@ -57,6 +57,10 @@ map<TString, double> xsecs = {
 {"WW_TuneCP5_13TeV-pythia8"                          , 118.7},  // NNLO QCD (18)
 {"WZ_TuneCP5_13TeV-pythia8"                          , 23.43},  // LO (19) -> could be improved
 {"DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8" , 5765.4}, // NNLO (20) 
+{"DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8" , 1012.0*1.1617}, // NNLO (20a)
+{"DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8" , 334.7*1.1617},  // NNLO (20b)
+{"DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8" , 102.3*1.1617},  // NNLO (20c)
+{"DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8" , 54.52*1.1617},  // NNLO (20d)
 {"TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8"           , 88.29},  // NNLO (21)
 {"TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8"        , 377.96}, // NNLO (22)
 {"TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8"    , 365.34}, // NNLO (23)
@@ -85,10 +89,10 @@ map<TString, double> xsecs = {
 };
 // Sources of xsecs:
 // (1) from: https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat13TeV -> k-factor = 61526.7/50260.0 (from: https://cms-gen-dev.cern.ch/xsdb (DAS=WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8)) = 1.224
-// (2) from: https://cms-gen-dev.cern.ch/xsdbfrom: (DAS=W1JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8), k-factor see (1)
-// (3) from: https://cms-gen-dev.cern.ch/xsdbfrom: (DAS=W2JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8), k-factor see (1)
+// (2) from: https://cms-gen-dev.cern.ch/xsdb (DAS=W1JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8), k-factor see (1)
+// (3) from: https://cms-gen-dev.cern.ch/xsdb (DAS=W2JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8), k-factor see (1)
 // (4) from: https://twiki.cern.ch/twiki/bin/viewauth/CMS/TauIDMeasurementsHelp, k-factor see (1) - xsec not available in xsdb
-// (5) from: https://cms-gen-dev.cern.ch/xsdbfrom: (DAS=W4JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8), k-factor see (1)
+// (5) from: https://cms-gen-dev.cern.ch/xsdb (DAS=W4JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8), k-factor see (1)
 // (6-9) from Adinda's Mail from the 26th of March 2018, k-factor from Teresa's Email
 // (10) from: https://cms-gen-dev.cern.ch/xsdb (DAS=ZJetsToNuNu_HT-100To200_13TeV-madgraph), k-factor calculated from information found in https://twiki.cern.ch/twiki/bin/view/CMS/SummaryTable1G25ns (280.35*1.23/(93.35*3))
 // (11) from: https://cms-gen-dev.cern.ch/xsdb (DAS=ZJetsToNuNu_HT-200To400_13TeV-madgraph), k-factor see (10)
@@ -101,6 +105,7 @@ map<TString, double> xsecs = {
 // (18) from: https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat13TeVInclusive (LO xsec = 64.3 from https://cms-gen-dev.cern.ch/xsdb (DAS=WW_TuneCUETP8M1_13TeV-pythia8))
 // (19) from: https://cms-gen-dev.cern.ch/xsdb (DAS=WZ_TuneCUETP8M1_13TeV-pythia8)
 // (20) from: https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat13TeV
+// (20a-20d) from: LO = https://cms-gen-dev.cern.ch/xsdb (DAS=DY1JetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8), k-factor = 5765.4(NNLO)/4963.0 (DAS=DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8) = 1.1617
 // (21) from: https://cms-gen-dev.cern.ch/xsdb (DAS=TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8)
 // (22) from: https://cms-gen-dev.cern.ch/xsdb (DAS=TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8)
 // (23) from: https://cms-gen-dev.cern.ch/xsdb (DAS=TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8)
@@ -454,6 +459,16 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
   double xsecWpT150To250 = xsecs["W1JetsToLNu_LHEWpT_150-250"];
   double xsecWpT250To400 = xsecs["W1JetsToLNu_LHEWpT_250-400"];
   double xsecWpT400ToInf = xsecs["W1JetsToLNu_LHEWpT_400-inf"];
+  double nevtsProcessedDYIncl = getNEventsProcessed(dir+"DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+  double nevtsProcessedDY1Jet = getNEventsProcessed(dir+"DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+  double nevtsProcessedDY2Jet = getNEventsProcessed(dir+"DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+  double nevtsProcessedDY3Jet = getNEventsProcessed(dir+"DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+  double nevtsProcessedDY4Jet = getNEventsProcessed(dir+"DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+  double xsecDYIncl = xsecs["DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"];
+  double xsecDY1Jet = xsecs["DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"];
+  double xsecDY2Jet = xsecs["DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"];
+  double xsecDY3Jet = xsecs["DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"];
+  double xsecDY4Jet = xsecs["DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"];
 
   bool isData = filename.Contains("SingleMuon") || filename.Contains("JetHT") || filename.Contains("MET");
   while(myReader->Next()){
@@ -507,6 +522,15 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
       else norm = luminosity/( nevtsProcessedIncl/xsecIncl );
     }
     */
+
+    // Stitching only for DY MC in npartons
+    if(filename.Contains("DY") && filename.Contains("JetsToLL_M-50")){
+      if (*npartons == 1)      norm = luminosity/( nevtsProcessedDY1Jet/xsecDY1Jet + nevtsProcessedDYIncl/xsecDYIncl );
+      else if (*npartons == 2) norm = luminosity/( nevtsProcessedDY2Jet/xsecDY2Jet + nevtsProcessedDYIncl/xsecDYIncl );
+      else if (*npartons == 3) norm = luminosity/( nevtsProcessedDY3Jet/xsecDY3Jet + nevtsProcessedDYIncl/xsecDYIncl );
+      else if (*npartons == 4) norm = luminosity/( nevtsProcessedDY4Jet/xsecDY4Jet + nevtsProcessedDYIncl/xsecDYIncl );
+      else                     norm = luminosity/( nevtsProcessedDYIncl/xsecDYIncl );
+    }
 
     if(*recoilPt<sel.recoilPtLow) continue;
     if(*dPhiMetTau<sel.dPhiMetTauLow) continue;

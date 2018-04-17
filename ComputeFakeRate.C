@@ -65,6 +65,10 @@ void ComputeFakeRate() {
   genuineTaus.push_back("WW_TuneCP5_13TeV-pythia8");
   genuineTaus.push_back("WZ_TuneCP5_13TeV-pythia8");
   genuineTaus.push_back("DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
+  genuineTaus.push_back("DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
+  genuineTaus.push_back("DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
+  genuineTaus.push_back("DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
+  genuineTaus.push_back("DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
 
   samples.push_back(make_pair("GenuineTausBkg" , genuineTaus));
   samples.push_back(make_pair("WJetsToLNu" , wjets));

@@ -24,6 +24,10 @@ void WToMuNuMeasurement() {
   ewk.push_back("WZTo1L3Nu_13TeV_amcatnloFXFX");
   ewk.push_back("WZTo2L2Q_13TeV_amcatnloFXFX");
   ewk.push_back("DYJetsToLL_M-50_13TeV-madgraphMLM");
+  ewk.push_back("D1YJetsToLL_M-50_13TeV-madgraphMLM");
+  ewk.push_back("D2YJetsToLL_M-50_13TeV-madgraphMLM");
+  ewk.push_back("D3YJetsToLL_M-50_13TeV-madgraphMLM");
+  ewk.push_back("D4YJetsToLL_M-50_13TeV-madgraphMLM");
   ewk.push_back("ZJetsToNuNu_HT-100To200_13TeV-madgraph");
   ewk.push_back("ZJetsToNuNu_HT-200To400_13TeV-madgraph");
   ewk.push_back("ZJetsToNuNu_HT-400To600_13TeV-madgraph");
