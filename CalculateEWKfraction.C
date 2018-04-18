@@ -72,9 +72,6 @@ void CalculateEWKfraction() {
   std::cout << "EWK (from MC)     = " << nEWK       << " +/- " << nEWK_err << std::endl;
   std::cout << "Total (from data) = " << nData      << " +/- " << nData_err << std::endl;
   std::cout << "EWK/Total         = " << nEWK/nData << " +/- " << nEWK_err/nData << std::endl;
-  std::cout << "  pt > 100 GeV    = " << h_fEWK->GetBinContent(1) << " +/- " << h_fEWK->GetBinError(1) << endl;
-  std::cout << "  pt > 150 GeV    = " << h_fEWK->GetBinContent(2) << " +/- " << h_fEWK->GetBinError(2) << endl;
-  std::cout << "  pt > 200 GeV    = " << h_fEWK->GetBinContent(3) << " +/- " << h_fEWK->GetBinError(3) << endl;
   std::cout << std::endl;
 
   // Save fraction of EWK events in root file
