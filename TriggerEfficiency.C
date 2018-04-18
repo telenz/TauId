@@ -34,6 +34,10 @@ void TriggerEfficiency() {
   MC.push_back("W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
   MC.push_back("W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
   MC.push_back("W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
+  // MC.push_back("W1JetsToLNu_LHEWpT_100-150");
+  // MC.push_back("W1JetsToLNu_LHEWpT_150-250");
+  // MC.push_back("W1JetsToLNu_LHEWpT_250-400");
+  // MC.push_back("W1JetsToLNu_LHEWpT_400-inf");
   std::vector<TString> Data;
   Data.push_back("SingleMuon_Run2017");
   samples.push_back(make_pair("MC"   , MC));
@@ -41,8 +45,8 @@ void TriggerEfficiency() {
 
   std::map<TString,TH1D*> histoMap;
 
-  const int nbins  = 20;
-  float bins[nbins+1] = {60,90,100,110,120,130,140,150,160,170,180,190,200,220,240,280,320,380,480,600,800};
+  const int nbins  = 19;
+  float bins[nbins+1] = {60,90,100,110,120,130,140,150,160,170,180,190,200,220,240,280,320,380,480,600};
 
   // Needed for stitching
   double xsecIncl = xsecs["WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"];
