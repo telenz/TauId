@@ -47,8 +47,8 @@
 ./qsub_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_ZToNuNuHT-1200To2500.conf ZJetsToNuNu_HT-1200To2500_13TeV-madgraph 10
 ./qsub_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_ZToNuNuHT-2500ToInf.conf ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph 10
 
-./qsub_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_WToMuNu_M-200_TuneCP5_13TeV-pythia8.conf WToMuNu_M-200_TuneCP5_13TeV-pythia8 10
-./qsub_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola.conf WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola 10
+./qsub_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_WStarMuNu.conf WToMuNu_M-200_TuneCP5_13TeV-pythia8 10
+./qsub_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_WStarTauNu.conf WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola 10
 
 # missing files: 
 #     - virtual W -> tau/mu nu --> use old (Summer17 MC) for now
