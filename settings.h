@@ -36,56 +36,56 @@ map<TString,TH2D>* h_fakerate = 0;
 //TF2* fakerateFunc;
 
 map<TString, double> xsecs = {
-{"WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"      , 61526.7}, // NNLO (1)      
-{"W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"     , 1.224*9625.0}, // NNLO (2) 
-{"W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"     , 1.224*3161.0}, // NNLO (3)
-{"W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"     , 1.224*954.8},  // NNLO (4) -> could be improved 
-{"W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"     , 1.224*494.6},  // NNLO (5)  
-{"W1JetsToLNu_LHEWpT_50-150"                         , 1.0181*2661},  // NNLO (6)
-{"W1JetsToLNu_LHEWpT_100-150"                        , 1.0181*286.1}, // NNLO (6a)
-{"W1JetsToLNu_LHEWpT_150-250"                        , 1.0181*71.9},  // NNLO (7)
-{"W1JetsToLNu_LHEWpT_250-400"                        , 1.0181*8.05},  // NNLO (8)
-{"W1JetsToLNu_LHEWpT_400-inf"                        , 1.0181*0.885}, // NNLO (9)
-{"ZJetsToNuNu_HT-100To200_13TeV-madgraph"            , 1.231*93.35*3},    // (N)NLO (10)
-{"ZJetsToNuNu_HT-200To400_13TeV-madgraph"            , 1.231*25.85*3},    // (N)NLO (11) 
-{"ZJetsToNuNu_HT-400To600_13TeV-madgraph"            , 1.231*3.584*3},    // (N)NLO (12) 
-{"ZJetsToNuNu_HT-600To800_13TeV-madgraph"            , 1.231*0.853*3},    // (N)NLO (13) 
-{"ZJetsToNuNu_HT-800To1200_13TeV-madgraph"           , 1.231*0.3934*3},   // (N)NLO (14) 
-{"ZJetsToNuNu_HT-1200To2500_13TeV-madgraph"          , 1.231*0.09543*3},  // (N)NLO (15) 
-{"ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph"           , 1.231*0.002304*3}, // (N)NLO (16) 
-{"ZZ_TuneCP5_13TeV-pythia8"                          , 10.16},  // LO (17) -> could be improved
-{"WW_TuneCP5_13TeV-pythia8"                          , 118.7},  // NNLO QCD (18)
-{"WZ_TuneCP5_13TeV-pythia8"                          , 23.43},  // LO (19) -> could be improved
-{"DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8" , 5765.4}, // NNLO (20) 
-{"DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8" , 1012.0*1.1617}, // NNLO (20a)
-{"DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8" , 334.7*1.1617},  // NNLO (20b)
-{"DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8" , 102.3*1.1617},  // NNLO (20c)
-{"DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8" , 54.52*1.1617},  // NNLO (20d)
-{"TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8"           , 88.29},  // NNLO (21)
-{"TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8"        , 377.96}, // NNLO (22)
-{"TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8"    , 365.34}, // NNLO (23)
-{"ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8"    , 44.33}, // ? (24) -> could be improved
-{"ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8", 26.38}, // ? (25) -> could be improved
-{"ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8"         , 35.85},             // ? (26) -> could be improved
-{"ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8"     , 35.85},             // ? (27) -> could be improved
-{"WToTauNu_M-200_13TeV-pythia8"                      , 1.3*6.37},
-{"WToTauNu_M-200_13TeV-pythia8_jesUp"                , 1.3*6.37},
-{"WToTauNu_M-200_13TeV-pythia8_jesDown"              , 1.3*6.37},
-{"WToTauNu_M-200_13TeV-pythia8_taues_1prong0pizerosUp"       , 1.3*6.37},
-{"WToTauNu_M-200_13TeV-pythia8_taues_1prong0pizerosDown"     , 1.3*6.37},
-{"WToTauNu_M-200_13TeV-pythia8_taues_1prongUpTo4pizerosUp"   , 1.3*6.37},
-{"WToTauNu_M-200_13TeV-pythia8_taues_1prongUpTo4pizerosDown" , 1.3*6.37},
-{"WToTauNu_M-200_13TeV-pythia8_taues_3prong0pizerosUp"       , 1.3*6.37},
-{"WToTauNu_M-200_13TeV-pythia8_taues_3prong0pizerosDown"     , 1.3*6.37},
-{"WToTauNu_M-200_13TeV-pythia8_uesUp"                , 1.3*6.37},
-{"WToTauNu_M-200_13TeV-pythia8_uesDown"              , 1.3*6.37},
-{"WToMuNu_M-200_13TeV-pythia8"                       , 1.3*6.32},
-{"WToMuNu_M-200_13TeV-pythia8_jesUp"                 , 1.3*6.32},
-{"WToMuNu_M-200_13TeV-pythia8_jesDown"               , 1.3*6.32},
-{"WToMuNu_M-200_13TeV-pythia8_muUp"                  , 1.3*6.32},
-{"WToMuNu_M-200_13TeV-pythia8_muDown"                , 1.3*6.32},
-{"WToMuNu_M-200_13TeV-pythia8_uesUp"                 , 1.3*6.32},
-{"WToMuNu_M-200_13TeV-pythia8_uesDown"               , 1.3*6.32},
+{"WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"            , 61526.7}, // NNLO (1)
+{"W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"           , 1.224*9625.0}, // NNLO (2)
+{"W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"           , 1.224*3161.0}, // NNLO (3)
+{"W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"           , 1.224*954.8},  // NNLO (4) -> could be improved
+{"W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"           , 1.224*494.6},  // NNLO (5)
+{"W1JetsToLNu_LHEWpT_50-150"                               , 1.0181*2661},  // NNLO (6)
+{"W1JetsToLNu_LHEWpT_100-150"                              , 1.0181*286.1}, // NNLO (6a)
+{"W1JetsToLNu_LHEWpT_150-250"                              , 1.0181*71.9},  // NNLO (7)
+{"W1JetsToLNu_LHEWpT_250-400"                              , 1.0181*8.05},  // NNLO (8)
+{"W1JetsToLNu_LHEWpT_400-inf"                              , 1.0181*0.885}, // NNLO (9)
+{"ZJetsToNuNu_HT-100To200_13TeV-madgraph"                  , 93.35*3},    // (N)NLO (10)
+{"ZJetsToNuNu_HT-200To400_13TeV-madgraph"                  , 1.231*25.85*3},    // (N)NLO (11)
+{"ZJetsToNuNu_HT-400To600_13TeV-madgraph"                  , 1.231*3.584*3},    // (N)NLO (12)
+{"ZJetsToNuNu_HT-600To800_13TeV-madgraph"                  , 1.231*0.853*3},    // (N)NLO (13)
+{"ZJetsToNuNu_HT-800To1200_13TeV-madgraph"                 , 1.231*0.3934*3},   // (N)NLO (14)
+{"ZJetsToNuNu_HT-1200To2500_13TeV-madgraph"                , 1.231*0.09543*3},  // (N)NLO (15)
+{"ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph"                 , 1.231*0.002304*3}, // (N)NLO (16)
+{"ZZ_TuneCP5_13TeV-pythia8"                                , 10.16},  // LO (17) -> could be improved
+{"WW_TuneCP5_13TeV-pythia8"                                , 118.7},  // NNLO QCD (18)
+{"WZ_TuneCP5_13TeV-pythia8"                                , 23.43},  // LO (19) -> could be improved
+{"DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"       , 5765.4}, // NNLO (20)
+{"DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"      , 1012.0*1.1617}, // NNLO (20a)
+{"DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"      , 334.7*1.1617},  // NNLO (20b)
+{"DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"      , 102.3*1.1617},  // NNLO (20c)
+{"DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"      , 54.52*1.1617},  // NNLO (20d)
+{"TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8"        , 88.29},  // NNLO (21)
+{"TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8"     , 377.96}, // NNLO (22)
+{"TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8" , 365.34}, // NNLO (23)
+{"ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8"     , 44.33}, // ? (24) -> could be improved
+{"ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8" , 26.38}, // ? (25) -> could be improved
+{"ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8"                      , 35.85}, // ? (26) -> could be improved
+{"ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8"                  , 35.85}, // ? (27) -> could be improved
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola"             , 1.3*6.206}, // NNLO-QCD NLO-EWK (28)
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_jesUp"       , 1.3*6.206}, // NNLO-QCD NLO-EWK (29)
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_jesDown"     , 1.3*6.206}, // NNLO-QCD NLO-EWK (30)
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prong0pizerosUp"             , 1.3*6.206}, // NNLO-QCD NLO-EWK (31)
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prong0pizerosDown"           , 1.3*6.206}, // NNLO-QCD NLO-EWK (32)
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prongUpTo4pizerosUp"         , 1.3*6.206}, // NNLO-QCD NLO-EWK (33)
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prongUpTo4pizerosDown"       , 1.3*6.206}, // NNLO-QCD NLO-EWK (34)
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_3prong0pizerosUp"             , 1.3*6.206}, // NNLO-QCD NLO-EWK (35)
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_3prong0pizerosDown"           , 1.3*6.206}, // NNLO-QCD NLO-EWK (36)
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_uesUp"       , 1.3*6.206}, // NNLO-QCD NLO-EWK (37)
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_uesDown"     , 1.3*6.206}, // NNLO-QCD NLO-EWK (38)
+{"WToMuNu_M-200_TuneCP5_13TeV-pythia8"                     , 1.3*6.238}, // NNLO-QCD NLO-EWK (39)
+{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_jesUp"               , 1.3*6.238}, // NNLO-QCD NLO-EWK (40)
+{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_jesDown"             , 1.3*6.238}, // NNLO-QCD NLO-EWK (41)
+{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_muUp"                , 1.3*6.238}, // NNLO-QCD NLO-EWK (42)
+{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_muDown"              , 1.3*6.238}, // NNLO-QCD NLO-EWK (43)
+{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_uesUp"               , 1.3*6.238}, // NNLO-QCD NLO-EWK (44)
+{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_uesDown"             , 1.3*6.238}, // NNLO-QCD NLO-EWK (45)
 };
 // Sources of xsecs:
 // (1) from: https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat13TeV -> k-factor = 61526.7/50260.0 (from: https://cms-gen-dev.cern.ch/xsdb (DAS=WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8)) = 1.224
@@ -109,7 +109,9 @@ map<TString, double> xsecs = {
 // (21) from: https://cms-gen-dev.cern.ch/xsdb (DAS=TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8)
 // (22) from: https://cms-gen-dev.cern.ch/xsdb (DAS=TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8)
 // (23) from: https://cms-gen-dev.cern.ch/xsdb (DAS=TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8)
-// (24-26) from: https://twiki.cern.ch/twiki/bin/viewauth/CMS/TauIDMeasurementsHelp
+// (24-27) from: https://twiki.cern.ch/twiki/bin/viewauth/CMS/TauIDMeasurementsHelp
+// (28-38) from: https://cms-gen-dev.cern.ch/xsdb (DAS=WToTauNu_M-200_TuneCUETP8M1_13TeV-pythia8-tauola), k-factor = 1.3 (valid for m_W>200GeV and m_W<1TeV, see: https://indico.cern.ch/event/712797/contributions/2928866/attachments/1615436/2567073/TauIdMomScaleW_20180312.pdf)
+// (29-45) from: https://cms-gen-dev.cern.ch/xsdb (DAS=WToMuNu_M-200_TuneCUETP8M1_13TeV-pythia8), k-factor: see (28-38)
 // ----------------------------------------------------------------------------------------------------
 void loadWorkingPoints()
 {
@@ -480,7 +482,7 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
     if(*Selection != sel.selection) continue;
     if(*recoilRatio < sel.recoilRatioLow || *recoilRatio > sel.recoilRatioHigh) continue;
     if(*recoilDPhi < sel.recoilDPhiLow) continue;
-   
+
     if(*met < sel.metLow) continue;
     if((*tauPt < sel.tauPtLow || *tauPt > sel.tauPtHigh) && sel.selection!=2) continue;
     if(*metFilters != sel.metFilters) continue;
