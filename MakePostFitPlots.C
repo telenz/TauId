@@ -1,6 +1,8 @@
 #include "HttStylesNew.cc"
 #include "CMS_lumi.C"
+#include "THStack.h"
 #include "settings.h"
+
 void MakePostFitPlots() {
 
   SetStyle();

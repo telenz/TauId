@@ -6,18 +6,18 @@
 # root -l -b -q PlotTrigger.C # commented out since this is only executed once
 
 # Compute fake rates in W+jets and dijets events and combine them 
-root -l -b -q ComputeFakeRate.C
-root -l -b -q CalculateEWKfraction.C   # This script calculates the EWK fraction and combines the SingleMu and JetHT fake rates
+root -l -b -q ComputeFakeRate.C+
+root -l -b -q CalculateEWKfraction.C+   # This script calculates the EWK fraction and combines the SingleMu and JetHT fake rates
 
 # Run W -> tau nu measurement and create a root file including all relevant systematics
-root -l -b -q WToTauNuMeasurement.C
+root -l -b -q WToTauNuMeasurement.C+
 # Make W -> tau nu datacard
-root -l -b -q DatacardProducer_WToTauNu.C
+root -l -b -q DatacardProducer_WToTauNu.C+
 
 # Run W -> mu nu measurement and create a root file including all relevant systematics
-root -l -b -q WToMuNuMeasurement.C
+root -l -b -q WToMuNuMeasurement.C+
 # Make W -> mu nu datacard
-root -l -b -q DatacardProducer_WToMuNu.C
+root -l -b -q DatacardProducer_WToMuNu.C+
 
 # Make datacards and run Combine
 iniCMSSW_7_4_7   # needed for Combine (definition see below)
@@ -26,7 +26,7 @@ source RunCombine.sh
 cd ..
 
 # Make postfit plots 
-root -l -b -q MakePostFitPlots.C
+root -l -b -q MakePostFitPlots.C+
 
 # For the measurement the fake rates saved in output/FakeRates_FinerBinning/ are used. This can be seen in WToTauNuMeasurement.C
 # If you want to change this, please change the filename in loadFakeRates();
