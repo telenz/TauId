@@ -46,7 +46,7 @@ map<TString, double> xsecs = {
 {"W1JetsToLNu_LHEWpT_150-250"                              , 1.0181*71.9},  // NNLO (7)
 {"W1JetsToLNu_LHEWpT_250-400"                              , 1.0181*8.05},  // NNLO (8)
 {"W1JetsToLNu_LHEWpT_400-inf"                              , 1.0181*0.885}, // NNLO (9)
-{"ZJetsToNuNu_HT-100To200_13TeV-madgraph"                  , 93.35*3},    // (N)NLO (10)
+{"ZJetsToNuNu_HT-100To200_13TeV-madgraph"                  , 1.231*93.35*3},    // (N)NLO (10)
 {"ZJetsToNuNu_HT-200To400_13TeV-madgraph"                  , 1.231*25.85*3},    // (N)NLO (11)
 {"ZJetsToNuNu_HT-400To600_13TeV-madgraph"                  , 1.231*3.584*3},    // (N)NLO (12)
 {"ZJetsToNuNu_HT-600To800_13TeV-madgraph"                  , 1.231*0.853*3},    // (N)NLO (13)
