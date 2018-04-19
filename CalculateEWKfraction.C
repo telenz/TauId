@@ -16,6 +16,10 @@ void CalculateEWKfraction() {
   data_MET.push_back("MET_Run2017");
   std::vector<TString> ewk;
   ewk.push_back("WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
+  ewk.push_back("W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
+  ewk.push_back("W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
+  ewk.push_back("W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
+  ewk.push_back("W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
   ewk.push_back("ZJetsToNuNu_HT-100To200_13TeV-madgraph");
   ewk.push_back("ZJetsToNuNu_HT-200To400_13TeV-madgraph");
   ewk.push_back("ZJetsToNuNu_HT-400To600_13TeV-madgraph");
@@ -136,7 +140,7 @@ void CalculateEWKfraction() {
     effCombined         -> SetName(iso[idx_iso]);
     effCombined         -> Write(iso[idx_iso]);
     effCombined_Up      -> SetName(iso[idx_iso]+"_Up");
-    effCombined_Up      -> Write(iso[idx_iso])+"_Up";
+    effCombined_Up      -> Write(iso[idx_iso]+"_Up");
     effCombined_Down    -> SetName(iso[idx_iso]+"_Down");
     effCombined_Down    -> Write(iso[idx_iso]+"_Down");
   }
