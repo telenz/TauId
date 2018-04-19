@@ -33,7 +33,8 @@ double luminosity = 40400;
 
 std::vector<TString> iso;
 map<TString,TH2D>* h_fakerate = 0;
-//TF2* fakerateFunc;
+map<TString,TH2D>* h_fakerate_up = 0;
+map<TString,TH2D>* h_fakerate_down = 0;
 
 map<TString, double> xsecs = {
 {"WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"            , 61526.7}, // NNLO (1)
@@ -310,7 +311,10 @@ int getNEventsProcessed(TString filename)
 // ----------------------------------------------------------------------------------------------------
 void loadFakeRates(TString filename)
 {
-  h_fakerate = new map<TString,TH2D>();
+  h_fakerate      = new map<TString,TH2D>();
+  h_fakerate_up   = new map<TString,TH2D>();
+  h_fakerate_down = new map<TString,TH2D>();
+
   TFile *f1 = new TFile(filename,"READ");
   if(!f1){
     cout<<"File "<<filename<<" does not exists. Exiting."<<endl;
@@ -326,8 +330,16 @@ void loadFakeRates(TString filename)
       if (!c->InheritsFrom("TH2")) continue;
       TH2D *h = (TH2D*) key->ReadObj();
       h->SetDirectory(0);
-      //fakerateFunc = (TF2*) h->GetFunction("f2d");
-      h_fakerate -> insert( std::make_pair(h->GetName(),*h) );
+      TString hName = h->GetName();
+      if(hName.Contains("_Up")){
+	h_fakerate_up   -> insert( std::make_pair(h->GetName(),*h) );
+      }
+      else if(hName.Contains("_Down")){
+	h_fakerate_down -> insert( std::make_pair(h->GetName(),*h) );
+      }
+      else{
+	h_fakerate      -> insert( std::make_pair(h->GetName(),*h) );
+      }
       delete h;
     }
   delete key;
@@ -339,17 +351,14 @@ double getFakeRates(float ratio, float jetPt, TString iso, TString err)
     if( ratio > h_fakerate->at(iso).GetXaxis()->GetBinLowEdge(i) && ratio < h_fakerate->at(iso).GetXaxis()->GetBinUpEdge(i)){
       for(int j=1; j<= h_fakerate->at(iso).GetNbinsY(); j++){
 	if( jetPt > h_fakerate->at(iso).GetYaxis()->GetBinLowEdge(j) && jetPt < h_fakerate->at(iso).GetYaxis()->GetBinUpEdge(j)){
-	  if( err == Form("%i%iUp",i,j))         return h_fakerate->at(iso).GetBinContent(i,j) + h_fakerate->at(iso).GetBinError(i,j);
-	  else if( err == Form("%i%iDown",i,j) ) return h_fakerate->at(iso).GetBinContent(i,j) - h_fakerate->at(iso).GetBinError(i,j);
+	  if( err == Form("%i%iUp",i,j))         return h_fakerate_up->at(iso).GetBinContent(i,j);
+	  else if( err == Form("%i%iDown",i,j) ) return h_fakerate_down->at(iso).GetBinContent(i,j);
 	  else                                   return h_fakerate->at(iso).GetBinContent(i,j);
 	}
       }
     }
   }
   return 0;
-
-  //if(ratio<0.5 || ratio>1.0 || jetPt<100 || jetPt>1200) return 0;
-  //else return fakerateFunc->Eval(ratio,jetPt);
 }
 // ----------------------------------------------------------------------------------------------------
 void makeSelection(TString filename, TString treename, double xsec, TString iso, selectionCuts sel, TH1* histo, TString variableToFill_1, TString variableToFill_2, TString variableToFill_3)

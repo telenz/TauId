@@ -12,9 +12,7 @@ using namespace std;
 
 void ClosureTest_FakeRate() {
 
-  TString fakerateFile     = "output/WJetsToLNu_fakeRate"+tauDecayMode+".root";
-  TString fakerateFileUp   = "output/WJetsToLNu_fakeRate_Up"+tauDecayMode+".root";
-  TString fakerateFileDown = "output/WJetsToLNu_fakeRate_Down"+tauDecayMode+".root";
+  TString fakerateFile  = "output/WJetsToLNu_fakeRate"+tauDecayMode+".root";
 
   loadWorkingPoints();
   initCuts();
@@ -97,11 +95,11 @@ void ClosureTest_FakeRate() {
       TH1D* histo = new TH1D("pred_" + pred[i],"",nBins,bins);
       makeSelection(dir+"/"+pred[i]+".root","NTuple",pred_xsec[i],iso[idx_iso],cr_antiiso,histo,var1,var2,var2);
 
-      loadFakeRates(fakerateFileUp);
+      h_fakerate->at(iso[idx_iso]) = h_fakerate_up->at(iso[idx_iso]+"_Up");
       TH1D* histoUp = new TH1D("pred_" + pred[i] + "_Up","",nBins,bins);
       makeSelection(dir+"/"+pred[i]+".root","NTuple",pred_xsec[i],iso[idx_iso],cr_antiiso,histoUp,var1,var2,var2);
 
-      loadFakeRates(fakerateFileDown);
+      h_fakerate->at(iso[idx_iso]) = h_fakerate_down->at(iso[idx_iso]+"_Down");
       TH1D* histoDown = new TH1D("pred_" + pred[i] + "_Down","",nBins,bins);
       makeSelection(dir+"/"+pred[i]+".root","NTuple",pred_xsec[i],iso[idx_iso],cr_antiiso,histoDown,var1,var2,var2);
 

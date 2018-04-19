@@ -88,27 +88,20 @@ void CalculateEWKfraction() {
   }
 
   // Read single fake rates
-  TFile *DataFileJetHT         = new TFile("output/JetHT_fakeRate.root");
-  TFile *DataFileJetHT_Up      = new TFile("output/JetHT_fakeRate_Up.root");
-  TFile *DataFileJetHT_Down    = new TFile("output/JetHT_fakeRate_Down.root");
-  TFile *DataFileSingleMu      = new TFile("output/SingleMuon_fakeRate.root");
-  TFile *DataFileSingleMu_Up   = new TFile("output/SingleMuon_fakeRate_Up.root");
-  TFile *DataFileSingleMu_Down = new TFile("output/SingleMuon_fakeRate_Down.root");
-
-  TFile* out_FakeRates      = new TFile("output/fakerates.root","RECREATE");
-  TFile* out_FakeRates_Up   = new TFile("output/fakerates_Up.root","RECREATE");
-  TFile* out_FakeRates_Down = new TFile("output/fakerates_Down.root","RECREATE");
+  TFile *DataFileJetHT    = new TFile("output/JetHT_fakeRate.root");
+  TFile *DataFileSingleMu = new TFile("output/SingleMuon_fakeRate.root");
+  TFile* out_FakeRates    = new TFile("output/fakerates.root","RECREATE");
 
   for(unsigned int idx_iso=0; idx_iso<iso.size(); idx_iso++){
 
     if( !(DataFileJetHT->GetListOfKeys()->Contains(iso[idx_iso])) ) continue;
 
     TH2D *effJetHT         = (TH2D*) DataFileJetHT->Get(iso[idx_iso]);
-    TH2D *effJetHT_Up      = (TH2D*) DataFileJetHT_Up->Get(iso[idx_iso]);
-    TH2D *effJetHT_Down    = (TH2D*) DataFileJetHT_Down->Get(iso[idx_iso]);
+    TH2D *effJetHT_Up      = (TH2D*) DataFileJetHT->Get(iso[idx_iso]+"_Up");
+    TH2D *effJetHT_Down    = (TH2D*) DataFileJetHT->Get(iso[idx_iso]+"_Down");
     TH2D *effSingleMu      = (TH2D*) DataFileSingleMu->Get(iso[idx_iso]);
-    TH2D *effSingleMu_Up   = (TH2D*) DataFileSingleMu_Up->Get(iso[idx_iso]);
-    TH2D *effSingleMu_Down = (TH2D*) DataFileSingleMu_Down->Get(iso[idx_iso]);
+    TH2D *effSingleMu_Up   = (TH2D*) DataFileSingleMu->Get(iso[idx_iso]+"_Up");
+    TH2D *effSingleMu_Down = (TH2D*) DataFileSingleMu->Get(iso[idx_iso]+"_Down");
     TH2D *effCombined      = (TH2D*) effJetHT->Clone();
     TH2D *effCombined_Up   = (TH2D*) effJetHT_Up->Clone();
     TH2D *effCombined_Down = (TH2D*) effJetHT_Down->Clone();
@@ -142,12 +135,10 @@ void CalculateEWKfraction() {
     out_FakeRates       -> cd();
     effCombined         -> SetName(iso[idx_iso]);
     effCombined         -> Write(iso[idx_iso]);
-    out_FakeRates_Up    -> cd();
-    effCombined_Up      -> SetName(iso[idx_iso]);
-    effCombined_Up      -> Write(iso[idx_iso]);
-    out_FakeRates_Down  -> cd();
-    effCombined_Down    -> SetName(iso[idx_iso]);
-    effCombined_Down    -> Write(iso[idx_iso]);
+    effCombined_Up      -> SetName(iso[idx_iso]+"_Up");
+    effCombined_Up      -> Write(iso[idx_iso])+"_Up";
+    effCombined_Down    -> SetName(iso[idx_iso]+"_Down");
+    effCombined_Down    -> Write(iso[idx_iso]+"_Down");
   }
-
+  out_FakeRates       -> Close();
 }

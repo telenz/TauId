@@ -82,8 +82,6 @@ void ComputeFakeRate() {
   for (unsigned int idx_sample=0; idx_sample<samples.size(); ++idx_sample) { // loop over samples
 
     TFile *fileOutput     = new TFile("output/"+samples[idx_sample].first+"_fakeRate"+tauDecayMode+".root","recreate");
-    TFile *fileOutputUp   = new TFile("output/"+samples[idx_sample].first+"_fakeRate_Up"+tauDecayMode+".root","recreate");
-    TFile *fileOutputDown = new TFile("output/"+samples[idx_sample].first+"_fakeRate_Down"+tauDecayMode+".root","recreate");
 
     for(unsigned int idx_iso=0; idx_iso<iso.size(); idx_iso++){  // loop over WPs
 
@@ -318,19 +316,16 @@ void ComputeFakeRate() {
       fileOutput->cd("");
       h_fakerate_2d->SetName(iso[idx_iso]);
       h_fakerate_2d->Write(iso[idx_iso]);
+      h_fakerate_2d_up->SetName(iso[idx_iso]+"_Up");
+      h_fakerate_2d_up->Write(iso[idx_iso]+"_Up");
+      h_fakerate_2d_down->SetName(iso[idx_iso]+"_Down");
+      h_fakerate_2d_down->Write(iso[idx_iso]+"_Down");
       h_x->SetName(iso[idx_iso]+"_ProjX");
       h_x->Write(iso[idx_iso]+"_ProjX");
       h_y->SetName(iso[idx_iso]+"_ProjY");
       h_y->Write(iso[idx_iso]+"_ProjY");
       delete canv;
       cout<<endl;
-
-      fileOutputUp->cd("");
-      h_fakerate_2d_up->SetName(iso[idx_iso]);
-      h_fakerate_2d_up->Write(iso[idx_iso]);
-      fileOutputDown->cd("");
-      h_fakerate_2d_down->SetName(iso[idx_iso]);
-      h_fakerate_2d_down->Write(iso[idx_iso]);
 
       delete h_num;
       delete h_den;
@@ -342,7 +337,5 @@ void ComputeFakeRate() {
       delete h_y;
     }
     fileOutput->Close();
-    fileOutputUp->Close();
-    fileOutputDown->Close();
   }
 }
