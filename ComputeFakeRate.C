@@ -50,10 +50,6 @@ void ComputeFakeRate() {
   wjets.push_back("W1JetsToLNu_LHEWpT_150-250");
   wjets.push_back("W1JetsToLNu_LHEWpT_250-400");
   wjets.push_back("W1JetsToLNu_LHEWpT_400-inf");
-  // wjets.push_back("W1JetsToLNu_LHEWpT_100-150_Selection_1");
-  // wjets.push_back("W1JetsToLNu_LHEWpT_150-250_Selection_1");
-  // wjets.push_back("W1JetsToLNu_LHEWpT_250-400_Selection_1");
-  // wjets.push_back("W1JetsToLNu_LHEWpT_400-inf_Selection_1");
 
   std::vector<TString> genuineTaus;
   genuineTaus.push_back("TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8");
