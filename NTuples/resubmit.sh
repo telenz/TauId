@@ -4,24 +4,22 @@
 
 for dir in $(find -maxdepth 1 -type d -name "*_files")
 do
-    echo $dir
+    echo ''
+    echo ''
+    echo 'dir = ' $dir
     cd $dir
-    for file in $(ls *.zsh)
+    samplename=${dir:2:${#dir}-8}
+    echo 'sample name = ' $samplename
+    for file in $(ls ${samplename}*.sh)
     do
-	list=$(echo $file | sed 's/.zsh//g')
+	list=$(echo $file | sed 's/.sh//g')
 	checkRoot ${list}.root
 	exit=$?
 	if [[ $exit -ne 0 ]]; then
-	   echo "resubmit" $list
-	   echo reason $exit
-      #$(echo ${list}.zsh)
-      #$echo $resub
-      qsub  $(echo ${list}.zsh)
-	   #params=$(while read line; do if [[ -n $line ]]; then if [[ ${line::1} != "#" ]]; then echo ${line}; break; fi; fi; done < $file)
-	   #stringarray=($params)
-	   #echo $params
-	   #./qsub.sh "${stringarray[0]}" "${stringarray[1]}" "${stringarray[2]}"
-	   echo ""
+	    echo reason $exit
+	    echo "resubmit" $list
+	    condor_submit $list.submit
+	    echo ""
 	fi
     done
     cd ../
