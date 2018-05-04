@@ -20,6 +20,7 @@
 
 //TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2016/TauIdWithVirtualW/WTauId/NTuples/";
 TString dir = "/nfs/dust/cms/user/mameyer/TauIdAndES_2017Data/TauId/NTuples/";
+//TString dir = "NTuples/ntuples_before_18_4/";
 //TString dir = "NTuples/";
 
 TString tauDecayMode = "";
@@ -299,11 +300,11 @@ void initCuts()
   cr_fakerate_dijet_num.tauIso = true;
 }
 // ----------------------------------------------------------------------------------------------------
-int getNEventsProcessed(TString filename)
+double getNEventsProcessed(TString filename)
 {
   TFile * file = new TFile(filename);
   TH1D * histWeightsH = (TH1D*)file->Get("histWeightsH");
-  int nevents = histWeightsH->GetSumOfWeights();
+  double nevents = histWeightsH->GetSumOfWeights();
   file->Close();
   delete file;
   return nevents;
