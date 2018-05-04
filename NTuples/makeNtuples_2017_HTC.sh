@@ -3,17 +3,22 @@
 # For trigger efficiencies
 ./HTC_submit_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_Data.conf SingleMuon_Run2017 20
 
-./HTC_submit_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_WJets.conf WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8 10
-./HTC_submit_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_W1Jets.conf W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8 10
-./HTC_submit_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_W2Jets.conf W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8 10
-./HTC_submit_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_W3Jets.conf W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8 10
-./HTC_submit_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_W4Jets.conf W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8 10
+./HTC_submit_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_WJets.conf WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8 20
+./HTC_submit_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_W1Jets.conf W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8 20
+./HTC_submit_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_W2Jets.conf W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8 20
+./HTC_submit_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_W3Jets.conf W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8 20
+./HTC_submit_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_W4Jets.conf W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8 20
+./HTC_submit_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_W1JetspT100-150.conf W1JetsToLNu_LHEWpT_100-150  20
+./HTC_submit_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_W1JetspT150-250.conf W1JetsToLNu_LHEWpT_150-250 20
+./HTC_submit_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_W1JetspT250-400.conf W1JetsToLNu_LHEWpT_250-400 20
+./HTC_submit_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_W1JetspT400-inf.conf W1JetsToLNu_LHEWpT_400-inf 20
+./HTC_submit_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_WStarMuNu.conf WToMuNu_M-200_TuneCP5_13TeV-pythia8 20
 
 
 # For fake rate (no trigger efficiencies need to be included)
 ./HTC_submit_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_Data.conf JetHT_Run2017 20
 
-./HTC_submit_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_W1JetspT50-150.conf W1JetsToLNu_LHEWpT_50-150  10
+#./HTC_submit_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_W1JetspT50-150.conf W1JetsToLNu_LHEWpT_50-150  10
 ./HTC_submit_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_W1JetspT100-150.conf W1JetsToLNu_LHEWpT_100-150  10
 ./HTC_submit_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_W1JetspT150-250.conf W1JetsToLNu_LHEWpT_150-250 10
 ./HTC_submit_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_W1JetspT250-400.conf W1JetsToLNu_LHEWpT_250-400 10
@@ -47,7 +52,7 @@
 ./HTC_submit_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_ZToNuNuHT-1200To2500.conf ZJetsToNuNu_HT-1200To2500_13TeV-madgraph 10
 ./HTC_submit_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_ZToNuNuHT-2500ToInf.conf ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph 10
 
-./HTC_submit_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_WStarMuNu.conf WToMuNu_M-200_TuneCP5_13TeV-pythia8 10
+./HTC_submit_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_WStarMuNu.conf WToMuNu_M-200_TuneCP5_13TeV-pythia8 20
 ./HTC_submit_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_WStarTauNu.conf WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola 10
 
 # missing files: 
