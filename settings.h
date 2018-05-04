@@ -28,7 +28,7 @@ TString tauDecayMode = "";
 //TString tauDecayMode = "_1prong0pizeros";
 //TString tauDecayMode = "_1prongUpTo4pizeros";
 
-double luminosity = 40400;
+double luminosity = 41370;
 //double luminosity = 1.;
 //double luminosity = 36800;
 
