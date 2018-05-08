@@ -1,22 +1,7 @@
 #include "HttStylesNew.cc"
 #include "settings.h"
-#include "TF1.h"
+#include "boost/algorithm/string.hpp"
 
-Double_t FitFunc(Double_t * x,Double_t * par) {
-  
-  Double_t a1 = (x[0] - par[1])/par[2];
-  Double_t a2 = (x[0] - par[3])/par[4];
-
-  return par[0]*(par[5]*TMath::Erf(a1)+(1-par[5])*TMath::Erf(a2));
- 
-}
-
-Double_t FitFunc_simple(Double_t * x,Double_t * par) {
-
-  Double_t a1 = (x[0] - par[1])/par[2];
-  return 0.5*par[0] * ( 1 + TMath::Erf(a1));
-
-}
 
 void TriggerEfficiency() {
 
@@ -24,9 +9,9 @@ void TriggerEfficiency() {
   TH1::SetDefaultSumw2();
   TH2::SetDefaultSumw2();
 
-  std::vector< std::pair<TString,std::vector<TString>> > samples;
+  std::vector< std::pair<string,std::vector<string>> > samples;
 
-  std::vector<TString> MC;
+  std::vector<string> MC;
   MC.push_back("WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
   MC.push_back("W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
   MC.push_back("W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
@@ -37,16 +22,11 @@ void TriggerEfficiency() {
   MC.push_back("W1JetsToLNu_LHEWpT_250-400");
   MC.push_back("W1JetsToLNu_LHEWpT_400-inf");
   MC.push_back("WToMuNu_M-200_TuneCP5_13TeV-pythia8");
-  std::vector<TString> Data;
+  std::vector<string> Data;
   Data.push_back("SingleMuon_Run2017");
   samples.push_back(make_pair("MC"   , MC));
   samples.push_back(make_pair("Data" , Data));
 
-  std::map<TString,TH1D*> histoMap;
-
-
-  Float_t bins[] = {60,90,100,110,120,130,140,150,160,170,180,190,200,220,240,280,320,380,480,600,800};
-  const int nbins  = sizeof(bins)/sizeof(Float_t) - 1;
 
   // Needed for stitching
   double xsecIncl = xsecs["WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"];
@@ -70,20 +50,33 @@ void TriggerEfficiency() {
   double nevtsProcessed1JetLHEWpT_400toinf = getNEventsProcessed(dir+"W1JetsToLNu_LHEWpT_400-inf.root");
   double nevtsProcessedWToMuNu_M200 = getNEventsProcessed(dir+"WToMuNu_M-200_TuneCP5_13TeV-pythia8.root");
 
+  std::map<string,TGraphAsymmErrors*> effMapData;
+  std::map<string,TGraphAsymmErrors*> effMapMC;
+
+  Float_t bins[]  = {0,120,130,140,150,160,170,180,190,200,220,240,280,320,380,800};
+  const int nbins = sizeof(bins)/sizeof(Float_t) - 1;
+
   for (unsigned int i=0; i<samples.size(); ++i) {
 
-    TH1D* histo_num = new TH1D(samples[i].first + "_num","",nbins,bins);
-    TH1D* histo_den = new TH1D(samples[i].first + "_den","",nbins,bins);
+    TH1D* histo_num_120ToInf = new TH1D( (samples[i].first + "_num_120ToInf").c_str() ,"",nbins,bins);
+    TH1D* histo_den_120ToInf = new TH1D( (samples[i].first + "_den_120ToInf").c_str() ,"",nbins,bins);
+    TH1D* histo_num_0To120   = new TH1D( (samples[i].first + "_num_0To120").c_str() ,"",nbins,bins);
+    TH1D* histo_den_0To120   = new TH1D( (samples[i].first + "_den_0To120").c_str() ,"",nbins,bins);
+    TH1D* histo_num_120To160 = new TH1D( (samples[i].first + "_num_120To160").c_str() ,"",nbins,bins);
+    TH1D* histo_den_120To160 = new TH1D( (samples[i].first + "_den_120To160").c_str() ,"",nbins,bins);
+    TH1D* histo_num_160To200 = new TH1D( (samples[i].first + "_num_160To200").c_str() ,"",nbins,bins);
+    TH1D* histo_den_160To200 = new TH1D( (samples[i].first + "_den_160To200").c_str() ,"",nbins,bins);
+    TH1D* histo_num_200ToInf = new TH1D( (samples[i].first + "_num_200ToInf").c_str() ,"",nbins,bins);
+    TH1D* histo_den_200ToInf = new TH1D( (samples[i].first + "_den_200ToInf").c_str() ,"",nbins,bins);
 
     for(unsigned int idx_list=0; idx_list<samples[i].second.size(); idx_list++){
 
-      TString filename = dir+samples[i].second[idx_list]+".root";
-      TFile * file = new TFile(filename);
+      string filename = string(dir) + samples[i].second[idx_list] + ".root";
+      TFile * file = new TFile( filename.c_str() );
       if(!file)	cout<<"The following tree does not exit: "<<filename<<" .   Please Check."<<endl;
 
-
       TTreeReader *myReader = new TTreeReader("TriggerNTuple",file);
-      
+
       TTreeReaderValue< Float_t >  mhtNoMu(          *myReader,       "mhtNoMu");
       TTreeReaderValue< Float_t >  metNoMu(          *myReader,       "metNoMu");
       TTreeReaderValue< Float_t >  mht(              *myReader,       "mht");
@@ -110,7 +103,7 @@ void TriggerEfficiency() {
 	double norm   = 1.;
 
 	// STITCHING
-	if(samples[i].first.Contains("MC") && samples[i].second.size()>1){
+	if( boost::contains(samples[i].first,"MC") && samples[i].second.size()>1){
 
 	  norm =0;
 	  double add_NEvtsOverXsec = 0;
@@ -136,133 +129,112 @@ void TriggerEfficiency() {
 	}
 
 	// CUTS
-	if(*IsW != true)   continue; // this includes an mtmuon cut of 40GeV
-	if(*mtmuon < 50)   continue;
-	if(*mhtNoMu < 60 )         continue;
-	if(*muonPt < 30)       continue;
-	//if(*dPhiMetMuon > 1.5) continue;
+	if(*IsW != true)    continue; // this includes an mtmuon cut of 40GeV
+	if(*mtmuon < 50)    continue;
+	if(*muonPt < 30)    continue;
+	//if(*mhtNoMu < 120 ) continue;
+	//if(*metNoMu < 120 ) continue;
 
-	histo_den  -> Fill( *metNoMu, weight*norm );
+	if(*mhtNoMu < 120)                        histo_den_0To120   -> Fill( *metNoMu, weight*norm );
+	else if(*mhtNoMu > 120 && *mhtNoMu < 160) histo_den_120To160 -> Fill( *metNoMu, weight*norm );
+	else if(*mhtNoMu > 160 && *mhtNoMu < 200) histo_den_160To200 -> Fill( *metNoMu, weight*norm );
+	else if(*mhtNoMu > 200 )                  histo_den_200ToInf -> Fill( *metNoMu, weight*norm );
+
+	histo_den_120ToInf -> Fill( *metNoMu, weight*norm );
 	
 	if(*trigger != true)   continue;
 
-	histo_num  -> Fill( *metNoMu, weight*norm );
+	histo_num_120ToInf -> Fill( *metNoMu, weight*norm );
+
+	if(*mhtNoMu < 120)                        histo_num_0To120   -> Fill( *metNoMu, weight*norm );
+	else if(*mhtNoMu > 120 && *mhtNoMu < 160) histo_num_120To160 -> Fill( *metNoMu, weight*norm );
+	else if(*mhtNoMu > 160 && *mhtNoMu < 200) histo_num_160To200 -> Fill( *metNoMu, weight*norm );
+	else if(*mhtNoMu > 200 )                  histo_num_200ToInf -> Fill( *metNoMu, weight*norm );
       }
     }
-    histoMap[samples[i].first + "_num"] = (TH1D*) histo_num -> Clone();
-    histoMap[samples[i].first + "_num"] -> SetDirectory(0);
-    histoMap[samples[i].first + "_den"] = (TH1D*) histo_den -> Clone();
-    histoMap[samples[i].first + "_den"] -> SetDirectory(0);
+
+    TGraphAsymmErrors * eff_120ToInf = new TGraphAsymmErrors();
+    TGraphAsymmErrors * eff_0To120   = new TGraphAsymmErrors();
+    TGraphAsymmErrors * eff_120To160 = new TGraphAsymmErrors();
+    TGraphAsymmErrors * eff_160To200 = new TGraphAsymmErrors();
+    TGraphAsymmErrors * eff_200ToInf = new TGraphAsymmErrors();
+
+    eff_120ToInf -> Divide( histo_num_120ToInf , histo_den_120ToInf , "n");
+    eff_0To120   -> Divide( histo_num_0To120   , histo_den_0To120   , "n");
+    eff_120To160 -> Divide( histo_num_120To160 , histo_den_120To160 , "n");
+    eff_160To200 -> Divide( histo_num_160To200 , histo_den_160To200 , "n");
+    eff_200ToInf -> Divide( histo_num_200ToInf , histo_den_200ToInf , "n");
+
+
+    if( boost::contains(samples[i].first , "Data") ){
+	effMapData[ samples[i].first + "_120ToInf" ] = (TGraphAsymmErrors*) eff_120ToInf -> Clone();
+	effMapData[ samples[i].first + "_0To120" ]   = (TGraphAsymmErrors*) eff_0To120   -> Clone();
+	effMapData[ samples[i].first + "_120To160" ] = (TGraphAsymmErrors*) eff_120To160 -> Clone();
+	effMapData[ samples[i].first + "_160To200" ] = (TGraphAsymmErrors*) eff_160To200 -> Clone();
+	effMapData[ samples[i].first + "_200ToInf" ] = (TGraphAsymmErrors*) eff_200ToInf -> Clone();
+      }
+      else{
+	effMapMC[ samples[i].first + "_120ToInf" ]   = (TGraphAsymmErrors*) eff_120ToInf -> Clone();
+	effMapMC[ samples[i].first + "_0To120" ]     = (TGraphAsymmErrors*) eff_0To120   -> Clone();
+	effMapMC[ samples[i].first + "_120To160" ]   = (TGraphAsymmErrors*) eff_120To160 -> Clone();
+	effMapMC[ samples[i].first + "_160To200" ]   = (TGraphAsymmErrors*) eff_160To200 -> Clone();
+	effMapMC[ samples[i].first + "_200ToInf" ]   = (TGraphAsymmErrors*) eff_200ToInf -> Clone();
+      }
   }
 
-  TGraphAsymmErrors * effData = new TGraphAsymmErrors();
-  TGraphAsymmErrors * effMC   = new TGraphAsymmErrors();
-  TF1 * dataFunc;
-  TF1 * mcFunc;
 
-  effData -> Divide(histoMap["Data_num"],histoMap["Data_den"] , "n");
-  effMC   -> Divide(histoMap["MC_num"],histoMap["MC_den"]     , "n");
-
-
-  // ################################# Fitting Starts ############
-  /*
-  dataFunc = new TF1("dataFunc",FitFunc,bins[0],bins[nbins],6);
-  dataFunc->SetParameter(0,0.5);
-  dataFunc->SetParameter(1,80.);
-  dataFunc->SetParameter(2,50.);
-  dataFunc->SetParameter(3,120.);
-  dataFunc->SetParameter(4,100.);
-  dataFunc->SetParameter(5,0.5);
-  dataFunc->SetParLimits(0,0.00001,0.99999);
-  dataFunc->SetParLimits(5,0.00001,0.99999);
-  dataFunc->SetLineColor(1);
-  effData->Fit("dataFunc","RB");
- 
-  mcFunc = new TF1("mcFunc",FitFunc,bins[0],bins[nbins],6);
-  mcFunc->SetParameter(0,0.5);
-  mcFunc->SetParameter(1,80.);
-  mcFunc->SetParameter(2,50.);
-  mcFunc->SetParameter(3,120.);
-  mcFunc->SetParameter(4,100.);
-  mcFunc->SetParameter(5,0.5);
-  mcFunc->SetParLimits(0,0.00001,0.99999);
-  mcFunc->SetParLimits(5,0.00001,0.99999);
-  mcFunc->SetLineColor(2);
-  effMC->Fit("mcFunc","RB");
-  cout<<endl;
-  cout<<endl;
-  cout<<"Data results : "<<endl;
-  cout<<"Propability = "<<dataFunc->GetProb()<<endl;
-  cout<<"Chi**2      = "<<dataFunc->GetChisquare()<<endl;
-  cout<<"NDF         = "<<dataFunc->GetNDF()<<endl;
-  cout<<endl;
-  cout<<"MC results : "<<endl;
-  cout<<"Propability = "<<mcFunc->GetProb()<<endl;
-  cout<<"Chi**2      = "<<mcFunc->GetChisquare()<<endl;
-  cout<<"NDF         = "<<mcFunc->GetNDF()<<endl;
-  cout<<endl;
-  */
-  // ################################# Fitting Ends ############
-
-
-  // ################################ Plotting Starts ###########
-  effData->SetMarkerStyle(20);
-  effData->SetMarkerColor(1);
-  effData->SetLineColor(1);
-  effData->SetMarkerSize(0.7);
-  effMC->SetMarkerStyle(21);
-  effMC->SetMarkerColor(2);
-  effMC->SetLineColor(2);
-  effMC->SetMarkerSize(1);
-
-  TCanvas * canv = new TCanvas("canv","",1000,700);
-  effData->GetYaxis()->SetTitle("Trigger Efficiency");
-  effData->GetXaxis()->SetTitle("E_{T, no #mu}^{mis} [GeV]");
-  effData->GetYaxis()->SetTitleOffset(1.2);
-  effData->GetXaxis()->SetTitleOffset(1.1);
-  effData->SetMaximum(1.0);
-  effData->SetMinimum(0.0);
-  effData->GetXaxis()->SetRangeUser(bins[0],bins[nbins]);
-  effData->Draw("ap");
-  effMC->Draw("psame");
-
-  histoMap["Data_den"] -> SetMarkerStyle(20);
-  histoMap["Data_den"] -> SetMarkerColor(1);
-  histoMap["Data_den"] -> SetLineColor(1);
-  histoMap["MC_den"]   -> SetMarkerStyle(20);
-  histoMap["MC_den"]   -> SetMarkerColor(2);
-  histoMap["MC_den"]   -> SetLineColor(2);
-  
-  //histoMap["Data_den"] -> GetXaxis()->SetTitle("MET");
-  //histoMap["Data_den"] -> SetTitle("mht>120 & muonPt>30 & dPhi<1.5 & mt>0");
-  //histoMap["Data_den"] -> Draw("");
-  //histoMap["MC_den"]   -> Draw("same");
-
-  TLegend * leg = NULL; 
-  leg = new TLegend(0.6,0.2,0.9,0.45);
-  SetLegendStyle(leg);
-  leg->SetTextSize(0.05);
-  leg->SetHeader("single #mu events, ");
-  leg->AddEntry(effData,"data","lp");
-  leg->AddEntry(effMC,"simulation","lp");
-  leg->Draw();
-  canv->Update();
-  //canv->Print("figures/trigger_turnon.pdf","Portrait pdf");
-  canv->Print("figures/trigger_turnon.png");
-  //canv->Print("figures/histo_MET.png");
-  //canv -> SetLogy();
-  //canv->Print("figures/histo_MET_log.png");
-  // ################################ Plotting Ends ###########
-  
-
-  // ################################ Saving Starts ###########
   TFile * fileOutput = new TFile("output/trigger_eff.root","recreate");
-  fileOutput-> cd("");  
-  //dataFunc  -> Write("dataFunc");
-  //mcFunc    -> Write("mcFunc");
-  effData   -> Write("data");
-  effMC     -> Write("mc");
-  fileOutput-> Close();
-  // ################################ Saving End ###########
+  fileOutput         -> cd("");    
 
+  for (auto const& x : effMapData){
+
+    std::cout << x.first  // string (key)
+              << std::endl ;
+
+    size_t pos = x.first.find("_");
+    string mhtNoMuRangeName = x.first.substr (pos+1);
+    cout<<"mhtNoMu Range Name = "<<mhtNoMuRangeName<<endl;
+
+    // ################################ Plotting Starts ###########
+    TCanvas * canv = new TCanvas("canv","",1000,700);
+
+    TLegend * leg = NULL; 
+    leg = new TLegend(0.6,0.2,0.9,0.45);
+    SetLegendStyle(leg);
+    leg->SetTextSize(0.05);
+    leg->SetHeader("single #mu events, ");
+    leg->Draw();
+    
+    x.second->SetMarkerStyle(20);
+    x.second->SetMarkerColor(1);
+    x.second->SetLineColor(1);
+    x.second->SetMarkerSize(0.7);
+    x.second->GetYaxis()->SetTitle("Trigger Efficiency");
+    x.second->GetXaxis()->SetTitle("E_{T, no #mu}^{mis} [GeV]");
+    x.second->GetYaxis()->SetTitleOffset(1.2);
+    x.second->GetXaxis()->SetTitleOffset(1.1);
+    x.second->SetMaximum(1.0);
+    x.second->SetMinimum(0.0);
+    x.second->GetXaxis()->SetRangeUser(bins[0],bins[nbins]);
+    x.second->SetTitle( ("MHTNoMu =" + mhtNoMuRangeName).c_str());
+    x.second->Draw("ap");
+    leg->AddEntry(x.second,"data","lp");
+    
+    string keyMC = "MC_" + mhtNoMuRangeName;
+    effMapMC[keyMC]->SetMarkerStyle(21);
+    effMapMC[keyMC]->SetMarkerColor(2);
+    effMapMC[keyMC]->SetLineColor(2);
+    effMapMC[keyMC]->SetMarkerSize(1);
+    effMapMC[keyMC]->Draw("psame");    
+    leg->AddEntry(effMapMC[keyMC],"simulation","lp");
+    canv->Update();
+    canv->Print( ("figures/trigger_turnon_" + mhtNoMuRangeName + ".png").c_str() );
+    // ################################ Plotting Ends ###########
+
+    // ################################ Saving Starts ###########
+    x.second           -> Write( ("data_" +  mhtNoMuRangeName).c_str() );
+    effMapMC[keyMC]    -> Write( ("mc_" +  mhtNoMuRangeName).c_str() );
+    // ################################ Saving End ###########
+  }
+  fileOutput         -> Close();
 }
