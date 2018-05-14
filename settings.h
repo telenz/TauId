@@ -19,18 +19,18 @@
 #include "TLorentzVector.h"
 
 //TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2016/TauIdWithVirtualW/WTauId/NTuples/";
-TString dir = "/nfs/dust/cms/user/mameyer/TauIdAndES_2017Data/TauId/NTuples/";
+//TString dir = "/nfs/dust/cms/user/mameyer/TauIdAndES_2017Data/TauId/NTuples/";
 //TString dir = "NTuples/ntuples_before_18_4/";
-//TString dir = "NTuples/";
+TString dir = "NTuples/";
 
 TString tauDecayMode = "";
 //TString tauDecayMode = "_3prong0pizeros";
 //TString tauDecayMode = "_1prong0pizeros";
 //TString tauDecayMode = "_1prongUpTo4pizeros";
 
-double luminosity = 41370;
+double luminosity = 40992; // lumi determined by brilcalc
 //double luminosity = 1.;
-//double luminosity = 36800;
+//double luminosity = 35890; // lumi used for 2016 analysis
 
 std::vector<TString> iso;
 map<TString,TH2D>* h_fakerate = 0;
@@ -157,6 +157,8 @@ struct selectionCuts {
   float muonAbsEtaHigh = 5.0;
   float muonPtLow = 0.;
   float dPhiMetTauLow = 0;
+  float mhtNoMuLow = 0;
+  float metNoMuLow = 0;
 } sr, sr_trueTaus, sr_fakeTaus, cr_antiiso,  cr_antiiso_trueTaus, cr_antiiso_fakeTaus, cr_ewkFraction, cr_fakerate_den, cr_fakerate_num, cr_fakerate_dijet_den, cr_fakerate_dijet_num, sr_munu;
 // ----------------------------------------------------------------------------------------------------
 void initCuts()
@@ -192,6 +194,8 @@ void initCuts()
   sr.mtmuonHigh = 100000000;
   sr.mttauLow  = 0;
   sr.mttauHigh = 100000000;
+  sr.mhtNoMuLow = 120;
+  sr.metNoMuLow = 120;
 
   // sr for true taus
   sr_trueTaus = sr;
@@ -460,13 +464,13 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
 
   // needed later for stitching
   double nevtsProcessedWIncl        = getNEventsProcessed(dir+"WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8.root");
-  double nevtsProcessedWpT50To150   = getNEventsProcessed(dir+"W1JetsToLNu_LHEWpT_50-150.root");
+  //double nevtsProcessedWpT50To150   = getNEventsProcessed(dir+"W1JetsToLNu_LHEWpT_50-150.root");
   double nevtsProcessedWpT100To150  = getNEventsProcessed(dir+"W1JetsToLNu_LHEWpT_100-150.root");
   double nevtsProcessedWpT150To250  = getNEventsProcessed(dir+"W1JetsToLNu_LHEWpT_150-250.root");
   double nevtsProcessedWpT250To400  = getNEventsProcessed(dir+"W1JetsToLNu_LHEWpT_250-400.root");
   double nevtsProcessedWpT400ToInf  = getNEventsProcessed(dir+"W1JetsToLNu_LHEWpT_400-inf.root");
   double xsecWIncl        = xsecs["WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"];
-  double xsecWpT50To150  = xsecs["W1JetsToLNu_LHEWpT_50-150"];
+  //double xsecWpT50To150  = xsecs["W1JetsToLNu_LHEWpT_50-150"];
   double xsecWpT100To150 = xsecs["W1JetsToLNu_LHEWpT_100-150"];
   double xsecWpT150To250 = xsecs["W1JetsToLNu_LHEWpT_150-250"];
   double xsecWpT250To400 = xsecs["W1JetsToLNu_LHEWpT_250-400"];
@@ -501,6 +505,8 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
     if(*recoilRatio < sel.recoilRatioLow || *recoilRatio > sel.recoilRatioHigh) continue;
     if(*recoilDPhi < sel.recoilDPhiLow) continue;
 
+    if(*mhtNoMu < sel.mhtNoMuLow) continue;
+    if(*metNoMu < sel.metNoMuLow) continue;
     if(*met < sel.metLow) continue;
     if((*tauPt < sel.tauPtLow || *tauPt > sel.tauPtHigh) && sel.selection!=2) continue;
     if(*metFilters != sel.metFilters) continue;
@@ -543,23 +549,23 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
     }
     */
 
-    // Stitching only for wjets MC in n-jet binned samples in npartons
-    if(filename.Contains("W") && filename.Contains("JetsToLNu") && !filename.Contains("HT") && !filename.Contains("LHE")){
-      if(*npartons == 1)      norm=luminosity/( nevtsProcessedW1Jet/xsecW1Jet + nevtsProcessedWIncl/xsecWIncl );
-      else if(*npartons == 2) norm=luminosity/( nevtsProcessedW2Jet/xsecW2Jet + nevtsProcessedWIncl/xsecWIncl );
-      else if(*npartons == 3) norm=luminosity/( nevtsProcessedW3Jet/xsecW3Jet + nevtsProcessedWIncl/xsecWIncl );
-      else if(*npartons == 4) norm=luminosity/( nevtsProcessedW4Jet/xsecW4Jet + nevtsProcessedWIncl/xsecWIncl );
-      else                    norm=luminosity/( nevtsProcessedWIncl/xsecWIncl );
-    }
+    /* // Stitching only for wjets MC in n-jet binned samples in npartons */
+    /* if(filename.Contains("W") && filename.Contains("JetsToLNu") && !filename.Contains("HT") && !filename.Contains("LHE")){ */
+    /*   if(*npartons == 1)      norm=luminosity/( nevtsProcessedW1Jet/xsecW1Jet + nevtsProcessedWIncl/xsecWIncl ); */
+    /*   else if(*npartons == 2) norm=luminosity/( nevtsProcessedW2Jet/xsecW2Jet + nevtsProcessedWIncl/xsecWIncl ); */
+    /*   else if(*npartons == 3) norm=luminosity/( nevtsProcessedW3Jet/xsecW3Jet + nevtsProcessedWIncl/xsecWIncl ); */
+    /*   else if(*npartons == 4) norm=luminosity/( nevtsProcessedW4Jet/xsecW4Jet + nevtsProcessedWIncl/xsecWIncl ); */
+    /*   else                    norm=luminosity/( nevtsProcessedWIncl/xsecWIncl ); */
+    /* } */
 
-    // Stitching only for DY MC in npartons
-    if(filename.Contains("DY") && filename.Contains("JetsToLL_M-50")){
-      if (*npartons == 1)      norm = luminosity/( nevtsProcessedDY1Jet/xsecDY1Jet + nevtsProcessedDYIncl/xsecDYIncl );
-      else if (*npartons == 2) norm = luminosity/( nevtsProcessedDY2Jet/xsecDY2Jet + nevtsProcessedDYIncl/xsecDYIncl );
-      else if (*npartons == 3) norm = luminosity/( nevtsProcessedDY3Jet/xsecDY3Jet + nevtsProcessedDYIncl/xsecDYIncl );
-      else if (*npartons == 4) norm = luminosity/( nevtsProcessedDY4Jet/xsecDY4Jet + nevtsProcessedDYIncl/xsecDYIncl );
-      else                     norm = luminosity/( nevtsProcessedDYIncl/xsecDYIncl );
-    }
+    /* // Stitching only for DY MC in npartons */
+    /* if(filename.Contains("DY") && filename.Contains("JetsToLL_M-50")){ */
+    /*   if (*npartons == 1)      norm = luminosity/( nevtsProcessedDY1Jet/xsecDY1Jet + nevtsProcessedDYIncl/xsecDYIncl ); */
+    /*   else if (*npartons == 2) norm = luminosity/( nevtsProcessedDY2Jet/xsecDY2Jet + nevtsProcessedDYIncl/xsecDYIncl ); */
+    /*   else if (*npartons == 3) norm = luminosity/( nevtsProcessedDY3Jet/xsecDY3Jet + nevtsProcessedDYIncl/xsecDYIncl ); */
+    /*   else if (*npartons == 4) norm = luminosity/( nevtsProcessedDY4Jet/xsecDY4Jet + nevtsProcessedDYIncl/xsecDYIncl ); */
+    /*   else                     norm = luminosity/( nevtsProcessedDYIncl/xsecDYIncl ); */
+    /* } */
 
     if(*recoilPt<sel.recoilPtLow) continue;
     if(*dPhiMetTau<sel.dPhiMetTauLow) continue;
