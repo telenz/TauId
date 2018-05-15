@@ -430,6 +430,7 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
   TTreeReaderValue< Float_t >  jetPhi(           *myReader,       "jetPhi");
   TTreeReaderValue< Float_t >  recoilPt(         *myReader,       "recoilPt");
   TTreeReaderValue< UInt_t  >  npartons(         *myReader,       "npartons");
+  TTreeReaderValue< Float_t >  lheWPt(           *myReader,       "lheWPt");
   TTreeReaderValue< Float_t >  Ht(               *myReader,       "Ht");
   TTreeReaderValue< Float_t >  mhtNoMu(          *myReader,       "mhtNoMu");
   TTreeReaderValue< Float_t >  metNoMu(          *myReader,       "metNoMu");
@@ -448,11 +449,6 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
     pfJet320 = new TTreeReaderValue<Bool_t>(*myReader,"pfJet320");
     pfJet400 = new TTreeReaderValue<Bool_t>(*myReader,"pfJet400");
     pfJet450 = new TTreeReaderValue<Bool_t>(*myReader,"pfJet450");
-  }
-
-  TTreeReaderValue< Float_t >  *lheWPt = NULL;
-  if(filename.Contains("ToLNu")){
-    lheWPt = new TTreeReaderValue<Float_t>(*myReader,"lheWPt");
   }
 
   TTreeReaderValue< Float_t >  var1(             *myReader,       variableToFill_1);
@@ -500,7 +496,7 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
     if(*trig != sel.trigger && sel.selection == 3) continue;
     //if(sel.selection == 4 && (*pfJet40 != sel.pfJetTrigger && *pfJet60 != sel.pfJetTrigger && *pfJet80 != sel.pfJetTrigger && *pfJet140 != sel.pfJetTrigger && *(*pfJet200) != sel.pfJetTrigger && *(*pfJet260) != sel.pfJetTrigger && *(*pfJet320) != sel.pfJetTrigger && *(*pfJet400) != sel.pfJetTrigger && *(*pfJet450) != sel.pfJetTrigger && *(*pfJet500) != sel.pfJetTrigger)) continue;
     if(sel.selection == 4 && (*pfJet60 != sel.pfJetTrigger && *pfJet80 != sel.pfJetTrigger && *pfJet140 != sel.pfJetTrigger && *(*pfJet200) != sel.pfJetTrigger && *(*pfJet260) != sel.pfJetTrigger && *(*pfJet320) != sel.pfJetTrigger && *(*pfJet400) != sel.pfJetTrigger && *(*pfJet450) != sel.pfJetTrigger)) continue;
-   
+
     if(*Selection != sel.selection) continue;
     if(*recoilRatio < sel.recoilRatioLow || *recoilRatio > sel.recoilRatioHigh) continue;
     if(*recoilDPhi < sel.recoilDPhiLow) continue;
@@ -533,21 +529,6 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
     }
     if(sel.name.Contains("cr_fakerate") || sel.name.Contains("sr_munu")) *trigWeight = 1;
     if(!sel.name.Contains("cr_fakerate") && !sel.name.Contains("sr_munu")){*mueffweight=1;*mutrigweight=1;}
-
-    // Stitching only for wjets MC in lheWPt and npartons
-    /*
-    if( (filename.Contains("W1JetsToLNu_LHEWpT") || filename.Contains("WJetsToLNu")) && !filename.Contains("HT")){
-      if (*npartons == 1){
-	if(*lheWPt<50)                      norm = luminosity/( nevtsProcessedIncl/xsecIncl );
-	else if(*lheWPt>50  && *lheWPt<100) norm = luminosity/( nevtsProcessedWpT50To150/xsecWpT50To150   + nevtsProcessedIncl/xsecIncl );
-	else if(*lheWPt>100 && *lheWPt<150) norm = luminosity/( nevtsProcessedWpT50To150/xsecWpT50To150   + nevtsProcessedWpT100To150/xsecWpT100To150 + nevtsProcessedIncl/xsecIncl );
-	else if(*lheWPt>150 && *lheWPt<250) norm = luminosity/( nevtsProcessedWpT150To250/xsecWpT150To250 + nevtsProcessedIncl/xsecIncl );
-	else if(*lheWPt>250 && *lheWPt<400) norm = luminosity/( nevtsProcessedWpT250To400/xsecWpT250To400 + nevtsProcessedIncl/xsecIncl );
-	else                                norm = luminosity/( nevtsProcessedWpT400ToInf/xsecWpT400ToInf + nevtsProcessedIncl/xsecIncl );
-      }
-      else norm = luminosity/( nevtsProcessedIncl/xsecIncl );
-    }
-    */
 
     /* // Stitching only for wjets MC in n-jet binned samples in npartons */
     /* if(filename.Contains("W") && filename.Contains("JetsToLNu") && !filename.Contains("HT") && !filename.Contains("LHE")){ */
