@@ -16,14 +16,10 @@ void CalculateEWKfraction() {
   data_MET.push_back("MET_Run2017");
   std::vector<TString> ewk;
   ewk.push_back("WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
-  // ewk.push_back("W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
-  // ewk.push_back("W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
-  // ewk.push_back("W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
-  // ewk.push_back("W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
-  // ewk.push_back("W1JetsToLNu_LHEWpT_100-150");
-  // ewk.push_back("W1JetsToLNu_LHEWpT_150-250");
-  // ewk.push_back("W1JetsToLNu_LHEWpT_250-400");
-  // ewk.push_back("W1JetsToLNu_LHEWpT_400-inf");
+  ewk.push_back("W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
+  ewk.push_back("W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
+  ewk.push_back("W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
+  ewk.push_back("W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
   ewk.push_back("ZJetsToNuNu_HT-100To200_13TeV-madgraph");
   ewk.push_back("ZJetsToNuNu_HT-200To400_13TeV-madgraph");
   ewk.push_back("ZJetsToNuNu_HT-400To600_13TeV-madgraph");
@@ -42,10 +38,10 @@ void CalculateEWKfraction() {
   ewk.push_back("WW_TuneCP5_13TeV-pythia8");
   ewk.push_back("WZ_TuneCP5_13TeV-pythia8");
   ewk.push_back("DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
-  // ewk.push_back("DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
-  // ewk.push_back("DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
-  // ewk.push_back("DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
-  // ewk.push_back("DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
+  ewk.push_back("DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
+  ewk.push_back("DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
+  ewk.push_back("DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
+  ewk.push_back("DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
 
   samples.push_back(make_pair("EWK_MC" , ewk));
   samples.push_back(make_pair("MET_Data" , data_MET));
