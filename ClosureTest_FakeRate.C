@@ -73,8 +73,8 @@ void ClosureTest_FakeRate() {
     //Float_t bins[] = {100,200,300,400,500,700};  // met binning
     //Float_t bins[] = {100,170,220,350,500,1200};  // tauJetPt binning
     //Float_t bins[] = {200,300,400,500,600,800};  // mttau binning
-    //Float_t bins[] = {0.4,0.6,0.8,1.0,1.2,1.4,1.6,1.8};  // tauMass binning
-    //float bins[] = {0.05,0.1,0.15,0.2,0.25,0.3}; //tauMass binning
+    //Float_t bins[] = {0.4,0.6,0.8,1.0,1.2,1.4,1.6,1.8};  // tauMass binning 3prong
+    //Float_t bins[] = {0.05,0.1,0.125,0.15,0.2,0.25,0.3}; //tauMass binning 1prong 0pizeros
     //Float_t bins[] = {0,0.5,1.1,2.3}; //tauEta binning
     //Float_t bins[] = {0.0,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0,2.0}; //ratio binning
     const int nBins = sizeof(bins)/sizeof(Float_t) - 1;
