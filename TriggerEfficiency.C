@@ -1,7 +1,7 @@
 #include "HttStylesNew.cc"
 #include "settings.h"
 #include "boost/algorithm/string.hpp"
-
+#include <iomanip>
 
 void TriggerEfficiency() {
 
@@ -38,21 +38,16 @@ void TriggerEfficiency() {
   std::map<string,TGraphAsymmErrors*> effMapData;
   std::map<string,TGraphAsymmErrors*> effMapMC;
 
-  Float_t bins[]  = {0,120,130,140,150,160,170,180,190,200,220,240,280,320,380,800};
-  const int nbins = sizeof(bins)/sizeof(Float_t) - 1;
+  Float_t binsMET[]  = {0,120,130,140,150,160,170,180,190,200,220,240,280,320,380,480,1000}; // the upper bound can be lower than for mhtNoMu since the trigger turn-on is read with the Eval() function which extrapolates also outside the TGraphAsymmError
+  const int nbinsMET = sizeof(binsMET)/sizeof(Float_t) - 1;
+
+  Float_t binsMHT[]  = {0,120,160,200,300,2000};
+  const int nbinsMHT = sizeof(binsMHT)/sizeof(Float_t) - 1;
 
   for (unsigned int i=0; i<samples.size(); ++i) {
 
-    TH1D* histo_num_120ToInf = new TH1D( (samples[i].first + "_num_120ToInf").c_str() ,"",nbins,bins);
-    TH1D* histo_den_120ToInf = new TH1D( (samples[i].first + "_den_120ToInf").c_str() ,"",nbins,bins);
-    TH1D* histo_num_0To120   = new TH1D( (samples[i].first + "_num_0To120").c_str() ,"",nbins,bins);
-    TH1D* histo_den_0To120   = new TH1D( (samples[i].first + "_den_0To120").c_str() ,"",nbins,bins);
-    TH1D* histo_num_120To160 = new TH1D( (samples[i].first + "_num_120To160").c_str() ,"",nbins,bins);
-    TH1D* histo_den_120To160 = new TH1D( (samples[i].first + "_den_120To160").c_str() ,"",nbins,bins);
-    TH1D* histo_num_160To200 = new TH1D( (samples[i].first + "_num_160To200").c_str() ,"",nbins,bins);
-    TH1D* histo_den_160To200 = new TH1D( (samples[i].first + "_den_160To200").c_str() ,"",nbins,bins);
-    TH1D* histo_num_200ToInf = new TH1D( (samples[i].first + "_num_200ToInf").c_str() ,"",nbins,bins);
-    TH1D* histo_den_200ToInf = new TH1D( (samples[i].first + "_den_200ToInf").c_str() ,"",nbins,bins);
+    TH2D* histo_num = new TH2D((samples[i].first + "_num").c_str() ,"",nbinsMET,binsMET,nbinsMHT,binsMHT);
+    TH2D* histo_den = new TH2D((samples[i].first + "_den").c_str() ,"",nbinsMET,binsMET,nbinsMHT,binsMHT);
 
     for(unsigned int idx_list=0; idx_list<samples[i].second.size(); idx_list++){
 
@@ -116,55 +111,33 @@ void TriggerEfficiency() {
 	if(*IsW != true)    continue; // this includes an mtmuon cut of 40GeV
 	if(*mtmuon < 50)    continue;
 	if(*muonPt < 30)    continue;
-	//if(*mhtNoMu < 120 ) continue;
-	//if(*metNoMu < 120 ) continue;
 
-	if(*mhtNoMu < 120)                        histo_den_0To120   -> Fill( *metNoMu, weight*norm );
-	else if(*mhtNoMu > 120 && *mhtNoMu < 160) histo_den_120To160 -> Fill( *metNoMu, weight*norm );
-	else if(*mhtNoMu > 160 && *mhtNoMu < 200) histo_den_160To200 -> Fill( *metNoMu, weight*norm );
-	else if(*mhtNoMu > 200 )                  histo_den_200ToInf -> Fill( *metNoMu, weight*norm );
+	histo_den -> Fill( *metNoMu , *mhtNoMu , weight*norm );
 
-	histo_den_120ToInf -> Fill( *metNoMu, weight*norm );
-	
 	if(*trigger != true)   continue;
 
-	histo_num_120ToInf -> Fill( *metNoMu, weight*norm );
+	histo_num -> Fill( *metNoMu , *mhtNoMu , weight*norm );
 
-	if(*mhtNoMu < 120)                        histo_num_0To120   -> Fill( *metNoMu, weight*norm );
-	else if(*mhtNoMu > 120 && *mhtNoMu < 160) histo_num_120To160 -> Fill( *metNoMu, weight*norm );
-	else if(*mhtNoMu > 160 && *mhtNoMu < 200) histo_num_160To200 -> Fill( *metNoMu, weight*norm );
-	else if(*mhtNoMu > 200 )                  histo_num_200ToInf -> Fill( *metNoMu, weight*norm );
       }
     }
 
-    TGraphAsymmErrors * eff_120ToInf = new TGraphAsymmErrors();
-    TGraphAsymmErrors * eff_0To120   = new TGraphAsymmErrors();
-    TGraphAsymmErrors * eff_120To160 = new TGraphAsymmErrors();
-    TGraphAsymmErrors * eff_160To200 = new TGraphAsymmErrors();
-    TGraphAsymmErrors * eff_200ToInf = new TGraphAsymmErrors();
+    for(int ibin=1; ibin<=histo_den->GetNbinsY(); ibin++){
 
-    eff_120ToInf -> Divide( histo_num_120ToInf , histo_den_120ToInf , "n");
-    eff_0To120   -> Divide( histo_num_0To120   , histo_den_0To120   , "n");
-    eff_120To160 -> Divide( histo_num_120To160 , histo_den_120To160 , "n");
-    eff_160To200 -> Divide( histo_num_160To200 , histo_den_160To200 , "n");
-    eff_200ToInf -> Divide( histo_num_200ToInf , histo_den_200ToInf , "n");
+      TGraphAsymmErrors *eff = new TGraphAsymmErrors();
+      eff -> Divide( (TH1D*) histo_num->ProjectionX(histo_num->GetName()+ibin,ibin,ibin) , (TH1D*) histo_den->ProjectionX(histo_den->GetName()+ibin,ibin,ibin) , "n");
 
+      int lowEdge    = static_cast<int>(histo_den->GetYaxis() -> GetBinLowEdge(ibin));
+      int upEdge     = static_cast<int>(histo_den->GetYaxis() -> GetBinUpEdge(ibin));
+      cout<<"MHTNoMu bin "<<ibin<<" = "<<lowEdge<<" to "<<upEdge<<endl;
 
-    if( boost::contains(samples[i].first , "Data") ){
-	effMapData[ samples[i].first + "_120ToInf" ] = (TGraphAsymmErrors*) eff_120ToInf -> Clone();
-	effMapData[ samples[i].first + "_0To120" ]   = (TGraphAsymmErrors*) eff_0To120   -> Clone();
-	effMapData[ samples[i].first + "_120To160" ] = (TGraphAsymmErrors*) eff_120To160 -> Clone();
-	effMapData[ samples[i].first + "_160To200" ] = (TGraphAsymmErrors*) eff_160To200 -> Clone();
-	effMapData[ samples[i].first + "_200ToInf" ] = (TGraphAsymmErrors*) eff_200ToInf -> Clone();
-      }
-      else{
-	effMapMC[ samples[i].first + "_120ToInf" ]   = (TGraphAsymmErrors*) eff_120ToInf -> Clone();
-	effMapMC[ samples[i].first + "_0To120" ]     = (TGraphAsymmErrors*) eff_0To120   -> Clone();
-	effMapMC[ samples[i].first + "_120To160" ]   = (TGraphAsymmErrors*) eff_120To160 -> Clone();
-	effMapMC[ samples[i].first + "_160To200" ]   = (TGraphAsymmErrors*) eff_160To200 -> Clone();
-	effMapMC[ samples[i].first + "_200ToInf" ]   = (TGraphAsymmErrors*) eff_200ToInf -> Clone();
-      }
-  }
+      string keyname = samples[i].first + "_" + to_string(lowEdge) + "To" + to_string(upEdge);
+
+      if( boost::contains(samples[i].first , "Data") )	effMapData[ keyname ] = (TGraphAsymmErrors*) eff -> Clone();
+      else                                              effMapMC[ keyname ]   = (TGraphAsymmErrors*) eff -> Clone();
+
+    }
+
+  } // end: loop over samples vector (contains Data and MC)
 
 
   TFile * fileOutput = new TFile("output/trigger_eff.root","recreate");
@@ -177,7 +150,6 @@ void TriggerEfficiency() {
 
     size_t pos = x.first.find("_");
     string mhtNoMuRangeName = x.first.substr (pos+1);
-    cout<<"mhtNoMu Range Name = "<<mhtNoMuRangeName<<endl;
 
     // ################################ Plotting Starts ###########
     TCanvas * canv = new TCanvas("canv","",1000,700);
@@ -192,14 +164,14 @@ void TriggerEfficiency() {
     x.second->SetMarkerStyle(20);
     x.second->SetMarkerColor(1);
     x.second->SetLineColor(1);
-    x.second->SetMarkerSize(0.7);
+    x.second->SetMarkerSize(1);
     x.second->GetYaxis()->SetTitle("Trigger Efficiency");
     x.second->GetXaxis()->SetTitle("E_{T, no #mu}^{mis} [GeV]");
     x.second->GetYaxis()->SetTitleOffset(1.2);
     x.second->GetXaxis()->SetTitleOffset(1.1);
-    x.second->SetMaximum(1.0);
+    x.second->SetMaximum(1.1);
     x.second->SetMinimum(0.0);
-    x.second->GetXaxis()->SetRangeUser(bins[0],bins[nbins]);
+    x.second->GetXaxis()->SetRangeUser(binsMET[0],binsMET[nbinsMET]);
     x.second->SetTitle( ("MHTNoMu =" + mhtNoMuRangeName).c_str());
     x.second->Draw("ap");
     leg->AddEntry(x.second,"data","lp");
@@ -211,12 +183,15 @@ void TriggerEfficiency() {
     effMapMC[keyMC]->SetMarkerSize(1);
     effMapMC[keyMC]->Draw("psame");    
     leg->AddEntry(effMapMC[keyMC],"simulation","lp");
+    leg->Draw();
     canv->Update();
     canv->Print( ("figures/trigger_turnon_" + mhtNoMuRangeName + ".png").c_str() );
     // ################################ Plotting Ends ###########
 
     // ################################ Saving Starts ###########
+    x.second -> SetName( ("data_" +  mhtNoMuRangeName).c_str() );
     x.second           -> Write( ("data_" +  mhtNoMuRangeName).c_str() );
+    effMapMC[keyMC] -> SetName( ("mc_" +  mhtNoMuRangeName).c_str() );
     effMapMC[keyMC]    -> Write( ("mc_" +  mhtNoMuRangeName).c_str() );
     // ################################ Saving End ###########
   }
