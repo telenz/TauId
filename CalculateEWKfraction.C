@@ -46,22 +46,25 @@ void CalculateEWKfraction() {
   samples.push_back(make_pair("EWK_MC" , ewk));
   samples.push_back(make_pair("MET_Data" , data_MET));
 
-  TH1D* histo[2] = {0};  
-  const int nBins  = 1;
-  float bins[nBins+1] = {100,1200};  // tauPt binning
+  TH1D* histo[2] = {0};
+  Float_t bins[] = {100,1200};  // tauJetPt binning
+  const int nBins = sizeof(bins)/sizeof(Float_t) - 1;
+
+  TString var1 = "tauJetPt";
+  TString var2 = var1;//"tauJetPt";
 
   for (unsigned int i=0; i<samples.size(); ++i) {
 
     // filling histograms
     histo[i]  = new TH1D("h_" + samples[i].first,"",nBins,bins); 
 
-    TString var = "tauPt";
     for(unsigned int idx_list=0; idx_list<samples[i].second.size(); idx_list++){
       cout<<"---------- Processing ... "<<samples[i].second[idx_list]<<" ---------- "<<endl;
 
-      makeSelection(dir+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),(TString) "TightMva",cr_ewkFraction,histo[i],var,var,var);
+      makeSelection(dir+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),(TString) "TightMva",cr_ewkFraction,histo[i],var1,var2,var2);
     }
   }
+
   double nEWK_err;
   double nEWK  = histo[0] -> IntegralAndError(1,nBins,nEWK_err);
   double nData_err;
