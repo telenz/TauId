@@ -28,7 +28,8 @@ TString tauDecayMode = "";
 //TString tauDecayMode = "_1prong0pizeros";
 //TString tauDecayMode = "_1prongUpTo4pizeros";
 
-double luminosity = 40992; // lumi determined by brilcalc
+double luminosity = 40991; // lumi determined by brilcalc
+//double luminosity = 28289; // lumi without RunF (determined by brilcalc)
 //double luminosity = 1.;
 //double luminosity = 35890; // lumi used for 2016 analysis
 
