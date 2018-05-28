@@ -18,7 +18,16 @@ void TriggerEfficiency() {
   MC.push_back("W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
   MC.push_back("W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
   std::vector<string> Data;
-  Data.push_back("SingleMuon_Run2017");
+  Data.push_back("SingleMuon_Run2017_0");
+  Data.push_back("SingleMuon_Run2017_1");
+  Data.push_back("SingleMuon_Run2017_2");
+  Data.push_back("SingleMuon_Run2017_3");
+  Data.push_back("SingleMuon_Run2017_4");
+  Data.push_back("SingleMuon_Run2017_5");
+  Data.push_back("SingleMuon_Run2017_6");
+  Data.push_back("SingleMuon_Run2017_7");
+  Data.push_back("SingleMuon_Run2017_8");
+  Data.push_back("SingleMuon_Run2017_9");
   samples.push_back(make_pair("MC"   , MC));
   samples.push_back(make_pair("Data" , Data));
 
@@ -63,6 +72,7 @@ void TriggerEfficiency() {
       TTreeReaderValue< Float_t >  met(              *myReader,       "met");
       TTreeReaderValue< Bool_t  >  IsW(              *myReader,       "IsW");
       TTreeReaderValue< Bool_t  >  trigger(          *myReader,       "trigger");
+      TTreeReaderValue< Bool_t  >  metFilters(       *myReader,       "metFilters");
       TTreeReaderValue< UInt_t  >  npartons(         *myReader,       "npartons");
       TTreeReaderValue< UInt_t  >  npartonsNLO(      *myReader,       "npartonsNLO");
       TTreeReaderValue< Float_t >  lheWPt(           *myReader,       "lheWPt");
@@ -71,6 +81,8 @@ void TriggerEfficiency() {
       TTreeReaderValue< Float_t >  muonEta(          *myReader,       "muonEta");
       TTreeReaderValue< Float_t >  dPhiMetMuon(      *myReader,       "dPhiMetMuon");
       TTreeReaderValue< Float_t >  WMass(            *myReader,       "WMass");
+      TTreeReaderValue< UInt_t  >  nSelMuon(         *myReader,       "nSelMuon");
+      TTreeReaderValue< UInt_t  >  nMuon(            *myReader,       "nMuon");
       TTreeReaderValue< Float_t >  puWeight(         *myReader,       "puWeight");
       TTreeReaderValue< Float_t >  genWeight(        *myReader,       "genWeight");
 
@@ -108,9 +120,12 @@ void TriggerEfficiency() {
 	}
 
 	// CUTS
-	if(*IsW != true)    continue; // this includes an mtmuon cut of 40GeV
-	if(*mtmuon < 50)    continue;
-	if(*muonPt < 30)    continue;
+	if(*IsW != true)           continue; // this includes an mtmuon cut of 40GeV
+	if(*mtmuon < 50)           continue;
+	if(*muonPt < 30)           continue;
+	if(abs(*muonEta) > 2.1)    continue;
+	if(*nMuon!=1)              continue;
+	if(*metFilters != true)    continue;
 
 	histo_den -> Fill( *metNoMu , *mhtNoMu , weight*norm );
 
@@ -140,7 +155,7 @@ void TriggerEfficiency() {
   } // end: loop over samples vector (contains Data and MC)
 
 
-  TFile * fileOutput = new TFile("output/trigger_eff.root","recreate");
+  TFile * fileOutput = new TFile("output/trigger_eff_HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_94x_v6.root.root","recreate");
   fileOutput         -> cd("");    
 
   for (auto const& x : effMapData){
@@ -189,10 +204,10 @@ void TriggerEfficiency() {
     // ################################ Plotting Ends ###########
 
     // ################################ Saving Starts ###########
-    x.second -> SetName( ("data_" +  mhtNoMuRangeName).c_str() );
-    x.second           -> Write( ("data_" +  mhtNoMuRangeName).c_str() );
+    x.second        -> SetName( ("data_" +  mhtNoMuRangeName).c_str() );
+    x.second        -> Write( ("data_" +  mhtNoMuRangeName).c_str() );
     effMapMC[keyMC] -> SetName( ("mc_" +  mhtNoMuRangeName).c_str() );
-    effMapMC[keyMC]    -> Write( ("mc_" +  mhtNoMuRangeName).c_str() );
+    effMapMC[keyMC] -> Write( ("mc_" +  mhtNoMuRangeName).c_str() );
     // ################################ Saving End ###########
   }
   fileOutput         -> Close();
