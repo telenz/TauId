@@ -152,7 +152,7 @@ struct selectionCuts {
   float dPhiMetTauLow = 0;
   float mhtNoMuLow = 0;
   float metNoMuLow = 0;
-} sr, sr_trueTaus, sr_fakeTaus, cr_antiiso,  cr_antiiso_trueTaus, cr_antiiso_fakeTaus, cr_ewkFraction, cr_fakerate_den, cr_fakerate_num, cr_fakerate_dijet_den, cr_fakerate_dijet_num, sr_munu;
+} sr, sr_trueTaus, sr_fakeTaus, cr_antiiso,  cr_antiiso_trueTaus, cr_antiiso_fakeTaus, cr_ewkFraction, cr_fakerate_den, cr_fakerate_num, cr_fakerate, cr_fakerate_dijet_den, cr_fakerate_dijet_num, sr_munu;
 // ----------------------------------------------------------------------------------------------------
 void initCuts()
 {
@@ -262,6 +262,10 @@ void initCuts()
   cr_fakerate_num = cr_fakerate_den;
   cr_fakerate_num.name = "cr_fakerate_num";
   cr_fakerate_num.tauIso = true;
+
+  // cr_fakerate for WJets and ZJets normalization
+  cr_fakerate = cr_fakerate_den;
+  cr_fakerate.name = "cr_fakerate";
 
   // cr_fakerate_dijet_den
   cr_fakerate_dijet_den.name = "cr_fakerate_dijet_den";
@@ -499,7 +503,7 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
     if(*tauDM != sel.tauDM && sel.selection!=2) continue;
     if(*tauAntiMuonLoose3 != sel.tauAntiMuonLoose3 && sel.selection!=2) continue;
     if(*tauAntiElectronLooseMVA6 != sel.tauAntiElectronLooseMVA6 && sel.selection!=2) continue;
-    if(*tauIso != sel.tauIso && sel.selection!=2) continue;
+    if(*tauIso != sel.tauIso && sel.selection!=2 && sel.name != "cr_fakerate") continue;
     if((*tauGenMatchDecay<sel.tauGenMatchDecayLow || *tauGenMatchDecay>sel.tauGenMatchDecayHigh) && !isData) continue;
    
     if(*mtmuon < sel.mtmuonLow || *mtmuon > sel.mtmuonHigh ) continue;
