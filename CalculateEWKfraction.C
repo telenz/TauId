@@ -47,6 +47,7 @@ void CalculateEWKfraction() {
   samples.push_back(make_pair("MET_Data" , data_MET));
 
   TH1D* histo[2] = {0};
+  TH1D* histo_norm[2] = {0};
   Float_t bins[] = {100,1200};  // tauJetPt binning
   const int nBins = sizeof(bins)/sizeof(Float_t) - 1;
 
@@ -57,13 +58,27 @@ void CalculateEWKfraction() {
 
     // filling histograms
     histo[i]  = new TH1D("h_" + samples[i].first,"",nBins,bins); 
+    histo_norm[i]  = new TH1D("h_norm_" + samples[i].first,"",nBins,bins);
 
     for(unsigned int idx_list=0; idx_list<samples[i].second.size(); idx_list++){
       cout<<"---------- Processing ... "<<samples[i].second[idx_list]<<" ---------- "<<endl;
 
+      // Calculate normalization factor in fakefactor region (selection=1)
+      makeSelection(dir+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),(TString) "TightMva",cr_fakerate,histo_norm[i],var1,var2,var2);
+
       makeSelection(dir+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),(TString) "TightMva",cr_ewkFraction,histo[i],var1,var2,var2);
     }
   }
+
+  // Calculate normalization factor and rescale MC
+  double N_MC   = histo_norm[0]->Integral();
+  double N_Data = histo_norm[1]->Integral();
+  double norm = N_Data/N_MC;
+  cout<<endl;
+  cout<<"N_MC   = "<<N_MC<<endl;
+  cout<<"N_Data = "<<N_Data<<endl;
+  cout<<"norm   = "<<norm<<endl;
+  histo[0]->Scale(norm);
 
   double nEWK_err;
   double nEWK  = histo[0] -> IntegralAndError(1,nBins,nEWK_err);
