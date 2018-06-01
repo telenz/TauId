@@ -64,15 +64,15 @@ void CalculateEWKfraction() {
       cout<<"---------- Processing ... "<<samples[i].second[idx_list]<<" ---------- "<<endl;
 
       // Calculate normalization factor in fakefactor region (selection=1)
-      makeSelection(dir+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),(TString) "TightMva",cr_fakerate,histo_norm[i],var1,var2,var2);
+      makeSelection(dir+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),(TString) "TightMva",cr_fakerate_norm,histo_norm[i],var1,var2,var2);
 
       makeSelection(dir+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),(TString) "TightMva",cr_ewkFraction,histo[i],var1,var2,var2);
     }
   }
 
   // Calculate normalization factor and rescale MC
-  double N_MC   = histo_norm[0]->Integral();
-  double N_Data = histo_norm[1]->Integral();
+  double N_MC   = histo_norm[0]->Integral(0,nBins+1);
+  double N_Data = histo_norm[1]->Integral(0,nBins+1);
   double norm = N_Data/N_MC;
   cout<<endl;
   cout<<"N_MC   = "<<N_MC<<endl;

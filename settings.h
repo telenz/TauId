@@ -152,7 +152,7 @@ struct selectionCuts {
   float dPhiMetTauLow = 0;
   float mhtNoMuLow = 0;
   float metNoMuLow = 0;
-} sr, sr_trueTaus, sr_fakeTaus, cr_antiiso,  cr_antiiso_trueTaus, cr_antiiso_fakeTaus, cr_ewkFraction, cr_fakerate_den, cr_fakerate_num, cr_fakerate, cr_fakerate_dijet_den, cr_fakerate_dijet_num, sr_munu;
+} sr, sr_trueTaus, sr_fakeTaus, cr_antiiso,  cr_antiiso_trueTaus, cr_antiiso_fakeTaus, cr_ewkFraction, cr_fakerate_den, cr_fakerate_num, cr_fakerate_norm, cr_fakerate_dijet_den, cr_fakerate_dijet_num, sr_munu;
 // ----------------------------------------------------------------------------------------------------
 void initCuts()
 {
@@ -264,8 +264,9 @@ void initCuts()
   cr_fakerate_num.tauIso = true;
 
   // cr_fakerate for WJets and ZJets normalization
-  cr_fakerate = cr_fakerate_den;
-  cr_fakerate.name = "cr_fakerate";
+  cr_fakerate_norm = cr_fakerate_den;
+  cr_fakerate_norm.name = "cr_fakerate";
+  cr_fakerate_norm.trigger = true;
 
   // cr_fakerate_dijet_den
   cr_fakerate_dijet_den.name = "cr_fakerate_dijet_den";
@@ -480,7 +481,7 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
   bool isData = filename.Contains("SingleMuon") || filename.Contains("JetHT") || filename.Contains("MET");
   while(myReader->Next()){
 
-    if(*trig != sel.trigger && sel.selection == 3) continue;
+    if(*trig != sel.trigger && (sel.selection == 3 || sel.name == "cr_fakerate_norm")) continue;
     //if(sel.selection == 4 && (*pfJet40 != sel.pfJetTrigger && *pfJet60 != sel.pfJetTrigger && *pfJet80 != sel.pfJetTrigger && *pfJet140 != sel.pfJetTrigger && *(*pfJet200) != sel.pfJetTrigger && *(*pfJet260) != sel.pfJetTrigger && *(*pfJet320) != sel.pfJetTrigger && *(*pfJet400) != sel.pfJetTrigger && *(*pfJet450) != sel.pfJetTrigger && *(*pfJet500) != sel.pfJetTrigger)) continue;
     if(sel.selection == 4 && (*pfJet60 != sel.pfJetTrigger && *pfJet80 != sel.pfJetTrigger && *pfJet140 != sel.pfJetTrigger && *(*pfJet200) != sel.pfJetTrigger && *(*pfJet260) != sel.pfJetTrigger && *(*pfJet320) != sel.pfJetTrigger && *(*pfJet400) != sel.pfJetTrigger && *(*pfJet450) != sel.pfJetTrigger)) continue;
 
@@ -503,7 +504,7 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
     if(*tauDM != sel.tauDM && sel.selection!=2) continue;
     if(*tauAntiMuonLoose3 != sel.tauAntiMuonLoose3 && sel.selection!=2) continue;
     if(*tauAntiElectronLooseMVA6 != sel.tauAntiElectronLooseMVA6 && sel.selection!=2) continue;
-    if(*tauIso != sel.tauIso && sel.selection!=2 && sel.name != "cr_fakerate") continue;
+    if(*tauIso != sel.tauIso && sel.selection!=2 && sel.name != "cr_fakerate_norm") continue;
     if((*tauGenMatchDecay<sel.tauGenMatchDecayLow || *tauGenMatchDecay>sel.tauGenMatchDecayHigh) && !isData) continue;
    
     if(*mtmuon < sel.mtmuonLow || *mtmuon > sel.mtmuonHigh ) continue;
@@ -514,7 +515,7 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
     if(sel.name.Contains("cr_antiiso")){
       fakerate = getFakeRates( *tauPt/(*tauJetPt),*tauJetPt,iso, sel.name(11,sel.name.Length()) );
     }
-    if(sel.name.Contains("cr_fakerate") || sel.name.Contains("sr_munu")) *trigWeight = 1;
+    if(sel.name.Contains("cr_fakerate_num") || sel.name.Contains("cr_fakerate_den") || sel.name.Contains("sr_munu")) *trigWeight = 1;
     if(!sel.name.Contains("cr_fakerate") && !sel.name.Contains("sr_munu")){*mueffweight=1;*mutrigweight=1;}
 
     // Stitching only for wjets MC in n-jet binned samples in npartons
