@@ -90,7 +90,11 @@ map<TString, double> xsecs = {
 {"WToMuNu_M-200_TuneCP5_13TeV-pythia8_muDown"              , 1.3*6.238}, // NNLO-QCD NLO-EWK (43)
 {"WToMuNu_M-200_TuneCP5_13TeV-pythia8_uesUp"               , 1.3*6.238}, // NNLO-QCD NLO-EWK (44)
 {"WToMuNu_M-200_TuneCP5_13TeV-pythia8_uesDown"             , 1.3*6.238}, // NNLO-QCD NLO-EWK (45)
-};
+{"DYJetsToLL_M-50_HT-100to200_TuneCP5_13TeV-madgraphMLM-pythia8" , 160.5}, // (46)
+{"DYJetsToLL_M-50_HT-200to400_TuneCP5_13TeV-madgraphMLM-pythia8", 48.37}; // (47)
+{"DYJetsToLL_M-50_HT-400to600_TuneCP5_13TeV-madgraphMLM-pythia8", 6.972}; // (48)
+{"DYJetsToLL_M-50_HT-600to800_TuneCP5_13TeV-madgraphMLM-pythia8", 1.746}; // (49)
+{"DYJetsToLL_M-50_HT-800to1200_TuneCP5_13TeV-madgraphMLM-pythia8",  0.8101 }; // (50)
 // Sources of xsecs:
 // (1) from: LO: GenXSec analyzer (https://twiki.cern.ch/twiki/bin/view/CMS/HowToGenXSecAnalyzer), NNLO: https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat13TeV -> k-factor = 61526.7/52600 = 1.17
 // (2-5) from: LO: GenXSec analyzer (https://twiki.cern.ch/twiki/bin/view/CMS/HowToGenXSecAnalyzer), k-factor see (1)
@@ -107,6 +111,8 @@ map<TString, double> xsecs = {
 // (24-27) from: https://twiki.cern.ch/twiki/bin/viewauth/CMS/TauIDMeasurementsHelp
 // (28-38) from: https://cms-gen-dev.cern.ch/xsdb (DAS=WToTauNu_M-200_TuneCUETP8M1_13TeV-pythia8-tauola), k-factor = 1.3 (valid for m_W>200GeV and m_W<1TeV, see: https://indico.cern.ch/event/712797/contributions/2928866/attachments/1615436/2567073/TauIdMomScaleW_20180312.pdf)
 // (29-45) from: https://cms-gen-dev.cern.ch/xsdb (DAS=WToMuNu_M-200_TuneCUETP8M1_13TeV-pythia8), k-factor: see (28-38)
+// (46-50) from GenXSec analyzer
+
 // ----------------------------------------------------------------------------------------------------
 void loadWorkingPoints()
 {
