@@ -91,10 +91,10 @@ map<TString, double> xsecs = {
 {"WToMuNu_M-200_TuneCP5_13TeV-pythia8_uesUp"               , 1.3*6.238}, // NNLO-QCD NLO-EWK (44)
 {"WToMuNu_M-200_TuneCP5_13TeV-pythia8_uesDown"             , 1.3*6.238}, // NNLO-QCD NLO-EWK (45)
 {"DYJetsToLL_M-50_HT-100to200_TuneCP5_13TeV-madgraphMLM-pythia8" , 160.5}, // (46)
-{"DYJetsToLL_M-50_HT-200to400_TuneCP5_13TeV-madgraphMLM-pythia8", 48.37}; // (47)
-{"DYJetsToLL_M-50_HT-400to600_TuneCP5_13TeV-madgraphMLM-pythia8", 6.972}; // (48)
-{"DYJetsToLL_M-50_HT-600to800_TuneCP5_13TeV-madgraphMLM-pythia8", 1.746}; // (49)
-{"DYJetsToLL_M-50_HT-800to1200_TuneCP5_13TeV-madgraphMLM-pythia8",  0.8101 }; // (50)
+{"DYJetsToLL_M-50_HT-200to400_TuneCP5_13TeV-madgraphMLM-pythia8", 48.37}, // (47)
+{"DYJetsToLL_M-50_HT-400to600_TuneCP5_13TeV-madgraphMLM-pythia8", 6.972}, // (48)
+{"DYJetsToLL_M-50_HT-600to800_TuneCP5_13TeV-madgraphMLM-pythia8", 1.746}, // (49)
+{"DYJetsToLL_M-50_HT-800to1200_TuneCP5_13TeV-madgraphMLM-pythia8",  0.8101 }}; // (50)
 // Sources of xsecs:
 // (1) from: LO: GenXSec analyzer (https://twiki.cern.ch/twiki/bin/view/CMS/HowToGenXSecAnalyzer), NNLO: https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat13TeV -> k-factor = 61526.7/52600 = 1.17
 // (2-5) from: LO: GenXSec analyzer (https://twiki.cern.ch/twiki/bin/view/CMS/HowToGenXSecAnalyzer), k-factor see (1)
@@ -116,12 +116,12 @@ map<TString, double> xsecs = {
 // ----------------------------------------------------------------------------------------------------
 void loadWorkingPoints()
 {
-  iso.push_back("VTightMva");
-  iso.push_back("TightMva");
-  iso.push_back("MediumMva");
-  iso.push_back("LooseMva");
-  iso.push_back("Tight");
-  iso.push_back("Medium");
+   //iso.push_back("VTightMva");
+   //iso.push_back("TightMva");
+   //iso.push_back("MediumMva");
+   //iso.push_back("LooseMva");
+   //iso.push_back("Tight");
+   //iso.push_back("Medium");
   iso.push_back("Loose");
 }
 // ----------------------------------------------------------------------------------------------------
