@@ -19,9 +19,9 @@
 #include "TLorentzVector.h"
 
 //TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2016/TauIdWithVirtualW/WTauId/NTuples/";
-TString dir = "/nfs/dust/cms/user/mameyer/TauIdAndES_2017Data/TauId/NTuples/";
+//TString dir = "/nfs/dust/cms/user/mameyer/TauIdAndES_2017Data/TauId/NTuples/";
 //TString dir = "NTuples/ntuples_before_18_4/";
-//TString dir = "NTuples/";
+TString dir = "NTuples/";
 
 TString tauDecayMode = "";
 //TString tauDecayMode = "_3prong0pizeros";
@@ -116,12 +116,12 @@ map<TString, double> xsecs = {
 // ----------------------------------------------------------------------------------------------------
 void loadWorkingPoints()
 {
-   //iso.push_back("VTightMva");
-   //iso.push_back("TightMva");
-   //iso.push_back("MediumMva");
-   //iso.push_back("LooseMva");
-   //iso.push_back("Tight");
-   //iso.push_back("Medium");
+  iso.push_back("VTightMva2017v2");
+  iso.push_back("TightMva2017v2");
+  iso.push_back("MediumMva2017v2");
+  iso.push_back("LooseMva2017v2");
+  iso.push_back("Tight");
+  iso.push_back("Medium");
   iso.push_back("Loose");
 }
 // ----------------------------------------------------------------------------------------------------
@@ -424,7 +424,7 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
   TTreeReaderValue< Bool_t  >  tauDM(            *myReader,       "tauDM");
   TTreeReaderValue< Bool_t  >  tauAntiMuonLoose3(*myReader,       "tauAntiMuonTight3");
   TTreeReaderValue< Bool_t  >  tauAntiElectronLooseMVA6(*myReader,"tauAntiElectronVTightMVA6");
-  TTreeReaderValue< Bool_t  >  tauIso(           *myReader,       "tau"+iso+"Mva2017v2Iso");
+  TTreeReaderValue< Bool_t  >  tauIso(           *myReader,       "tau"+iso+"Iso");
   TTreeReaderValue< Int_t   >  tauGenMatchDecay( *myReader,       "tauGenMatchDecay");
   TTreeReaderValue< UInt_t  >  tauGenMatch(      *myReader,       "tauGenMatch");
   TTreeReaderValue< Int_t   >  tauDecay(         *myReader,       "tauDecay");
