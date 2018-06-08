@@ -42,7 +42,16 @@ void ComputeFakeRate() {
 
   std::vector< std::pair<TString,std::vector<TString>> > samples;
   std::vector<TString> data_SingleMuon;
-  data_SingleMuon.push_back("SingleMuon_Run2017");
+  data_SingleMuon.push_back("SingleMuon_Run2017_0");
+  data_SingleMuon.push_back("SingleMuon_Run2017_1");
+  data_SingleMuon.push_back("SingleMuon_Run2017_2");
+  data_SingleMuon.push_back("SingleMuon_Run2017_3");
+  data_SingleMuon.push_back("SingleMuon_Run2017_4");
+  data_SingleMuon.push_back("SingleMuon_Run2017_5");
+  data_SingleMuon.push_back("SingleMuon_Run2017_6");
+  data_SingleMuon.push_back("SingleMuon_Run2017_7");
+  data_SingleMuon.push_back("SingleMuon_Run2017_8");
+  data_SingleMuon.push_back("SingleMuon_Run2017_9");
   std::vector<TString> data_JetHT;
   data_JetHT.push_back("JetHT_Run2017");
   std::vector<TString> wjets;
