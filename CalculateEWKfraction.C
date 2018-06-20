@@ -52,7 +52,7 @@ void CalculateEWKfraction() {
   const int nBins = sizeof(bins)/sizeof(Float_t) - 1;
 
   TString var1 = "tauJetPt";
-  TString var2 = var1;//"tauJetPt";
+  TString var2 = var1;//"tauJetPt"; //variable is filled into histogram
 
   for (unsigned int i=0; i<samples.size(); ++i) {
 
@@ -64,9 +64,10 @@ void CalculateEWKfraction() {
       cout<<"---------- Processing ... "<<samples[i].second[idx_list]<<" ---------- "<<endl;
 
       // Calculate normalization factor in fakefactor region (selection=1)
-      makeSelection(dir+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),(TString) "TightMva",cr_fakerate_norm,histo_norm[i],var1,var2,var2);
+      makeSelection(dir+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),(TString) "TightMva",cr_fakerate_norm,histo_norm[i],var1,var2,var2); //only very small dependence on WP, decay mode selection is applied
 
-      makeSelection(dir+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),(TString) "TightMva",cr_ewkFraction,histo[i],var1,var2,var2);
+      makeSelection(dir+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),(TString) "TightMva",cr_ewkFraction,histo[i],var1,var2,var2);//EWK does not depend on WP, decay mode selection is applied
+
     }
   }
 
@@ -97,7 +98,7 @@ void CalculateEWKfraction() {
   std::cout << std::endl;
 
   // Save fraction of EWK events in root file
-  TFile* out = new TFile("output/fraction_EWK.root","RECREATE");
+  TFile* out = new TFile("output/fraction_EWK"+tauDecayMode+".root","RECREATE");
   out->cd();
   h_fEWK->Write();
 
@@ -110,9 +111,9 @@ void CalculateEWKfraction() {
   }
 
   // Read single fake rates
-  TFile *DataFileJetHT    = new TFile("output/JetHT_fakeRate.root");
-  TFile *DataFileSingleMu = new TFile("output/SingleMuon_fakeRate.root");
-  TFile* out_FakeRates    = new TFile("output/fakerates.root","RECREATE");
+  TFile *DataFileJetHT    = new TFile("output/JetHT_fakeRate"+tauDecayMode+".root");   
+  TFile *DataFileSingleMu = new TFile("output/SingleMuon_fakeRate"+tauDecayMode+".root");
+  TFile* out_FakeRates    = new TFile("output/fakerates"+tauDecayMode+".root","RECREATE");
 
   for(unsigned int idx_iso=0; idx_iso<iso.size(); idx_iso++){
 
