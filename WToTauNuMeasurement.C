@@ -76,24 +76,24 @@ void WToTauNuMeasurement() {
       fakeTaus_FRUp.push_back("MET_Run2017");
       std::vector<TString> fakeTaus_FRDown;
       fakeTaus_FRDown.push_back("MET_Run2017");
-      // samples.push_back(make_pair(Form("FakeTaus_FR%i%iUp",i,j) , fakeTaus_FRUp));
-      // samples.push_back(make_pair(Form("FakeTaus_FR%i%iDown",i,j) , fakeTaus_FRDown));
+      samples.push_back(make_pair(Form("FakeTaus_FR%i%iUp",i,j) , fakeTaus_FRUp));
+      samples.push_back(make_pair(Form("FakeTaus_FR%i%iDown",i,j) , fakeTaus_FRDown));
     }
   }
   samples.push_back(make_pair("TrueTaus" , trueTaus));
   samples.push_back(make_pair("FakeTaus" , fakeTaus));
   samples.push_back(make_pair("W" , WToTauNu));
   samples.push_back(make_pair("data_obs" , data_MET));
-  // samples.push_back(make_pair("W_jesUp" , WToTauNu_jesUp));
-  // samples.push_back(make_pair("W_jesDown" , WToTauNu_jesDown));
-  // samples.push_back(make_pair("W_taues_1prong0pizerosUp" , WToTauNu_taues_1prong0pizerosUp));
-  // samples.push_back(make_pair("W_taues_1prong0pizerosDown" , WToTauNu_taues_1prong0pizerosDown));
-  // samples.push_back(make_pair("W_taues_1prongUpTo4pizerosUp" , WToTauNu_taues_1prongUpTo4pizerosUp));
-  // samples.push_back(make_pair("W_taues_1prongUpTo4pizerosDown" , WToTauNu_taues_1prongUpTo4pizerosDown));
-  // samples.push_back(make_pair("W_taues_3prong0pizerosUp" , WToTauNu_taues_3prong0pizerosUp));
-  // samples.push_back(make_pair("W_taues_3prong0pizerosDown" , WToTauNu_taues_3prong0pizerosDown));
-  // samples.push_back(make_pair("W_uesUp" , WToTauNu_uesUp));
-  // samples.push_back(make_pair("W_uesDown" , WToTauNu_uesDown));
+  samples.push_back(make_pair("W_jesUp" , WToTauNu_jesUp));
+  samples.push_back(make_pair("W_jesDown" , WToTauNu_jesDown));
+  samples.push_back(make_pair("W_taues_1prong0pizerosUp" , WToTauNu_taues_1prong0pizerosUp));
+  samples.push_back(make_pair("W_taues_1prong0pizerosDown" , WToTauNu_taues_1prong0pizerosDown));
+  samples.push_back(make_pair("W_taues_1prongUpTo4pizerosUp" , WToTauNu_taues_1prongUpTo4pizerosUp));
+  samples.push_back(make_pair("W_taues_1prongUpTo4pizerosDown" , WToTauNu_taues_1prongUpTo4pizerosDown));
+  samples.push_back(make_pair("W_taues_3prong0pizerosUp" , WToTauNu_taues_3prong0pizerosUp));
+  samples.push_back(make_pair("W_taues_3prong0pizerosDown" , WToTauNu_taues_3prong0pizerosDown));
+  samples.push_back(make_pair("W_uesUp" , WToTauNu_uesUp));
+  samples.push_back(make_pair("W_uesDown" , WToTauNu_uesDown));
 
   TString var = "mttau";
 
@@ -124,8 +124,8 @@ void WToTauNuMeasurement() {
 	  select =  cr_antiiso;
 	  select.name = "cr_antiiso_" + samples[i].first(11,samples[i].first.Length()); 
 	}
-	makeSelection(dir+"/"+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),iso[idx_iso],select,histo,var,var,var);
-	//cout<<"------------------------------------------------------------- Mean "<<var<<" = "<<histo->GetMean()<<endl;
+      makeSelection(dir+"/"+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),iso[idx_iso],select,histo,var,var,var);
+      //cout<<"------------------------------------------------------------- Mean "<<var<<" = "<<histo->GetMean()<<endl;
 	histoSamples->Add(histo);
 	histoSamples->SetFillStyle(1001);
 	if(samples[i].first.Contains("FakeTaus")) histoSamples->SetFillColor(TColor::GetColor("#FFCCFF"));
@@ -226,8 +226,8 @@ void WToTauNuMeasurement() {
       ratioH = (TH1D*) h_data->Clone("ratioH");
       ratioH->Divide((TH1D*)stack->GetStack()->Last());
       ratioH->GetYaxis()->SetTitle("Obs./Exp.");
-      //ratioH->GetXaxis()->SetTitle("m_{T} [GeV]");
-      ratioH->GetXaxis()->SetTitle("p_{T}^{#tau} [GeV]");
+      ratioH->GetXaxis()->SetTitle("m_{T} [GeV]");
+      //ratioH->GetXaxis()->SetTitle("p_{T}^{#tau} [GeV]");
       //ratioH->GetXaxis()->SetTitle(var);
       ratioH->GetXaxis()->SetTitleOffset(3.5);
       ratioH->GetYaxis()->SetNdivisions(505);
