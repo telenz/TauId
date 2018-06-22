@@ -60,8 +60,8 @@ void DatacardProducer_WToTauNu() {
       textFile << setw(30) << Form("Bin%i_FakeTaus",iB) << setw(15) << "shape" << setw(15) << "-"    << setw(15) << "1.00" << setw(15) << "-"    << endl;
       textFile << setw(30) << Form("Bin%i_TrueTaus",iB) << setw(15) << "shape" << setw(15) << "-"    << setw(15) << "-"    << setw(15) << "1.00" << endl;
     }
-    for (int i=1; i<=4; ++i) {
-      for (int j=1; j<=3; ++j) {
+    for (int i=1; i<=6; ++i) {
+      for (int j=1; j<=5; ++j) {
 	textFile << setw(30) << Form("FR%i%i",i,j) << setw(15) << "shape" << setw(15) << "-" << setw(15) << "1.00" << setw(15) << "-" << endl;
       }
     }
