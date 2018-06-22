@@ -22,6 +22,7 @@
 //TString dir = "/nfs/dust/cms/user/mameyer/TauIdAndES_2017Data/TauId/NTuples/";
 //TString dir = "NTuples/ntuples_before_18_4/";
 TString dir = "NTuples/";
+//TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2017/TauIDWithVirtualW/TauId/NTuples/";
 
 TString tauDecayMode = "";
 //TString tauDecayMode = "_3prong0pizeros";
@@ -216,7 +217,7 @@ void initCuts()
   sr_munu.nSelTausHigh = 0;
   sr_munu.nMuonLow = 1;
   sr_munu.nMuonHigh = 1;
-  sr_munu.metLow = 100;
+  sr_munu.metLow = 120;
   sr_munu.muonAbsEtaHigh = 2.1;
   sr_munu.muonPtLow = 120;
   sr_munu.trigger = false;
@@ -341,10 +342,10 @@ void loadFakeRates(TString filename)
       h->SetDirectory(0);
       TString hName = h->GetName();
       if(hName.Contains("_Up")){
-	h_fakerate_up   -> insert( std::make_pair(h->GetName(),*h) );
+       h_fakerate_up   -> insert( std::make_pair(h->GetName(),*h) );
       }
       else if(hName.Contains("_Down")){
-	h_fakerate_down -> insert( std::make_pair(h->GetName(),*h) );
+       h_fakerate_down -> insert( std::make_pair(h->GetName(),*h) );
       }
       else{
 	h_fakerate      -> insert( std::make_pair(h->GetName(),*h) );
@@ -356,14 +357,14 @@ void loadFakeRates(TString filename)
 // ----------------------------------------------------------------------------------------------------
 double getFakeRates(float ratio, float jetPt, TString iso, TString err)
 {
-  for(int i=1; i<= h_fakerate->at(iso).GetNbinsX(); i++){
-    if( ratio > h_fakerate->at(iso).GetXaxis()->GetBinLowEdge(i) && ratio < h_fakerate->at(iso).GetXaxis()->GetBinUpEdge(i)){
-      for(int j=1; j<= h_fakerate->at(iso).GetNbinsY(); j++){
-	if( jetPt > h_fakerate->at(iso).GetYaxis()->GetBinLowEdge(j) && jetPt < h_fakerate->at(iso).GetYaxis()->GetBinUpEdge(j)){
-	  if( err == Form("%i%iUp",i,j))         return h_fakerate_up->at(iso).GetBinContent(i,j);
-	  else if( err == Form("%i%iDown",i,j) ) return h_fakerate_down->at(iso).GetBinContent(i,j);
-	  else                                   return h_fakerate->at(iso).GetBinContent(i,j);
-	}
+   for(int i=1; i<= h_fakerate->at(iso).GetNbinsX(); i++){
+      if( ratio > h_fakerate->at(iso).GetXaxis()->GetBinLowEdge(i) && ratio < h_fakerate->at(iso).GetXaxis()->GetBinUpEdge(i)){
+         for(int j=1; j<= h_fakerate->at(iso).GetNbinsY(); j++){
+            if( jetPt > h_fakerate->at(iso).GetYaxis()->GetBinLowEdge(j) && jetPt < h_fakerate->at(iso).GetYaxis()->GetBinUpEdge(j)){
+               if( err == Form("%i%iUp",i,j))         return h_fakerate_up->at(iso+"_Up").GetBinContent(i,j);
+               else if( err == Form("%i%iDown",i,j) ) return h_fakerate_down->at(iso+"_Down").GetBinContent(i,j);
+               else                                   return h_fakerate->at(iso).GetBinContent(i,j);
+            }
       }
     }
   }
@@ -495,18 +496,18 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
     if(*recoilRatio < sel.recoilRatioLow || *recoilRatio > sel.recoilRatioHigh) continue;
     if(*recoilDPhi < sel.recoilDPhiLow) continue;
 
-    if(*mhtNoMu < sel.mhtNoMuLow) continue;
-    if(*metNoMu < sel.metNoMuLow) continue;
+    if(*mhtNoMu < sel.mhtNoMuLow && sel.selection==3) continue;
+    if(*metNoMu < sel.metNoMuLow && sel.selection==3) continue;
     if(*met < sel.metLow) continue;
     if((*tauPt < sel.tauPtLow || *tauPt > sel.tauPtHigh) && sel.selection!=2) continue;
     if(*metFilters != sel.metFilters) continue;
-   
+
     if(*nMuon<sel.nMuonLow || *nMuon>sel.nMuonHigh) continue;
     if(*nElec<sel.nElecLow || *nElec>sel.nElecHigh) continue;
     if(*nSelTaus<sel.nSelTausLow || *nSelTaus>sel.nSelTausHigh) continue;
     if(*nJetsCentral30<sel.nJetsCentral30Low || *nJetsCentral30>sel.nJetsCentral30High) continue;
     if(*nJetsForward30<sel.nJetsForward30Low || *nJetsForward30>sel.nJetsForward30High) continue;
-   
+
     if(*tauDM != sel.tauDM && sel.selection!=2) continue;
     if(*tauAntiMuonLoose3 != sel.tauAntiMuonLoose3 && sel.selection!=2) continue;
     if(*tauAntiElectronLooseMVA6 != sel.tauAntiElectronLooseMVA6 && sel.selection!=2) continue;
