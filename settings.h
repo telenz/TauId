@@ -29,8 +29,8 @@ TString tauDecayMode = "";
 //TString tauDecayMode = "_1prong0pizeros";
 //TString tauDecayMode = "_1prongUpTo4pizeros";
 
-double luminosity = 40991; // lumi determined by brilcalc
-//double luminosity = 28289; // lumi without RunF (determined by brilcalc)
+//double luminosity = 40991; // lumi determined by brilcalc
+double luminosity = 28289; // lumi without RunF (determined by brilcalc)
 //double luminosity = 1.;
 //double luminosity = 35890; // lumi used for 2016 analysis
 
@@ -73,24 +73,24 @@ map<TString, double> xsecs = {
 {"ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8" , 26.38}, // ? (25) -> could be improved
 {"ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8"                      , 35.85}, // ? (26) -> could be improved
 {"ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8"                  , 35.85}, // ? (27) -> could be improved
-{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola"             , 1.3*6.206}, // NNLO-QCD NLO-EWK (28)
-{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_jesUp"       , 1.3*6.206}, // NNLO-QCD NLO-EWK (29)
-{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_jesDown"     , 1.3*6.206}, // NNLO-QCD NLO-EWK (30)
-{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prong0pizerosUp"             , 1.3*6.206}, // NNLO-QCD NLO-EWK (31)
-{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prong0pizerosDown"           , 1.3*6.206}, // NNLO-QCD NLO-EWK (32)
-{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prongUpTo4pizerosUp"         , 1.3*6.206}, // NNLO-QCD NLO-EWK (33)
-{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prongUpTo4pizerosDown"       , 1.3*6.206}, // NNLO-QCD NLO-EWK (34)
-{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_3prong0pizerosUp"             , 1.3*6.206}, // NNLO-QCD NLO-EWK (35)
-{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_3prong0pizerosDown"           , 1.3*6.206}, // NNLO-QCD NLO-EWK (36)
-{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_uesUp"       , 1.3*6.206}, // NNLO-QCD NLO-EWK (37)
-{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_uesDown"     , 1.3*6.206}, // NNLO-QCD NLO-EWK (38)
-{"WToMuNu_M-200_TuneCP5_13TeV-pythia8"                     , 1.3*6.238}, // NNLO-QCD NLO-EWK (39)
-{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_jesUp"               , 1.3*6.238}, // NNLO-QCD NLO-EWK (40)
-{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_jesDown"             , 1.3*6.238}, // NNLO-QCD NLO-EWK (41)
-{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_muUp"                , 1.3*6.238}, // NNLO-QCD NLO-EWK (42)
-{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_muDown"              , 1.3*6.238}, // NNLO-QCD NLO-EWK (43)
-{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_uesUp"               , 1.3*6.238}, // NNLO-QCD NLO-EWK (44)
-{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_uesDown"             , 1.3*6.238}, // NNLO-QCD NLO-EWK (45)
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola"             , 1.15*7.246}, // NNLO-QCD NLO-EWK (28)
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_jesUp"       , 1.15*7.246}, // NNLO-QCD NLO-EWK (29)
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_jesDown"     , 1.15*7.246}, // NNLO-QCD NLO-EWK (30)
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prong0pizerosUp"             , 1.15*7.246}, // NNLO-QCD NLO-EWK (31)
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prong0pizerosDown"           , 1.15*7.246}, // NNLO-QCD NLO-EWK (32)
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prongUpTo4pizerosUp"         , 1.15*7.246}, // NNLO-QCD NLO-EWK (33)
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prongUpTo4pizerosDown"       , 1.15*7.246}, // NNLO-QCD NLO-EWK (34)
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_3prong0pizerosUp"             , 1.15*7.246}, // NNLO-QCD NLO-EWK (35)
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_3prong0pizerosDown"           , 1.15*7.246}, // NNLO-QCD NLO-EWK (36)
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_uesUp"       , 1.15*7.246}, // NNLO-QCD NLO-EWK (37)
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_uesDown"     , 1.15*7.246}, // NNLO-QCD NLO-EWK (38)
+{"WToMuNu_M-200_TuneCP5_13TeV-pythia8"                     , 1.1*7.273}, // NNLO-QCD NLO-EWK (39)
+{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_jesUp"               , 1.1*7.273}, // NNLO-QCD NLO-EWK (40)
+{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_jesDown"             , 1.1*7.273}, // NNLO-QCD NLO-EWK (41)
+{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_muUp"                , 1.1*7.273}, // NNLO-QCD NLO-EWK (42)
+{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_muDown"              , 1.1*7.273}, // NNLO-QCD NLO-EWK (43)
+{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_uesUp"               , 1.1*7.273}, // NNLO-QCD NLO-EWK (44)
+{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_uesDown"             , 1.1*7.273}, // NNLO-QCD NLO-EWK (45)
 {"DYJetsToLL_M-50_HT-100to200_TuneCP5_13TeV-madgraphMLM-pythia8" , 160.5}, // (46)
 {"DYJetsToLL_M-50_HT-200to400_TuneCP5_13TeV-madgraphMLM-pythia8", 48.37}, // (47)
 {"DYJetsToLL_M-50_HT-400to600_TuneCP5_13TeV-madgraphMLM-pythia8", 6.972}, // (48)
@@ -545,7 +545,7 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
 
     if(*recoilPt<sel.recoilPtLow) continue;
     if(*dPhiMetTau<sel.dPhiMetTauLow) continue;
-
+    
     double weight = (*mueffweight)*(*mutrigweight)*(*puWeight)*(*trigWeight)*(*genWeight)*norm*fakerate;
     if(isData) weight =1;
     if(isData && sel.name.Contains("cr_antiiso")) weight = fakerate;
