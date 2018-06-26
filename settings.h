@@ -28,9 +28,10 @@ TString tauDecayMode = "";
 //TString tauDecayMode = "_3prong0pizeros";
 //TString tauDecayMode = "_1prong0pizeros";
 //TString tauDecayMode = "_1prongUpTo4pizeros";
+double tauMomScale = 0.95; 
 
-//double luminosity = 40991; // lumi determined by brilcalc
-double luminosity = 28289; // lumi without RunF (determined by brilcalc)
+double luminosity = 40991; // lumi determined by brilcalc
+//double luminosity = 28289; // lumi without RunF (determined by brilcalc)
 //double luminosity = 1.;
 //double luminosity = 35890; // lumi used for 2016 analysis
 
@@ -159,6 +160,8 @@ struct selectionCuts {
   float dPhiMetTauLow = 0;
   float mhtNoMuLow = 0;
   float metNoMuLow = 0;
+  float tauMassLow = 0.;
+  float tauMassHigh = 1000.;
 } sr, sr_trueTaus, sr_fakeTaus, cr_antiiso,  cr_antiiso_trueTaus, cr_antiiso_fakeTaus, cr_ewkFraction, cr_fakerate_den, cr_fakerate_num, cr_fakerate_norm, cr_fakerate_dijet_den, cr_fakerate_dijet_num, sr_munu;
 // ----------------------------------------------------------------------------------------------------
 void initCuts()
@@ -486,8 +489,36 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
   double xsecDY4Jet = xsecs["DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"];
 
   bool isData = filename.Contains("SingleMuon") || filename.Contains("JetHT") || filename.Contains("MET");
-  while(myReader->Next()){
+  
+  double metx = 0.;
+  double mety = 0.;
+  double tauPx= 0.;
+  double tauPy= 0.;
+  double tauPx_ms= 0.;
+  double tauPy_ms= 0.;
+  double metx_ms= 0.;
+  double mety_ms= 0.;
 
+
+  while(myReader->Next()){
+     
+     // shifts in met, tau pT and tau mass due to variation in tau momentum scale
+     metx = *met*TMath::Cos(*metphi);
+     mety = *met*TMath::Sin(*metphi); 
+    
+     tauPx = *tauPt*TMath::Cos(*tauPhi);
+     tauPy = *tauPt*TMath::Sin(*tauPhi);
+
+     tauPx_ms = tauPx*tauMomScale;
+     tauPy_ms = tauPy*tauMomScale;
+   
+     metx_ms = metx - (tauPx_ms-tauPx);
+     mety_ms = mety - (tauPy_ms-tauPy);
+     
+     *met = TMath::Sqrt(metx_ms*metx_ms+mety_ms*mety_ms);
+     *tauPt   *= tauMomScale;
+     *tauMass *= tauMomScale;
+     
     if(*trig != sel.trigger && (sel.selection == 3 || sel.name == "cr_fakerate_norm")) continue;
     //if(sel.selection == 4 && (*pfJet40 != sel.pfJetTrigger && *pfJet60 != sel.pfJetTrigger && *pfJet80 != sel.pfJetTrigger && *pfJet140 != sel.pfJetTrigger && *(*pfJet200) != sel.pfJetTrigger && *(*pfJet260) != sel.pfJetTrigger && *(*pfJet320) != sel.pfJetTrigger && *(*pfJet400) != sel.pfJetTrigger && *(*pfJet450) != sel.pfJetTrigger && *(*pfJet500) != sel.pfJetTrigger)) continue;
     if(sel.selection == 4 && (*pfJet60 != sel.pfJetTrigger && *pfJet80 != sel.pfJetTrigger && *pfJet140 != sel.pfJetTrigger && *(*pfJet200) != sel.pfJetTrigger && *(*pfJet260) != sel.pfJetTrigger && *(*pfJet320) != sel.pfJetTrigger && *(*pfJet400) != sel.pfJetTrigger && *(*pfJet450) != sel.pfJetTrigger)) continue;
@@ -500,6 +531,7 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
     if(*metNoMu < sel.metNoMuLow && sel.selection==3) continue;
     if(*met < sel.metLow) continue;
     if((*tauPt < sel.tauPtLow || *tauPt > sel.tauPtHigh) && sel.selection!=2) continue;
+    if((*tauMass < sel.tauMassLow || *tauMass > sel.tauMassHigh) && sel.selection!=2) continue; //Should be only applied for Tau momentum scale measurement?
     if(*metFilters != sel.metFilters) continue;
 
     if(*nMuon<sel.nMuonLow || *nMuon>sel.nMuonHigh) continue;
