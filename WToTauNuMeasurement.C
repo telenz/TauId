@@ -14,6 +14,7 @@ void WToTauNuMeasurement() {
   loadWorkingPoints();
   initCuts();
   loadFakeRates("output/fakerates" + tauDecayMode + ".root");
+  loadkFactors("kfactor_tau.root");
 
   std::vector< std::pair<TString,std::vector<TString>> > samples;
   std::vector<TString> data_MET;
@@ -35,13 +36,13 @@ void WToTauNuMeasurement() {
   trueTaus.push_back("DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
   trueTaus.push_back("DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
   trueTaus.push_back("DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
-  trueTaus.push_back("ZJetsToNuNu_HT-100To200_13TeV-madgraph");
-  trueTaus.push_back("ZJetsToNuNu_HT-200To400_13TeV-madgraph");
-  trueTaus.push_back("ZJetsToNuNu_HT-400To600_13TeV-madgraph");
-  trueTaus.push_back("ZJetsToNuNu_HT-600To800_13TeV-madgraph");
-  trueTaus.push_back("ZJetsToNuNu_HT-800To1200_13TeV-madgraph");
-  trueTaus.push_back("ZJetsToNuNu_HT-1200To2500_13TeV-madgraph");
-  trueTaus.push_back("ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph");
+  // trueTaus.push_back("ZJetsToNuNu_HT-100To200_13TeV-madgraph");
+  // trueTaus.push_back("ZJetsToNuNu_HT-200To400_13TeV-madgraph");
+  // trueTaus.push_back("ZJetsToNuNu_HT-400To600_13TeV-madgraph");
+  // trueTaus.push_back("ZJetsToNuNu_HT-600To800_13TeV-madgraph");
+  // trueTaus.push_back("ZJetsToNuNu_HT-800To1200_13TeV-madgraph");
+  // trueTaus.push_back("ZJetsToNuNu_HT-1200To2500_13TeV-madgraph");
+  // trueTaus.push_back("ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph");
 
   std::vector<TString> fakeTaus;
   fakeTaus.push_back("MET_Run2017");
@@ -218,7 +219,7 @@ void WToTauNuMeasurement() {
     if(histoMap["TrueTaus"]) leg->AddEntry(histoMap["TrueTaus"],"bkgd (true taus)","f");
     writeExtraText = true;
     extraText = "Preliminary";
-    CMS_lumi(upper,4,33); 
+    CMS_lumi(upper,6,33);
     leg->Draw("same");
 
     TH1D * ratioH = 0;
@@ -226,9 +227,9 @@ void WToTauNuMeasurement() {
       ratioH = (TH1D*) h_data->Clone("ratioH");
       ratioH->Divide((TH1D*)stack->GetStack()->Last());
       ratioH->GetYaxis()->SetTitle("Obs./Exp.");
-      ratioH->GetXaxis()->SetTitle("m_{T} [GeV]");
+      //ratioH->GetXaxis()->SetTitle("m_{T} [GeV]");
       //ratioH->GetXaxis()->SetTitle("p_{T}^{#tau} [GeV]");
-      //ratioH->GetXaxis()->SetTitle(var);
+      ratioH->GetXaxis()->SetTitle(var);
       ratioH->GetXaxis()->SetTitleOffset(3.5);
       ratioH->GetYaxis()->SetNdivisions(505);
       ratioH->GetYaxis()->SetRangeUser(0.4,1.6);

@@ -39,6 +39,8 @@ std::vector<TString> iso;
 map<TString,TH2D>* h_fakerate = 0;
 map<TString,TH2D>* h_fakerate_up = 0;
 map<TString,TH2D>* h_fakerate_down = 0;
+TH1D* h_kFactor= 0;
+
 
 map<TString, double> xsecs = {
 {"WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"            , 52760*1.166}, // NNLO (1)
@@ -74,24 +76,24 @@ map<TString, double> xsecs = {
 {"ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8" , 26.38}, // ? (25) -> could be improved
 {"ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8"                      , 35.85}, // ? (26) -> could be improved
 {"ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8"                  , 35.85}, // ? (27) -> could be improved
-{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola"             , 1.15*7.246}, // NNLO-QCD NLO-EWK (28)
-{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_jesUp"       , 1.15*7.246}, // NNLO-QCD NLO-EWK (29)
-{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_jesDown"     , 1.15*7.246}, // NNLO-QCD NLO-EWK (30)
-{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prong0pizerosUp"             , 1.15*7.246}, // NNLO-QCD NLO-EWK (31)
-{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prong0pizerosDown"           , 1.15*7.246}, // NNLO-QCD NLO-EWK (32)
-{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prongUpTo4pizerosUp"         , 1.15*7.246}, // NNLO-QCD NLO-EWK (33)
-{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prongUpTo4pizerosDown"       , 1.15*7.246}, // NNLO-QCD NLO-EWK (34)
-{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_3prong0pizerosUp"             , 1.15*7.246}, // NNLO-QCD NLO-EWK (35)
-{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_3prong0pizerosDown"           , 1.15*7.246}, // NNLO-QCD NLO-EWK (36)
-{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_uesUp"       , 1.15*7.246}, // NNLO-QCD NLO-EWK (37)
-{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_uesDown"     , 1.15*7.246}, // NNLO-QCD NLO-EWK (38)
-{"WToMuNu_M-200_TuneCP5_13TeV-pythia8"                     , 1.1*7.273}, // NNLO-QCD NLO-EWK (39)
-{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_jesUp"               , 1.1*7.273}, // NNLO-QCD NLO-EWK (40)
-{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_jesDown"             , 1.1*7.273}, // NNLO-QCD NLO-EWK (41)
-{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_muUp"                , 1.1*7.273}, // NNLO-QCD NLO-EWK (42)
-{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_muDown"              , 1.1*7.273}, // NNLO-QCD NLO-EWK (43)
-{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_uesUp"               , 1.1*7.273}, // NNLO-QCD NLO-EWK (44)
-{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_uesDown"             , 1.1*7.273}, // NNLO-QCD NLO-EWK (45)
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola"             , 1.0*7.246}, // LO, NNLO-QCD NLO-EWK mass dependent k factor applied later (28)
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_jesUp"       , 1.0*7.246}, // LO, NNLO-QCD NLO-EWK (29)
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_jesDown"     , 1.0*7.246}, // LO, NNLO-QCD NLO-EWK (30)
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prong0pizerosUp"             , 1.0*7.246}, // LO, NNLO-QCD NLO-EWK (31)
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prong0pizerosDown"           , 1.0*7.246}, // LO, NNLO-QCD NLO-EWK (32)
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prongUpTo4pizerosUp"         , 1.0*7.246}, // LO, NNLO-QCD NLO-EWK (33)
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prongUpTo4pizerosDown"       , 1.0*7.246}, // LO, NNLO-QCD NLO-EWK (34)
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_3prong0pizerosUp"             , 1.0*7.246}, // LO, NNLO-QCD NLO-EWK (35)
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_3prong0pizerosDown"           , 1.0*7.246}, // LO, NNLO-QCD NLO-EWK (36)
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_uesUp"       , 1.0*7.246}, // LO, NNLO-QCD NLO-EWK (37)
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_uesDown"     , 1.0*7.246}, // LO, NNLO-QCD NLO-EWK (38)
+{"WToMuNu_M-200_TuneCP5_13TeV-pythia8"                     , 1.0*7.273}, // LO, NNLO-QCD NLO-EWK (39)
+{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_jesUp"               , 1.0*7.273}, // LO, NNLO-QCD NLO-EWK (40)
+{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_jesDown"             , 1.0*7.273}, // LO, NNLO-QCD NLO-EWK (41)
+{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_muUp"                , 1.0*7.273}, // LO, NNLO-QCD NLO-EWK (42)
+{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_muDown"              , 1.0*7.273}, // LO, NNLO-QCD NLO-EWK (43)
+{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_uesUp"               , 1.0*7.273}, // LO, NNLO-QCD NLO-EWK (44)
+{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_uesDown"             , 1.0*7.273}, // LO, NNLO-QCD NLO-EWK (45)
 {"DYJetsToLL_M-50_HT-100to200_TuneCP5_13TeV-madgraphMLM-pythia8" , 160.5}, // (46)
 {"DYJetsToLL_M-50_HT-200to400_TuneCP5_13TeV-madgraphMLM-pythia8", 48.37}, // (47)
 {"DYJetsToLL_M-50_HT-400to600_TuneCP5_13TeV-madgraphMLM-pythia8", 6.972}, // (48)
@@ -111,8 +113,8 @@ map<TString, double> xsecs = {
 // (22) from: https://cms-gen-dev.cern.ch/xsdb (DAS=TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8)
 // (23) from: https://cms-gen-dev.cern.ch/xsdb (DAS=TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8)
 // (24-27) from: https://twiki.cern.ch/twiki/bin/viewauth/CMS/TauIDMeasurementsHelp
-// (28-38) from: https://cms-gen-dev.cern.ch/xsdb (DAS=WToTauNu_M-200_TuneCUETP8M1_13TeV-pythia8-tauola), k-factor = 1.3 (valid for m_W>200GeV and m_W<1TeV, see: https://indico.cern.ch/event/712797/contributions/2928866/attachments/1615436/2567073/TauIdMomScaleW_20180312.pdf)
-// (29-45) from: https://cms-gen-dev.cern.ch/xsdb (DAS=WToMuNu_M-200_TuneCUETP8M1_13TeV-pythia8), k-factor: see (28-38)
+// (28-38) LO GenXSec analyzer (https://twiki.cern.ch/twiki/bin/view/CMS/HowToGenXSecAnalyzer), NNLO-QCD NLO-EWK from: https://cms-gen-dev.cern.ch/xsdb (DAS=WToTauNu_M-200_TuneCUETP8M1_13TeV-pythia8-tauola), k-factor = 1.3 (valid for m_W>200GeV and m_W<1TeV, see: https://indico.cern.ch/event/712797/contributions/2928866/attachments/1615436/2567073/TauIdMomScaleW_20180312.pdf)
+// (29-45) LO GenXSec analyzer (https://twiki.cern.ch/twiki/bin/view/CMS/HowToGenXSecAnalyzer), NNLO-QCD NLO-EWK from: https://cms-gen-dev.cern.ch/xsdb (DAS=WToMuNu_M-200_TuneCUETP8M1_13TeV-pythia8), k-factor: see (28-38)
 // (46-50) from GenXSec analyzer
 
 // ----------------------------------------------------------------------------------------------------
@@ -373,6 +375,48 @@ double getFakeRates(float ratio, float jetPt, TString iso, TString err)
   }
   return 0;
 }
+void loadkFactors(TString filename){
+   TFile *f1 = new TFile(filename,"READ");
+   if(!f1){
+      cout<<"File "<<filename<<" does not exists. Exiting."<<endl;
+      exit(-1);
+  }
+   TIter next(f1->GetListOfKeys());
+   TKey *key = 0;
+
+   while ((key = (TKey*)next()))
+      {
+         TClass *c = gROOT->GetClass(key->GetClassName());
+         if (!c->InheritsFrom("TH1")) continue;
+         TH1D *h = (TH1D*) key->ReadObj();
+         h->SetDirectory(0);
+         h_kFactor = (TH1D*)h->Clone();
+         delete h;
+      }
+   delete key;
+}
+
+double GetkFactor(TString filename, float_t wmass){
+   TString hname = h_kFactor->GetName();
+   if (filename.Contains("WToMuNu") && !hname.Contains("kfactor_mu"))
+      {
+         cout<<"Wrong k factor hist provided. Exiting."<<endl;
+         exit(-1);
+      }
+   if (filename.Contains("WToTauNu") && !hname.Contains("kfactor_tau"))
+      {
+         cout<<"Wrong k factor hist provided. Exiting."<<endl;
+         exit(-1);
+      }
+   if (wmass > 1000) wmass = 1000;
+   for(int i=1; i<= h_kFactor->GetNbinsX(); i++){
+      if( wmass > h_kFactor->GetXaxis()->GetBinLowEdge(i) && wmass <= h_kFactor->GetXaxis()->GetBinUpEdge(i)){
+         return h_kFactor->GetBinContent(i);
+      }
+   }
+   return 0;
+}
+
 // ----------------------------------------------------------------------------------------------------
 void makeSelection(TString filename, TString treename, double xsec, TString iso, selectionCuts sel, TH1* histo, TString variableToFill_1, TString variableToFill_2, TString variableToFill_3)
 {
@@ -405,6 +449,7 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
   TTreeReaderValue< Float_t >  tauPt(            *myReader,       "tauPt");
   TTreeReaderValue< Float_t >  tauEta(           *myReader,       "tauEta");
   TTreeReaderValue< Float_t >  tauPhi(           *myReader,       "tauPhi");
+  TTreeReaderValue< Float_t >  tauMass(          *myReader,       "tauMass");
   //TTreeReaderValue< Float_t >  genTauWPt(        *myReader,       "genTauWPt");
   //TTreeReaderValue< Float_t >  genTauWEta(       *myReader,       "genTauWEta");
   //TTreeReaderValue< Float_t >  genTauWPhi(       *myReader,       "genTauWPhi");
@@ -440,6 +485,7 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
   TTreeReaderValue< UInt_t  >  npartons(         *myReader,       "npartons");
   TTreeReaderValue< Float_t >  lheWPt(           *myReader,       "lheWPt");
   TTreeReaderValue< Float_t >  Ht(               *myReader,       "Ht");
+  TTreeReaderValue< Float_t >  wmass(            *myReader,       "WMass");
   TTreeReaderValue< Float_t >  mhtNoMu(          *myReader,       "mhtNoMu");
   TTreeReaderValue< Float_t >  metNoMu(          *myReader,       "metNoMu");
   TTreeReaderValue< Bool_t  >  pfJet60(          *myReader,       "pfJet60");
@@ -499,6 +545,7 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
   double metx_ms= 0.;
   double mety_ms= 0.;
 
+  double k_factor = 1.;
 
   while(myReader->Next()){
      
@@ -575,10 +622,13 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
       else                     norm = luminosity/( nevtsProcessedDYIncl/xsecDYIncl );
     }
 
+    // apply mass dependent k-factors
+    if(filename.Contains("WToTauNu") || filename.Contains("WToMuNu")) k_factor = GetkFactor(filename,*wmass);
+
     if(*recoilPt<sel.recoilPtLow) continue;
     if(*dPhiMetTau<sel.dPhiMetTauLow) continue;
     
-    double weight = (*mueffweight)*(*mutrigweight)*(*puWeight)*(*trigWeight)*(*genWeight)*norm*fakerate;
+    double weight = (*mueffweight)*(*mutrigweight)*(*puWeight)*(*trigWeight)*(*genWeight)*norm*k_factor*fakerate;
     if(isData) weight =1;
     if(isData && sel.name.Contains("cr_antiiso")) weight = fakerate;
 

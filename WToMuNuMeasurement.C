@@ -12,9 +12,13 @@ void WToMuNuMeasurement() {
   TH2::SetDefaultSumw2();
 
   initCuts();
+  loadkFactors("kfactor_mu.root");
 
   std::vector< std::pair<TString,std::vector<TString>> > samples;
   std::vector<TString> data;
+  //data.push_back("SingleMuon_Run2017F");
+  //data.push_back("SingleMuon_Run2017D");
+  //data.push_back("SingleMuon_Run2017E");
   data.push_back("SingleMuon_Run2017_0");
   data.push_back("SingleMuon_Run2017_1");
   data.push_back("SingleMuon_Run2017_2");
@@ -156,7 +160,7 @@ void WToMuNuMeasurement() {
   if(histoMap["EWK"]) leg->AddEntry(histoMap["EWK"],"electroweak","f");
   writeExtraText = true;
   extraText = "Internal";
-  CMS_lumi(upper,4,33); 
+  CMS_lumi(upper,5,33);
   leg->Draw("same");
 
   TH1D * ratioH = 0;
@@ -164,8 +168,8 @@ void WToMuNuMeasurement() {
     ratioH = (TH1D*) h_data->Clone("ratioH");
     ratioH->Divide((TH1D*)stack->GetStack()->Last());
     ratioH->GetYaxis()->SetTitle("Obs./Exp.");
-    ratioH->GetXaxis()->SetTitle("m_{T} [GeV]");
-    //ratioH->GetXaxis()->SetTitle(var);
+    //ratioH->GetXaxis()->SetTitle("m_{T} [GeV]");
+    ratioH->GetXaxis()->SetTitle(var);
     ratioH->GetXaxis()->SetTitleOffset(3.5);
     ratioH->GetYaxis()->SetNdivisions(505);
     ratioH->GetYaxis()->SetRangeUser(0.4,1.6);
@@ -239,5 +243,5 @@ void WToMuNuMeasurement() {
   for ( it = histoMap.begin(); it != histoMap.end(); it++ )
     {
       histoMap[it->first]    ->Write(it->first);
-    }    
+    }
 }

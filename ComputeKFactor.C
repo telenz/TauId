@@ -38,6 +38,7 @@ void ComputeKFactor(TString lepton = "mu",
   }
   kfactor->Draw("e1");
   TFile * file = new TFile("kfactor_"+lepton+".root","recreate");
+  kfactor->SetName("kfactor_"+lepton);
   kfactor->Write("kfactor_"+lepton);
   file->Write();
   file->Close();
