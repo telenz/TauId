@@ -28,7 +28,7 @@ TString tauDecayMode = "";
 //TString tauDecayMode = "_3prong0pizeros";
 //TString tauDecayMode = "_1prong0pizeros";
 //TString tauDecayMode = "_1prongUpTo4pizeros";
-double tauMomScale = 0.95; 
+double tauMomScale = 1.00; 
 
 double luminosity = 40991; // lumi determined by brilcalc
 //double luminosity = 28289; // lumi without RunF (determined by brilcalc)
