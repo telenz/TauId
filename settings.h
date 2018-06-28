@@ -29,6 +29,7 @@ TString tauDecayMode = "";
 //TString tauDecayMode = "_1prong0pizeros";
 //TString tauDecayMode = "_1prongUpTo4pizeros";
 double tauMomScale = 1.00; 
+bool doTauESmeasurement = false; //if set to true: tau mass cuts depending on the studied decay mode are applied
 
 double luminosity = 40991; // lumi determined by brilcalc
 //double luminosity = 28289; // lumi without RunF (determined by brilcalc)
@@ -162,8 +163,6 @@ struct selectionCuts {
   float dPhiMetTauLow = 0;
   float mhtNoMuLow = 0;
   float metNoMuLow = 0;
-  float tauMassLow = 0.;
-  float tauMassHigh = 1000.;
 } sr, sr_trueTaus, sr_fakeTaus, cr_antiiso,  cr_antiiso_trueTaus, cr_antiiso_fakeTaus, cr_ewkFraction, cr_fakerate_den, cr_fakerate_num, cr_fakerate_norm, cr_fakerate_dijet_den, cr_fakerate_dijet_num, sr_munu;
 // ----------------------------------------------------------------------------------------------------
 void initCuts()
@@ -578,7 +577,12 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
     if(*metNoMu < sel.metNoMuLow && sel.selection==3) continue;
     if(*met < sel.metLow) continue;
     if((*tauPt < sel.tauPtLow || *tauPt > sel.tauPtHigh) && sel.selection!=2) continue;
-    if((*tauMass < sel.tauMassLow || *tauMass > sel.tauMassHigh) && sel.selection!=2) continue; //Should be only applied for Tau momentum scale measurement?
+
+    if (doTauESmeasurement){
+       if (tauDecayMode == "_3prong0pizeros" && (*tauMass < 0.9 || *tauMass > 1.4) && sel.selection!=2) continue;
+       if (tauDecayMode == "_1prongUpTo4pizeros" && (*tauMass < 0.4 || *tauMass > 1.8) && sel.selection!=2) continue;
+    }
+
     if(*metFilters != sel.metFilters) continue;
 
     if(*nMuon<sel.nMuonLow || *nMuon>sel.nMuonHigh) continue;
