@@ -28,7 +28,7 @@ TString tauDecayMode = "";
 //TString tauDecayMode = "_3prong0pizeros";
 //TString tauDecayMode = "_1prong0pizeros";
 //TString tauDecayMode = "_1prongUpTo4pizeros";
-double tauMomScale = 1.00; 
+double tauMomScale = 1.00;
 bool doTauESmeasurement = false; //if set to true: tau mass cuts depending on the studied decay mode are applied
 
 double luminosity = 40991; // lumi determined by brilcalc
@@ -40,8 +40,9 @@ std::vector<TString> iso;
 map<TString,TH2D>* h_fakerate = 0;
 map<TString,TH2D>* h_fakerate_up = 0;
 map<TString,TH2D>* h_fakerate_down = 0;
+//map<TString,TH1D>* h_SF = 0;
 TH1D* h_kFactor= 0;
-
+//bool applySFClosure=false;
 
 map<TString, double> xsecs = {
 {"WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"            , 52760*1.166}, // NNLO (1)
@@ -269,6 +270,7 @@ void initCuts()
   cr_fakerate_den.recoilPtLow = 0.;
   cr_fakerate_den.dPhiMetTauLow = 2.8;
 
+
   // cr_fakerate_num
   cr_fakerate_num = cr_fakerate_den;
   cr_fakerate_num.name = "cr_fakerate_num";
@@ -328,6 +330,7 @@ void loadFakeRates(TString filename)
   h_fakerate      = new map<TString,TH2D>();
   h_fakerate_up   = new map<TString,TH2D>();
   h_fakerate_down = new map<TString,TH2D>();
+  //h_SF = new map<TString,TH1D>();
 
   TFile *f1 = new TFile(filename,"READ");
   if(!f1){
@@ -341,6 +344,15 @@ void loadFakeRates(TString filename)
   while ((key = (TKey*)next())) 
     {
       TClass *c = gROOT->GetClass(key->GetClassName());
+      // if (c->InheritsFrom("TH1")){
+      //    TH1D *h1 = (TH1D*) key->ReadObj();
+      //    TString hName_SF = h1->GetName();
+      //    if(hName_SF.Contains("SF")){
+      //       h_SF  -> insert( std::make_pair(h1->GetName(),*h1) );
+      //       applySFClosure = true;
+      //    }
+      //    delete h1;
+      // }
       if (!c->InheritsFrom("TH2")) continue;
       TH2D *h = (TH2D*) key->ReadObj();
       h->SetDirectory(0);
@@ -361,19 +373,23 @@ void loadFakeRates(TString filename)
 // ----------------------------------------------------------------------------------------------------
 double getFakeRates(float ratio, float jetPt, TString iso, TString err)
 {
+   double SF = 1.0;
+   // if (applySFClosure)SF=h_SF->at("SF_nonclosure_"+iso).GetBinContent(1);
+   // applySFClosure =false;
    for(int i=1; i<= h_fakerate->at(iso).GetNbinsX(); i++){
       if( ratio > h_fakerate->at(iso).GetXaxis()->GetBinLowEdge(i) && ratio < h_fakerate->at(iso).GetXaxis()->GetBinUpEdge(i)){
          for(int j=1; j<= h_fakerate->at(iso).GetNbinsY(); j++){
             if( jetPt > h_fakerate->at(iso).GetYaxis()->GetBinLowEdge(j) && jetPt < h_fakerate->at(iso).GetYaxis()->GetBinUpEdge(j)){
-               if( err == Form("%i%iUp",i,j))         return h_fakerate_up->at(iso+"_Up").GetBinContent(i,j);
-               else if( err == Form("%i%iDown",i,j) ) return h_fakerate_down->at(iso+"_Down").GetBinContent(i,j);
-               else                                   return h_fakerate->at(iso).GetBinContent(i,j);
+               if( err == Form("%i%iUp",i,j))         return h_fakerate_up->at(iso+"_Up").GetBinContent(i,j)*SF;
+               else if( err == Form("%i%iDown",i,j) ) return h_fakerate_down->at(iso+"_Down").GetBinContent(i,j)*SF;
+               else                                   return h_fakerate->at(iso).GetBinContent(i,j)*SF;
             }
       }
     }
   }
   return 0;
 }
+// ----------------------------------------------------------------------------------------------------
 void loadkFactors(TString filename){
    TFile *f1 = new TFile(filename,"READ");
    if(!f1){
@@ -394,7 +410,7 @@ void loadkFactors(TString filename){
       }
    delete key;
 }
-
+// ----------------------------------------------------------------------------------------------------
 double GetkFactor(TString filename, float_t wmass){
    TString hname = h_kFactor->GetName();
    if (filename.Contains("WToMuNu") && !hname.Contains("kfactor_mu"))
@@ -415,7 +431,30 @@ double GetkFactor(TString filename, float_t wmass){
    }
    return 0;
 }
+// ----------------------------------------------------------------------------------------------------
+float dPhiFrom2P(float Px1, float Py1, float Px2, float Py2) {
+	float prod = Px1*Px2 + Py1*Py2;
+	float mod1 = TMath::Sqrt(Px1*Px1+Py1*Py1);
+	float mod2 = TMath::Sqrt(Px2*Px2+Py2*Py2);
 
+	float cosDPhi = prod/(mod1*mod2);
+
+	return TMath::ACos(cosDPhi);
+}
+// ----------------------------------------------------------------------------------------------------
+double dPhiFromLV(TLorentzVector v1, TLorentzVector v2) {
+
+  return dPhiFrom2P(v1.Px(),v1.Py(),v2.Px(),v2.Py());
+
+}
+// ----------------------------------------------------------------------------------------------------
+double mT (TLorentzVector v1, TLorentzVector Metv){
+
+  double dPhimT=dPhiFrom2P( v1.Px(), v1.Py(), Metv.Px(),  Metv.Py() );
+
+  double MT = TMath::Sqrt(2*v1.Pt()*Metv.Pt()*(1-TMath::Cos(dPhimT)));
+  return MT;
+}
 // ----------------------------------------------------------------------------------------------------
 void makeSelection(TString filename, TString treename, double xsec, TString iso, selectionCuts sel, TH1* histo, TString variableToFill_1, TString variableToFill_2, TString variableToFill_3)
 {
@@ -446,6 +485,7 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
   TTreeReaderValue< Float_t >  met(              *myReader,       "met");
   TTreeReaderValue< Float_t >  metphi(           *myReader,       "metphi");
   TTreeReaderValue< Float_t >  tauPt(            *myReader,       "tauPt");
+  TTreeReaderValue< Float_t >  tauPz(            *myReader,       "tauPz");
   TTreeReaderValue< Float_t >  tauEta(           *myReader,       "tauEta");
   TTreeReaderValue< Float_t >  tauPhi(           *myReader,       "tauPhi");
   TTreeReaderValue< Float_t >  tauMass(          *myReader,       "tauMass");
@@ -461,6 +501,7 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
   TTreeReaderValue< Float_t >  tauJetEta(        *myReader,       "tauJetEta");
   TTreeReaderValue< Bool_t  >  tauJetTightId(    *myReader,       "tauJetTightId");
   TTreeReaderValue< Float_t >  muonPt(           *myReader,       "muonPt");
+  TTreeReaderValue< Float_t >  muonPz(           *myReader,       "muonPz");
   TTreeReaderValue< Float_t >  muonEta(          *myReader,       "muonEta");
   TTreeReaderValue< Float_t >  muonPhi(          *myReader,       "muonPhi");
   TTreeReaderValue< Bool_t  >  metFilters(       *myReader,       "metFilters");
@@ -541,29 +582,51 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
   double tauPy= 0.;
   double tauPx_ms= 0.;
   double tauPy_ms= 0.;
+  double muonPx= 0.;
+  double muonPy= 0.;
   double metx_ms= 0.;
   double mety_ms= 0.;
-
+  TLorentzVector lorentzVectorTau_ms;
+  TLorentzVector lorentzVectorMet_ms;
+  TLorentzVector lorentzVectorMu;
   double k_factor = 1.;
 
   while(myReader->Next()){
-     
-     // shifts in met, tau pT and tau mass due to variation in tau momentum scale
-     metx = *met*TMath::Cos(*metphi);
-     mety = *met*TMath::Sin(*metphi); 
     
-     tauPx = *tauPt*TMath::Cos(*tauPhi);
-     tauPy = *tauPt*TMath::Sin(*tauPhi);
+     if (doTauESmeasurement && !isData && *tauGenMatchDecay > 0 && *tauGenMatchDecay<1000){
 
-     tauPx_ms = tauPx*tauMomScale;
-     tauPy_ms = tauPy*tauMomScale;
-   
-     metx_ms = metx - (tauPx_ms-tauPx);
-     mety_ms = mety - (tauPy_ms-tauPy);
-     
-     *met = TMath::Sqrt(metx_ms*metx_ms+mety_ms*mety_ms);
-     *tauPt   *= tauMomScale;
-     *tauMass *= tauMomScale;
+        metx = *met*TMath::Cos(*metphi);
+        mety = *met*TMath::Sin(*metphi);
+        tauPx = *tauPt*TMath::Cos(*tauPhi);
+        tauPy = *tauPt*TMath::Sin(*tauPhi);
+        muonPx = *muonPt*TMath::Cos(*muonPhi);
+        muonPy = *muonPt*TMath::Sin(*muonPhi);
+
+        tauPx_ms = tauPx*tauMomScale;
+        tauPy_ms = tauPy*tauMomScale;
+        metx_ms = metx - (tauPx_ms-tauPx);
+        mety_ms = mety - (tauPy_ms-tauPy);
+
+        lorentzVectorTau_ms.SetXYZM(tauPx_ms,
+                                    tauPy_ms,
+                                    *tauPz*tauMomScale,
+                                    *tauMass*tauMomScale);
+        lorentzVectorMet_ms.SetXYZT(metx_ms,mety_ms,0,TMath::Sqrt(metx_ms*metx_ms+mety_ms*mety_ms));
+        lorentzVectorMu.SetXYZM(muonPx,
+                                muonPy,
+                                *muonPz,
+                                0.10565837);
+        if (sel.selection == 2) *recoilDPhi = dPhiFromLV(lorentzVectorMu,lorentzVectorMet_ms);
+        if (sel.selection == 3) *recoilDPhi = dPhiFromLV(lorentzVectorTau_ms,lorentzVectorMet_ms);
+
+        *met = TMath::Sqrt(metx_ms*metx_ms+mety_ms*mety_ms);
+        *tauPt   *= tauMomScale;
+        *tauJetPt*= tauMomScale;
+        *tauMass *= tauMomScale;
+        *dPhiMetTau = *recoilDPhi = dPhiFromLV(lorentzVectorTau_ms,lorentzVectorMet_ms);
+        *mttau = mT(lorentzVectorTau_ms,lorentzVectorMet_ms);
+        *mtmuon = mT(lorentzVectorMu,lorentzVectorMet_ms);
+     }
      
     if(*trig != sel.trigger && (sel.selection == 3 || sel.name == "cr_fakerate_norm")) continue;
     //if(sel.selection == 4 && (*pfJet40 != sel.pfJetTrigger && *pfJet60 != sel.pfJetTrigger && *pfJet80 != sel.pfJetTrigger && *pfJet140 != sel.pfJetTrigger && *(*pfJet200) != sel.pfJetTrigger && *(*pfJet260) != sel.pfJetTrigger && *(*pfJet320) != sel.pfJetTrigger && *(*pfJet400) != sel.pfJetTrigger && *(*pfJet450) != sel.pfJetTrigger && *(*pfJet500) != sel.pfJetTrigger)) continue;
