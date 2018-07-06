@@ -100,6 +100,8 @@ void WToTauNuMeasurement() {
 
   const int nbins = 10;
   double bins[nbins+1] = { 0 , 100 , 200 , 300 , 400 , 500 , 600 , 700 , 800 , 900 , 1000};
+  //double bins[nbins+1] = {0.4,0.6,0.8,1.0,1.2,1.4,1.6,1.8};  // tauMass binning 3prong
+  //double bins[nbins+1] = {0.0, 0.1,0.2, 0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9, 2.0,2.1, 2.2,2.2, 2.4};  // tauMass binning
 
   for(unsigned int idx_iso=0; idx_iso<iso.size(); idx_iso++){
 
@@ -127,7 +129,7 @@ void WToTauNuMeasurement() {
 	}
       makeSelection(dir+"/"+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),iso[idx_iso],select,histo,var,var,var);
       //cout<<"------------------------------------------------------------- Mean "<<var<<" = "<<histo->GetMean()<<endl;
-	histoSamples->Add(histo);
+       histoSamples->Add(histo);
 	histoSamples->SetFillStyle(1001);
 	if(samples[i].first.Contains("FakeTaus")) histoSamples->SetFillColor(TColor::GetColor("#FFCCFF"));
 	else if(samples[i].first.Contains("TrueTaus")) histoSamples->SetFillColor(TColor::GetColor("#6F2D35"));
@@ -145,6 +147,7 @@ void WToTauNuMeasurement() {
       }
       cout<<samples[i].first<<" = "<<histoSamples->Integral()<<" ( Entries = "<<histoSamples->GetEntries()<<" ) "<<endl<<endl;
     }
+
 
     // ------------------ Computation of all uncertainties : START  -------
     TH1D * bkgdErr = (TH1D*)stack->GetStack()->Last()->Clone("bkgdErr");
