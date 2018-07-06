@@ -21,31 +21,39 @@ void ClosureTest_FakeRate() {
   std::vector<TString> obs;
   std::vector<TString> pred;
 
-  // obs.push_back("ZJetsToNuNu_HT-100To200_13TeV-madgraph");
-  // obs.push_back("ZJetsToNuNu_HT-200To400_13TeV-madgraph");
-  // obs.push_back("ZJetsToNuNu_HT-400To600_13TeV-madgraph");
-  // obs.push_back("ZJetsToNuNu_HT-600To800_13TeV-madgraph");
-  // obs.push_back("ZJetsToNuNu_HT-800To1200_13TeV-madgraph");
-  // obs.push_back("ZJetsToNuNu_HT-1200To2500_13TeV-madgraph");
-  // obs.push_back("ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph");
+  obs.push_back("ZJetsToNuNu_HT-100To200_13TeV-madgraph");
+  obs.push_back("ZJetsToNuNu_HT-200To400_13TeV-madgraph");
+  obs.push_back("ZJetsToNuNu_HT-400To600_13TeV-madgraph");
+  obs.push_back("ZJetsToNuNu_HT-600To800_13TeV-madgraph");
+  obs.push_back("ZJetsToNuNu_HT-800To1200_13TeV-madgraph");
+  obs.push_back("ZJetsToNuNu_HT-1200To2500_13TeV-madgraph");
+  obs.push_back("ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph");
 
-  // pred.push_back("ZJetsToNuNu_HT-100To200_13TeV-madgraph");
-  // pred.push_back("ZJetsToNuNu_HT-200To400_13TeV-madgraph");
-  // pred.push_back("ZJetsToNuNu_HT-400To600_13TeV-madgraph");
-  // pred.push_back("ZJetsToNuNu_HT-600To800_13TeV-madgraph");
-  // pred.push_back("ZJetsToNuNu_HT-800To1200_13TeV-madgraph");
-  // pred.push_back("ZJetsToNuNu_HT-1200To2500_13TeV-madgraph");
-  // pred.push_back("ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph");
+  pred.push_back("ZJetsToNuNu_HT-100To200_13TeV-madgraph");
+  pred.push_back("ZJetsToNuNu_HT-200To400_13TeV-madgraph");
+  pred.push_back("ZJetsToNuNu_HT-400To600_13TeV-madgraph");
+  pred.push_back("ZJetsToNuNu_HT-600To800_13TeV-madgraph");
+  pred.push_back("ZJetsToNuNu_HT-800To1200_13TeV-madgraph");
+  pred.push_back("ZJetsToNuNu_HT-1200To2500_13TeV-madgraph");
+  pred.push_back("ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph");
 
   obs.push_back("W1JetsToLNu_LHEWpT_100-150");
   obs.push_back("W1JetsToLNu_LHEWpT_150-250");
   obs.push_back("W1JetsToLNu_LHEWpT_250-400");
   obs.push_back("W1JetsToLNu_LHEWpT_400-inf");
+  obs.push_back("W2JetsToLNu_LHEWpT_50-150");
+  obs.push_back("W2JetsToLNu_LHEWpT_150-250");
+  obs.push_back("W2JetsToLNu_LHEWpT_250-400");
+  obs.push_back("W2JetsToLNu_LHEWpT_400-inf");
 
   pred.push_back("W1JetsToLNu_LHEWpT_100-150");
   pred.push_back("W1JetsToLNu_LHEWpT_150-250");
   pred.push_back("W1JetsToLNu_LHEWpT_250-400");
   pred.push_back("W1JetsToLNu_LHEWpT_400-inf");
+  pred.push_back("W2JetsToLNu_LHEWpT_50-150");
+  pred.push_back("W2JetsToLNu_LHEWpT_150-250");
+  pred.push_back("W2JetsToLNu_LHEWpT_250-400");
+  pred.push_back("W2JetsToLNu_LHEWpT_400-inf");
 
   std::vector<double> obs_xsec;
   for(unsigned int i=0; i<obs.size(); i++) obs_xsec.push_back( getXSec(obs[i]) );
@@ -189,5 +197,43 @@ void ClosureTest_FakeRate() {
 
     std::cout << std::endl;
 
+    // //SF for non-closure in 3prong decay decay mode
+    // double SF= 1.;
+    // int nBins_obs;
+    // double N_obs_err=0;
+    // double N_obs=1;
+    // double N_pred_err=0;
+    // double N_pred=1;
+    // double SF_err=0;
+    // if (tauDecayMode == "_3prong0pizeros"){
+    //    nBins_obs = observation->GetNbinsX();
+    //    N_obs_err;
+    //    N_obs = observation->IntegralAndError(1,nBins_obs,N_obs_err);
+    //    N_pred_err;
+    //    std::cout<<"N_obs: "<<N_obs<<std::endl;
+    //    std::cout<<"N_obs_err: "<<N_obs_err<<std::endl;
+    //    N_pred = prediction->IntegralAndError(1,nBins_obs,N_pred_err);
+    //    std::cout<<"N_pred: "<<N_pred<<std::endl;
+    //    std::cout<<"N_pred_err: "<<N_pred_err<<std::endl;
+    //    SF = N_obs/N_pred;
+    //    SF_err = TMath::Sqrt(N_obs_err*N_obs_err/(N_pred*N_pred) + (N_obs*N_obs)/TMath::Power(N_pred,4)*(N_pred_err*N_pred_err));
+    //    std::cout<<"SF "<<SF<<std::endl;
+    //    std::cout<<"SF_err: "<<SF_err<<std::endl;
+    // }
+    // cout<<"Scale factor for non-closure: "<<SF<<" +- "<<SF_err<<std::endl;
+    // TString name = "SF_nonclosure_"+iso[idx_iso];
+    // TH1D *h_SF = new TH1D(name, name, 1,0,1);
+
+    // if (SF<0.98 || SF > 1.02 || SF==1.){
+    //    h_SF->SetBinContent(1,SF);
+
+    //    TFile *f = new TFile(fakerateFile,"UPDATE");
+    //    f->cd();
+    //    h_SF->SetName(name);
+    //    h_SF->Write();
+    //    f->Close();
+    //    delete f;
+    // }
+    // //fuer SingleMu & Dijet
   }
 }
