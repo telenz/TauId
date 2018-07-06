@@ -59,6 +59,10 @@ void ComputeFakeRate() {
   wjets.push_back("W1JetsToLNu_LHEWpT_150-250");
   wjets.push_back("W1JetsToLNu_LHEWpT_250-400");
   wjets.push_back("W1JetsToLNu_LHEWpT_400-inf");
+  wjets.push_back("W2JetsToLNu_LHEWpT_50-150");
+  wjets.push_back("W2JetsToLNu_LHEWpT_150-250");
+  wjets.push_back("W2JetsToLNu_LHEWpT_250-400");
+  wjets.push_back("W2JetsToLNu_LHEWpT_400-inf");
 
   std::vector<TString> genuineTaus;
   genuineTaus.push_back("TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8");
@@ -332,6 +336,11 @@ void ComputeFakeRate() {
       delete canv;
       cout<<endl;
 
+      // TString name = "SF_nonclosure_"+iso[idx_iso];
+      // TH1D *h_SF = new TH1D(name, name, 1,0,1);
+      // h_SF->SetBinContent(1,1.);
+      // h_SF->SetName(name);
+      // h_SF->Write();
       delete h_num;
       delete h_den;
       delete h_num_1D_x;
@@ -340,6 +349,7 @@ void ComputeFakeRate() {
       delete h_den_1D_y;
       delete h_x;
       delete h_y;
+      //delete h_SF;
     }
     fileOutput->Close();
   }
