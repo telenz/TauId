@@ -197,43 +197,5 @@ void ClosureTest_FakeRate() {
 
     std::cout << std::endl;
 
-    // //SF for non-closure in 3prong decay decay mode
-    // double SF= 1.;
-    // int nBins_obs;
-    // double N_obs_err=0;
-    // double N_obs=1;
-    // double N_pred_err=0;
-    // double N_pred=1;
-    // double SF_err=0;
-    // if (tauDecayMode == "_3prong0pizeros"){
-    //    nBins_obs = observation->GetNbinsX();
-    //    N_obs_err;
-    //    N_obs = observation->IntegralAndError(1,nBins_obs,N_obs_err);
-    //    N_pred_err;
-    //    std::cout<<"N_obs: "<<N_obs<<std::endl;
-    //    std::cout<<"N_obs_err: "<<N_obs_err<<std::endl;
-    //    N_pred = prediction->IntegralAndError(1,nBins_obs,N_pred_err);
-    //    std::cout<<"N_pred: "<<N_pred<<std::endl;
-    //    std::cout<<"N_pred_err: "<<N_pred_err<<std::endl;
-    //    SF = N_obs/N_pred;
-    //    SF_err = TMath::Sqrt(N_obs_err*N_obs_err/(N_pred*N_pred) + (N_obs*N_obs)/TMath::Power(N_pred,4)*(N_pred_err*N_pred_err));
-    //    std::cout<<"SF "<<SF<<std::endl;
-    //    std::cout<<"SF_err: "<<SF_err<<std::endl;
-    // }
-    // cout<<"Scale factor for non-closure: "<<SF<<" +- "<<SF_err<<std::endl;
-    // TString name = "SF_nonclosure_"+iso[idx_iso];
-    // TH1D *h_SF = new TH1D(name, name, 1,0,1);
-
-    // if (SF<0.98 || SF > 1.02 || SF==1.){
-    //    h_SF->SetBinContent(1,SF);
-
-    //    TFile *f = new TFile(fakerateFile,"UPDATE");
-    //    f->cd();
-    //    h_SF->SetName(name);
-    //    h_SF->Write();
-    //    f->Close();
-    //    delete f;
-    // }
-    // //fuer SingleMu & Dijet
-  }
+   }
 }

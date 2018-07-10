@@ -336,11 +336,6 @@ void ComputeFakeRate() {
       delete canv;
       cout<<endl;
 
-      // TString name = "SF_nonclosure_"+iso[idx_iso];
-      // TH1D *h_SF = new TH1D(name, name, 1,0,1);
-      // h_SF->SetBinContent(1,1.);
-      // h_SF->SetName(name);
-      // h_SF->Write();
       delete h_num;
       delete h_den;
       delete h_num_1D_x;
@@ -349,7 +344,6 @@ void ComputeFakeRate() {
       delete h_den_1D_y;
       delete h_x;
       delete h_y;
-      //delete h_SF;
     }
     fileOutput->Close();
   }

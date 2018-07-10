@@ -40,9 +40,7 @@ std::vector<TString> iso;
 map<TString,TH2D>* h_fakerate = 0;
 map<TString,TH2D>* h_fakerate_up = 0;
 map<TString,TH2D>* h_fakerate_down = 0;
-//map<TString,TH1D>* h_SF = 0;
 TH1D* h_kFactor= 0;
-//bool applySFClosure=false;
 
 map<TString, double> xsecs = {
 {"WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"            , 52760*1.166}, // NNLO (1)
@@ -122,12 +120,12 @@ map<TString, double> xsecs = {
 // ----------------------------------------------------------------------------------------------------
 void loadWorkingPoints()
 {
-  iso.push_back("VTightMva2017v2");
-  iso.push_back("TightMva2017v2");
-  iso.push_back("MediumMva2017v2");
-  iso.push_back("LooseMva2017v2");
-  iso.push_back("Tight");
-  iso.push_back("Medium");
+  // iso.push_back("VTightMva2017v2");
+  // iso.push_back("TightMva2017v2");
+  // iso.push_back("MediumMva2017v2");
+  // iso.push_back("LooseMva2017v2");
+  // iso.push_back("Tight");
+  // iso.push_back("Medium");
   iso.push_back("Loose");
 }
 // ----------------------------------------------------------------------------------------------------
@@ -330,8 +328,7 @@ void loadFakeRates(TString filename)
   h_fakerate      = new map<TString,TH2D>();
   h_fakerate_up   = new map<TString,TH2D>();
   h_fakerate_down = new map<TString,TH2D>();
-  //h_SF = new map<TString,TH1D>();
-
+ 
   TFile *f1 = new TFile(filename,"READ");
   if(!f1){
     cout<<"File "<<filename<<" does not exists. Exiting."<<endl;
@@ -344,15 +341,6 @@ void loadFakeRates(TString filename)
   while ((key = (TKey*)next())) 
     {
       TClass *c = gROOT->GetClass(key->GetClassName());
-      // if (c->InheritsFrom("TH1")){
-      //    TH1D *h1 = (TH1D*) key->ReadObj();
-      //    TString hName_SF = h1->GetName();
-      //    if(hName_SF.Contains("SF")){
-      //       h_SF  -> insert( std::make_pair(h1->GetName(),*h1) );
-      //       applySFClosure = true;
-      //    }
-      //    delete h1;
-      // }
       if (!c->InheritsFrom("TH2")) continue;
       TH2D *h = (TH2D*) key->ReadObj();
       h->SetDirectory(0);
@@ -373,16 +361,13 @@ void loadFakeRates(TString filename)
 // ----------------------------------------------------------------------------------------------------
 double getFakeRates(float ratio, float jetPt, TString iso, TString err)
 {
-   double SF = 1.0;
-   // if (applySFClosure)SF=h_SF->at("SF_nonclosure_"+iso).GetBinContent(1);
-   // applySFClosure =false;
    for(int i=1; i<= h_fakerate->at(iso).GetNbinsX(); i++){
       if( ratio > h_fakerate->at(iso).GetXaxis()->GetBinLowEdge(i) && ratio < h_fakerate->at(iso).GetXaxis()->GetBinUpEdge(i)){
          for(int j=1; j<= h_fakerate->at(iso).GetNbinsY(); j++){
             if( jetPt > h_fakerate->at(iso).GetYaxis()->GetBinLowEdge(j) && jetPt < h_fakerate->at(iso).GetYaxis()->GetBinUpEdge(j)){
-               if( err == Form("%i%iUp",i,j))         return h_fakerate_up->at(iso+"_Up").GetBinContent(i,j)*SF;
-               else if( err == Form("%i%iDown",i,j) ) return h_fakerate_down->at(iso+"_Down").GetBinContent(i,j)*SF;
-               else                                   return h_fakerate->at(iso).GetBinContent(i,j)*SF;
+               if( err == Form("%i%iUp",i,j))         return h_fakerate_up->at(iso+"_Up").GetBinContent(i,j);
+               else if( err == Form("%i%iDown",i,j) ) return h_fakerate_down->at(iso+"_Down").GetBinContent(i,j);
+               else                                   return h_fakerate->at(iso).GetBinContent(i,j);
             }
       }
     }
