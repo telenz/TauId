@@ -197,8 +197,8 @@ void initCuts()
   sr.mtmuonHigh = 100000000;
   sr.mttauLow  = 0;
   sr.mttauHigh = 100000000;
-  sr.mhtNoMuLow = 0;
-  sr.metNoMuLow = 0;
+  sr.mhtNoMuLow = 120;
+  sr.metNoMuLow = 120;
 
   // sr for true taus
   sr_trueTaus = sr;
@@ -227,7 +227,9 @@ void initCuts()
   sr_munu.nJetsCentral30Low  = 0;
   sr_munu.nJetsCentral30High = 0;
   sr_munu.tauPtLow = 0;
-   
+  sr_munu.mhtNoMuLow = 0;
+  sr_munu.metNoMuLow = 0;
+
   // antiiso region
   cr_antiiso = sr;
   cr_antiiso.name = "cr_antiiso";
@@ -604,8 +606,9 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
         *tauMass *= tauMomScale;
         *dPhiMetTau = *recoilDPhi = dPhiFromLV(lorentzVectorTau_ms,lorentzVectorMet_ms);
         *mttau = mT(lorentzVectorTau_ms,lorentzVectorMet_ms);
+        //metnomu and mhtnomu are not varied
      }
-     
+
     if(*trig != sel.trigger && (sel.selection == 3 || sel.name == "cr_fakerate_norm")) continue;
     //if(sel.selection == 4 && (*pfJet40 != sel.pfJetTrigger && *pfJet60 != sel.pfJetTrigger && *pfJet80 != sel.pfJetTrigger && *pfJet140 != sel.pfJetTrigger && *(*pfJet200) != sel.pfJetTrigger && *(*pfJet260) != sel.pfJetTrigger && *(*pfJet320) != sel.pfJetTrigger && *(*pfJet400) != sel.pfJetTrigger && *(*pfJet450) != sel.pfJetTrigger && *(*pfJet500) != sel.pfJetTrigger)) continue;
     if(sel.selection == 4 && (*pfJet60 != sel.pfJetTrigger && *pfJet80 != sel.pfJetTrigger && *pfJet140 != sel.pfJetTrigger && *(*pfJet200) != sel.pfJetTrigger && *(*pfJet260) != sel.pfJetTrigger && *(*pfJet320) != sel.pfJetTrigger && *(*pfJet400) != sel.pfJetTrigger && *(*pfJet450) != sel.pfJetTrigger)) continue;
