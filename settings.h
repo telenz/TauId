@@ -197,8 +197,8 @@ void initCuts()
   sr.mtmuonHigh = 100000000;
   sr.mttauLow  = 0;
   sr.mttauHigh = 100000000;
-  sr.mhtNoMuLow = 120;
-  sr.metNoMuLow = 120;
+  sr.mhtNoMuLow = 0;
+  sr.metNoMuLow = 0;
 
   // sr for true taus
   sr_trueTaus = sr;
@@ -267,8 +267,7 @@ void initCuts()
   cr_fakerate_den.tauPtLow = 100;
   cr_fakerate_den.recoilPtLow = 0.;
   cr_fakerate_den.dPhiMetTauLow = 2.8;
-
-
+  
   // cr_fakerate_num
   cr_fakerate_num = cr_fakerate_den;
   cr_fakerate_num.name = "cr_fakerate_num";
@@ -278,6 +277,9 @@ void initCuts()
   cr_fakerate_norm = cr_fakerate_den;
   cr_fakerate_norm.name = "cr_fakerate";
   cr_fakerate_norm.trigger = true;
+  cr_fakerate_norm.mhtNoMuLow = 120.;
+  cr_fakerate_norm.metNoMuLow = 120.;
+
 
   // cr_fakerate_dijet_den
   cr_fakerate_dijet_den.name = "cr_fakerate_dijet_den";
@@ -578,15 +580,13 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
 
   while(myReader->Next()){
     
-     if (doTauESmeasurement && !isData && *tauGenMatchDecay > 0 && *tauGenMatchDecay<1000){
+     if (doTauESmeasurement && !isData && *tauGenMatchDecay > 0 && *tauGenMatchDecay<1000 && sel.selection == 3){
 
         metx = *met*TMath::Cos(*metphi);
         mety = *met*TMath::Sin(*metphi);
         tauPx = *tauPt*TMath::Cos(*tauPhi);
         tauPy = *tauPt*TMath::Sin(*tauPhi);
-        muonPx = *muonPt*TMath::Cos(*muonPhi);
-        muonPy = *muonPt*TMath::Sin(*muonPhi);
-
+        
         tauPx_ms = tauPx*tauMomScale;
         tauPy_ms = tauPy*tauMomScale;
         metx_ms = metx - (tauPx_ms-tauPx);
@@ -596,21 +596,14 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
                                     tauPy_ms,
                                     *tauPz*tauMomScale,
                                     *tauMass*tauMomScale);
-        lorentzVectorMet_ms.SetXYZT(metx_ms,mety_ms,0,TMath::Sqrt(metx_ms*metx_ms+mety_ms*mety_ms));
-        lorentzVectorMu.SetXYZM(muonPx,
-                                muonPy,
-                                *muonPz,
-                                0.10565837);
-        if (sel.selection == 2) *recoilDPhi = dPhiFromLV(lorentzVectorMu,lorentzVectorMet_ms);
-        if (sel.selection == 3) *recoilDPhi = dPhiFromLV(lorentzVectorTau_ms,lorentzVectorMet_ms);
-
+   
+        *recoilDPhi = dPhiFromLV(lorentzVectorTau_ms,lorentzVectorMet_ms);
         *met = TMath::Sqrt(metx_ms*metx_ms+mety_ms*mety_ms);
         *tauPt   *= tauMomScale;
         *tauJetPt*= tauMomScale;
         *tauMass *= tauMomScale;
         *dPhiMetTau = *recoilDPhi = dPhiFromLV(lorentzVectorTau_ms,lorentzVectorMet_ms);
         *mttau = mT(lorentzVectorTau_ms,lorentzVectorMet_ms);
-        *mtmuon = mT(lorentzVectorMu,lorentzVectorMet_ms);
      }
      
     if(*trig != sel.trigger && (sel.selection == 3 || sel.name == "cr_fakerate_norm")) continue;
@@ -621,8 +614,8 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
     if(*recoilRatio < sel.recoilRatioLow || *recoilRatio > sel.recoilRatioHigh) continue;
     if(*recoilDPhi < sel.recoilDPhiLow) continue;
 
-    if(*mhtNoMu < sel.mhtNoMuLow && sel.selection==3) continue;
-    if(*metNoMu < sel.metNoMuLow && sel.selection==3) continue;
+    if(*mhtNoMu < sel.mhtNoMuLow) continue;
+    if(*metNoMu < sel.metNoMuLow) continue;
     if(*met < sel.metLow) continue;
     if((*tauPt < sel.tauPtLow || *tauPt > sel.tauPtHigh) && sel.selection!=2) continue;
 
