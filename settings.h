@@ -19,9 +19,8 @@
 #include "TLorentzVector.h"
 
 //TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2016/TauIdWithVirtualW/WTauId/NTuples/";
-//TString dir = "/nfs/dust/cms/user/mameyer/TauIdAndES_2017Data/TauId/NTuples/";
-//TString dir = "NTuples/ntuples_before_18_4/";
-TString dir = "NTuples/";
+TString dir = "/nfs/dust/cms/user/mameyer/TauIdAndES_2017Data/TauId/NTuples/";
+//TString dir = "NTuples/";
 //TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2017/TauIDWithVirtualW/TauId/NTuples/";
 
 TString tauDecayMode = "";
@@ -513,6 +512,7 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
   TTreeReaderValue< Float_t >  recoilPt(         *myReader,       "recoilPt");
   TTreeReaderValue< UInt_t  >  npartons(         *myReader,       "npartons");
   TTreeReaderValue< Float_t >  lheWPt(           *myReader,       "lheWPt");
+  TTreeReaderValue< Float_t >  genHt(            *myReader,       "genHt");
   TTreeReaderValue< Float_t >  Ht(               *myReader,       "Ht");
   TTreeReaderValue< Float_t >  wmass(            *myReader,       "WMass");
   TTreeReaderValue< Float_t >  mhtNoMu(          *myReader,       "mhtNoMu");
