@@ -36,13 +36,6 @@ void WToTauNuMeasurement() {
   trueTaus.push_back("DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
   trueTaus.push_back("DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
   trueTaus.push_back("DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
-  // trueTaus.push_back("ZJetsToNuNu_HT-100To200_13TeV-madgraph");
-  // trueTaus.push_back("ZJetsToNuNu_HT-200To400_13TeV-madgraph");
-  // trueTaus.push_back("ZJetsToNuNu_HT-400To600_13TeV-madgraph");
-  // trueTaus.push_back("ZJetsToNuNu_HT-600To800_13TeV-madgraph");
-  // trueTaus.push_back("ZJetsToNuNu_HT-800To1200_13TeV-madgraph");
-  // trueTaus.push_back("ZJetsToNuNu_HT-1200To2500_13TeV-madgraph");
-  // trueTaus.push_back("ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph");
 
   std::vector<TString> fakeTaus;
   fakeTaus.push_back("MET_Run2017");
@@ -199,7 +192,7 @@ void WToTauNuMeasurement() {
     //upper->SetLogy();
 
     if(stack->GetMaximum()>h_data->GetMaximum()){    
-      h_data->SetMaximum(stack->GetMaximum()*5);
+      h_data->SetMaximum(stack->GetMaximum()*1.2);
     }
     h_data->GetXaxis()->SetTitle("");
     h_data->GetYaxis()->SetTitle("Events");
