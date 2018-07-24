@@ -598,6 +598,7 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
                                     tauPy_ms,
                                     *tauPz*tauMomScale,
                                     *tauMass*tauMomScale);
+        lorentzVectorMet_ms.SetXYZT(metx_ms,mety_ms,0,TMath::Sqrt(metx_ms*metx_ms+mety_ms*mety_ms));
    
         *recoilDPhi = dPhiFromLV(lorentzVectorTau_ms,lorentzVectorMet_ms);
         *met = TMath::Sqrt(metx_ms*metx_ms+mety_ms*mety_ms);
@@ -640,7 +641,7 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
     if(*tauAntiElectronLooseMVA6 != sel.tauAntiElectronLooseMVA6 && sel.selection!=2) continue;
     if(*tauIso != sel.tauIso && sel.selection!=2 && sel.name != "cr_fakerate_norm") continue;
     if((*tauGenMatchDecay<sel.tauGenMatchDecayLow || *tauGenMatchDecay>sel.tauGenMatchDecayHigh) && !isData) continue;
-   
+
     if(*mtmuon < sel.mtmuonLow || *mtmuon > sel.mtmuonHigh ) continue;
     if(abs(*muonEta) > sel.muonAbsEtaHigh && sel.selection == 2) continue;
     if(*muonPt < sel.muonPtLow && sel.selection == 2) continue;
