@@ -42,5 +42,9 @@ void ComputeKFactor(TString lepton = "mu",
   kfactor->Write("kfactor_"+lepton);
   file->Write();
   file->Close();
+  kfactor->GetXaxis()->SetRangeUser(0,1000);
+  kfactor->GetXaxis()->SetTitle("m_{W} [GeV]");
+  kfactor->GetYaxis()->SetTitle("k factor");
+  gPad->SaveAs("kfactor_"+lepton+".pdf");
 
 }
