@@ -4,6 +4,7 @@
 #include "TStyle.h"
 #include "THStack.h"
 #include "TLegend.h"
+#include "TColor.h"
 
 void WToTauNuMeasurement() {
 
@@ -89,12 +90,14 @@ void WToTauNuMeasurement() {
   samples.push_back(make_pair("W_uesUp" , WToTauNu_uesUp));
   samples.push_back(make_pair("W_uesDown" , WToTauNu_uesDown));
 
-  TString var = "mttau";
+  TString var1 = "mttau";
+  TString var2 = var1;
 
-  const int nbins = 10;
-  double bins[nbins+1] = { 0 , 100 , 200 , 300 , 400 , 500 , 600 , 700 , 800 , 900 , 1000};
-  //double bins[nbins+1] = {0.4,0.6,0.8,1.0,1.2,1.4,1.6,1.8};  // tauMass binning 3prong
-  //double bins[nbins+1] = {0.0, 0.1,0.2, 0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9, 2.0,2.1, 2.2,2.2, 2.4};  // tauMass binning
+  Float_t bins[] = { 0 , 100 , 200 , 300 , 400 , 500 , 600 , 700 , 800 , 900 , 1000};
+  //Float_t bins[] = {0.4,0.6,0.8,1.0,1.2,1.4,1.6,1.8};  // tauMass binning 3prong
+  //Float_t bins[] = {0.0, 0.1,0.2, 0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9, 2.0,2.1, 2.2,2.2, 2.4};  // tauMass binning
+
+  const int nBins = sizeof(bins)/sizeof(Float_t) - 1;
 
   for(unsigned int idx_iso=0; idx_iso<iso.size(); idx_iso++){
 
@@ -108,21 +111,22 @@ void WToTauNuMeasurement() {
 
       cout<<"Process "<<samples[i].first<<endl;
 
-      TH1D* histoSamples = new TH1D(samples[i].first + "_" + iso[idx_iso],"",nbins,bins);
+      TH1D* histoSamples = new TH1D(samples[i].first + "_" + iso[idx_iso],"",nBins,bins);
 
       for(unsigned int idx_list=0; idx_list<samples[i].second.size(); idx_list++){
 
 	cout<<".............. Sample : "<<samples[i].second[idx_list]<<endl;
 
-	TH1D* histo = new TH1D(samples[i].second[idx_list],samples[i].second[idx_list],nbins,bins);
+	TH1D* histo = new TH1D(samples[i].second[idx_list],samples[i].second[idx_list],nBins,bins);
 	selectionCuts select = sr_trueTaus;
 	if( samples[i].first.Contains("FakeTaus") ){
 	  select =  cr_antiiso;
 	  select.name = "cr_antiiso_" + samples[i].first(11,samples[i].first.Length()); 
 	}
-      makeSelection(dir+"/"+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),iso[idx_iso],select,histo,var,var,var);
-      //cout<<"------------------------------------------------------------- Mean "<<var<<" = "<<histo->GetMean()<<endl;
-       histoSamples->Add(histo);
+	makeSelection(dir+"/"+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),iso[idx_iso],select,histo,var1,var2,var2);
+
+	histoSamples->Add(histo);
+	histoSamples->SetName(histo->GetName());
 	histoSamples->SetFillStyle(1001);
 	if(samples[i].first.Contains("FakeTaus")) histoSamples->SetFillColor(TColor::GetColor("#FFCCFF"));
 	else if(samples[i].first.Contains("TrueTaus")) histoSamples->SetFillColor(TColor::GetColor("#6F2D35"));
@@ -225,7 +229,7 @@ void WToTauNuMeasurement() {
       ratioH->GetYaxis()->SetTitle("Obs./Exp.");
       //ratioH->GetXaxis()->SetTitle("m_{T} [GeV]");
       //ratioH->GetXaxis()->SetTitle("p_{T}^{#tau} [GeV]");
-      ratioH->GetXaxis()->SetTitle(var);
+      ratioH->GetXaxis()->SetTitle(h_data->GetName());
       ratioH->GetXaxis()->SetTitleOffset(3.5);
       ratioH->GetYaxis()->SetNdivisions(505);
       ratioH->GetYaxis()->SetRangeUser(0.4,1.6);
@@ -256,7 +260,7 @@ void WToTauNuMeasurement() {
     canv->Modified();
     canv->SetSelected(canv);
     canv->Update();
-    canv->Print("figures/" + var + "_" + iso[idx_iso] + "_WToTauNu" + tauDecayMode + "_prefit.pdf");
+    canv->Print("figures/" + (TString) h_data->GetName() + "_" + iso[idx_iso] + "_WToTauNu" + tauDecayMode + "_prefit.pdf");
 
     // Get bin-by-bin uncertainties for WTauNu
     TH1D* histo = 0;
@@ -292,7 +296,7 @@ void WToTauNuMeasurement() {
     }
 
     // Save all histograms in one file
-    TFile *out = new TFile("output/" + var + "_" + iso[idx_iso] + "_WToTauNu_shapes" + tauDecayMode + ".root","RECREATE");
+    TFile *out = new TFile("output/" + (TString) h_data->GetName() + "_" + iso[idx_iso] + "_WToTauNu_shapes" + tauDecayMode + ".root","RECREATE");
     out->cd();
 
     map<TString,TH1D*>::iterator it;
