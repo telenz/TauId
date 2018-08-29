@@ -19,7 +19,8 @@
 #include "TLorentzVector.h"
 
 //TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2016/TauIdWithVirtualW/WTauId/NTuples/";
-TString dir = "/nfs/dust/cms/user/mameyer/TauIdAndES_2017Data/TauId/NTuples/";
+//TString dir = "/nfs/dust/cms/user/mameyer/TauIdAndES_2017Data/TauId/NTuples/";
+TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2017/TauIDWithVirtualW/TauId/NTuples/mameyer/";
 //TString dir = "NTuples/";
 //TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2017/TauIDWithVirtualW/TauId/NTuples/";
 
@@ -31,6 +32,7 @@ double tauMomScale = 1.00;
 bool doTauESmeasurement = false; //if set to true: tau mass cuts depending on the studied decay mode are applied
 
 double luminosity = 40991; // lumi determined by brilcalc
+//double luminosity = 12702; // lumi of RunF
 //double luminosity = 28289; // lumi without RunF (determined by brilcalc)
 //double luminosity = 1.;
 //double luminosity = 35890; // lumi used for 2016 analysis
@@ -122,10 +124,10 @@ void loadWorkingPoints()
   // iso.push_back("VTightMva2017v2");
   // iso.push_back("TightMva2017v2");
   // iso.push_back("MediumMva2017v2");
-  // iso.push_back("LooseMva2017v2");
+  iso.push_back("LooseMva2017v2");
   // iso.push_back("Tight");
   // iso.push_back("Medium");
-  iso.push_back("Loose");
+  // iso.push_back("Loose");
 }
 // ----------------------------------------------------------------------------------------------------
 double getXSec(TString sampleName)
