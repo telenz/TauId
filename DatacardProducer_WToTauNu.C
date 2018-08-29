@@ -60,8 +60,33 @@ void DatacardProducer_WToTauNu() {
       textFile << setw(30) << Form("Bin%i_FakeTaus",iB) << setw(15) << "shape" << setw(15) << "-"    << setw(15) << "1.00" << setw(15) << "-"    << endl;
       textFile << setw(30) << Form("Bin%i_TrueTaus",iB) << setw(15) << "shape" << setw(15) << "-"    << setw(15) << "-"    << setw(15) << "1.00" << endl;
     }
-    for (int i=1; i<=6; ++i) {
-      for (int j=1; j<=5; ++j) {
+
+
+    // Get number of bins of fake factor template
+    int nBinX = 0;
+    int nBinY = 0;
+    TIter next(in->GetListOfKeys());
+    TKey *key = 0;
+    while ((key = (TKey*)next()))
+      {
+	TClass *c = gROOT->GetClass(key->GetClassName());
+	if (!c->InheritsFrom("TH1")) continue;
+	TH1D *h = (TH1D*) key->ReadObj();
+	h->SetDirectory(0);
+	TString hName = h->GetName();
+	if(!hName.Contains("FakeTaus_FR")) continue;
+	TString sbinX = hName(11,1);
+	TString sbinY = hName(12,1);
+	int binX = sbinX.Atoi();
+	int binY = sbinY.Atoi();
+	if(binX > nBinX) nBinX = binX;
+	if(binY > nBinY) nBinY = binY;
+	delete h;
+      }
+    delete key;
+
+    for (int i=1; i<=nBinX; ++i) {
+      for (int j=1; j<=nBinY; ++j) {
 	textFile << setw(30) << Form("FR%i%i",i,j) << setw(15) << "shape" << setw(15) << "-" << setw(15) << "1.00" << setw(15) << "-" << endl;
       }
     }
