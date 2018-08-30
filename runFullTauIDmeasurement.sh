@@ -2,8 +2,8 @@
 
 # Please initialize CMSSW before
 
-# Make trigger efficiency curve for met trigger (afterwards you need to redo met ntuple)
-# root -l -b -q PlotTrigger.C # commented out since this is only executed once
+# Make trigger efficiency curve for met trigger (afterwards you need to redo most of the ntuples)
+# root -l -b -q TriggerEfficiency.C+ # commented out since this is only executed once
 
 # Compute fake rates in W+jets and dijets events and combine them 
 root -l -b -q ComputeFakeRate.C+
