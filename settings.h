@@ -187,7 +187,7 @@ void initCuts()
   sr.nJetsCentral30Low  = 1;
   sr.nJetsCentral30High = 1;
   sr.nJetsForward30Low  = 0;
-  sr.nJetsForward30High = 0;
+  sr.nJetsForward30High = 10000.0;
   sr.tauDM = true;
   sr.tauAntiMuonLoose3 = true;
   sr.tauAntiElectronLooseMVA6 = true;
