@@ -47,10 +47,10 @@ void TriggerEfficiency() {
   std::map<string,TGraphAsymmErrors*> effMapData;
   std::map<string,TGraphAsymmErrors*> effMapMC;
 
-  Float_t binsMET[]  = {0,120,130,140,150,160,170,180,190,200,220,240,280,320,380,480,1000}; // the upper bound can be lower than for mhtNoMu since the trigger turn-on is read with the Eval() function which extrapolates also outside the TGraphAsymmError
+  Float_t binsMET[]  = {120,130,140,150,160,170,180,190,200,220,240,280,320,380,480,1000}; // the upper bound can be lower than for mhtNoMu since the trigger turn-on is read with the Eval() function which extrapolates also outside the TGraphAsymmError
   const int nbinsMET = sizeof(binsMET)/sizeof(Float_t) - 1;
 
-  Float_t binsMHT[]  = {0,120,160,200,300,2000};
+  Float_t binsMHT[]  = {120,160,200,300,2000};
   const int nbinsMHT = sizeof(binsMHT)/sizeof(Float_t) - 1;
 
   for (unsigned int i=0; i<samples.size(); ++i) {
@@ -120,9 +120,11 @@ void TriggerEfficiency() {
 	}
 
 	// CUTS
+	if(*mhtNoMu<120)           continue;
+	if(*metNoMu<120)           continue;
 	if(*IsW != true)           continue; // this includes an mtmuon cut of 40GeV
 	if(*mtmuon < 50)           continue;
-	if(*muonPt < 30)           continue;
+	if(*muonPt < 120)          continue;
 	if(abs(*muonEta) > 2.1)    continue;
 	if(*nMuon!=1)              continue;
 	if(*metFilters != true)    continue;
@@ -155,7 +157,7 @@ void TriggerEfficiency() {
   } // end: loop over samples vector (contains Data and MC)
 
 
-  TFile * fileOutput = new TFile("output/trigger_eff_HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_94x_v7.root.root","recreate");
+  TFile * fileOutput = new TFile("output/trigger_eff_HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_94x_v8.root","recreate");
   fileOutput         -> cd("");    
 
   for (auto const& x : effMapData){
