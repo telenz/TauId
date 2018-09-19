@@ -126,12 +126,21 @@ void WToMuNuMeasurement() {
   double addErr = 0;
   for(int i=1; i<=bkgdErr->GetNbinsX(); i++){
     // 1.) Uncertainty on JES, Mu, UES
-    addErr = histoMap["W_jesUp"]->GetBinContent(i) - histoMap["W"]->GetBinContent(i); 
-    bkgdErr->SetBinError(i,sqrt( pow(bkgdErr->GetBinError(i),2) + pow(addErr,2)));      
-    addErr = histoMap["W_muUp"]->GetBinContent(i) - histoMap["W"]->GetBinContent(i); 
-    bkgdErr->SetBinError(i,sqrt( pow(bkgdErr->GetBinError(i),2) + pow(addErr,2)));
-    addErr = histoMap["W_uesUp"]->GetBinContent(i) - histoMap["W"]->GetBinContent(i); 
-    bkgdErr->SetBinError(i,sqrt( pow(bkgdErr->GetBinError(i),2) + pow(addErr,2)));
+    bool WjesUpExists = histoMap.find("W_jesUp") != histoMap.end();
+    if(WjesUpExists){
+      addErr = histoMap["W_jesUp"]->GetBinContent(i) - histoMap["W"]->GetBinContent(i);
+      bkgdErr->SetBinError(i,sqrt( pow(bkgdErr->GetBinError(i),2) + pow(addErr,2)));
+    }
+    bool WmuUpExists = histoMap.find("W_muUp") != histoMap.end();
+    if(WmuUpExists){
+      addErr = histoMap["W_muUp"]->GetBinContent(i) - histoMap["W"]->GetBinContent(i);
+      bkgdErr->SetBinError(i,sqrt( pow(bkgdErr->GetBinError(i),2) + pow(addErr,2)));
+    }
+    bool WuesUpExists = histoMap.find("W_uesUp") != histoMap.end();
+    if(WuesUpExists){
+      addErr = histoMap["W_uesUp"]->GetBinContent(i) - histoMap["W"]->GetBinContent(i);
+      bkgdErr->SetBinError(i,sqrt( pow(bkgdErr->GetBinError(i),2) + pow(addErr,2)));
+    }
   }
   // ------------------ Computation of all uncertainties : END  -------
 
@@ -139,6 +148,7 @@ void WToMuNuMeasurement() {
   TPad* upper = new TPad("upper","pad",0,0.19,1,1);
   upper->Draw();
   upper->cd();
+  //upper->SetLogy();
 
   stack->Draw("hist");
   stack->SetMaximum(stack->GetMaximum()*1.2);
