@@ -448,14 +448,17 @@ double mT (TLorentzVector v1, TLorentzVector Metv){
   return MT;
 }
 // ----------------------------------------------------------------------------------------------------
-void makeSelection(TString filename, TString treename, double xsec, TString iso, selectionCuts sel, TH1* histo, TString variableToFill_1, TString variableToFill_2, TString variableToFill_3)
+void makeSelection(TString fullPath, TString treename, double xsec, TString iso, selectionCuts sel, TH1* histo, TString variableToFill_1, TString variableToFill_2, TString variableToFill_3)
 {
+
+  TString filename = fullPath(fullPath.Last('/') + 1 , fullPath.Length());
+
   if(variableToFill_1 == variableToFill_2) histo->SetName(variableToFill_1);
   else                                     histo->SetName(variableToFill_1 + "_" + variableToFill_2);
 
-  TFile * file = new TFile(filename);
+  TFile * file = new TFile(fullPath);
   if(!file){
-    cout<<"The following tree does not exit: "<<filename<<" .   Please Check."<<endl;
+    cout<<"The following tree does not exit: "<<fullPath<<" .   Please Check."<<endl;
   }
   TTreeReader *myReader = new TTreeReader(treename, file);
 
@@ -542,7 +545,7 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
   TTreeReaderValue< Float_t >  var2(             *myReader,       variableToFill_2);
   TTreeReaderValue< Float_t >  var3(             *myReader,       variableToFill_3);
 
-  int nevtsProcessed = getNEventsProcessed(filename);
+  int nevtsProcessed = getNEventsProcessed(fullPath);
   double norm = xsec*luminosity/nevtsProcessed;
 
   // Needed for stitching
@@ -676,7 +679,7 @@ void makeSelection(TString filename, TString treename, double xsec, TString iso,
     }
 
     // apply mass dependent k-factors
-    if(filename.Contains("WToTauNu") || filename.Contains("WToMuNu")) k_factor = GetkFactor(filename,*wmass);
+    if(filename.Contains("WToTauNu") || filename.Contains("WToMuNu")) k_factor = GetkFactor(fullPath,*wmass);
 
     if(*recoilPt<sel.recoilPtLow) continue;
     if(*dPhiMetTau<sel.dPhiMetTauLow) continue;
