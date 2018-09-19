@@ -21,8 +21,10 @@
 //TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2016/TauIdWithVirtualW/WTauId/NTuples/";
 //TString dir = "/nfs/dust/cms/user/mameyer/TauIdAndES_2017Data/TauId/NTuples/";
 //TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2017/TauIDWithVirtualW/TauId/NTuples/mameyer/";
-//TString dir = "NTuples/";
-TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2017/TauIDWithVirtualW/TauId/NTuples/";
+TString dir = "NTuples/";
+//TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2017/TauIDWithVirtualW/TauId/NTuples/";
+//TString dir = "/nfs/dust/cms/user/mameyer/TauIdAndES_2017Data/METv1Recipe/TauId/NTuples/";
+//TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2017/TauIDWithVirtualW/METv1Recipe_NoForwardJetVeto/TauId/NTuples/";
 
 TString tauDecayMode = "";
 //TString tauDecayMode = "_3prong0pizeros";
@@ -187,7 +189,7 @@ void initCuts()
   sr.nJetsCentral30Low  = 1;
   sr.nJetsCentral30High = 1;
   sr.nJetsForward30Low  = 0;
-  sr.nJetsForward30High = 10000.0;
+  sr.nJetsForward30High = 10000;
   sr.tauDM = true;
   sr.tauAntiMuonLoose3 = true;
   sr.tauAntiElectronLooseMVA6 = true;
