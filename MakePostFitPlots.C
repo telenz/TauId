@@ -15,7 +15,7 @@ void MakePostFitPlots() {
   for(unsigned int idx_iso=0; idx_iso<iso.size(); idx_iso++){
 
     TString inputFileName = "mttau_"+iso[idx_iso]+"_WToTauNu_shapes" + tauDecayMode;
-    TString mlfitFileName = "mlfit_Combined_"+iso[idx_iso];
+    TString mlfitFileName = "fitDiagnostics_"+iso[idx_iso];
     TFile * inputs = new TFile("output/"+inputFileName+".root");
     if(!inputs){
       cout<<"File "<<inputFileName<<".root not available. Please Check."<<endl;
