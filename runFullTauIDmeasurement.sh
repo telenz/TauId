@@ -20,7 +20,7 @@ root -l -b -q WToMuNuMeasurement.C+
 root -l -b -q DatacardProducer_WToMuNu.C+
 
 # Make datacards and run Combine
-iniCMSSW_7_4_7   # needed for Combine (definition see below)
+iniCMSSW_8_1_0   # needed for Combine (definition see below)
 cd datacards
 source RunCombine.sh
 cd ..
@@ -42,10 +42,10 @@ root -l -b -q MakePostFitPlots.C+
 # fit_s->Print()
 # fit_s->correlation("r","tauId")
 
-# iniCMSSW_7_4_7 needed for Combine and defined as
-# iniCMSSW_7_4_7() {
-#    cd /nfs/dust/cms/user/tlenz/13TeV/2016/CMSSW_7_4_7/src
-#    ini6 
+# iniCMSSW_8_1_0 needed for Combine and defined as
+# iniCMSSW_8_1_0() {
+#    cd /nfs/dust/cms/user/tlenz/13TeV/2017/CMSSW/CMSSW_8_1_0/src
+#    ini6
 #    eval `scram runtime -sh`
 #    cd -
 # }
