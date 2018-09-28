@@ -10,7 +10,7 @@
 ./HTC_submit_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_W4Jets.conf W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8 20
 
 # For fake rate (no trigger efficiencies need to be included)
-./HTC_submit_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_Data.conf JetHT_Run2017 10
+./HTC_submit_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_Data.conf JetHT_Run2017 20
 
 ./HTC_submit_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_W1JetspT100-150.conf W1JetsToLNu_LHEWpT_100-150 20
 ./HTC_submit_seq.sh AnalysisNTupleProducer_TauID analysisNTupleProducer_tauid_MC_W1JetspT150-250.conf W1JetsToLNu_LHEWpT_150-250 20
