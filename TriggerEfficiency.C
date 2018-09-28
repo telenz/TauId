@@ -157,7 +157,7 @@ void TriggerEfficiency() {
   } // end: loop over samples vector (contains Data and MC)
 
 
-  TFile * fileOutput = new TFile("output/trigger_eff_HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_94x_v8.root","recreate");
+  TFile * fileOutput = new TFile("output/trigger_eff_HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_94x_v9.root","recreate");
   fileOutput         -> cd("");    
 
   for (auto const& x : effMapData){
