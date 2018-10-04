@@ -37,11 +37,12 @@ void ComputeFakeRate() {
   std::vector<TString> data_JetHT;
   data_JetHT.push_back("JetHT_Run2017");
   std::vector<TString> wjets;
+
   wjets.push_back("W1JetsToLNu_LHEWpT_100-150");
   wjets.push_back("W1JetsToLNu_LHEWpT_150-250");
   wjets.push_back("W1JetsToLNu_LHEWpT_250-400");
   wjets.push_back("W1JetsToLNu_LHEWpT_400-inf");
-  wjets.push_back("W2JetsToLNu_LHEWpT_50-150");
+  wjets.push_back("W2JetsToLNu_LHEWpT_100-150");
   wjets.push_back("W2JetsToLNu_LHEWpT_150-250");
   wjets.push_back("W2JetsToLNu_LHEWpT_250-400");
   wjets.push_back("W2JetsToLNu_LHEWpT_400-inf");

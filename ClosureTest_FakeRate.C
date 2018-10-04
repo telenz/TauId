@@ -41,7 +41,7 @@ void ClosureTest_FakeRate() {
   obs.push_back("W1JetsToLNu_LHEWpT_150-250");
   obs.push_back("W1JetsToLNu_LHEWpT_250-400");
   obs.push_back("W1JetsToLNu_LHEWpT_400-inf");
-  obs.push_back("W2JetsToLNu_LHEWpT_50-150");
+  obs.push_back("W2JetsToLNu_LHEWpT_100-150");
   obs.push_back("W2JetsToLNu_LHEWpT_150-250");
   obs.push_back("W2JetsToLNu_LHEWpT_250-400");
   obs.push_back("W2JetsToLNu_LHEWpT_400-inf");
@@ -50,7 +50,7 @@ void ClosureTest_FakeRate() {
   pred.push_back("W1JetsToLNu_LHEWpT_150-250");
   pred.push_back("W1JetsToLNu_LHEWpT_250-400");
   pred.push_back("W1JetsToLNu_LHEWpT_400-inf");
-  pred.push_back("W2JetsToLNu_LHEWpT_50-150");
+  pred.push_back("W2JetsToLNu_LHEWpT_100-150");
   pred.push_back("W2JetsToLNu_LHEWpT_150-250");
   pred.push_back("W2JetsToLNu_LHEWpT_250-400");
   pred.push_back("W2JetsToLNu_LHEWpT_400-inf");
