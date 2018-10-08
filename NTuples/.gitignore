@@ -2,3 +2,4 @@
 !*.sh
 !.gitignore
 !*.conf
+analysisNTupleProducer_tauid_MC_*
