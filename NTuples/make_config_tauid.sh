@@ -95,37 +95,37 @@ sed 's/MuonMomScale = 1./MuonMomScale = 1.02/' analysisNTupleProducer_tauid_MC_W
 
 # WStarTauNu
 
-sed 's/JetES = 0/JetES = -1/' analysisNTupleProducer_tauid_MC_WStarTauNu.conf > analysisNTupleProducer_tauid_jesDown_MC_WStarTauNu.conf
+sed 's/JetES = 0/JetES = -1/' analysisNTupleProducer_tauid_MC_WStarTauNu.conf > analysisNTupleProducer_tauid_MC_jesDown_WStarTauNu.conf
 
-sed 's/JetES = 0/JetES = 1/' analysisNTupleProducer_tauid_MC_WStarTauNu.conf > analysisNTupleProducer_tauid_jesUp_MC_WStarTauNu.conf
+sed 's/JetES = 0/JetES = 1/' analysisNTupleProducer_tauid_MC_WStarTauNu.conf > analysisNTupleProducer_tauid_MC_jesUp_WStarTauNu.conf
 
-sed 's/UnclusteredES = 0/UnclusteredES = -1/' analysisNTupleProducer_tauid_MC_WStarTauNu.conf > analysisNTupleProducer_tauid_uesDown_MC_WStarTauNu.conf
+sed 's/UnclusteredES = 0/UnclusteredES = -1/' analysisNTupleProducer_tauid_MC_WStarTauNu.conf > analysisNTupleProducer_tauid_MC_uesDown_WStarTauNu.conf
 
-sed 's/UnclusteredES = 0/UnclusteredES = 1/' analysisNTupleProducer_tauid_MC_WStarTauNu.conf > analysisNTupleProducer_tauid_uesUp_MC_WStarTauNu.conf
+sed 's/UnclusteredES = 0/UnclusteredES = 1/' analysisNTupleProducer_tauid_MC_WStarTauNu.conf > analysisNTupleProducer_tauid_MC_uesUp_WStarTauNu.conf
 
-sed 's/TauMomScale = 1./TauMomScale = 0.98/' analysisNTupleProducer_tauid_MC_WStarTauNu.conf > analysisNTupleProducer_tauid_tauesDown_MC_WStarTauNu.conf
+sed 's/TauMomScale = 1./TauMomScale = 0.98/' analysisNTupleProducer_tauid_MC_WStarTauNu.conf > analysisNTupleProducer_tauid_MC_tauesDown_WStarTauNu.conf
 
-sed 's/TauMomScale = 1./TauMomScale = 1.02/' analysisNTupleProducer_tauid_MC_WStarTauNu.conf > analysisNTupleProducer_tauid_tauesUp_MC_WStarTauNu.conf
+sed 's/TauMomScale = 1./TauMomScale = 1.02/' analysisNTupleProducer_tauid_MC_WStarTauNu.conf > analysisNTupleProducer_tauid_MC_tauesUp_WStarTauNu.conf
 
-sed 's/TauDecayMode =/TauDecayMode = 1prong0pizeros/' analysisNTupleProducer_tauid_tauesDown_MC_WStarTauNu.conf > analysisNTupleProducer_tauid_taues_1prong0pizerosDown_MC_WStarTauNu.conf
+sed 's/TauDecayMode =/TauDecayMode = 1prong0pizeros/' analysisNTupleProducer_tauid_MC_tauesDown_WStarTauNu.conf > analysisNTupleProducer_tauid_MC_taues_1prong0pizerosDown_WStarTauNu.conf
 
-sed 's/TauDecayMode =/TauDecayMode = 1prongUpTo4pizeros/' analysisNTupleProducer_tauid_tauesDown_MC_WStarTauNu.conf > analysisNTupleProducer_tauid_taues_1prongUpTo4pizerosDown_MC_WStarTauNu.conf
+sed 's/TauDecayMode =/TauDecayMode = 1prongUpTo4pizeros/' analysisNTupleProducer_tauid_MC_tauesDown_WStarTauNu.conf > analysisNTupleProducer_tauid_MC_taues_1prongUpTo4pizerosDown_WStarTauNu.conf
 
-sed 's/TauDecayMode =/TauDecayMode = 3prong0pizeros/' analysisNTupleProducer_tauid_tauesDown_MC_WStarTauNu.conf > analysisNTupleProducer_tauid_taues_3prong0pizerosDown_MC_WStarTauNu.conf
+sed 's/TauDecayMode =/TauDecayMode = 3prong0pizeros/' analysisNTupleProducer_tauid_MC_tauesDown_WStarTauNu.conf > analysisNTupleProducer_tauid_MC_taues_3prong0pizerosDown_WStarTauNu.conf
 
-sed 's/TauDecayMode =/TauDecayMode = 1prong0pizeros/' analysisNTupleProducer_tauid_tauesUp_MC_WStarTauNu.conf > analysisNTupleProducer_tauid_taues_1prong0pizerosUp_MC_WStarTauNu.conf
+sed 's/TauDecayMode =/TauDecayMode = 1prong0pizeros/' analysisNTupleProducer_tauid_MC_tauesUp_WStarTauNu.conf > analysisNTupleProducer_tauid_MC_taues_1prong0pizerosUp_WStarTauNu.conf
 
-sed 's/TauDecayMode =/TauDecayMode = 1prongUpTo4pizeros/' analysisNTupleProducer_tauid_tauesUp_MC_WStarTauNu.conf > analysisNTupleProducer_tauid_taues_1prongUpTo4pizerosUp_MC_WStarTauNu.conf
+sed 's/TauDecayMode =/TauDecayMode = 1prongUpTo4pizeros/' analysisNTupleProducer_tauid_MC_tauesUp_WStarTauNu.conf > analysisNTupleProducer_tauid_MC_taues_1prongUpTo4pizerosUp_WStarTauNu.conf
 
-sed 's/TauDecayMode =/TauDecayMode = 3prong0pizeros/' analysisNTupleProducer_tauid_tauesUp_MC_WStarTauNu.conf > analysisNTupleProducer_tauid_taues_3prong0pizerosUp_MC_WStarTauNu.conf
+sed 's/TauDecayMode =/TauDecayMode = 3prong0pizeros/' analysisNTupleProducer_tauid_MC_tauesUp_WStarTauNu.conf > analysisNTupleProducer_tauid_MC_taues_3prong0pizerosUp_WStarTauNu.conf
 
 
 
-for file in $(ls *.conf)
-do
-    echo "**********************************"
-    echo $file
-    echo "**********************************"
-
-    diff analysisNTupleProducer_tauid_MC_backup.conf $file
-done
+#for file in $(ls *.conf)
+#do
+#    echo "**********************************"
+#    echo $file
+#    echo "**********************************"
+#
+#    diff analysisNTupleProducer_tauid_MC_backup.conf $file
+#done
