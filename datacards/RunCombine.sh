@@ -20,7 +20,7 @@ while read -r iso
 do
     echo -e  "\n\n\n ----------------------------- ${iso} ${tauDecayMode} \n"
     # Combine datacards
-    combineCards.py ../output/datacard_mtmuon_WToMuNu.txt ../output/datacard_mttau_VTightMva2017v2_WToTauNu${tauDecayMode}.txt > datacard_${iso}_Combined${tauDecayMode}.txt
+    combineCards.py ../output/datacard_mtmuon_WToMuNu.txt ../output/datacard_mttau_${iso}_WToTauNu${tauDecayMode}.txt > datacard_${iso}_Combined${tauDecayMode}.txt
     # Run combine
     ./Fitting.sh ${iso} $tauDecayMode | tee output_${iso}${tauDecayMode}.txt
 done < iso.txt
