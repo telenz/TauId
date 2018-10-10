@@ -142,7 +142,6 @@ struct selectionCuts {
   TString name;
   int  selection;
   bool trigger = false;
-  float recoilRatioLow, recoilRatioHigh;
   float recoilDPhiLow;
   float metLow = 0;
   float tauPtLow,tauPtHigh;
@@ -173,8 +172,6 @@ void initCuts()
   sr.name = "sr";
   sr.selection = 3;
   sr.trigger   = true;
-  sr.recoilRatioLow  = 0.00;
-  sr.recoilRatioHigh = 100000.;
   sr.recoilDPhiLow = 2.8;
   sr.metLow = 120;
   sr.tauPtLow = 100;
@@ -262,8 +259,6 @@ void initCuts()
   cr_fakerate_den.nElecHigh = 0;
   cr_fakerate_den.nJetsCentral30Low  = 1;
   cr_fakerate_den.nJetsCentral30High = 1;
-  cr_fakerate_den.recoilRatioLow  = 0.0;
-  cr_fakerate_den.recoilRatioHigh = 10000.;
   cr_fakerate_den.mtmuonLow = 0;
   cr_fakerate_den.metLow = 120;
   cr_fakerate_den.tauIso = false;
@@ -302,8 +297,6 @@ void initCuts()
   cr_fakerate_dijet_den.tauPtLow = 100;
   cr_fakerate_dijet_den.tauPtHigh = 10000000;
   cr_fakerate_dijet_den.recoilDPhiLow = 2.8;
-  cr_fakerate_dijet_den.recoilRatioLow  = 0.0;
-  cr_fakerate_dijet_den.recoilRatioHigh = 100000.;
   cr_fakerate_dijet_den.metFilters = true;
   cr_fakerate_dijet_den.tauDM = true;
   cr_fakerate_dijet_den.tauAntiMuonLoose3 = true;
@@ -474,7 +467,6 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
   TTreeReaderValue< Float_t >  mutrigweight(     *myReader,       "mutrigweight");
   TTreeReaderValue< Float_t >  mueffweight(      *myReader,       "mueffweight");
   TTreeReaderValue< Int_t   >  Selection(        *myReader,       "Selection");
-  TTreeReaderValue< Float_t >  recoilRatio(      *myReader,       "recoilRatio");
   TTreeReaderValue< Float_t >  recoilDPhi(       *myReader,       "recoilDPhi");
   TTreeReaderValue< Float_t >  dPhiMetTau(       *myReader,       "dPhiMetTau");
   TTreeReaderValue< Float_t >  met(              *myReader,       "met");
@@ -622,7 +614,6 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
     if(sel.selection == 4 && (*pfJet60 != sel.pfJetTrigger && *pfJet80 != sel.pfJetTrigger && *pfJet140 != sel.pfJetTrigger && *(*pfJet200) != sel.pfJetTrigger && *(*pfJet260) != sel.pfJetTrigger && *(*pfJet320) != sel.pfJetTrigger && *(*pfJet400) != sel.pfJetTrigger && *(*pfJet450) != sel.pfJetTrigger)) continue;
 
     if(*Selection != sel.selection) continue;
-    if(*recoilRatio < sel.recoilRatioLow || *recoilRatio > sel.recoilRatioHigh) continue;
     if(*recoilDPhi < sel.recoilDPhiLow) continue;
 
     if(*mhtNoMu < sel.mhtNoMuLow) continue;
