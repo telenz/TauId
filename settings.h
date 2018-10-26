@@ -123,13 +123,13 @@ map<TString, double> xsecs = {
 // ----------------------------------------------------------------------------------------------------
 void loadWorkingPoints()
 {
-  // iso.push_back("VTightMva2017v2");
-  // iso.push_back("TightMva2017v2");
-  // iso.push_back("MediumMva2017v2");
+  iso.push_back("VTightMva2017v2");
+  iso.push_back("TightMva2017v2");
+  iso.push_back("MediumMva2017v2");
   iso.push_back("LooseMva2017v2");
-  // iso.push_back("Tight");
-  // iso.push_back("Medium");
-  // iso.push_back("Loose");
+  iso.push_back("Tight");
+  iso.push_back("Medium");
+  iso.push_back("Loose");
 }
 // ----------------------------------------------------------------------------------------------------
 double getXSec(TString sampleName)
