@@ -123,10 +123,13 @@ map<TString, double> xsecs = {
 // ----------------------------------------------------------------------------------------------------
 void loadWorkingPoints()
 {
+  iso.push_back("VVTightMva2017v2");
   iso.push_back("VTightMva2017v2");
   iso.push_back("TightMva2017v2");
   iso.push_back("MediumMva2017v2");
   iso.push_back("LooseMva2017v2");
+  iso.push_back("VLooseMva2017v2");
+  iso.push_back("VVLooseMva2017v2");
   iso.push_back("Tight");
   iso.push_back("Medium");
   iso.push_back("Loose");
@@ -186,7 +189,7 @@ void initCuts()
   sr.nJetsCentral30Low  = 1;
   sr.nJetsCentral30High = 1;
   sr.nJetsForward30Low  = 0;
-  sr.nJetsForward30High = 10000;
+  sr.nJetsForward30High = 0;
   sr.tauDM = true;
   sr.tauAntiMuonLoose3 = true;
   sr.tauAntiElectronLooseMVA6 = true;
@@ -293,7 +296,7 @@ void initCuts()
   cr_fakerate_dijet_den.nJetsCentral30Low  = 2;
   cr_fakerate_dijet_den.nJetsCentral30High = 2;
   cr_fakerate_dijet_den.nJetsForward30Low  = 0;
-  cr_fakerate_dijet_den.nJetsForward30High = 1000000.;
+  cr_fakerate_dijet_den.nJetsForward30High = 0;
   cr_fakerate_dijet_den.tauPtLow = 100;
   cr_fakerate_dijet_den.tauPtHigh = 10000000;
   cr_fakerate_dijet_den.recoilDPhiLow = 2.8;
