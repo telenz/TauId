@@ -91,7 +91,7 @@ void DatacardProducer_WToTauNu() {
       }
     }
     textFile << setw(15) << "BkgdNorm" << setw(15) << "lnN" << setw(15) << "-"     << setw(15) << "-"     << setw(15) << "1.30"  << endl;
-    textFile << setw(15) << "lumi"     << setw(15) << "lnN" << setw(15) << "1.027" << setw(15) << "1.027" << setw(15) << "1.027" << endl;
+    textFile << setw(15) << "lumi"     << setw(15) << "lnN" << setw(15) << "1.023" << setw(15) << "1.023" << setw(15) << "1.023" << endl;
     textFile << "tauId  rateParam WTauNu W  1  [0.0,2.0]" << endl;
   
     // *******************

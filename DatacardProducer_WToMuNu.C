@@ -59,7 +59,7 @@ void DatacardProducer_WToMuNu() {
   textFile << setw(15) << "TTNorm"  << setw(15) << "lnN" << setw(15) << "-"     << setw(15) << "1.15"  << setw(15) << "-"     << endl;
   textFile << setw(15) << "EWKNorm" << setw(15) << "lnN" << setw(15) << "-"     << setw(15) << "-"     << setw(15) << "1.15"  << endl;
   textFile << setw(15) << "MuEff"   << setw(15) << "lnN" << setw(15) << "1.04"  << setw(15) << "1.04"  << setw(15) << "1.04"  << endl;
-  textFile << setw(15) << "lumi"    << setw(15) << "lnN" << setw(15) << "1.027" << setw(15) << "1.027" << setw(15) << "1.027" << endl;
+  textFile << setw(15) << "lumi"    << setw(15) << "lnN" << setw(15) << "1.023" << setw(15) << "1.023" << setw(15) << "1.023" << endl;
   
   // *******************
   // end creating datacard inputs
