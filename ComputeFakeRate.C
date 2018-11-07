@@ -17,6 +17,7 @@ void ComputeFakeRate() {
   Float_t binsRatio[] = { 0.0 , 0.7 , 0.75 , 0.80 , 0.85 , 1.0 , 2. }; // new analysis binning
   Float_t binsJetPt[] ={100 , 160 , 240 , 340 , 1200}; // new analysis binning
 
+  //Float_t binsJetPt[] ={100 , 140 , 160 , 180 , 200 , 220 , 240 , 340 , 1200}; // analysis binning v3 (?)
   const int nBinsRatio = sizeof(binsRatio)/sizeof(Float_t) - 1;
   const int nBinsJetPt = sizeof(binsJetPt)/sizeof(Float_t) - 1;
 
@@ -64,8 +65,8 @@ void ComputeFakeRate() {
   genuineTaus.push_back("DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
   genuineTaus.push_back("DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
 
-  samples.push_back(make_pair("GenuineTausBkg" , genuineTaus));
   samples.push_back(make_pair("WJetsToLNu" , wjets));
+  samples.push_back(make_pair("GenuineTausBkg" , genuineTaus));
   samples.push_back(make_pair("SingleMuon" , data_SingleMuon));
   samples.push_back(make_pair("JetHT" , data_JetHT));
 
