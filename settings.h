@@ -278,7 +278,7 @@ void initCuts()
 
   // cr_fakerate for WJets and ZJets normalization
   cr_fakerate_norm = cr_fakerate_den;
-  cr_fakerate_norm.name = "cr_fakerate";
+  cr_fakerate_norm.name = "cr_fakerate_norm";
   cr_fakerate_norm.trigger = true;
   cr_fakerate_norm.mhtNoMuLow = 120.;
   cr_fakerate_norm.metNoMuLow = 120.;
