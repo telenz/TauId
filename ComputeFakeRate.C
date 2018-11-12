@@ -16,8 +16,8 @@ void ComputeFakeRate() {
 
   Float_t binsRatio[] = { 0.0 , 0.7 , 0.75 , 0.80 , 0.85 , 1.0 , 2. }; // new analysis binning
   Float_t binsJetPt[] ={100 , 160 , 240 , 340 , 1200}; // new analysis binning
+  //Float_t binsJetPt[] ={100 , 140 , 160 , 180 , 200 , 220 , 240 , 260 , 300 , 340 , 380 , 420 , 460 , 500 , 1200}; // analysis binning v3
 
-  //Float_t binsJetPt[] ={100 , 140 , 160 , 180 , 200 , 220 , 240 , 340 , 1200}; // analysis binning v3 (?)
   const int nBinsRatio = sizeof(binsRatio)/sizeof(Float_t) - 1;
   const int nBinsJetPt = sizeof(binsJetPt)/sizeof(Float_t) - 1;
 
