@@ -73,6 +73,8 @@ void ClosureTest_FakeRate() {
   TString var1 = "mttau";
   TString var2 = var1;
 
+  //Float_t bins[] = {100,120,140,160,180,200,220,240,260,280,300,320,340,360,380,400,440,480,520,560,600};  // tauJetPt binning
+  //Float_t bins[] = {200,240,280,320,360,400,440,480,520,560,600,640,680,720,760,800};  // tauJetPt binning
   //Float_t bins[] = {100,150,200,250,300,400,500};  // tauPt binning
   //Float_t bins[] = {100,200,300,400,500,700};  // met binning
   //Float_t bins[] = {100,170,220,350,500,1200};  // tauJetPt binning
