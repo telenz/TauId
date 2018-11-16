@@ -66,12 +66,12 @@ map<TString, double> xsecs = {
 {"ZZ_TuneCP5_13TeV-pythia8"                                , 12.19},  // LO (17) -> could be improved
 {"WW_TuneCP5_13TeV-pythia8"                                , 118.7},  // NNLO QCD (18)
 {"WZ_TuneCP5_13TeV-pythia8"                                , 27.68},  // LO (19) -> could be improved
-{"DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"       , 5345*1.079},  // NNLO (20)
-{"DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"      , 875.7*1.079}, // NNLO (20a)
-{"DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"      , 306.9*1.079}, // NNLO (20b)
-{"DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"      , 111.9*1.079}, // NNLO (20c)
-{"DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"      , 43.97*1.079}, // NNLO (20d)
-{"DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8"   , 15820*1.079}, // NNLO (20e)
+{"DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"       , 5345*1.165},  // NNLO (20)
+{"DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"      , 875.7*1.165}, // NNLO (20a)
+{"DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"      , 306.9*1.165}, // NNLO (20b)
+{"DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"      , 111.9*1.165}, // NNLO (20c)
+{"DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"      , 43.97*1.165}, // NNLO (20d)
+{"DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8"   , 15820*1.165}, // NNLO (20e)
 {"TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8"        , 88.29},  // NNLO (21)
 {"TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8"     , 377.96}, // NNLO (22)
 {"TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8" , 365.34}, // NNLO (23)
@@ -110,7 +110,7 @@ map<TString, double> xsecs = {
 // (17) from: LO: GenXSec analyzer (https://twiki.cern.ch/twiki/bin/view/CMS/HowToGenXSecAnalyzer)
 // (18) from: https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat13TeVInclusive (LO xsec = 64.3 from https://cms-gen-dev.cern.ch/xsdb (DAS=WW_TuneCUETP8M1_13TeV-pythia8))
 // (19) from: LO: GenXSec analyzer (https://twiki.cern.ch/twiki/bin/view/CMS/HowToGenXSecAnalyzer)
-// (20) from: LO: GenXSec analyzer (https://twiki.cern.ch/twiki/bin/view/CMS/HowToGenXSecAnalyzer), NNLO: https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat13TeV -> k-factor = 5765.4/5345 = 1.079
+// (20) from: LO: GenXSec analyzer (https://twiki.cern.ch/twiki/bin/view/CMS/HowToGenXSecAnalyzer), NNLO: https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat13TeV -> k-factor = 6225.42/5345 = 1.165
 // (20a-20e) from: LO: GenXSec analyzer (https://twiki.cern.ch/twiki/bin/view/CMS/HowToGenXSecAnalyzer), k-factor see (20)
 // (21) from: https://cms-gen-dev.cern.ch/xsdb (DAS=TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8)
 // (22) from: https://cms-gen-dev.cern.ch/xsdb (DAS=TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8)
