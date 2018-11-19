@@ -24,6 +24,12 @@ fit_s->Print()
 fit_s->correlation("tauId","r")
 EOF
 
+root -b -l <<EOF > results_VVLooseMva2017v2.txt
+TFile *_file0 = TFile::Open("fitDiagnostics_VVLooseMva2017v2.root")
+fit_s->Print()
+fit_s->correlation("tauId","r")
+EOF
+
 root -b -l <<EOF > results_LooseMva2017v2.txt
 TFile *_file0 = TFile::Open("fitDiagnostics_LooseMva2017v2.root")
 fit_s->Print()
@@ -54,7 +60,7 @@ fit_s->Print()
 fit_s->correlation("tauId","r")
 EOF
 
-wps=("Loose" "Medium" "Tight" "VLooseMva2017v2" "LooseMva2017v2" "MediumMva2017v2" "TightMva2017v2" "VTightMva2017v2" "VVTightMva2017v2") 
+wps=("Loose" "Medium" "Tight" "VVLooseMva2017v2" "VLooseMva2017v2" "LooseMva2017v2" "MediumMva2017v2" "TightMva2017v2" "VTightMva2017v2" "VVTightMva2017v2") 
 
 for i in "${wps[@]}"
 do
