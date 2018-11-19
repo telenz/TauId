@@ -51,101 +51,96 @@ void CalculateEWKfraction() {
 
   TH2D *effSingleMu = 0;
 
+  // Read single fake rates
+  TFile *DataFileJetHT    = new TFile("output/JetHT_fakeRate"+tauDecayMode+".root");
+  TFile *DataFileSingleMu = new TFile("output/SingleMuon_fakeRate"+tauDecayMode+".root");
+  TFile* out_FakeRates    = new TFile("output/fakerates"+tauDecayMode+".root","RECREATE");
+
   // Read binning from fake factor template
   for(unsigned int idx_iso=0; idx_iso<iso.size(); idx_iso++){
-    TFile *DataFileSingleMu = new TFile("output/SingleMuon_fakeRate"+tauDecayMode+".root");
     if(!DataFileSingleMu -> GetListOfKeys()->Contains(iso[idx_iso])){
       cout<<"Isolation working point not existent in file. Exiting..."<<endl<<endl;
       exit(-1);
     }
     effSingleMu = (TH2D*) DataFileSingleMu->Get(iso[idx_iso]);
-  }
-  int nBinsX = effSingleMu -> GetNbinsX();
-  int nBinsY = effSingleMu -> GetNbinsY();
 
-  TString var1 = "tauPt";
-  TString var2 = "tauJetPt";
-  TString var3 = "tauJetPt";
+    int nBinsX = effSingleMu -> GetNbinsX();
+    int nBinsY = effSingleMu -> GetNbinsY();
 
-  for (unsigned int i=0; i<samples.size(); ++i) {
+    TString var1 = "tauPt";
+    TString var2 = "tauJetPt";
+    TString var3 = "tauJetPt";
 
-    // filling histograms
-    histo[i]       = (TH2D*) effSingleMu -> Clone("h_" + samples[i].first );
-    histo_norm[i]  = (TH2D*) effSingleMu -> Clone("h_norm" + samples[i].first);
-    histo[i]      -> Reset();
-    histo_norm[i] -> Reset();
+    for (unsigned int i=0; i<samples.size(); ++i) {
 
-    for(unsigned int idx_list=0; idx_list<samples[i].second.size(); idx_list++){
-      cout<<"---------- Processing ... "<<samples[i].second[idx_list]<<" ---------- "<<endl;
+      // filling histograms
+      histo[i]       = (TH2D*) effSingleMu -> Clone("h_" + samples[i].first );
+      histo_norm[i]  = (TH2D*) effSingleMu -> Clone("h_norm" + samples[i].first);
+      histo[i]      -> Reset();
+      histo_norm[i] -> Reset();
 
-      // Calculate normalization factor in fakefactor region (selection=1)
-      makeSelection(dir+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),(TString) "MediumMva2017v2",cr_fakerate_norm,histo_norm[i],var1,var2,var3); //only very small dependence on WP, decay mode selection is applied
+      for(unsigned int idx_list=0; idx_list<samples[i].second.size(); idx_list++){
+	cout<<"---------- Processing ... "<<samples[i].second[idx_list]<<" ---------- "<<endl;
 
-      makeSelection(dir+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),(TString) "MediumMva2017v2",cr_ewkFraction,histo[i],var1,var2,var3);//EWK does not depend on WP, decay mode selection is applied
-
+	// Calculate normalization factor in fakefactor region (selection=1)
+	makeSelection(dir+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),iso[idx_iso],cr_fakerate_norm,histo_norm[i],var1,var2,var3); //only very small dependence on WP, decay mode selection is applied
+	makeSelection(dir+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),iso[idx_iso],cr_ewkFraction,histo[i],var1,var2,var3);//EWK does not depend on WP, decay mode selection is applied
+      }
     }
-  }
 
-  // Calculate normalization factor and rescale MC
-  double N_MC   = histo_norm[0]->Integral(0,nBinsX+1,0,nBinsY+1);
-  double N_Data = histo_norm[1]->Integral(0,nBinsX+1,0,nBinsY+1);
-  double norm = N_Data/N_MC;
-  cout<<endl;
-  cout<<"N_MC   = "<<N_MC<<endl;
-  cout<<"N_Data = "<<N_Data<<endl;
-  cout<<"norm   = "<<norm<<endl;
-  histo[0]->Scale(norm);
+    // Calculate normalization factor and rescale MC
+    double N_MC   = histo_norm[0]->Integral(0,nBinsX+1,0,nBinsY+1);
+    double N_Data = histo_norm[1]->Integral(0,nBinsX+1,0,nBinsY+1);
+    double norm = N_Data/N_MC;
+    cout<<endl;
+    cout<<"N_MC   = "<<N_MC<<endl;
+    cout<<"N_Data = "<<N_Data<<endl;
+    cout<<"norm   = "<<norm<<endl;
+    histo[0]->Scale(norm);
 
-  double nEWK_err;
-  double nEWK  = histo[0] -> IntegralAndError(1,nBinsX,1,nBinsY,nEWK_err);
-  double nData_err;
-  double nData = histo[1] -> IntegralAndError(1,nBinsX,1,nBinsY,nData_err);
+    double nEWK_err;
+    double nEWK  = histo[0] -> IntegralAndError(1,nBinsX,1,nBinsY,nEWK_err);
+    double nData_err;
+    double nData = histo[1] -> IntegralAndError(1,nBinsX,1,nBinsY,nData_err);
 
-  TH1D *h_fEWK = (TH1D*) histo[0]->Clone();
-  h_fEWK -> Divide(histo[1]);
-  h_fEWK -> SetName("h_fEWK");
+    TH1D *h_fEWK = (TH1D*) histo[0]->Clone();
+    h_fEWK -> Divide(histo[1]);
+    h_fEWK -> SetName("h_fEWK");
 
-  // Project out tauPt/tauJetPt ratio dimension since the major dependency is only visible in taujetPt
-  TH1D* histo1Dim[2] = {0};
-  histo1Dim[0] = (TH1D*) histo[0] -> ProjectionY("1Dim_MC",0,nBinsX+1);
-  histo1Dim[1] = (TH1D*) histo[1] -> ProjectionY("1Dim_Data",0,nBinsX+1);
+    // Project out tauPt/tauJetPt ratio dimension since the major dependency is only visible in taujetPt
+    TH1D* histo1Dim[2] = {0};
+    histo1Dim[0] = (TH1D*) histo[0] -> ProjectionY("1Dim_MC",0,nBinsX+1);
+    histo1Dim[1] = (TH1D*) histo[1] -> ProjectionY("1Dim_Data",0,nBinsX+1);
 
-  TH1D *h_fEWK_1Dim = (TH1D*) histo1Dim[0]->Clone();
-  h_fEWK_1Dim -> Divide(histo1Dim[1]);
-  h_fEWK_1Dim -> SetName("h_fEWK_1Dim");
+    TH1D *h_fEWK_1Dim = (TH1D*) histo1Dim[0]->Clone();
+    h_fEWK_1Dim -> Divide(histo1Dim[1]);
+    h_fEWK_1Dim -> SetName("h_fEWK_1Dim");
 
-  // Set fEWK to one if it is above one (and corresponding uncertainty is set to 10%)
-  for(int j=1; j<=nBinsY; j++){
-    if( h_fEWK_1Dim -> GetBinContent(j) > 1.0 ){
-      h_fEWK_1Dim -> SetBinContent(j,1.0);
-      h_fEWK_1Dim -> SetBinError(j, 1 - h_fEWK_1Dim->GetBinContent(j-1) );
+    // Set fEWK to one if it is above one (and corresponding uncertainty is set to 10%)
+    for(int j=1; j<=nBinsY; j++){
+      if( h_fEWK_1Dim -> GetBinContent(j) > 1.0 ){
+	h_fEWK_1Dim -> SetBinContent(j,1.0);
+	h_fEWK_1Dim -> SetBinError(j, 1 - h_fEWK_1Dim->GetBinContent(j-1) );
+      }
     }
-  }
 
-  cout << endl;
-  cout << "Fraction of electroweak events in antiisolated region (integrated over all bins) : " << endl;
-  cout << "EWK (from MC)     = " << nEWK       << " +/- " << nEWK_err << endl;
-  cout << "Total (from data) = " << nData      << " +/- " << nData_err << endl;
-  cout << "EWK/Total         = " << nEWK/nData << " +/- " << nEWK_err/nData << endl;
-  cout << endl;
-  cout << "Fraction of electroweak events in antiisolated region per bin : " << endl;
-  for(int j=1; j<=nBinsY; j++){
-    cout << " tau jet pt bin " << j << " : ";
-    cout << "fEWK 1Dim = " << h_fEWK_1Dim->GetBinContent(j) << " +/- " << h_fEWK_1Dim->GetBinError(j) << endl;
-  }
-  cout << endl;
+    cout << endl;
+    cout << "Fraction of electroweak events in antiisolated region (integrated over all bins) : " << endl;
+    cout << "EWK (from MC)     = " << nEWK       << " +/- " << nEWK_err << endl;
+    cout << "Total (from data) = " << nData      << " +/- " << nData_err << endl;
+    cout << "EWK/Total         = " << nEWK/nData << " +/- " << nEWK_err/nData << endl;
+    cout << endl;
+    cout << "Fraction of electroweak events in antiisolated region per bin : " << endl;
+    for(int j=1; j<=nBinsY; j++){
+      cout << " tau jet pt bin " << j << " : ";
+      cout << "fEWK 1Dim = " << h_fEWK_1Dim->GetBinContent(j) << " +/- " << h_fEWK_1Dim->GetBinError(j) << endl;
+    }
+    cout << endl;
 
-  // Save fraction of EWK events in root file
-  TFile* out = new TFile("output/fraction_EWK"+tauDecayMode+".root","RECREATE");
-  out->cd();
-  h_fEWK_1Dim->Write();
-
-  // Read single fake rates
-  TFile *DataFileJetHT    = new TFile("output/JetHT_fakeRate"+tauDecayMode+".root");   
-  TFile *DataFileSingleMu = new TFile("output/SingleMuon_fakeRate"+tauDecayMode+".root");
-  TFile* out_FakeRates    = new TFile("output/fakerates"+tauDecayMode+".root","RECREATE");
-
-  for(unsigned int idx_iso=0; idx_iso<iso.size(); idx_iso++){
+    // Save fraction of EWK events in root file
+    TFile* out = new TFile("output/fraction_EWK"+tauDecayMode+".root","RECREATE");
+    out->cd();
+    h_fEWK_1Dim->Write();
 
     if( !(DataFileJetHT->GetListOfKeys()->Contains(iso[idx_iso])) ) continue;
 
