@@ -14,14 +14,8 @@ void ComputeFakeRate() {
   TH1::SetDefaultSumw2();
   TH2::SetDefaultSumw2();
 
-  Float_t binsRatio[] = { 0.0 , 0.7 , 0.75 , 0.80 , 0.85 , 1.0 , 2. }; // new analysis binning
-  Float_t binsJetPt[] ={100 , 160 , 240 , 340 , 1200}; // new analysis binning
-  //Float_t binsJetPt[] ={100 , 140 , 160 , 180 , 200 , 220 , 240 , 260 , 300 , 340 , 380 , 420 , 460 , 500 , 1200}; // analysis binning v3
-
-  const int nBinsRatio = sizeof(binsRatio)/sizeof(Float_t) - 1;
-  const int nBinsJetPt = sizeof(binsJetPt)/sizeof(Float_t) - 1;
-
-  TH2D* h_fakerate_2d = new TH2D("h_fakerate_2d","h_fakerate_2d",nBinsRatio,binsRatio,nBinsJetPt,binsJetPt);
+  vector<Float_t> binsJetPt;
+  vector<Float_t> binsRatio;
 
   std::vector< std::pair<TString,std::vector<TString>> > samples;
   std::vector<TString> data_SingleMuon;
@@ -72,17 +66,30 @@ void ComputeFakeRate() {
 
   std::map<TString,TH2D*> histoMap;
 
-  for (unsigned int idx_sample=0; idx_sample<samples.size(); ++idx_sample) { // loop over samples
+  for(unsigned int idx_iso=0; idx_iso<iso.size(); idx_iso++){  // loop over WPs
 
-    TFile *fileOutput     = new TFile("output/"+samples[idx_sample].first+"_fakeRate"+tauDecayMode+".root","recreate");
+    // Definition of fake factor binning
+    vector<Float_t> binsRatio = { 0.0 , 0.7 , 0.75 , 0.80 , 0.85 , 1.0 , 2. }; // new analysis binning
+    vector<Float_t> binsJetPt;
+    if( iso[idx_iso] == "VVLooseMva2017v2" || iso[idx_iso] == "VLooseMva2017v2" || iso[idx_iso] == "LooseMva2017v2" || iso[idx_iso] == "Loose"){
+      binsJetPt = {100 , 140 , 160 , 180 , 200 , 220 , 240 , 260 , 300 , 340 , 380 , 420 , 460 , 500 , 1200}; // analysis binning v3
+    }
+    else                                 binsJetPt = {100 , 160 , 240 , 340 , 1200}; // new analysis binning
 
-    for(unsigned int idx_iso=0; idx_iso<iso.size(); idx_iso++){  // loop over WPs
+    int nBinsRatio = binsRatio.size() - 1;
+    int nBinsJetPt = binsJetPt.size() - 1;
+
+    TH2D* h_fakerate_2d = new TH2D("h_fakerate_2d_"+iso[idx_iso],"h_fakerate_2d_"+iso[idx_iso],nBinsRatio,&binsRatio[0],nBinsJetPt,&binsJetPt[0]);
+
+    for (unsigned int idx_sample=0; idx_sample<samples.size(); ++idx_sample) { // loop over samples
+
+      TFile *fileOutput = new TFile("output/"+samples[idx_sample].first+"_fakeRate"+tauDecayMode+".root","recreate");
 
       cout<<endl<<"Process "<<iso[idx_iso]<<" : "<<endl;
       
       // filling histograms
-      TH2D* h_den = new TH2D(samples[idx_sample].first+"_"+iso[idx_iso]+"_den",samples[idx_sample].first+"_"+iso[idx_iso],nBinsRatio,binsRatio,nBinsJetPt,binsJetPt);
-      TH2D* h_num = new TH2D(samples[idx_sample].first+"_"+iso[idx_iso]+"_num",samples[idx_sample].first+"_"+iso[idx_iso],nBinsRatio,binsRatio,nBinsJetPt,binsJetPt);
+      TH2D* h_den = new TH2D(samples[idx_sample].first+"_"+iso[idx_iso]+"_den",samples[idx_sample].first+"_"+iso[idx_iso],nBinsRatio,&binsRatio[0],nBinsJetPt,&binsJetPt[0]);
+      TH2D* h_num = new TH2D(samples[idx_sample].first+"_"+iso[idx_iso]+"_num",samples[idx_sample].first+"_"+iso[idx_iso],nBinsRatio,&binsRatio[0],nBinsJetPt,&binsJetPt[0]);
       TH2D* h_den_FineBinning = new TH2D(samples[idx_sample].first+"_"+iso[idx_iso]+"_den_FineBinning",samples[idx_sample].first+"_"+iso[idx_iso],200,0,2,110,100,1200);
 
       TString var1 = "tauPt";
@@ -123,8 +130,8 @@ void ComputeFakeRate() {
       // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       // Get mean value of ratio or tauJetPt for each defined bin at the beginning of the script
 
-      TH2D* meanValuesRatio = new TH2D("meanValuesRatio"+samples[idx_sample].first+"_"+iso[idx_iso],"meanValuesRatio"+samples[idx_sample].first+"_"+iso[idx_iso],nBinsRatio,binsRatio,nBinsJetPt,binsJetPt);
-      TH2D* meanValuesTauJetPt = new TH2D("meanValuesTauJetPt"+samples[idx_sample].first+"_"+iso[idx_iso],"meanValuesTauJetPt"+samples[idx_sample].first+"_"+iso[idx_iso],nBinsRatio,binsRatio,nBinsJetPt,binsJetPt);
+      TH2D* meanValuesRatio = new TH2D("meanValuesRatio"+samples[idx_sample].first+"_"+iso[idx_iso],"meanValuesRatio"+samples[idx_sample].first+"_"+iso[idx_iso],nBinsRatio,&binsRatio[0],nBinsJetPt,&binsJetPt[0]);
+      TH2D* meanValuesTauJetPt = new TH2D("meanValuesTauJetPt"+samples[idx_sample].first+"_"+iso[idx_iso],"meanValuesTauJetPt"+samples[idx_sample].first+"_"+iso[idx_iso],nBinsRatio,&binsRatio[0],nBinsJetPt,&binsJetPt[0]);
       for(int i=1; i<=h_den->GetNbinsX(); i++){
 	for(int j=1; j<=h_den->GetNbinsY(); j++){
 	    h_den_FineBinning  -> GetXaxis()-> SetRangeUser( h_den->GetXaxis() -> GetBinLowEdge(i) , h_den->GetXaxis() -> GetBinLowEdge(i+1));
@@ -357,7 +364,7 @@ void ComputeFakeRate() {
       delete h_den_1D_y;
       delete h_x;
       delete h_y;
-    }
-    fileOutput->Close();
-  }
-}
+      fileOutput->Close();
+    } // end of loop over samples
+  } // end of loop over WPs
+} // end of program
