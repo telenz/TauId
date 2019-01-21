@@ -129,10 +129,10 @@ void loadWorkingPoints()
   iso.push_back("MediumMva2017v2");
   iso.push_back("LooseMva2017v2");
   iso.push_back("VLooseMva2017v2");
-  iso.push_back("VVLooseMva2017v2");
+  /* iso.push_back("VVLooseMva2017v2"); */
   iso.push_back("Tight");
   iso.push_back("Medium");
-  iso.push_back("Loose");
+  /* iso.push_back("Loose"); */
 }
 // ----------------------------------------------------------------------------------------------------
 double getXSec(TString sampleName)
@@ -504,6 +504,10 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
   TTreeReaderValue< Bool_t  >  tauAntiMuonLoose3(*myReader,       "tauAntiMuonTight3");
   TTreeReaderValue< Bool_t  >  tauAntiElectronLooseMVA6(*myReader,"tauAntiElectronVTightMVA6");
   TTreeReaderValue< Bool_t  >  tauIso(           *myReader,       "tau"+iso+"Iso");
+  TTreeReaderValue< Bool_t  >  *tauIsoLoose = NULL;
+  /* tauIsoLoose = new TTreeReaderValue<Bool_t>(*myReader,"tauVVLooseMva2017v2Iso"); */
+  if(iso.Contains("Mva")) tauIsoLoose = new TTreeReaderValue<Bool_t>(*myReader,"tauVVLooseMva2017v2Iso");
+  else                    tauIsoLoose = new TTreeReaderValue<Bool_t>(*myReader,"tauLooseIso");
   TTreeReaderValue< Int_t   >  tauGenMatchDecay( *myReader,       "tauGenMatchDecay");
   TTreeReaderValue< UInt_t  >  tauGenMatch(      *myReader,       "tauGenMatch");
   TTreeReaderValue< Int_t   >  tauDecay(         *myReader,       "tauDecay");
@@ -641,6 +645,7 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
     if(*tauAntiMuonLoose3 != sel.tauAntiMuonLoose3 && sel.selection!=2) continue;
     if(*tauAntiElectronLooseMVA6 != sel.tauAntiElectronLooseMVA6 && sel.selection!=2) continue;
     if(*tauIso != sel.tauIso && sel.selection!=2 && sel.name != "cr_fakerate_norm") continue;
+    if(*(*tauIsoLoose) != true && sel.name.Contains("cr_fakerate") ) continue;
     if((*tauGenMatchDecay<sel.tauGenMatchDecayLow || *tauGenMatchDecay>sel.tauGenMatchDecayHigh) && !isData) continue;
 
     if(*mtmuon < sel.mtmuonLow || *mtmuon > sel.mtmuonHigh ) continue;
@@ -648,6 +653,9 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
     if(*muonPt < sel.muonPtLow && sel.selection == 2) continue;
    
     Float_t fakerate = 1;
+    if(sel.name.Contains("cr_antiiso") || sel.name.Contains("cr_ewkFraction")){
+      if(*(*tauIsoLoose) != true ) continue;
+    }
     if(sel.name.Contains("cr_antiiso")){
       fakerate = getFakeRates( *tauPt/(*tauJetPt),*tauJetPt,iso, sel.name(11,sel.name.Length()) );
     }
