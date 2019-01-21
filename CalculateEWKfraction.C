@@ -59,7 +59,7 @@ void CalculateEWKfraction() {
   // Read binning from fake factor template
   for(unsigned int idx_iso=0; idx_iso<iso.size(); idx_iso++){
     if(!DataFileSingleMu -> GetListOfKeys()->Contains(iso[idx_iso])){
-      cout<<"Isolation working point not existent in file. Exiting..."<<endl<<endl;
+      cout<<"Isolation working point "<<iso[idx_iso]<<" not existent in file. Exiting..."<<endl<<endl;
       exit(-1);
     }
     effSingleMu = (TH2D*) DataFileSingleMu->Get(iso[idx_iso]);
