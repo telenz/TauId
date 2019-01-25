@@ -130,8 +130,8 @@ void loadWorkingPoints()
   iso.push_back("LooseMva2017v2");
   iso.push_back("VLooseMva2017v2");
   /* iso.push_back("VVLooseMva2017v2"); */
-  iso.push_back("Tight");
-  iso.push_back("Medium");
+  /* iso.push_back("Tight"); */
+  /* iso.push_back("Medium"); */
   /* iso.push_back("Loose"); */
 }
 // ----------------------------------------------------------------------------------------------------
@@ -504,6 +504,8 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
   TTreeReaderValue< Bool_t  >  tauAntiMuonLoose3(*myReader,       "tauAntiMuonTight3");
   TTreeReaderValue< Bool_t  >  tauAntiElectronLooseMVA6(*myReader,"tauAntiElectronVTightMVA6");
   TTreeReaderValue< Bool_t  >  tauIso(           *myReader,       "tau"+iso+"Iso");
+  TTreeReaderValue< Bool_t  >  tauIsoTightMva(   *myReader,       "tauTightMva2017v2Iso");
+  TTreeReaderValue< Bool_t  >  tauIsoVTightMva(  *myReader,       "tauVTightMva2017v2Iso");
   TTreeReaderValue< Bool_t  >  *tauIsoLoose = NULL;
   /* tauIsoLoose = new TTreeReaderValue<Bool_t>(*myReader,"tauVVLooseMva2017v2Iso"); */
   if(iso.Contains("Mva")) tauIsoLoose = new TTreeReaderValue<Bool_t>(*myReader,"tauVVLooseMva2017v2Iso");
@@ -644,6 +646,7 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
     if(*tauDM != sel.tauDM && sel.selection!=2) continue;
     if(*tauAntiMuonLoose3 != sel.tauAntiMuonLoose3 && sel.selection!=2) continue;
     if(*tauAntiElectronLooseMVA6 != sel.tauAntiElectronLooseMVA6 && sel.selection!=2) continue;
+    /* if(*tauIsoTightMva == true && sel.selection!=2) continue; */
     if(*tauIso != sel.tauIso && sel.selection!=2 && sel.name != "cr_fakerate_norm") continue;
     if(*(*tauIsoLoose) != true && sel.name.Contains("cr_fakerate") ) continue;
     if((*tauGenMatchDecay<sel.tauGenMatchDecayLow || *tauGenMatchDecay>sel.tauGenMatchDecayHigh) && !isData) continue;
