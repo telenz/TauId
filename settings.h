@@ -504,8 +504,11 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
   TTreeReaderValue< Bool_t  >  tauAntiMuonLoose3(*myReader,       "tauAntiMuonTight3");
   TTreeReaderValue< Bool_t  >  tauAntiElectronLooseMVA6(*myReader,"tauAntiElectronVTightMVA6");
   TTreeReaderValue< Bool_t  >  tauIso(           *myReader,       "tau"+iso+"Iso");
+  TTreeReaderValue< Bool_t  >  tauIsoLooseMva(   *myReader,       "tauLooseMva2017v2Iso");
+  TTreeReaderValue< Bool_t  >  tauIsoMediumMva(  *myReader,       "tauMediumMva2017v2Iso");
   TTreeReaderValue< Bool_t  >  tauIsoTightMva(   *myReader,       "tauTightMva2017v2Iso");
   TTreeReaderValue< Bool_t  >  tauIsoVTightMva(  *myReader,       "tauVTightMva2017v2Iso");
+  TTreeReaderValue< Bool_t  >  tauIsoVVTightMva( *myReader,       "tauVVTightMva2017v2Iso");
   TTreeReaderValue< Bool_t  >  *tauIsoLoose = NULL;
   /* tauIsoLoose = new TTreeReaderValue<Bool_t>(*myReader,"tauVVLooseMva2017v2Iso"); */
   if(iso.Contains("Mva")) tauIsoLoose = new TTreeReaderValue<Bool_t>(*myReader,"tauVVLooseMva2017v2Iso");
