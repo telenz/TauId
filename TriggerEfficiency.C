@@ -18,16 +18,10 @@ void TriggerEfficiency() {
   MC.push_back("W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
   MC.push_back("W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
   std::vector<string> Data;
-  Data.push_back("SingleMuon_Run2017_0");
-  Data.push_back("SingleMuon_Run2017_1");
-  Data.push_back("SingleMuon_Run2017_2");
-  Data.push_back("SingleMuon_Run2017_3");
-  Data.push_back("SingleMuon_Run2017_4");
-  Data.push_back("SingleMuon_Run2017_5");
-  Data.push_back("SingleMuon_Run2017_6");
-  Data.push_back("SingleMuon_Run2017_7");
-  Data.push_back("SingleMuon_Run2017_8");
-  Data.push_back("SingleMuon_Run2017_9");
+  Data.push_back("SingleMuon_Run2018A");
+  Data.push_back("SingleMuon_Run2018B");
+  Data.push_back("SingleMuon_Run2018C");
+  Data.push_back("SingleMuon_Run2018D");
   samples.push_back(make_pair("MC"   , MC));
   samples.push_back(make_pair("Data" , Data));
 
@@ -122,19 +116,18 @@ void TriggerEfficiency() {
 	// CUTS
 	if(*mhtNoMu<120)           continue;
 	if(*metNoMu<120)           continue;
-	if(*IsW != true)           continue; // this includes an mtmuon cut of 40GeV
-	if(*mtmuon < 50)           continue;
-	if(*muonPt < 120)          continue;
-	if(abs(*muonEta) > 2.1)    continue;
-	if(*nMuon!=1)              continue;
-	if(*metFilters != true)    continue;
+       if(*IsW != true)           continue; // this includes an mtmuon cut of 40GeV
+       if(*mtmuon < 50)           continue;
+       if(*muonPt < 120)          continue;
+       if(abs(*muonEta) > 2.1)    continue;
+       if(*nMuon!=1)              continue;
+       if(*metFilters != true)    continue;
 
-	histo_den -> Fill( *metNoMu , *mhtNoMu , weight*norm );
+       histo_den -> Fill( *metNoMu , *mhtNoMu , weight*norm );
 
 	if(*trigger != true)   continue;
 
 	histo_num -> Fill( *metNoMu , *mhtNoMu , weight*norm );
-
       }
     }
 
@@ -157,7 +150,7 @@ void TriggerEfficiency() {
   } // end: loop over samples vector (contains Data and MC)
 
 
-  TFile * fileOutput = new TFile("output/trigger_eff_HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_94x_v10.root","recreate");
+  TFile * fileOutput = new TFile("output/trigger_eff_HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_10x_v1.root","recreate");
   fileOutput         -> cd("");    
 
   for (auto const& x : effMapData){
