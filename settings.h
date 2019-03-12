@@ -33,7 +33,8 @@ TString tauDecayMode = "";
 double tauMomScale = 1.00;
 bool doTauESmeasurement = false; //if set to true: tau mass cuts depending on the studied decay mode are applied
 
-double luminosity = 40991; // lumi determined by brilcalc
+double luminosity = 59710;
+//double luminosity = 40991; // lumi determined by brilcalc
 //double luminosity = 12702; // lumi of RunF
 //double luminosity = 28289; // lumi without RunF (determined by brilcalc)
 //double luminosity = 1.;
