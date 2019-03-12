@@ -33,7 +33,7 @@ TString tauDecayMode = "";
 double tauMomScale = 1.00;
 bool doTauESmeasurement = false; //if set to true: tau mass cuts depending on the studied decay mode are applied
 
-double luminosity = 59710;
+double luminosity = 59710; //maybe check this number with brilcalc
 //double luminosity = 40991; // lumi determined by brilcalc
 //double luminosity = 12702; // lumi of RunF
 //double luminosity = 28289; // lumi without RunF (determined by brilcalc)
@@ -46,7 +46,7 @@ map<TString,TH2D>* h_fakerate_up = 0;
 map<TString,TH2D>* h_fakerate_down = 0;
 TH1D* h_kFactor= 0;
 
-map<TString, double> xsecs = {
+map<TString, double> xsecs = {                             // numbers from 2017, maybe check if cross sections are still valid for 2018
 {"WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"            , 52760*1.166}, // NNLO (1)
 {"W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"           , 8104.*1.166}, // NNLO (2)
 {"W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"           , 2796.*1.166}, // NNLO (3)
