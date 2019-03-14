@@ -24,8 +24,10 @@
 ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_Data_2018.conf JetHT_Run2018C 10
 ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_Data_2018.conf JetHT_Run2018D 10
 
-# FIXME: UPDATE FOR 2018
-#./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_Data.conf MET_Run2017 10
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_Data_2018.conf MET_Run2018A 10
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_Data_2018.conf MET_Run2018B 10
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_Data_2018.conf MET_Run2018C 10
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_Data_2018.conf MET_Run2018D 10
 
 ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8 20
 ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8 20
