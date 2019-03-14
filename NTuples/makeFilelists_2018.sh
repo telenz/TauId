@@ -5,7 +5,7 @@ dirDYandTT=/nfs/dust/cms/user/ywen/Storage/MC
 dirWVVandST=/nfs/dust/cms/user/cardinia/gridjobs/2018/NTuples/MC/RunIIAutumn18
 dirDataJetHT=/nfs/dust/cms/user/mameyer/SM_HiggsTauTau/ntuples/2018Data_17Sep2018/
 dirWandZtoNuNuMC=/nfs/dust/cms/user/mameyer/SM_HiggsTauTau/ntuples/Autumn18/
-dirMETData=/nfs/dust/cms/group/higgs-kit/2018/MET
+dirMETData=/nfs/dust/cms/group/higgs-kit/2018/MET/
 
 ls $dirDataSingleMuon/SingleMuon_Run2018A_17Sep2018v2/*root > SingleMuon_Run2018A
 ls $dirDataSingleMuon/SingleMuon_Run2018B_17Sep2018v1/*root > SingleMuon_Run2018B
@@ -18,11 +18,11 @@ ls $dirDataJetHT/JetHT_Run2018C/*root > JetHT_Run2018C
 ls $dirDataJetHT/JetHT_Run2018D_v1/*root > JetHT_Run2018D
 ls $dirDataJetHT/JetHT_Run2018D_v2/*root >> JetHT_Run2018D
 
-ls $dirMETData/MET_Run2018A-17Sep2018-v1 > MET_Run2018A
-ls $dirMETData/MET_Run2018B-17Sep2018-v1 > MET_Run2018B
-ls $dirMETData/MET_Run2018C-17Sep2018-v1 > MET_Run2018C
-ls $dirMETData/MET_Run2018D-PromptReco-v1 > MET_Run2018D
-ls $dirMETData/MET_Run2018D-PromptReco-v2 >> MET_Run2018D
+ls $dirMETData/MET_Run2018A-17Sep2018-v1/*root > MET_Run2018A
+ls $dirMETData/MET_Run2018B-17Sep2018-v1/*root > MET_Run2018B
+ls $dirMETData/MET_Run2018C-17Sep2018-v1/*root > MET_Run2018C
+ls $dirMETData/MET_Run2018D-PromptReco-v1/*root > MET_Run2018D
+ls $dirMETData/MET_Run2018D-PromptReco-v2/*root >> MET_Run2018D
 
 ls $dirDYandTT/DYJetsToLL_M-50_TuneCP5_13TeV_madgraphMLM_pythia8/*root > DYJetsToLL_M-50_TuneCP5_13TeV_madgraphMLM_pythia8
 ls $dirDYandTT/DY1JetsToLL_M-50_TuneCP5_13TeV_madgraphMLM_pythia8/*root > DY1JetsToLL_M-50_TuneCP5_13TeV_madgraphMLM_pythia8
