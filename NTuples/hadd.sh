@@ -12,5 +12,11 @@ do
     else
 	hadd -f ${filename}.root ${filename}_files/*.root
     fi
+   checkRoot ${filename}.root
+	exit=$?
+	if [[ $exit -ne 0 ]]; then
+       echo "File ${filename}.root is corrupted. Quitting..." 
+       exit 1
+   fi
 done
 
