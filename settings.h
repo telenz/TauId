@@ -21,7 +21,8 @@
 //TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2016/TauIdWithVirtualW/WTauId/NTuples/";
 //TString dir = "/nfs/dust/cms/user/mameyer/TauIdAndES_2017Data/TauId/NTuples/";
 //TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2017/TauIDWithVirtualW/TauId/NTuples/mameyer/";
-TString dir = "NTuples/";
+//TString dir = "NTuples/";
+TString dir = "/nfs/dust/cms/user/mameyer/TauIdAndES_2018Data/TauId/NTuples/";
 //TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2017/TauIDWithVirtualW/TauId/NTuples/";
 //TString dir = "/nfs/dust/cms/user/mameyer/TauIdAndES_2017Data/METv1Recipe/TauId/NTuples/";
 //TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2017/TauIDWithVirtualW/METv1Recipe_NoForwardJetVeto/TauId/NTuples/";
@@ -33,7 +34,7 @@ TString tauDecayMode = "";
 double tauMomScale = 1.00;
 bool doTauESmeasurement = false; //if set to true: tau mass cuts depending on the studied decay mode are applied
 
-double luminosity = 59710; //maybe check this number with brilcalc
+double luminosity = 59740; //maybe check this number with brilcalc
 //double luminosity = 40991; // lumi determined by brilcalc
 //double luminosity = 12702; // lumi of RunF
 //double luminosity = 28289; // lumi without RunF (determined by brilcalc)
@@ -73,11 +74,11 @@ map<TString, double> xsecs = {                             // numbers from 2017,
 {"DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"      , 111.9*1.165}, // NNLO (20c)
 {"DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"      , 43.97*1.165}, // NNLO (20d)
 {"DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8"   , 15820*1.165}, // NNLO (20e)
-{"TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8"        , 88.29},  // NNLO (21)
-{"TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8"     , 377.96}, // NNLO (22)
-{"TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8" , 365.34}, // NNLO (23)
-{"ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8"     , 44.33}, // ? (24) -> could be improved
-{"ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8" , 26.38}, // ? (25) -> could be improved
+{"TTTo2L2Nu_TuneCP5_13TeV_powheg_pythia8"        , 88.29},  // NNLO (21)
+{"TTToHadronic_TuneCP5_13TeV_powheg_pythia8"     , 377.96}, // NNLO (22)
+{"TTToSemiLeptonic_TuneCP5_13TeV_powheg_pythia8" , 365.34}, // NNLO (23)
+{"ST_t-channel_top_4f_InclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8"     , 44.33}, // ? (24) -> could be improved
+{"ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8" , 26.38}, // ? (25) -> could be improved
 {"ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8"                      , 35.85}, // ? (26) -> could be improved
 {"ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8"                  , 35.85}, // ? (27) -> could be improved
 {"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola"             , 1.0*7.246}, // LO, NNLO-QCD NLO-EWK mass dependent k factor applied later (28)
@@ -102,7 +103,15 @@ map<TString, double> xsecs = {                             // numbers from 2017,
 {"DYJetsToLL_M-50_HT-200to400_TuneCP5_13TeV-madgraphMLM-pythia8", 48.37}, // (47)
 {"DYJetsToLL_M-50_HT-400to600_TuneCP5_13TeV-madgraphMLM-pythia8", 6.972}, // (48)
 {"DYJetsToLL_M-50_HT-600to800_TuneCP5_13TeV-madgraphMLM-pythia8", 1.746}, // (49)
-{"DYJetsToLL_M-50_HT-800to1200_TuneCP5_13TeV-madgraphMLM-pythia8",  0.8101 }}; // (50)
+{"DYJetsToLL_M-50_HT-800to1200_TuneCP5_13TeV-madgraphMLM-pythia8",  0.8101 }, // (50)
+{"WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8",1286*1.166}, // (51)
+{"WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8", 1395.0*1.166},// (52)
+{"WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8", 407.9*1.166},// (53)
+{"WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8", 57.48*1.166},// (54)
+{"WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8", 12.87*1.166},// (55)
+{"WJetsToLNu_HT-800To1200_TuneCP5_13TeV-madgraphMLM-pythia8", 5.366*1.166},// (56)
+{"WJetsToLNu_HT-1200To2500_TuneCP5_13TeV-madgraphMLM-pythia8", 1.074*1.166},// (57)
+{"WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8", 0.008001*1.166}};// (58)
 // Sources of xsecs:
 // (1) from: LO: GenXSec analyzer (https://twiki.cern.ch/twiki/bin/view/CMS/HowToGenXSecAnalyzer), NNLO: https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat13TeV -> k-factor = 61526.7/52600 = 1.17
 // (2-5) from: LO: GenXSec analyzer (https://twiki.cern.ch/twiki/bin/view/CMS/HowToGenXSecAnalyzer), k-factor see (1)
@@ -119,7 +128,8 @@ map<TString, double> xsecs = {                             // numbers from 2017,
 // (24-27) from: https://twiki.cern.ch/twiki/bin/viewauth/CMS/TauIDMeasurementsHelp
 // (28-38) LO GenXSec analyzer (https://twiki.cern.ch/twiki/bin/view/CMS/HowToGenXSecAnalyzer), NNLO-QCD NLO-EWK from: https://cms-gen-dev.cern.ch/xsdb (DAS=WToTauNu_M-200_TuneCUETP8M1_13TeV-pythia8-tauola), k-factor = 1.3 (valid for m_W>200GeV and m_W<1TeV, see: https://indico.cern.ch/event/712797/contributions/2928866/attachments/1615436/2567073/TauIdMomScaleW_20180312.pdf)
 // (29-45) LO GenXSec analyzer (https://twiki.cern.ch/twiki/bin/view/CMS/HowToGenXSecAnalyzer), NNLO-QCD NLO-EWK from: https://cms-gen-dev.cern.ch/xsdb (DAS=WToMuNu_M-200_TuneCUETP8M1_13TeV-pythia8), k-factor: see (28-38)
-// (46-50) from GenXSec analyzer
+// (46) from GenXSec analyzer, k-factor: see (1)
+// (46-50) from DAS, k-factor: see (1)
 
 // ----------------------------------------------------------------------------------------------------
 void loadWorkingPoints()
