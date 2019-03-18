@@ -41,23 +41,23 @@ void ClosureTest_FakeRate() {
   pred.push_back("ZJetsToNuNu_HT-1200To2500_13TeV-madgraph");
   pred.push_back("ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph");
 
-  obs.push_back("W1JetsToLNu_LHEWpT_100-150");
-  obs.push_back("W1JetsToLNu_LHEWpT_150-250");
-  obs.push_back("W1JetsToLNu_LHEWpT_250-400");
-  obs.push_back("W1JetsToLNu_LHEWpT_400-inf");
-  obs.push_back("W2JetsToLNu_LHEWpT_100-150");
-  obs.push_back("W2JetsToLNu_LHEWpT_150-250");
-  obs.push_back("W2JetsToLNu_LHEWpT_250-400");
-  obs.push_back("W2JetsToLNu_LHEWpT_400-inf");
+  //obs.push_back("WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8");
+  obs.push_back("WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8");
+  obs.push_back("WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8");
+  obs.push_back("WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8");
+  obs.push_back("WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8");
+  obs.push_back("WJetsToLNu_HT-800To1200_TuneCP5_13TeV-madgraphMLM-pythia8");
+  obs.push_back("WJetsToLNu_HT-1200To2500_TuneCP5_13TeV-madgraphMLM-pythia8");
+  obs.push_back("WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8");
 
-  pred.push_back("W1JetsToLNu_LHEWpT_100-150");
-  pred.push_back("W1JetsToLNu_LHEWpT_150-250");
-  pred.push_back("W1JetsToLNu_LHEWpT_250-400");
-  pred.push_back("W1JetsToLNu_LHEWpT_400-inf");
-  pred.push_back("W2JetsToLNu_LHEWpT_100-150");
-  pred.push_back("W2JetsToLNu_LHEWpT_150-250");
-  pred.push_back("W2JetsToLNu_LHEWpT_250-400");
-  pred.push_back("W2JetsToLNu_LHEWpT_400-inf");
+  //pred.push_back("WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8");
+  pred.push_back("WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8");
+  pred.push_back("WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8");
+  pred.push_back("WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8");
+  pred.push_back("WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8");
+  pred.push_back("WJetsToLNu_HT-800To1200_TuneCP5_13TeV-madgraphMLM-pythia8");
+  pred.push_back("WJetsToLNu_HT-1200To2500_TuneCP5_13TeV-madgraphMLM-pythia8");
+  pred.push_back("WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8");
 
   std::vector<double> obs_xsec;
   for(unsigned int i=0; i<obs.size(); i++) obs_xsec.push_back( getXSec(obs[i]) );
@@ -66,8 +66,8 @@ void ClosureTest_FakeRate() {
   for(unsigned int i=0; i<pred.size(); i++) pred_xsec.push_back( getXSec(pred[i]) );
 
   // Binning and titles of axis
-  //TString xtitle = "m_{T} [GeV]";
-  TString xtitle = "p_{T}^{#tau} [GeV]";
+  TString xtitle = "m_{T} [GeV]";
+  //TString xtitle = "p_{T}^{#tau} [GeV]";
   TString ytitle = "Events / 100 GeV";
 
   TString var1 = "mttau";
