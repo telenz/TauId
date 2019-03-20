@@ -53,23 +53,23 @@
 ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf ZJetsToNuNu_HT-1200To2500_13TeV-madgraph 20
 ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph 20
 
-./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf TTTo2L2Nu_TuneCP5_13TeV_powheg_pythia8 20
-./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf TTToHadronic_TuneCP5_13TeV_powheg_pythia8 20
-./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf TTToSemiLeptonic_TuneCP5_13TeV_powheg_pythia8 20
-./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8 40
-./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf ST_t-channel_top_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8 40
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8 40
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8 40
 ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8 40
 ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8 40
 ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf WW_TuneCP5_13TeV-pythia8 40
 ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf WZ_TuneCP5_13TeV-pythia8 40
 ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf ZZ_TuneCP5_13TeV-pythia8 40
 
-./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf DY1JetsToLL_M-50_TuneCP5_13TeV_madgraphMLM_pythia8 20
-./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf DY2JetsToLL_M-50_TuneCP5_13TeV_madgraphMLM_pythia8 20
-./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf DY3JetsToLL_M-50_TuneCP5_13TeV_madgraphMLM_pythia8 20
-./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf DY4JetsToLL_M-50_TuneCP5_13TeV_madgraphMLM_pythia8 20
-./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf DYJetsToLL_M-50_TuneCP5_13TeV_madgraphMLM_pythia8 20
-                                                                                         
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8 20
+                                                                                        
 ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf WToMuNu_M-200_TuneCP5_13TeV-pythia8 20
 ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola 20
 

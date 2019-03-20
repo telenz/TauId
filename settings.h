@@ -74,11 +74,11 @@ map<TString, double> xsecs = {                             // numbers from 2017,
 {"DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"      , 111.9*1.165}, // NNLO (20c)
 {"DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"      , 43.97*1.165}, // NNLO (20d)
 {"DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8"   , 15820*1.165}, // NNLO (20e)
-{"TTTo2L2Nu_TuneCP5_13TeV_powheg_pythia8"        , 88.29},  // NNLO (21)
-{"TTToHadronic_TuneCP5_13TeV_powheg_pythia8"     , 377.96}, // NNLO (22)
-{"TTToSemiLeptonic_TuneCP5_13TeV_powheg_pythia8" , 365.34}, // NNLO (23)
-{"ST_t-channel_top_4f_InclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8"     , 44.33}, // ? (24) -> could be improved
-{"ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8" , 26.38}, // ? (25) -> could be improved
+{"TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8"        , 88.29},  // NNLO (21)
+{"TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8"     , 377.96}, // NNLO (22)
+{"TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8" , 365.34}, // NNLO (23)
+{"ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8"     , 44.33}, // ? (24) -> could be improved
+{"ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8" , 26.38}, // ? (25) -> could be improved
 {"ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8"                      , 35.85}, // ? (26) -> could be improved
 {"ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8"                  , 35.85}, // ? (27) -> could be improved
 {"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola"             , 1.0*7.246}, // LO, NNLO-QCD NLO-EWK mass dependent k factor applied later (28)
