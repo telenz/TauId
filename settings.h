@@ -569,11 +569,27 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
   double nevtsProcessedW2Jet = getNEventsProcessed(dir+"W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8.root");
   double nevtsProcessedW3Jet = getNEventsProcessed(dir+"W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8.root");
   double nevtsProcessedW4Jet = getNEventsProcessed(dir+"W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+  double nevtsProcessedWHT70To100 = getNEventsProcessed(dir+"WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+  double nevtsProcessedWHT100To200 = getNEventsProcessed(dir+"WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+  double nevtsProcessedWHT200To400 = getNEventsProcessed(dir+"WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+  double nevtsProcessedWHT400To600 = getNEventsProcessed(dir+"WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+  double nevtsProcessedWHT600To800 = getNEventsProcessed(dir+"WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+  double nevtsProcessedWHT800To1200 = getNEventsProcessed(dir+"WJetsToLNu_HT-800To1200_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+  double nevtsProcessedWHT1200To2500 = getNEventsProcessed(dir+"WJetsToLNu_HT-1200To2500_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+  double nevtsProcessedWHT2500ToInf = getNEventsProcessed(dir+"WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8.root");
   double xsecWIncl = xsecs["WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"];
   double xsecW1Jet = xsecs["W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"];
   double xsecW2Jet = xsecs["W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"];
   double xsecW3Jet = xsecs["W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"];
   double xsecW4Jet = xsecs["W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"];
+  double xsecWHT70To100 = xsecs["WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8"];
+  double xsecWHT100To200 = xsecs["WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8"];
+  double xsecWHT200To400 = xsecs["WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8"];
+  double xsecWHT400To600 = xsecs["WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8"];
+  double xsecWHT600To800 = xsecs["WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8"];
+  double xsecWHT800To1200 = xsecs["WJetsToLNu_HT-800To1200_TuneCP5_13TeV-madgraphMLM-pythia8"];
+  double xsecWHT1200To2500 =xsecs["WJetsToLNu_HT-1200To2500_TuneCP5_13TeV-madgraphMLM-pythia8"];
+  double xsecWHT2500ToInf = xsecs["WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8"];
   double nevtsProcessedDYIncl = getNEventsProcessed(dir+"DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8.root");
   double nevtsProcessedDY1Jet = getNEventsProcessed(dir+"DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8.root");
   double nevtsProcessedDY2Jet = getNEventsProcessed(dir+"DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8.root");
@@ -680,13 +696,29 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
     if(!sel.name.Contains("cr_fakerate") && !sel.name.Contains("sr_munu")){*mueffweight=1;*mutrigweight=1;}
 
     // Stitching only for wjets MC in n-jet binned samples in npartons
-    if(filename.Contains("W") && filename.Contains("JetsToLNu") && !filename.Contains("HT") && !filename.Contains("LHE")){
-      if(*npartons == 1)      norm=luminosity/( nevtsProcessedW1Jet/xsecW1Jet + nevtsProcessedWIncl/xsecWIncl );
-      else if(*npartons == 2) norm=luminosity/( nevtsProcessedW2Jet/xsecW2Jet + nevtsProcessedWIncl/xsecWIncl );
-      else if(*npartons == 3) norm=luminosity/( nevtsProcessedW3Jet/xsecW3Jet + nevtsProcessedWIncl/xsecWIncl );
-      else if(*npartons == 4) norm=luminosity/( nevtsProcessedW4Jet/xsecW4Jet + nevtsProcessedWIncl/xsecWIncl );
-      else                    norm=luminosity/( nevtsProcessedWIncl/xsecWIncl );
+    if(filename.Contains("W") && filename.Contains("JetsToLNu") && !filename.Contains("LHE")){
+
+       double add_NEvtsOverXsec = 0;
+       add_NEvtsOverXsec += nevtsProcessedWIncl/xsecWIncl;
+
+       if(*npartons == 1)       add_NEvtsOverXsec += nevtsProcessedW1Jet/xsecW1Jet ;
+       else if(*npartons == 2)  add_NEvtsOverXsec += nevtsProcessedW2Jet/xsecW2Jet ;
+       else if(*npartons == 3)  add_NEvtsOverXsec += nevtsProcessedW3Jet/xsecW3Jet ;
+       else if(*npartons == 4)  add_NEvtsOverXsec += nevtsProcessedW4Jet/xsecW4Jet ;
+
+       if (*genHt >= 70){
+          if (*genHt < 100)       add_NEvtsOverXsec += nevtsProcessedWHT70To100/xsecWHT70To100;
+          else if (*genHt < 200)  add_NEvtsOverXsec += nevtsProcessedWHT100To200/xsecWHT100To200;
+          else if (*genHt < 400)  add_NEvtsOverXsec += nevtsProcessedWHT200To400/xsecWHT200To400;
+          else if (*genHt < 600)  add_NEvtsOverXsec += nevtsProcessedWHT400To600/xsecWHT400To600;
+          else if (*genHt < 800)  add_NEvtsOverXsec += nevtsProcessedWHT600To800/xsecWHT600To800;
+          else if (*genHt < 1200) add_NEvtsOverXsec += nevtsProcessedWHT800To1200/xsecWHT800To1200;
+          else if (*genHt < 2500) add_NEvtsOverXsec += nevtsProcessedWHT1200To2500/xsecWHT1200To2500;
+          else add_NEvtsOverXsec += nevtsProcessedWHT2500ToInf/xsecWHT2500ToInf;
+       }
+       if(add_NEvtsOverXsec !=0 ) norm = luminosity/add_NEvtsOverXsec;
     }
+
 
     // Stitching only for DY MC in npartons
     if(filename.Contains("DY") && filename.Contains("JetsToLL_M-50")){
