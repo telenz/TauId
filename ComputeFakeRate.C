@@ -30,6 +30,11 @@ void ComputeFakeRate() {
   data_JetHT.push_back("JetHT_Run2018D");
   std::vector<TString> wjets;
 
+  wjets.push_back("WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
+  wjets.push_back("W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
+  wjets.push_back("W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
+  wjets.push_back("W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
+  wjets.push_back("W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
   wjets.push_back("WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8");
   wjets.push_back("WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8");
   wjets.push_back("WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8");
@@ -74,13 +79,14 @@ void ComputeFakeRate() {
       cout<<endl<<"tau ID :  "<<iso[idx_iso]<<" : "<<endl;
 
       // Definition of fake factor binning
-      vector<Float_t> binsRatio = { 0.0 , 0.7 , 0.75 , 0.80 , 0.85 , 1.0 , 2. }; // new analysis binning
+      vector<Float_t> binsRatio =  { 0.0 , 0.7 , 0.75 , 0.80 , 2.}; // new analysis binning for 2018
       vector<Float_t> binsJetPt;
       // if( iso[idx_iso] == "VVLooseMva2017v2" || iso[idx_iso] == "VLooseMva2017v2" || iso[idx_iso] == "LooseMva2017v2" || iso[idx_iso] == "Loose"){
       // 	binsJetPt = {100 , 140 , 160 , 180 , 200 , 220 , 240 , 260 , 300 , 340 , 380 , 420 , 460 , 500 , 1200}; // analysis binning v3
       // }
       // else                                 binsJetPt = {100 , 160 , 240 , 340 , 1200}; // new analysis binning
-      binsJetPt = {100 , 160 , 240 , 340 , 1200}; // new analysis binning
+      // binsJetPt = {100 , 160 , 240 , 340 , 1200}; // new analysis binning
+      binsJetPt = {100 , 160, 240 , 1200}; // new analysis binning for 2018
 
       int nBinsRatio = binsRatio.size() - 1;
       int nBinsJetPt = binsJetPt.size() - 1;
@@ -273,7 +279,7 @@ void ComputeFakeRate() {
       h_y->SetMinimum(0.000001);
       h_x->Draw();
 
-      canv->SetLogy();
+      //canv->SetLogy();
       TLegend * leg1 = new TLegend(0.35,0.2,0.89,0.4);
       SetLegendStyle(leg1);
       leg1->SetHeader(iso[idx_iso]);
