@@ -41,6 +41,11 @@ void ClosureTest_FakeRate() {
   pred.push_back("ZJetsToNuNu_HT-1200To2500_13TeV-madgraph");
   pred.push_back("ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph");
 
+  obs.push_back("WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
+  obs.push_back("W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
+  obs.push_back("W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
+  obs.push_back("W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
+  obs.push_back("W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
   obs.push_back("WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8");
   obs.push_back("WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8");
   obs.push_back("WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8");
@@ -50,6 +55,11 @@ void ClosureTest_FakeRate() {
   obs.push_back("WJetsToLNu_HT-1200To2500_TuneCP5_13TeV-madgraphMLM-pythia8");
   obs.push_back("WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8");
 
+  pred.push_back("WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
+  pred.push_back("W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
+  pred.push_back("W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
+  pred.push_back("W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
+  pred.push_back("W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
   pred.push_back("WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8");
   pred.push_back("WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8");
   pred.push_back("WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8");
