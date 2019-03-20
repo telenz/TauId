@@ -45,11 +45,11 @@ void ComputeFakeRate() {
   wjets.push_back("WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8");
 
   std::vector<TString> genuineTaus;
-  genuineTaus.push_back("TTTo2L2Nu_TuneCP5_13TeV_powheg_pythia8");
-  genuineTaus.push_back("TTToHadronic_TuneCP5_13TeV_powheg_pythia8");
-  genuineTaus.push_back("TTToSemiLeptonic_TuneCP5_13TeV_powheg_pythia8");
-  genuineTaus.push_back("ST_t-channel_top_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8");
-  genuineTaus.push_back("ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8");
+  genuineTaus.push_back("TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8");
+  genuineTaus.push_back("TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8");
+  genuineTaus.push_back("TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8");
+  genuineTaus.push_back("ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8");
+  genuineTaus.push_back("ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8");
   genuineTaus.push_back("ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8");
   genuineTaus.push_back("ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8");
   genuineTaus.push_back("ZZ_TuneCP5_13TeV-pythia8");

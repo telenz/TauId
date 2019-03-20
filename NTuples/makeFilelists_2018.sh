@@ -24,15 +24,15 @@ ls $dirMETData/MET_Run2018C-17Sep2018-v1/*root > MET_Run2018C
 ls $dirMETData/MET_Run2018D-PromptReco-v1/*root > MET_Run2018D
 ls $dirMETData/MET_Run2018D-PromptReco-v2/*root >> MET_Run2018D
 
-ls $dirDYandTT/DYJetsToLL_M-50_TuneCP5_13TeV_madgraphMLM_pythia8/*root > DYJetsToLL_M-50_TuneCP5_13TeV_madgraphMLM_pythia8
-ls $dirDYandTT/DY1JetsToLL_M-50_TuneCP5_13TeV_madgraphMLM_pythia8/*root > DY1JetsToLL_M-50_TuneCP5_13TeV_madgraphMLM_pythia8
-ls $dirDYandTT/DY2JetsToLL_M-50_TuneCP5_13TeV_madgraphMLM_pythia8/*root > DY2JetsToLL_M-50_TuneCP5_13TeV_madgraphMLM_pythia8
-ls $dirDYandTT/DY3JetsToLL_M-50_TuneCP5_13TeV_madgraphMLM_pythia8/*root > DY3JetsToLL_M-50_TuneCP5_13TeV_madgraphMLM_pythia8
-ls $dirDYandTT/DY4JetsToLL_M-50_TuneCP5_13TeV_madgraphMLM_pythia8/*root > DY4JetsToLL_M-50_TuneCP5_13TeV_madgraphMLM_pythia8
+ls $dirDYandTT/DYJetsToLL_M-50_TuneCP5_13TeV_madgraphMLM_pythia8/*root > DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8
+ls $dirDYandTT/DY1JetsToLL_M-50_TuneCP5_13TeV_madgraphMLM_pythia8/*root > DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8
+ls $dirDYandTT/DY2JetsToLL_M-50_TuneCP5_13TeV_madgraphMLM_pythia8/*root > DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8
+ls $dirDYandTT/DY3JetsToLL_M-50_TuneCP5_13TeV_madgraphMLM_pythia8/*root > DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8
+ls $dirDYandTT/DY4JetsToLL_M-50_TuneCP5_13TeV_madgraphMLM_pythia8/*root > DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8
 
-ls $dirDYandTT/TTTo2L2Nu_TuneCP5_13TeV_powheg_pythia8/*root > TTTo2L2Nu_TuneCP5_13TeV_powheg_pythia8
-ls $dirDYandTT/TTToSemiLeptonic_TuneCP5_13TeV_powheg_pythia8/*root > TTToSemiLeptonic_TuneCP5_13TeV_powheg_pythia8
-ls $dirDYandTT/TTToHadronic_TuneCP5_13TeV_powheg_pythia8/*root > TTToHadronic_TuneCP5_13TeV_powheg_pythia8
+ls $dirDYandTT/TTTo2L2Nu_TuneCP5_13TeV_powheg_pythia8/*root > TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8
+ls $dirDYandTT/TTToSemiLeptonic_TuneCP5_13TeV_powheg_pythia8/*root > TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8
+ls $dirDYandTT/TTToHadronic_TuneCP5_13TeV_powheg_pythia8/*root > TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8
 
 ls $dirWandZtoNuNuMC/WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8/*root > WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8
 ls $dirWandZtoNuNuMC/WJetsToLNu_HT-1200To2500_TuneCP5_13TeV-madgraphMLM-pythia8/*root > WJetsToLNu_HT-1200To2500_TuneCP5_13TeV-madgraphMLM-pythia8
@@ -58,8 +58,8 @@ ls $dirWVVandST/W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18MiniA
 ls $dirWVVandST/W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v2/*root > W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8
 ls $dirWVVandST/W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v2/*root > W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8
 
-ls $dirWVVandST/ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8_RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/*root > ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8
-ls $dirWVVandST/ST_t-channel_top_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8_RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/*root > ST_t-channel_top_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8
+ls $dirWVVandST/ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8_RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/*root > ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8
+ls $dirWVVandST/ST_t-channel_top_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8_RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/*root > ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8
 ls $dirWVVandST/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15_ext1-v1/*root > ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8
 ls $dirWVVandST/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15_ext1-v1/*root > ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8
 
