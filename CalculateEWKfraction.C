@@ -13,13 +13,24 @@ void CalculateEWKfraction() {
 
   std::vector< std::pair<TString,std::vector<TString>> > samples;
   std::vector<TString> data_MET;
-  data_MET.push_back("MET_Run2017");
+  data_MET.push_back("MET_Run2018A");
+  data_MET.push_back("MET_Run2018B");
+  data_MET.push_back("MET_Run2018C");
+  data_MET.push_back("MET_Run2018D");
   std::vector<TString> ewk;
   ewk.push_back("WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
   ewk.push_back("W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
   ewk.push_back("W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
   ewk.push_back("W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
   ewk.push_back("W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
+  ewk.push_back("WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8");
+  ewk.push_back("WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8");
+  ewk.push_back("WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8");
+  ewk.push_back("WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8");
+  ewk.push_back("WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8");
+  ewk.push_back("WJetsToLNu_HT-800To1200_TuneCP5_13TeV-madgraphMLM-pythia8");
+  ewk.push_back("WJetsToLNu_HT-1200To2500_TuneCP5_13TeV-madgraphMLM-pythia8");
+  ewk.push_back("WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8");
   ewk.push_back("ZJetsToNuNu_HT-100To200_13TeV-madgraph");
   ewk.push_back("ZJetsToNuNu_HT-200To400_13TeV-madgraph");
   ewk.push_back("ZJetsToNuNu_HT-400To600_13TeV-madgraph");
@@ -62,6 +73,7 @@ void CalculateEWKfraction() {
       cout<<"Isolation working point "<<iso[idx_iso]<<" not existent in file. Exiting..."<<endl<<endl;
       exit(-1);
     }
+    cout<<"Isolation working point is "<<iso[idx_iso]<<endl;
     effSingleMu = (TH2D*) DataFileSingleMu->Get(iso[idx_iso]);
 
     int nBinsX = effSingleMu -> GetNbinsX();
