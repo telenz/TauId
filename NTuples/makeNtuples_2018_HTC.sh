@@ -35,7 +35,7 @@
 ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8 20
 ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8 20
 
-# Wjets HT binned
+ Wjets HT binned
 ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8 20
 ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf WJetsToLNu_HT-1200To2500_TuneCP5_13TeV-madgraphMLM-pythia8 20
 ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8 20
@@ -69,43 +69,42 @@
 ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8 20
 ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8 20
 ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8 20
-                                                                                        
+                                                                                       
 ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf WToMuNu_M-200_TuneCP5_13TeV-pythia8 20
 ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018.conf WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola 20
 
 
-# FIXME: UPDATE FOR 2018
 # For uncertainties
-#cp WToMuNu_M-200_TuneCP5_13TeV-pythia8 WToMuNu_M-200_TuneCP5_13TeV-pythia8_jesUp
-#cp WToMuNu_M-200_TuneCP5_13TeV-pythia8 WToMuNu_M-200_TuneCP5_13TeV-pythia8_jesDown
-#cp WToMuNu_M-200_TuneCP5_13TeV-pythia8 WToMuNu_M-200_TuneCP5_13TeV-pythia8_uesUp
-#cp WToMuNu_M-200_TuneCP5_13TeV-pythia8 WToMuNu_M-200_TuneCP5_13TeV-pythia8_uesDown
-#cp WToMuNu_M-200_TuneCP5_13TeV-pythia8 WToMuNu_M-200_TuneCP5_13TeV-pythia8_muUp
-#cp WToMuNu_M-200_TuneCP5_13TeV-pythia8 WToMuNu_M-200_TuneCP5_13TeV-pythia8_muDown
-#./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_jesUp_WStarMuNu.conf WToMuNu_M-200_TuneCP5_13TeV-pythia8_jesUp 20
-#./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_jesDown_WStarMuNu.conf WToMuNu_M-200_TuneCP5_13TeV-pythia8_jesDown 20
-#./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_uesUp_WStarMuNu.conf WToMuNu_M-200_TuneCP5_13TeV-pythia8_uesUp 20
-#./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_uesDown_WStarMuNu.conf WToMuNu_M-200_TuneCP5_13TeV-pythia8_uesDown 20
-#./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_muUp_WStarMuNu.conf WToMuNu_M-200_TuneCP5_13TeV-pythia8_muUp 20
-#./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_muDown_WStarMuNu.conf WToMuNu_M-200_TuneCP5_13TeV-pythia8_muDown 20
+cp WToMuNu_M-200_TuneCP5_13TeV-pythia8 WToMuNu_M-200_TuneCP5_13TeV-pythia8_jesUp
+cp WToMuNu_M-200_TuneCP5_13TeV-pythia8 WToMuNu_M-200_TuneCP5_13TeV-pythia8_jesDown
+cp WToMuNu_M-200_TuneCP5_13TeV-pythia8 WToMuNu_M-200_TuneCP5_13TeV-pythia8_uesUp
+cp WToMuNu_M-200_TuneCP5_13TeV-pythia8 WToMuNu_M-200_TuneCP5_13TeV-pythia8_uesDown
+cp WToMuNu_M-200_TuneCP5_13TeV-pythia8 WToMuNu_M-200_TuneCP5_13TeV-pythia8_muUp
+cp WToMuNu_M-200_TuneCP5_13TeV-pythia8 WToMuNu_M-200_TuneCP5_13TeV-pythia8_muDown
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018_jesUp_WStarMuNu.conf WToMuNu_M-200_TuneCP5_13TeV-pythia8_jesUp 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018_jesDown_WStarMuNu.conf WToMuNu_M-200_TuneCP5_13TeV-pythia8_jesDown 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018_uesUp_WStarMuNu.conf WToMuNu_M-200_TuneCP5_13TeV-pythia8_uesUp 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018_uesDown_WStarMuNu.conf WToMuNu_M-200_TuneCP5_13TeV-pythia8_uesDown 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018_muUp_WStarMuNu.conf WToMuNu_M-200_TuneCP5_13TeV-pythia8_muUp 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018_muDown_WStarMuNu.conf WToMuNu_M-200_TuneCP5_13TeV-pythia8_muDown 20
 
-#cp WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_jesUp
-#cp WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_jesDown
-#cp WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_uesUp
-#cp WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_uesDown
-#cp WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prong0pizerosUp
-#cp WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prong0pizerosDown
-#cp WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prongUpTo4pizerosUp
-#cp WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prongUpTo4pizerosDown
-#cp WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_3prong0pizerosUp
-#cp WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_3prong0pizerosDown
-#./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_taues_1prong0pizerosDown_WStarTauNu.conf WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prong0pizerosDown 20
-#./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_taues_1prong0pizerosUp_WStarTauNu.conf  WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prong0pizerosUp 20
-#./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_taues_1prongUpTo4pizerosDown_WStarTauNu.conf WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prongUpTo4pizerosDown 20
-#./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_taues_1prongUpTo4pizerosUp_WStarTauNu.conf WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prongUpTo4pizerosUp 20
-#./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_taues_3prong0pizerosDown_WStarTauNu.conf WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_3prong0pizerosDown 20
-#./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_taues_3prong0pizerosUp_WStarTauNu.conf WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_3prong0pizerosUp 20
-#./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_jesUp_WStarTauNu.conf WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_jesUp 20
-#./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_jesDown_WStarTauNu.conf WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_jesDown 20
-#./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_uesUp_WStarTauNu.conf WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_uesUp 20
-#./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_uesDown_WStarTauNu.conf WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_uesDown 20
+cp WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_jesUp
+cp WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_jesDown
+cp WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_uesUp
+cp WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_uesDown
+cp WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prong0pizerosUp
+cp WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prong0pizerosDown
+cp WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prongUpTo4pizerosUp
+cp WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prongUpTo4pizerosDown
+cp WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_3prong0pizerosUp
+cp WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_3prong0pizerosDown
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018_taues_1prong0pizerosDown_WStarTauNu.conf WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prong0pizerosDown 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018_taues_1prong0pizerosUp_WStarTauNu.conf  WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prong0pizerosUp 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018_taues_1prongUpTo4pizerosDown_WStarTauNu.conf WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prongUpTo4pizerosDown 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018_taues_1prongUpTo4pizerosUp_WStarTauNu.conf WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prongUpTo4pizerosUp 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018_taues_3prong0pizerosDown_WStarTauNu.conf WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_3prong0pizerosDown 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018_taues_3prong0pizerosUp_WStarTauNu.conf WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_3prong0pizerosUp 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018_jesUp_WStarTauNu.conf WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_jesUp 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018_jesDown_WStarTauNu.conf WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_jesDown 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018_uesUp_WStarTauNu.conf WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_uesUp 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2018_uesDown_WStarTauNu.conf WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_uesDown 20
