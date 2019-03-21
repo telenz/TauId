@@ -21,7 +21,10 @@ void WToTauNuMeasurement() {
 
     std::vector< std::pair<TString,std::vector<TString>> > samples;
     std::vector<TString> data_MET;
-    data_MET.push_back("MET_Run2017");
+    data_MET.push_back("MET_Run2018A");
+    data_MET.push_back("MET_Run2018B");
+    data_MET.push_back("MET_Run2018C");
+    data_MET.push_back("MET_Run2018D");
 
     std::vector<TString> trueTaus;
     trueTaus.push_back("TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8");
@@ -41,8 +44,11 @@ void WToTauNuMeasurement() {
     trueTaus.push_back("DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
 
     std::vector<TString> fakeTaus;
-    fakeTaus.push_back("MET_Run2017");
-
+    fakeTaus.push_back("MET_Run2018A");
+    fakeTaus.push_back("MET_Run2018B");
+    fakeTaus.push_back("MET_Run2018C");
+    fakeTaus.push_back("MET_Run2018D");
+    
     std::vector<TString> WToTauNu;
     WToTauNu.push_back("WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola");
 
@@ -70,9 +76,15 @@ void WToTauNuMeasurement() {
     for(int i=1; i<=h_fakerate->at(iso[idx_iso]).GetNbinsX(); i++){
       for(int j=1; j<=h_fakerate->at(iso[idx_iso]).GetNbinsY(); j++){
 	std::vector<TString> fakeTaus_FRUp;
-	fakeTaus_FRUp.push_back("MET_Run2017");
+	fakeTaus_FRUp.push_back("MET_Run2018A");
+   fakeTaus_FRUp.push_back("MET_Run2018B");
+   fakeTaus_FRUp.push_back("MET_Run2018C");
+   fakeTaus_FRUp.push_back("MET_Run2018D");
 	std::vector<TString> fakeTaus_FRDown;
-	fakeTaus_FRDown.push_back("MET_Run2017");
+	fakeTaus_FRDown.push_back("MET_Run2018A");
+   fakeTaus_FRDown.push_back("MET_Run2018B");
+   fakeTaus_FRDown.push_back("MET_Run2018C");
+   fakeTaus_FRDown.push_back("MET_Run2018D");
 	samples.push_back(make_pair(Form("FakeTaus_FR%i%iUp",i,j) , fakeTaus_FRUp));
 	samples.push_back(make_pair(Form("FakeTaus_FR%i%iDown",i,j) , fakeTaus_FRDown));
       }
