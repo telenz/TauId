@@ -234,7 +234,7 @@ void WToTauNuMeasurement() {
     if(histoMap["TrueTaus"]) leg->AddEntry(histoMap["TrueTaus"],"bkgd (true taus)","f");
     writeExtraText = true;
     extraText = "Preliminary";
-    CMS_lumi(upper,6,33);
+    CMS_lumi(upper,8,33);
     leg->Draw("same");
 
     TH1D * ratioH = 0;

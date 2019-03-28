@@ -81,6 +81,11 @@ CMS_lumi( TPad* pad, int iPeriod, int iPosX )
         lumiText += lumi_13TeV_2017_METTrig;
         lumiText += " (13 TeV)";
      }
+  else if ( iPeriod==8)
+    {
+      lumiText += lumi_13TeV_2018;
+      lumiText += " (13 TeV)";
+    }
   cout << lumiText << endl;
 
   TLatex latex;

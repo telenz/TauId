@@ -110,7 +110,7 @@ void MakePostFitPlots() {
     leg->Draw();
     writeExtraText = true;
     extraText = "Preliminary";
-    CMS_lumi(upper,4,33); 
+    CMS_lumi(upper,8,33);
 
     upper->Draw("SAME");
     upper->RedrawAxis();

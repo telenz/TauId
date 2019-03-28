@@ -16,19 +16,10 @@ void WToMuNuMeasurement() {
 
   std::vector< std::pair<TString,std::vector<TString>> > samples;
   std::vector<TString> data;
-  //data.push_back("SingleMuon_Run2017F");
-  //data.push_back("SingleMuon_Run2017D");
-  //data.push_back("SingleMuon_Run2017E");
-  data.push_back("SingleMuon_Run2017_0");
-  data.push_back("SingleMuon_Run2017_1");
-  data.push_back("SingleMuon_Run2017_2");
-  data.push_back("SingleMuon_Run2017_3");
-  data.push_back("SingleMuon_Run2017_4");
-  data.push_back("SingleMuon_Run2017_5");
-  data.push_back("SingleMuon_Run2017_6");
-  data.push_back("SingleMuon_Run2017_7");
-  data.push_back("SingleMuon_Run2017_8");
-  data.push_back("SingleMuon_Run2017_9");
+  data.push_back("SingleMuon_Run2018A");
+  data.push_back("SingleMuon_Run2018B");
+  data.push_back("SingleMuon_Run2018C");
+  data.push_back("SingleMuon_Run2018D");
 
   std::vector<TString> ewk;
   ewk.push_back("ZJetsToNuNu_HT-100To200_13TeV-madgraph");
@@ -84,6 +75,9 @@ void WToMuNuMeasurement() {
   samples.push_back(make_pair("W_uesDown" , WToMuNu_uesDown));
 
   TString var = "mtmuon";
+  const int nbins = 10;
+  const double x_low = 0;
+  const double x_high = 1000;
 
   THStack *stack = new THStack("stack_mtmuon","");
   TH1D* h_data = 0;
@@ -93,13 +87,13 @@ void WToMuNuMeasurement() {
     
     cout<<"Process "<<samples[i].first<<endl;
     
-    TH1D* histoSamples = new TH1D(samples[i].first,"",10,0,1000);
+    TH1D* histoSamples = new TH1D(samples[i].first,"",nbins,x_low,x_high);
     
     for(unsigned int idx_list=0; idx_list<samples[i].second.size(); idx_list++){
 
       cout<<".............. Sample : "<<samples[i].second[idx_list]<<endl;
 
-      TH1D* histo = new TH1D(samples[i].second[idx_list],samples[i].second[idx_list],10,0,1000);
+      TH1D* histo = new TH1D(samples[i].second[idx_list],samples[i].second[idx_list],nbins,x_low,x_high);
       selectionCuts select = sr_munu;
       makeSelection(dir+"/"+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),"Tight",select,histo,var,var,var);
       histoSamples->Add(histo);
@@ -170,7 +164,7 @@ void WToMuNuMeasurement() {
   if(histoMap["EWK"]) leg->AddEntry(histoMap["EWK"],"electroweak","f");
   writeExtraText = true;
   extraText = "Internal";
-  CMS_lumi(upper,5,33);
+  CMS_lumi(upper,8,33);
   leg->Draw("same");
 
   TH1D * ratioH = 0;
@@ -210,6 +204,7 @@ void WToMuNuMeasurement() {
   canv->SetSelected(canv);
   canv->Update();
   canv->Print("figures/" + var + "_WToMuNu.pdf");
+  canv->Print("figures/" + var + "_WToMuNu.png");
 
 
   // Get bin-by-bin uncertainties for WMuNu
