@@ -9,7 +9,7 @@ void plot_pt_dependent_tau_id_sfs(TString year = "2018"){
 
   SetStyle();
 
-  const char *wps[4] = { "100-150 GeV", "150-200 GeV", "200-250 GeV", "> 250 GeVt" };
+  const char *wps[4] = { "100-150 GeV", "150-200 GeV", "200-250 GeV", "> 250 GeV" };
 
   double x[4]     = { 0.5, 1.5, 2.5, 3.5 };
   double x_err[4] = { 0, 0, 0, 0 };
