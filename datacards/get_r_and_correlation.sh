@@ -1,5 +1,6 @@
 #!bin/bash
 
+: '
 root -b -l <<EOF > results_Loose.txt
 TFile *_file0 = TFile::Open("fitDiagnostics_Loose.root")
 fit_s->Print()
@@ -17,6 +18,7 @@ TFile *_file0 = TFile::Open("fitDiagnostics_Tight.root")
 fit_s->Print()
 fit_s->correlation("tauId","r")
 EOF
+'
 
 root -b -l <<EOF > results_VLooseMva2017v2.txt
 TFile *_file0 = TFile::Open("fitDiagnostics_VLooseMva2017v2.root")
@@ -60,7 +62,8 @@ fit_s->Print()
 fit_s->correlation("tauId","r")
 EOF
 
-wps=("Loose" "Medium" "Tight" "VVLooseMva2017v2" "VLooseMva2017v2" "LooseMva2017v2" "MediumMva2017v2" "TightMva2017v2" "VTightMva2017v2" "VVTightMva2017v2") 
+#wps=("Loose" "Medium" "Tight" "VVLooseMva2017v2" "VLooseMva2017v2" "LooseMva2017v2" "MediumMva2017v2" "TightMva2017v2" "VTightMva2017v2" "VVTightMva2017v2")
+wps=("VVLooseMva2017v2" "VLooseMva2017v2" "LooseMva2017v2" "MediumMva2017v2" "TightMva2017v2" "VTightMva2017v2" "VVTightMva2017v2")
 
 for i in "${wps[@]}"
 do
