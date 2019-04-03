@@ -260,7 +260,7 @@ void ComputeFakeRate() {
       leg->AddEntry(h_fakerate_2d,samples[idx_sample].first,"lp");
       leg->Draw();
       canv->Update();
-      canv->Print("figures/fakerate_"+samples[idx_sample].first+"_"+iso[idx_iso]+tauDecayMode+".png");
+      //canv->Print("figures/fakerate_"+samples[idx_sample].first+"_"+iso[idx_iso]+tauDecayMode+".png");
 
       // Make 1d plots dependent on tauPt/tauJetPt 
       TH1D* h_num_1D_x        = h_num -> ProjectionX("fakerate_projection_withTrig_num_x",1,nBinsRatio);
@@ -285,12 +285,12 @@ void ComputeFakeRate() {
       leg1->SetHeader(iso[idx_iso]);
       leg1->AddEntry(h_x,"fake factors","lp");
       leg1->Draw();
-      canv->Print("figures/fakerate_"+samples[idx_sample].first+"_"+iso[idx_iso]+tauDecayMode+"_projectionX_ratioDependence.png");
+      //canv->Print("figures/fakerate_"+samples[idx_sample].first+"_"+iso[idx_iso]+tauDecayMode+"_projectionX_ratioDependence.png");
 
       canv->cd();
       h_y->Draw();
       leg1->Draw();
-      canv->Print("figures/fakerate_"+samples[idx_sample].first+"_"+iso[idx_iso]+tauDecayMode+"_projectionY_tauJetPtDependence.png");
+      //canv->Print("figures/fakerate_"+samples[idx_sample].first+"_"+iso[idx_iso]+tauDecayMode+"_projectionY_tauJetPtDependence.png");
 
        TH1D* h_unrolled = new TH1D("h_unrolled_"+samples[idx_sample].first+"_"+iso[idx_iso],"unrolled distribution",nBinsRatio*nBinsJetPt,1,nBinsRatio*nBinsJetPt+1);
 
