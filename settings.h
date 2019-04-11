@@ -17,15 +17,19 @@
 #include "TH2.h"
 #include "TVector2.h"
 #include "TLorentzVector.h"
+#define ERA_2018
+//#define ERA_2017
+//#define ERA_2016
 
-//TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2016/TauIdWithVirtualW/WTauId/NTuples/";
-//TString dir = "/nfs/dust/cms/user/mameyer/TauIdAndES_2017Data/TauId/NTuples/";
-//TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2017/TauIDWithVirtualW/TauId/NTuples/mameyer/";
-//TString dir = "NTuples/";
-TString dir = "/nfs/dust/cms/user/mameyer/TauIdAndES_2018Data/TauId/NTuples/";
-//TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2017/TauIDWithVirtualW/TauId/NTuples/";
-//TString dir = "/nfs/dust/cms/user/mameyer/TauIdAndES_2017Data/METv1Recipe/TauId/NTuples/";
-//TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2017/TauIDWithVirtualW/METv1Recipe_NoForwardJetVeto/TauId/NTuples/";
+#ifdef ERA_2018
+    #include"settings_era_specific_2018.h"
+#endif
+#ifdef ERA_2017
+    #include"settings_era_specific_2017.h"
+#endif
+#ifdef ERA_2016
+    #include"settings_era_specific_2016.h"
+#endif
 
 TString tauDecayMode = "";
 //TString tauDecayMode = "_3prong0pizeros";
@@ -34,103 +38,12 @@ TString tauDecayMode = "";
 double tauMomScale = 1.00;
 bool doTauESmeasurement = false; //if set to true: tau mass cuts depending on the studied decay mode are applied
 
-double luminosity = 59740; //maybe check this number with brilcalc
-//double luminosity = 40991; // lumi determined by brilcalc
-//double luminosity = 12702; // lumi of RunF
-//double luminosity = 28289; // lumi without RunF (determined by brilcalc)
-//double luminosity = 1.;
-//double luminosity = 35890; // lumi used for 2016 analysis
-
 std::vector<TString> iso;
-map<TString,TH2D>* h_fakerate = 0;
-map<TString,TH2D>* h_fakerate_up = 0;
-map<TString,TH2D>* h_fakerate_down = 0;
+map<TString,TH2D>* h_fakerate      = new map<TString,TH2D>();
+map<TString,TH2D>* h_fakerate_up   = new map<TString,TH2D>();
+map<TString,TH2D>* h_fakerate_down = new map<TString,TH2D>();
+
 TH1D* h_kFactor= 0;
-
-map<TString, double> xsecs = {                             // numbers from 2017, maybe check if cross sections are still valid for 2018
-{"WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"            , 52760*1.166}, // NNLO (1)
-{"W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"           , 8104.*1.166}, // NNLO (2)
-{"W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"           , 2796.*1.166}, // NNLO (3)
-{"W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"           , 993.5*1.166}, // NNLO (4)
-{"W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"           , 544.4*1.166}, // NNLO (5)
-{"W1JetsToLNu_LHEWpT_50-150"                               , 1.0181*2661},  // NNLO (6)
-{"W1JetsToLNu_LHEWpT_100-150"                              , 1.0181*286.1}, // NNLO (6a)
-{"W1JetsToLNu_LHEWpT_150-250"                              , 1.0181*71.9},  // NNLO (7)
-{"W1JetsToLNu_LHEWpT_250-400"                              , 1.0181*8.05},  // NNLO (8)
-{"W1JetsToLNu_LHEWpT_400-inf"                              , 1.0181*0.885}, // NNLO (9)
-{"ZJetsToNuNu_HT-100To200_13TeV-madgraph"                  , 304.5},    // LO (10)
-{"ZJetsToNuNu_HT-200To400_13TeV-madgraph"                  , 91.82},    // LO (11)
-{"ZJetsToNuNu_HT-400To600_13TeV-madgraph"                  , 13.11},    // LO (12)
-{"ZJetsToNuNu_HT-600To800_13TeV-madgraph"                  , 3.260},    // LO (13)
-{"ZJetsToNuNu_HT-800To1200_13TeV-madgraph"                 , 1.499},    // LO (14)
-{"ZJetsToNuNu_HT-1200To2500_13TeV-madgraph"                , 0.3430},   // LO (15)
-{"ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph"                 , 0.005146}, // LO (16)
-{"ZZ_TuneCP5_13TeV-pythia8"                                , 12.19},  // LO (17) -> could be improved
-{"WW_TuneCP5_13TeV-pythia8"                                , 118.7},  // NNLO QCD (18)
-{"WZ_TuneCP5_13TeV-pythia8"                                , 27.68},  // LO (19) -> could be improved
-{"DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"       , 5345*1.165},  // NNLO (20)
-{"DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"      , 875.7*1.165}, // NNLO (20a)
-{"DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"      , 306.9*1.165}, // NNLO (20b)
-{"DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"      , 111.9*1.165}, // NNLO (20c)
-{"DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"      , 43.97*1.165}, // NNLO (20d)
-{"DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8"   , 15820*1.165}, // NNLO (20e)
-{"TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8"        , 88.29},  // NNLO (21)
-{"TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8"     , 377.96}, // NNLO (22)
-{"TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8" , 365.34}, // NNLO (23)
-{"ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8"     , 44.33}, // ? (24) -> could be improved
-{"ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8" , 26.38}, // ? (25) -> could be improved
-{"ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8"                      , 35.85}, // ? (26) -> could be improved
-{"ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8"                  , 35.85}, // ? (27) -> could be improved
-{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola"             , 1.0*7.246}, // LO, NNLO-QCD NLO-EWK mass dependent k factor applied later (28)
-{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_jesUp"       , 1.0*7.246}, // LO, NNLO-QCD NLO-EWK (29)
-{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_jesDown"     , 1.0*7.246}, // LO, NNLO-QCD NLO-EWK (30)
-{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prong0pizerosUp"             , 1.0*7.246}, // LO, NNLO-QCD NLO-EWK (31)
-{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prong0pizerosDown"           , 1.0*7.246}, // LO, NNLO-QCD NLO-EWK (32)
-{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prongUpTo4pizerosUp"         , 1.0*7.246}, // LO, NNLO-QCD NLO-EWK (33)
-{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_1prongUpTo4pizerosDown"       , 1.0*7.246}, // LO, NNLO-QCD NLO-EWK (34)
-{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_3prong0pizerosUp"             , 1.0*7.246}, // LO, NNLO-QCD NLO-EWK (35)
-{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_3prong0pizerosDown"           , 1.0*7.246}, // LO, NNLO-QCD NLO-EWK (36)
-{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_uesUp"       , 1.0*7.246}, // LO, NNLO-QCD NLO-EWK (37)
-{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_uesDown"     , 1.0*7.246}, // LO, NNLO-QCD NLO-EWK (38)
-{"WToMuNu_M-200_TuneCP5_13TeV-pythia8"                     , 1.0*7.273}, // LO, NNLO-QCD NLO-EWK (39)
-{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_jesUp"               , 1.0*7.273}, // LO, NNLO-QCD NLO-EWK (40)
-{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_jesDown"             , 1.0*7.273}, // LO, NNLO-QCD NLO-EWK (41)
-{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_muUp"                , 1.0*7.273}, // LO, NNLO-QCD NLO-EWK (42)
-{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_muDown"              , 1.0*7.273}, // LO, NNLO-QCD NLO-EWK (43)
-{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_uesUp"               , 1.0*7.273}, // LO, NNLO-QCD NLO-EWK (44)
-{"WToMuNu_M-200_TuneCP5_13TeV-pythia8_uesDown"             , 1.0*7.273}, // LO, NNLO-QCD NLO-EWK (45)
-{"DYJetsToLL_M-50_HT-100to200_TuneCP5_13TeV-madgraphMLM-pythia8" , 160.5}, // (46)
-{"DYJetsToLL_M-50_HT-200to400_TuneCP5_13TeV-madgraphMLM-pythia8", 48.37}, // (47)
-{"DYJetsToLL_M-50_HT-400to600_TuneCP5_13TeV-madgraphMLM-pythia8", 6.972}, // (48)
-{"DYJetsToLL_M-50_HT-600to800_TuneCP5_13TeV-madgraphMLM-pythia8", 1.746}, // (49)
-{"DYJetsToLL_M-50_HT-800to1200_TuneCP5_13TeV-madgraphMLM-pythia8",  0.8101 }, // (50)
-{"WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8",1286*1.166}, // (51)
-{"WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8", 1395.0*1.166},// (52)
-{"WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8", 407.9*1.166},// (53)
-{"WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8", 57.48*1.166},// (54)
-{"WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8", 12.87*1.166},// (55)
-{"WJetsToLNu_HT-800To1200_TuneCP5_13TeV-madgraphMLM-pythia8", 5.366*1.166},// (56)
-{"WJetsToLNu_HT-1200To2500_TuneCP5_13TeV-madgraphMLM-pythia8", 1.074*1.166},// (57)
-{"WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8", 0.008001*1.166}};// (58)
-// Sources of xsecs:
-// (1) from: LO: GenXSec analyzer (https://twiki.cern.ch/twiki/bin/view/CMS/HowToGenXSecAnalyzer), NNLO: https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat13TeV -> k-factor = 61526.7/52600 = 1.17
-// (2-5) from: LO: GenXSec analyzer (https://twiki.cern.ch/twiki/bin/view/CMS/HowToGenXSecAnalyzer), k-factor see (1)
-// (6-9) from Adinda's Mail from the 26th of March 2018, k-factor from Teresa's Email
-// (10-16) from: LO: GenXSec analyzer (https://twiki.cern.ch/twiki/bin/view/CMS/HowToGenXSecAnalyzer)
-// (17) from: LO: GenXSec analyzer (https://twiki.cern.ch/twiki/bin/view/CMS/HowToGenXSecAnalyzer)
-// (18) from: https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat13TeVInclusive (LO xsec = 64.3 from https://cms-gen-dev.cern.ch/xsdb (DAS=WW_TuneCUETP8M1_13TeV-pythia8))
-// (19) from: LO: GenXSec analyzer (https://twiki.cern.ch/twiki/bin/view/CMS/HowToGenXSecAnalyzer)
-// (20) from: LO: GenXSec analyzer (https://twiki.cern.ch/twiki/bin/view/CMS/HowToGenXSecAnalyzer), NNLO: https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat13TeV -> k-factor = 6225.42/5345 = 1.165
-// (20a-20e) from: LO: GenXSec analyzer (https://twiki.cern.ch/twiki/bin/view/CMS/HowToGenXSecAnalyzer), k-factor see (20)
-// (21) from: https://cms-gen-dev.cern.ch/xsdb (DAS=TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8)
-// (22) from: https://cms-gen-dev.cern.ch/xsdb (DAS=TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8)
-// (23) from: https://cms-gen-dev.cern.ch/xsdb (DAS=TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8)
-// (24-27) from: https://twiki.cern.ch/twiki/bin/viewauth/CMS/TauIDMeasurementsHelp
-// (28-38) LO GenXSec analyzer (https://twiki.cern.ch/twiki/bin/view/CMS/HowToGenXSecAnalyzer), NNLO-QCD NLO-EWK from: https://cms-gen-dev.cern.ch/xsdb (DAS=WToTauNu_M-200_TuneCUETP8M1_13TeV-pythia8-tauola), k-factor = 1.3 (valid for m_W>200GeV and m_W<1TeV, see: https://indico.cern.ch/event/712797/contributions/2928866/attachments/1615436/2567073/TauIdMomScaleW_20180312.pdf)
-// (29-45) LO GenXSec analyzer (https://twiki.cern.ch/twiki/bin/view/CMS/HowToGenXSecAnalyzer), NNLO-QCD NLO-EWK from: https://cms-gen-dev.cern.ch/xsdb (DAS=WToMuNu_M-200_TuneCUETP8M1_13TeV-pythia8), k-factor: see (28-38)
-// (46) from GenXSec analyzer, k-factor: see (1)
-// (46-50) from DAS, k-factor: see (1)
-
 // ----------------------------------------------------------------------------------------------------
 void loadWorkingPoints()
 {
@@ -339,10 +252,11 @@ double getNEventsProcessed(TString filename)
 // ----------------------------------------------------------------------------------------------------
 void loadFakeRates(TString filename)
 {
-  h_fakerate      = new map<TString,TH2D>();
-  h_fakerate_up   = new map<TString,TH2D>();
-  h_fakerate_down = new map<TString,TH2D>();
  
+  h_fakerate->clear();
+  h_fakerate_up->clear();
+  h_fakerate_down->clear();
+
   TFile *f1 = new TFile(filename,"READ");
   if(!f1){
     cout<<"File "<<filename<<" does not exists. Exiting."<<endl;
@@ -564,42 +478,42 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
   double norm = xsec*luminosity/nevtsProcessed;
 
   // Needed for stitching
-  double nevtsProcessedWIncl = getNEventsProcessed(dir+"WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8.root");
-  double nevtsProcessedW1Jet = getNEventsProcessed(dir+"W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8.root");
-  double nevtsProcessedW2Jet = getNEventsProcessed(dir+"W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8.root");
-  double nevtsProcessedW3Jet = getNEventsProcessed(dir+"W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8.root");
-  double nevtsProcessedW4Jet = getNEventsProcessed(dir+"W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8.root");
-  double nevtsProcessedWHT70To100 = getNEventsProcessed(dir+"WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8.root");
-  double nevtsProcessedWHT100To200 = getNEventsProcessed(dir+"WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8.root");
-  double nevtsProcessedWHT200To400 = getNEventsProcessed(dir+"WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8.root");
-  double nevtsProcessedWHT400To600 = getNEventsProcessed(dir+"WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8.root");
-  double nevtsProcessedWHT600To800 = getNEventsProcessed(dir+"WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8.root");
-  double nevtsProcessedWHT800To1200 = getNEventsProcessed(dir+"WJetsToLNu_HT-800To1200_TuneCP5_13TeV-madgraphMLM-pythia8.root");
-  double nevtsProcessedWHT1200To2500 = getNEventsProcessed(dir+"WJetsToLNu_HT-1200To2500_TuneCP5_13TeV-madgraphMLM-pythia8.root");
-  double nevtsProcessedWHT2500ToInf = getNEventsProcessed(dir+"WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8.root");
-  double xsecWIncl = xsecs["WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"];
-  double xsecW1Jet = xsecs["W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"];
-  double xsecW2Jet = xsecs["W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"];
-  double xsecW3Jet = xsecs["W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"];
-  double xsecW4Jet = xsecs["W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"];
-  double xsecWHT70To100 = xsecs["WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8"];
-  double xsecWHT100To200 = xsecs["WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8"];
-  double xsecWHT200To400 = xsecs["WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8"];
-  double xsecWHT400To600 = xsecs["WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8"];
-  double xsecWHT600To800 = xsecs["WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8"];
-  double xsecWHT800To1200 = xsecs["WJetsToLNu_HT-800To1200_TuneCP5_13TeV-madgraphMLM-pythia8"];
-  double xsecWHT1200To2500 =xsecs["WJetsToLNu_HT-1200To2500_TuneCP5_13TeV-madgraphMLM-pythia8"];
-  double xsecWHT2500ToInf = xsecs["WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8"];
-  double nevtsProcessedDYIncl = getNEventsProcessed(dir+"DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8.root");
-  double nevtsProcessedDY1Jet = getNEventsProcessed(dir+"DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8.root");
-  double nevtsProcessedDY2Jet = getNEventsProcessed(dir+"DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8.root");
-  double nevtsProcessedDY3Jet = getNEventsProcessed(dir+"DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8.root");
-  double nevtsProcessedDY4Jet = getNEventsProcessed(dir+"DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8.root");
-  double xsecDYIncl = xsecs["DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"];
-  double xsecDY1Jet = xsecs["DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"];
-  double xsecDY2Jet = xsecs["DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"];
-  double xsecDY3Jet = xsecs["DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"];
-  double xsecDY4Jet = xsecs["DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8"];
+  double xsecWIncl = xsecs[wjets];
+  double xsecW1Jet = xsecs[w1jets];
+  double xsecW2Jet = xsecs[w2jets];
+  double xsecW3Jet = xsecs[w3jets];
+  double xsecW4Jet = xsecs[w4jets];
+  double xsecWHT70To100    = xsecs[wjets_HT70To100];
+  double xsecWHT100To200   = xsecs[wjets_HT100To200];
+  double xsecWHT200To400   = xsecs[wjets_HT200To400];
+  double xsecWHT400To600   = xsecs[wjets_HT400To600];
+  double xsecWHT600To800   = xsecs[wjets_HT600To800];
+  double xsecWHT800To1200  = xsecs[wjets_HT800To1200];
+  double xsecWHT1200To2500 = xsecs[wjets_HT1200To2500];
+  double xsecWHT2500ToInf  = xsecs[wjets_HT2500ToInf];
+  double nevtsProcessedWIncl = getNEventsProcessed(dir+wjets+".root");
+  double nevtsProcessedW1Jet = getNEventsProcessed(dir+w1jets+".root");
+  double nevtsProcessedW2Jet = getNEventsProcessed(dir+w2jets+".root");
+  double nevtsProcessedW3Jet = getNEventsProcessed(dir+w3jets+".root");
+  double nevtsProcessedW4Jet = getNEventsProcessed(dir+w4jets+".root");
+  double nevtsProcessedWHT70To100    = getNEventsProcessed(dir+wjets_HT70To100+".root");
+  double nevtsProcessedWHT100To200   = getNEventsProcessed(dir+wjets_HT100To200+".root");
+  double nevtsProcessedWHT200To400   = getNEventsProcessed(dir+wjets_HT200To400+".root");
+  double nevtsProcessedWHT400To600   = getNEventsProcessed(dir+wjets_HT400To600+".root");
+  double nevtsProcessedWHT600To800   = getNEventsProcessed(dir+wjets_HT600To800+".root");
+  double nevtsProcessedWHT800To1200  = getNEventsProcessed(dir+wjets_HT800To1200+".root");
+  double nevtsProcessedWHT1200To2500 = getNEventsProcessed(dir+wjets_HT1200To2500+".root");
+  double nevtsProcessedWHT2500ToInf  = getNEventsProcessed(dir+wjets_HT2500ToInf+".root");
+  double xsecDYIncl = xsecs[dyjets];
+  double xsecDY1Jet = xsecs[dy1jets];
+  double xsecDY2Jet = xsecs[dy2jets];
+  double xsecDY3Jet = xsecs[dy3jets];
+  double xsecDY4Jet = xsecs[dy4jets];
+  double nevtsProcessedDYIncl = getNEventsProcessed(dir+dyjets+".root");
+  double nevtsProcessedDY1Jet = getNEventsProcessed(dir+dy1jets+".root");
+  double nevtsProcessedDY2Jet = getNEventsProcessed(dir+dy2jets+".root");
+  double nevtsProcessedDY3Jet = getNEventsProcessed(dir+dy3jets+".root");
+  double nevtsProcessedDY4Jet = getNEventsProcessed(dir+dy4jets+".root");
 
   bool isData = filename.Contains("SingleMuon") || filename.Contains("JetHT") || filename.Contains("MET");
   

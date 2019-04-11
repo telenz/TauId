@@ -9,34 +9,40 @@ void TriggerEfficiency() {
   TH1::SetDefaultSumw2();
   TH2::SetDefaultSumw2();
 
-  std::vector< std::pair<string,std::vector<string>> > samples;
+  std::vector< std::pair<string,std::vector<TString>> > samples;
 
-  std::vector<string> MC;
-  MC.push_back("WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
-  MC.push_back("W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
-  MC.push_back("W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
-  MC.push_back("W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
-  MC.push_back("W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
-  std::vector<string> Data;
-  Data.push_back("SingleMuon_Run2018A");
-  Data.push_back("SingleMuon_Run2018B");
-  Data.push_back("SingleMuon_Run2018C");
-  Data.push_back("SingleMuon_Run2018D");
+  std::vector<TString> MC = WJets_Trigger_sample;
+  std::vector<TString> Data = SingleMuon_sample;
   samples.push_back(make_pair("MC"   , MC));
   samples.push_back(make_pair("Data" , Data));
 
-
   // Needed for stitching
-  double xsecIncl = xsecs["WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"];
-  double xsec1Jet = xsecs["W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"];
-  double xsec2Jet = xsecs["W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"];
-  double xsec3Jet = xsecs["W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"];
-  double xsec4Jet = xsecs["W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8"];
-  double nevtsProcessedIncl = getNEventsProcessed(dir+"WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8.root");
-  double nevtsProcessed1Jet = getNEventsProcessed(dir+"W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8.root");
-  double nevtsProcessed2Jet = getNEventsProcessed(dir+"W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8.root");
-  double nevtsProcessed3Jet = getNEventsProcessed(dir+"W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8.root");
-  double nevtsProcessed4Jet = getNEventsProcessed(dir+"W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+  double xsecWIncl = xsecs[wjets];
+  double xsecW1Jet = xsecs[w1jets];
+  double xsecW2Jet = xsecs[w2jets];
+  double xsecW3Jet = xsecs[w3jets];
+  double xsecW4Jet = xsecs[w4jets];
+  double xsecWHT70To100    = xsecs[wjets_HT70To100];
+  double xsecWHT100To200   = xsecs[wjets_HT100To200];
+  double xsecWHT200To400   = xsecs[wjets_HT200To400];
+  double xsecWHT400To600   = xsecs[wjets_HT400To600];
+  double xsecWHT600To800   = xsecs[wjets_HT600To800];
+  double xsecWHT800To1200  = xsecs[wjets_HT800To1200];
+  double xsecWHT1200To2500 = xsecs[wjets_HT1200To2500];
+  double xsecWHT2500ToInf  = xsecs[wjets_HT2500ToInf];
+  double nevtsProcessedWIncl = getNEventsProcessed(dir+wjets+".root");
+  double nevtsProcessedW1Jet = getNEventsProcessed(dir+w1jets+".root");
+  double nevtsProcessedW2Jet = getNEventsProcessed(dir+w2jets+".root");
+  double nevtsProcessedW3Jet = getNEventsProcessed(dir+w3jets+".root");
+  double nevtsProcessedW4Jet = getNEventsProcessed(dir+w4jets+".root");
+  double nevtsProcessedWHT70To100    = getNEventsProcessed(dir+wjets_HT70To100+".root");
+  double nevtsProcessedWHT100To200   = getNEventsProcessed(dir+wjets_HT100To200+".root");
+  double nevtsProcessedWHT200To400   = getNEventsProcessed(dir+wjets_HT200To400+".root");
+  double nevtsProcessedWHT400To600   = getNEventsProcessed(dir+wjets_HT400To600+".root");
+  double nevtsProcessedWHT600To800   = getNEventsProcessed(dir+wjets_HT600To800+".root");
+  double nevtsProcessedWHT800To1200  = getNEventsProcessed(dir+wjets_HT800To1200+".root");
+  double nevtsProcessedWHT1200To2500 = getNEventsProcessed(dir+wjets_HT1200To2500+".root");
+  double nevtsProcessedWHT2500ToInf  = getNEventsProcessed(dir+wjets_HT2500ToInf+".root");
 
   std::map<string,TGraphAsymmErrors*> effMapData;
   std::map<string,TGraphAsymmErrors*> effMapMC;
@@ -54,7 +60,7 @@ void TriggerEfficiency() {
 
     for(unsigned int idx_list=0; idx_list<samples[i].second.size(); idx_list++){
 
-      string filename = string(dir) + samples[i].second[idx_list] + ".root";
+      string filename = string(dir) + string(samples[i].second[idx_list]) + ".root";
       TFile * file = new TFile( filename.c_str() );
       if(!file)	cout<<"The following tree does not exit: "<<filename<<" .   Please Check."<<endl;
 
@@ -79,6 +85,7 @@ void TriggerEfficiency() {
       TTreeReaderValue< UInt_t  >  nMuon(            *myReader,       "nMuon");
       TTreeReaderValue< Float_t >  puWeight(         *myReader,       "puWeight");
       TTreeReaderValue< Float_t >  genWeight(        *myReader,       "genWeight");
+      // TTreeReaderValue< Float_t >  genHt(            *myReader,       "genHt");
 
 
       cout<<"---------- Processing  "<<samples[i].second[idx_list]<<"  ---------- "<<endl;
@@ -101,14 +108,23 @@ void TriggerEfficiency() {
 
 	  norm =0;
 	  double add_NEvtsOverXsec = 0;
+	  add_NEvtsOverXsec += nevtsProcessedWIncl/xsecWIncl;
 
-	  add_NEvtsOverXsec += nevtsProcessedIncl/xsecIncl;
+	  if(*npartons == 1)       add_NEvtsOverXsec += nevtsProcessedW1Jet/xsecW1Jet ;
+	  else if(*npartons == 2)  add_NEvtsOverXsec += nevtsProcessedW2Jet/xsecW2Jet ;
+	  else if(*npartons == 3)  add_NEvtsOverXsec += nevtsProcessedW3Jet/xsecW3Jet ;
+	  else if(*npartons == 4)  add_NEvtsOverXsec += nevtsProcessedW4Jet/xsecW4Jet ;
 
-	  if(*npartons==1)        add_NEvtsOverXsec += nevtsProcessed1Jet/xsec1Jet;
-	  else if(*npartons==2)   add_NEvtsOverXsec += nevtsProcessed2Jet/xsec2Jet;
-	  else if(*npartons==3)   add_NEvtsOverXsec += nevtsProcessed3Jet/xsec3Jet;
-	  else if(*npartons==4)   add_NEvtsOverXsec += nevtsProcessed4Jet/xsec4Jet;
-
+	  // if (*genHt >= 70){
+	  //   if (*genHt < 100)       add_NEvtsOverXsec += nevtsProcessedWHT70To100/xsecWHT70To100;
+	  //   else if (*genHt < 200)  add_NEvtsOverXsec += nevtsProcessedWHT100To200/xsecWHT100To200;
+	  //   else if (*genHt < 400)  add_NEvtsOverXsec += nevtsProcessedWHT200To400/xsecWHT200To400;
+	  //   else if (*genHt < 600)  add_NEvtsOverXsec += nevtsProcessedWHT400To600/xsecWHT400To600;
+	  //   else if (*genHt < 800)  add_NEvtsOverXsec += nevtsProcessedWHT600To800/xsecWHT600To800;
+	  //   else if (*genHt < 1200) add_NEvtsOverXsec += nevtsProcessedWHT800To1200/xsecWHT800To1200;
+	  //   else if (*genHt < 2500) add_NEvtsOverXsec += nevtsProcessedWHT1200To2500/xsecWHT1200To2500;
+	  //   else add_NEvtsOverXsec += nevtsProcessedWHT2500ToInf/xsecWHT2500ToInf;
+	  // }
 	  if(add_NEvtsOverXsec !=0 ) norm = luminosity/add_NEvtsOverXsec;
 
 	}
@@ -150,7 +166,7 @@ void TriggerEfficiency() {
   } // end: loop over samples vector (contains Data and MC)
 
 
-  TFile * fileOutput = new TFile("output/trigger_eff_HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_10x_v1.root","recreate");
+  TFile * fileOutput = new TFile("output/" + triggerfile_output_name,"recreate");
   fileOutput         -> cd("");    
 
   for (auto const& x : effMapData){

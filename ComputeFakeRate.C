@@ -18,48 +18,12 @@ void ComputeFakeRate() {
   vector<Float_t> binsRatio;
 
   std::vector< std::pair<TString,std::vector<TString>> > samples;
-  std::vector<TString> data_SingleMuon;
-  data_SingleMuon.push_back("SingleMuon_Run2018A");
-  data_SingleMuon.push_back("SingleMuon_Run2018B");
-  data_SingleMuon.push_back("SingleMuon_Run2018C");
-  data_SingleMuon.push_back("SingleMuon_Run2018D");
-  std::vector<TString> data_JetHT;
-  data_JetHT.push_back("JetHT_Run2018A");
-  data_JetHT.push_back("JetHT_Run2018B");
-  data_JetHT.push_back("JetHT_Run2018C");
-  data_JetHT.push_back("JetHT_Run2018D");
-  std::vector<TString> wjets;
-
-  wjets.push_back("WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
-  wjets.push_back("W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
-  wjets.push_back("W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
-  wjets.push_back("W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
-  wjets.push_back("W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8");
-  wjets.push_back("WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8");
-  wjets.push_back("WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8");
-  wjets.push_back("WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8");
-  wjets.push_back("WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8");
-  wjets.push_back("WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8");
-  wjets.push_back("WJetsToLNu_HT-800To1200_TuneCP5_13TeV-madgraphMLM-pythia8");
-  wjets.push_back("WJetsToLNu_HT-1200To2500_TuneCP5_13TeV-madgraphMLM-pythia8");
-  wjets.push_back("WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8");
-
-  std::vector<TString> genuineTaus;
-  genuineTaus.push_back("TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8");
-  genuineTaus.push_back("TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8");
-  genuineTaus.push_back("TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8");
-  genuineTaus.push_back("ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8");
-  genuineTaus.push_back("ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8");
-  genuineTaus.push_back("ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8");
-  genuineTaus.push_back("ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8");
-  genuineTaus.push_back("ZZ_TuneCP5_13TeV-pythia8");
-  genuineTaus.push_back("WW_TuneCP5_13TeV-pythia8");
-  genuineTaus.push_back("WZ_TuneCP5_13TeV-pythia8");
-  genuineTaus.push_back("DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
-  genuineTaus.push_back("DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
-  genuineTaus.push_back("DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
-  genuineTaus.push_back("DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
-  genuineTaus.push_back("DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
+  std::vector<TString> data_SingleMuon = SingleMuon_sample;
+  std::vector<TString> data_JetHT      = JetHT_sample;
+  std::vector<TString> wjets           = WJets_sample;
+  std::vector<TString> genuineTaus     = DYJets_sample;
+  genuineTaus.insert( genuineTaus.end(), VV_sample.begin()   , VV_sample.end() );
+  genuineTaus.insert( genuineTaus.end(), TT_ST_sample.begin(), TT_ST_sample.end() );
 
   samples.push_back(make_pair("WJetsToLNu" , wjets));
   samples.push_back(make_pair("GenuineTausBkg" , genuineTaus));

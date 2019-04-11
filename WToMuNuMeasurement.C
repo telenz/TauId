@@ -15,53 +15,27 @@ void WToMuNuMeasurement() {
   loadkFactors("kfactor_mu.root");
 
   std::vector< std::pair<TString,std::vector<TString>> > samples;
-  std::vector<TString> data;
-  data.push_back("SingleMuon_Run2018A");
-  data.push_back("SingleMuon_Run2018B");
-  data.push_back("SingleMuon_Run2018C");
-  data.push_back("SingleMuon_Run2018D");
 
-  std::vector<TString> ewk;
-  ewk.push_back("ZJetsToNuNu_HT-100To200_13TeV-madgraph");
-  ewk.push_back("ZJetsToNuNu_HT-200To400_13TeV-madgraph");
-  ewk.push_back("ZJetsToNuNu_HT-400To600_13TeV-madgraph");
-  ewk.push_back("ZJetsToNuNu_HT-600To800_13TeV-madgraph");
-  ewk.push_back("ZJetsToNuNu_HT-800To1200_13TeV-madgraph");
-  ewk.push_back("ZJetsToNuNu_HT-1200To2500_13TeV-madgraph");
-  ewk.push_back("ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph");
-  ewk.push_back("ZZ_TuneCP5_13TeV-pythia8");
-  ewk.push_back("WW_TuneCP5_13TeV-pythia8");
-  ewk.push_back("WZ_TuneCP5_13TeV-pythia8");
-  ewk.push_back("DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
-  ewk.push_back("DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
-  ewk.push_back("DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
-  ewk.push_back("DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
-  ewk.push_back("DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8");
+  std::vector<TString> data    = SingleMuon_sample;
+  std::vector<TString> ewk     = ZJets_sample;
+  ewk.insert( ewk.end(), DYJets_sample.begin(), DYJets_sample.end() );
+  ewk.insert( ewk.end(), VV_sample.begin(), VV_sample.end() );
+  std::vector<TString> tt      = TT_ST_sample;
+  std::vector<TString> WToMuNu = WToMuNu_sample;
 
-  std::vector<TString> tt;
-  tt.push_back("TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8");
-  tt.push_back("TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8");
-  tt.push_back("TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8");
-  tt.push_back("ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8");
-  tt.push_back("ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8");
-  tt.push_back("ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8");
-  tt.push_back("ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8");
-
-  std::vector<TString> WToMuNu;
-  WToMuNu.push_back("WToMuNu_M-200_TuneCP5_13TeV-pythia8");
-
+  // Uncertainty samples
   std::vector<TString> WToMuNu_jesUp;
-  WToMuNu_jesUp.push_back("WToMuNu_M-200_TuneCP5_13TeV-pythia8_jesUp");
+  for(auto x : WToMuNu) WToMuNu_jesUp.push_back(x + "_jesUp");
   std::vector<TString> WToMuNu_jesDown;
-  WToMuNu_jesDown.push_back("WToMuNu_M-200_TuneCP5_13TeV-pythia8_jesDown");
+  for(auto x : WToMuNu) WToMuNu_jesDown.push_back(x + "_jesDown");
   std::vector<TString> WToMuNu_muUp;
-  WToMuNu_muUp.push_back("WToMuNu_M-200_TuneCP5_13TeV-pythia8_muUp");
+  for(auto x : WToMuNu) WToMuNu_muUp.push_back(x + "_muUp");
   std::vector<TString> WToMuNu_muDown;
-  WToMuNu_muDown.push_back("WToMuNu_M-200_TuneCP5_13TeV-pythia8_muDown");
+  for(auto x : WToMuNu) WToMuNu_muDown.push_back(x + "_muDown");
   std::vector<TString> WToMuNu_uesUp;
-  WToMuNu_uesUp.push_back("WToMuNu_M-200_TuneCP5_13TeV-pythia8_uesUp");
+  for(auto x : WToMuNu) WToMuNu_uesUp.push_back(x + "_uesUp");
   std::vector<TString> WToMuNu_uesDown;
-  WToMuNu_uesDown.push_back("WToMuNu_M-200_TuneCP5_13TeV-pythia8_uesDown");
+  for(auto x : WToMuNu) WToMuNu_uesDown.push_back(x + "_uesDown");
 
   samples.push_back(make_pair("data_obs" , data));
   samples.push_back(make_pair("EWK" , ewk));
