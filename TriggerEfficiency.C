@@ -22,27 +22,11 @@ void TriggerEfficiency() {
   double xsecW2Jet = xsecs[w2jets];
   double xsecW3Jet = xsecs[w3jets];
   double xsecW4Jet = xsecs[w4jets];
-  double xsecWHT70To100    = xsecs[wjets_HT70To100];
-  double xsecWHT100To200   = xsecs[wjets_HT100To200];
-  double xsecWHT200To400   = xsecs[wjets_HT200To400];
-  double xsecWHT400To600   = xsecs[wjets_HT400To600];
-  double xsecWHT600To800   = xsecs[wjets_HT600To800];
-  double xsecWHT800To1200  = xsecs[wjets_HT800To1200];
-  double xsecWHT1200To2500 = xsecs[wjets_HT1200To2500];
-  double xsecWHT2500ToInf  = xsecs[wjets_HT2500ToInf];
-  double nevtsProcessedWIncl = getNEventsProcessed(dir+wjets+".root");
-  double nevtsProcessedW1Jet = getNEventsProcessed(dir+w1jets+".root");
-  double nevtsProcessedW2Jet = getNEventsProcessed(dir+w2jets+".root");
-  double nevtsProcessedW3Jet = getNEventsProcessed(dir+w3jets+".root");
-  double nevtsProcessedW4Jet = getNEventsProcessed(dir+w4jets+".root");
-  double nevtsProcessedWHT70To100    = getNEventsProcessed(dir+wjets_HT70To100+".root");
-  double nevtsProcessedWHT100To200   = getNEventsProcessed(dir+wjets_HT100To200+".root");
-  double nevtsProcessedWHT200To400   = getNEventsProcessed(dir+wjets_HT200To400+".root");
-  double nevtsProcessedWHT400To600   = getNEventsProcessed(dir+wjets_HT400To600+".root");
-  double nevtsProcessedWHT600To800   = getNEventsProcessed(dir+wjets_HT600To800+".root");
-  double nevtsProcessedWHT800To1200  = getNEventsProcessed(dir+wjets_HT800To1200+".root");
-  double nevtsProcessedWHT1200To2500 = getNEventsProcessed(dir+wjets_HT1200To2500+".root");
-  double nevtsProcessedWHT2500ToInf  = getNEventsProcessed(dir+wjets_HT2500ToInf+".root");
+  double nevtsProcessedWIncl = getNEventsProcessed(dir+"/"+wjets+".root");
+  double nevtsProcessedW1Jet = getNEventsProcessed(dir+"/"+w1jets+".root");
+  double nevtsProcessedW2Jet = getNEventsProcessed(dir+"/"+w2jets+".root");
+  double nevtsProcessedW3Jet = getNEventsProcessed(dir+"/"+w3jets+".root");
+  double nevtsProcessedW4Jet = getNEventsProcessed(dir+"/"+w4jets+".root");
 
   std::map<string,TGraphAsymmErrors*> effMapData;
   std::map<string,TGraphAsymmErrors*> effMapMC;
@@ -60,7 +44,7 @@ void TriggerEfficiency() {
 
     for(unsigned int idx_list=0; idx_list<samples[i].second.size(); idx_list++){
 
-      string filename = string(dir) + string(samples[i].second[idx_list]) + ".root";
+      string filename = string(dir) + "/" + string(samples[i].second[idx_list]) + ".root";
       TFile * file = new TFile( filename.c_str() );
       if(!file)	cout<<"The following tree does not exit: "<<filename<<" .   Please Check."<<endl;
 
@@ -85,13 +69,12 @@ void TriggerEfficiency() {
       TTreeReaderValue< UInt_t  >  nMuon(            *myReader,       "nMuon");
       TTreeReaderValue< Float_t >  puWeight(         *myReader,       "puWeight");
       TTreeReaderValue< Float_t >  genWeight(        *myReader,       "genWeight");
-      // TTreeReaderValue< Float_t >  genHt(            *myReader,       "genHt");
 
 
       cout<<"---------- Processing  "<<samples[i].second[idx_list]<<"  ---------- "<<endl;
 
       double xsec = getXSec(samples[i].second[idx_list]);
-      double nevtsProcessed = getNEventsProcessed(dir + samples[i].second[idx_list] + ".root");
+      double nevtsProcessed = getNEventsProcessed(dir + "/" + samples[i].second[idx_list] + ".root");
       double norm = luminosity*xsec/nevtsProcessed;
 
       while(myReader->Next()){
@@ -115,16 +98,6 @@ void TriggerEfficiency() {
 	  else if(*npartons == 3)  add_NEvtsOverXsec += nevtsProcessedW3Jet/xsecW3Jet ;
 	  else if(*npartons == 4)  add_NEvtsOverXsec += nevtsProcessedW4Jet/xsecW4Jet ;
 
-	  // if (*genHt >= 70){
-	  //   if (*genHt < 100)       add_NEvtsOverXsec += nevtsProcessedWHT70To100/xsecWHT70To100;
-	  //   else if (*genHt < 200)  add_NEvtsOverXsec += nevtsProcessedWHT100To200/xsecWHT100To200;
-	  //   else if (*genHt < 400)  add_NEvtsOverXsec += nevtsProcessedWHT200To400/xsecWHT200To400;
-	  //   else if (*genHt < 600)  add_NEvtsOverXsec += nevtsProcessedWHT400To600/xsecWHT400To600;
-	  //   else if (*genHt < 800)  add_NEvtsOverXsec += nevtsProcessedWHT600To800/xsecWHT600To800;
-	  //   else if (*genHt < 1200) add_NEvtsOverXsec += nevtsProcessedWHT800To1200/xsecWHT800To1200;
-	  //   else if (*genHt < 2500) add_NEvtsOverXsec += nevtsProcessedWHT1200To2500/xsecWHT1200To2500;
-	  //   else add_NEvtsOverXsec += nevtsProcessedWHT2500ToInf/xsecWHT2500ToInf;
-	  // }
 	  if(add_NEvtsOverXsec !=0 ) norm = luminosity/add_NEvtsOverXsec;
 
 	}
