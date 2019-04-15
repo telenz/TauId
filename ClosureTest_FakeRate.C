@@ -22,7 +22,7 @@ void ClosureTest_FakeRate() {
   TH1::SetDefaultSumw2();
   TH2::SetDefaultSumw2();
 
-  std::vector<TString> obs  = ZJets_sample;
+  std::vector<TString> obs = ZJets_sample;
   std::vector<TString> pred = ZJets_sample;
   obs.insert(  obs.end() , WJets_sample.begin(), WJets_sample.end() );
   pred.insert( pred.end(), WJets_sample.begin(), WJets_sample.end() );
@@ -139,7 +139,7 @@ void ClosureTest_FakeRate() {
     ratioH->SetMarkerStyle(20);
     ratioH->SetMarkerSize(1.2);
     ratioH->SetLineColor(1);
-    ratioH->GetYaxis()->SetRangeUser(0.5,1.5);
+    ratioH->GetYaxis()->SetRangeUser(0.0,2.0);
     ratioH->GetYaxis()->SetTitle("pred/obs");
     ratioH->GetXaxis()->SetTitle("");
     ratioH->GetYaxis()->CenterTitle();
