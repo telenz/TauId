@@ -10,7 +10,11 @@ MET:
 /MET/Run2018D-PromptReco-v1/MINIAOD
 /MET/Run2018D-PromptReco-v2/MINIAOD
 
-SingleMuon: already processed
+SingleMuon:
+/SingleMuon/Run2018A-17Sep2018-v2/MINIAOD
+/SingleMuon/Run2018B-17Sep2018-v1/MINIAOD
+/SingleMuon/Run2018C-17Sep2018-v1/MINIAOD
+/SingleMuon/Run2018D-22Jan2019-v2/MINIAOD  (currently not used, older version of RunD used)
 
 JetHT:
 /JetHT/Run2018B-17Sep2018-v1/MINIAOD
