@@ -83,36 +83,36 @@
 ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2016.conf WToTauNu_M-200 20
 
 # For uncertainties
-# cp WToMuNu_M-200 WToMuNu_M-200_jesUp
-# cp WToMuNu_M-200 WToMuNu_M-200_jesDown
-# cp WToMuNu_M-200 WToMuNu_M-200_uesUp
-# cp WToMuNu_M-200 WToMuNu_M-200_uesDown
-# cp WToMuNu_M-200 WToMuNu_M-200_muUp
-# cp WToMuNu_M-200 WToMuNu_M-200_muDown
-# ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2016_jesUp_WStarMuNu.conf WToMuNu_M-200_jesUp 20
-# ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2016_jesDown_WStarMuNu.conf WToMuNu_M-200_jesDown 20
-# ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2016_uesUp_WStarMuNu.conf WToMuNu_M-200_uesUp 20
-# ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2016_uesDown_WStarMuNu.conf WToMuNu_M-200_uesDown 20
-# ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2016_muUp_WStarMuNu.conf WToMuNu_M-200_muUp 20
-# ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2016_muDown_WStarMuNu.conf WToMuNu_M-200_muDown 20
+cp WToMuNu_M-200 WToMuNu_M-200_jesUp
+cp WToMuNu_M-200 WToMuNu_M-200_jesDown
+cp WToMuNu_M-200 WToMuNu_M-200_uesUp
+cp WToMuNu_M-200 WToMuNu_M-200_uesDown
+cp WToMuNu_M-200 WToMuNu_M-200_muUp
+cp WToMuNu_M-200 WToMuNu_M-200_muDown
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2016_jesUp_WStarMuNu.conf WToMuNu_M-200_jesUp 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2016_jesDown_WStarMuNu.conf WToMuNu_M-200_jesDown 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2016_uesUp_WStarMuNu.conf WToMuNu_M-200_uesUp 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2016_uesDown_WStarMuNu.conf WToMuNu_M-200_uesDown 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2016_muUp_WStarMuNu.conf WToMuNu_M-200_muUp 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2016_muDown_WStarMuNu.conf WToMuNu_M-200_muDown 20
 
-# cp WToTauNu_M-200 WToTauNu_M-200_jesUp
-# cp WToTauNu_M-200 WToTauNu_M-200_jesDown
-# cp WToTauNu_M-200 WToTauNu_M-200_uesUp
-# cp WToTauNu_M-200 WToTauNu_M-200_uesDown
-# cp WToTauNu_M-200 WToTauNu_M-200_taues_1prong0pizerosUp
-# cp WToTauNu_M-200 WToTauNu_M-200_taues_1prong0pizerosDown
-# cp WToTauNu_M-200 WToTauNu_M-200_taues_1prongUpTo4pizerosUp
-# cp WToTauNu_M-200 WToTauNu_M-200_taues_1prongUpTo4pizerosDown
-# cp WToTauNu_M-200 WToTauNu_M-200_taues_3prong0pizerosUp
-# cp WToTauNu_M-200 WToTauNu_M-200_taues_3prong0pizerosDown
-# ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2016_taues_1prong0pizerosDown_WStarTauNu.conf WToTauNu_M-200_taues_1prong0pizerosDown 20
-# ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2016_taues_1prong0pizerosUp_WStarTauNu.conf  WToTauNu_M-200_taues_1prong0pizerosUp 20
-# ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2016_taues_1prongUpTo4pizerosDown_WStarTauNu.conf WToTauNu_M-200_taues_1prongUpTo4pizerosDown 20
-# ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2016_taues_1prongUpTo4pizerosUp_WStarTauNu.conf WToTauNu_M-200_taues_1prongUpTo4pizerosUp 20
-# ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2016_taues_3prong0pizerosDown_WStarTauNu.conf WToTauNu_M-200_taues_3prong0pizerosDown 20
-# ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2016_taues_3prong0pizerosUp_WStarTauNu.conf WToTauNu_M-200_taues_3prong0pizerosUp 20
-# ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2016_jesUp_WStarTauNu.conf WToTauNu_M-200_jesUp 20
-# ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2016_jesDown_WStarTauNu.conf WToTauNu_M-200_jesDown 20
-# ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2016_uesUp_WStarTauNu.conf WToTauNu_M-200_uesUp 20
-# ./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2016_uesDown_WStarTauNu.conf WToTauNu_M-200_uesDown 20
+cp WToTauNu_M-200 WToTauNu_M-200_jesUp
+cp WToTauNu_M-200 WToTauNu_M-200_jesDown
+cp WToTauNu_M-200 WToTauNu_M-200_uesUp
+cp WToTauNu_M-200 WToTauNu_M-200_uesDown
+cp WToTauNu_M-200 WToTauNu_M-200_taues_1prong0pizerosUp
+cp WToTauNu_M-200 WToTauNu_M-200_taues_1prong0pizerosDown
+cp WToTauNu_M-200 WToTauNu_M-200_taues_1prongUpTo4pizerosUp
+cp WToTauNu_M-200 WToTauNu_M-200_taues_1prongUpTo4pizerosDown
+cp WToTauNu_M-200 WToTauNu_M-200_taues_3prong0pizerosUp
+cp WToTauNu_M-200 WToTauNu_M-200_taues_3prong0pizerosDown
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2016_taues_1prong0pizerosDown_WStarTauNu.conf WToTauNu_M-200_taues_1prong0pizerosDown 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2016_taues_1prong0pizerosUp_WStarTauNu.conf  WToTauNu_M-200_taues_1prong0pizerosUp 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2016_taues_1prongUpTo4pizerosDown_WStarTauNu.conf WToTauNu_M-200_taues_1prongUpTo4pizerosDown 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2016_taues_1prongUpTo4pizerosUp_WStarTauNu.conf WToTauNu_M-200_taues_1prongUpTo4pizerosUp 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2016_taues_3prong0pizerosDown_WStarTauNu.conf WToTauNu_M-200_taues_3prong0pizerosDown 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2016_taues_3prong0pizerosUp_WStarTauNu.conf WToTauNu_M-200_taues_3prong0pizerosUp 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2016_jesUp_WStarTauNu.conf WToTauNu_M-200_jesUp 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2016_jesDown_WStarTauNu.conf WToTauNu_M-200_jesDown 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2016_uesUp_WStarTauNu.conf WToTauNu_M-200_uesUp 20
+./HTC_submit_seq.sh NtupleMaker_TauID_all_eras analysisNTupleProducer_tauid_MC_2016_uesDown_WStarTauNu.conf WToTauNu_M-200_uesDown 20

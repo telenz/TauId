@@ -31,6 +31,9 @@ ls $dirDataMET/MET_Run2016F-17Jul2018*/*root > MET_Run2016F
 ls $dirDataMET/MET_Run2016G-17Jul2018*/*root > MET_Run2016G
 ls $dirDataMET/MET_Run2016H-17Jul2018*/*root > MET_Run2016H
 
+ls $dirMC/WToMuNu_M-200_TuneCUETP8M1_13TeV-pythia8/*root > WToMuNu_M-200
+ls $dirMC/WToTauNu_M-200_TuneCUETP8M1_13TeV-pythia8-tauola/*root > WToTauNu_M-200
+
 ls $dirMC/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8*/*root > WJetsToLNu
 ls $dirMC/WJetsToLNu_HT-70To100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8*/*root > WJetsToLNu_HT-70To100
 ls $dirMC/WJetsToLNu_HT-100To200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8*/*root > WJetsToLNu_HT-100To200
