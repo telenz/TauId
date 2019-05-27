@@ -38,6 +38,10 @@ TString tauDecayMode = "";
 double tauMomScale = 1.00;
 bool doTauESmeasurement = false; //if set to true: tau mass cuts depending on the studied decay mode are applied
 
+// Introduce global variables for tau pt dependent measurement
+double tau_pt_low = 100;
+double tau_pt_high = 1000000;
+
 std::vector<TString> iso;
 map<TString,TH2D>* h_fakerate      = new map<TString,TH2D>();
 map<TString,TH2D>* h_fakerate_up   = new map<TString,TH2D>();
@@ -101,8 +105,8 @@ void initCuts()
   sr.trigger   = true;
   sr.recoilDPhiLow = 2.8;
   sr.metLow = 120;
-  sr.tauPtLow = 100;
-  sr.tauPtHigh = 10000000;
+  sr.tauPtLow = tau_pt_low;
+  sr.tauPtHigh = tau_pt_high;
   sr.metFilters = true;
   sr.nMuonLow  = 0; 
   sr.nMuonHigh = 0; 
@@ -191,7 +195,8 @@ void initCuts()
   cr_fakerate_den.tauIso = false;
   cr_fakerate_den.mttauLow = 0;
   cr_fakerate_den.recoilDPhiLow = 0.0;
-  cr_fakerate_den.tauPtLow = 100;
+  cr_fakerate_den.tauPtLow = tau_pt_low;
+  cr_fakerate_den.tauPtHigh = tau_pt_high;
   cr_fakerate_den.recoilPtLow = 0.;
   cr_fakerate_den.dPhiMetTauLow = 2.8;
   
@@ -221,8 +226,8 @@ void initCuts()
   cr_fakerate_dijet_den.nJetsCentral30High = 2;
   cr_fakerate_dijet_den.nJetsForward30Low  = 0;
   cr_fakerate_dijet_den.nJetsForward30High = 0;
-  cr_fakerate_dijet_den.tauPtLow = 100;
-  cr_fakerate_dijet_den.tauPtHigh = 10000000;
+  cr_fakerate_dijet_den.tauPtLow = tau_pt_low;
+  cr_fakerate_dijet_den.tauPtHigh = tau_pt_high;
   cr_fakerate_dijet_den.recoilDPhiLow = 2.8;
   cr_fakerate_dijet_den.metFilters = true;
   cr_fakerate_dijet_den.tauDM = true;
