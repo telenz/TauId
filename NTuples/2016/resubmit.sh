@@ -2,6 +2,11 @@
 
 # This script loops over all folders in directory and checks if there is a *.root file in these folders that is corrupted. If it is it is resubmitted.
 
+if [ "$CMSSW_BASE" == "" ]; then
+    echo "Please set up a CMSSW area!"
+    exit
+fi
+
 for dir in $(find -maxdepth 1 -type d -name "*_files")
 do
     echo ''
