@@ -1,34 +1,34 @@
-#ifndef SETTINGS_ERA_SPECIFIC_2018_H
-#define SETTINGS_ERA_SPECIFIC_2018_H
+#ifndef SETTINGS_ERA_SPECIFIC_2017_H
+#define SETTINGS_ERA_SPECIFIC_2017_H
 
-TString era = "2018";
+TString era = "2017";
 
-TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2018/TauIDWithVirtualW/first_measurement/TauId/NTuples/";
+TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2017/TauIDWithVirtualW/vvloose_cross-checks/TauId/NTuples/";
 
-double luminosity = 59740; // lumi determined by brilcalc
-double lumi_unc = 1.025;
+double luminosity = 40991; // lumi determined by brilcalc
+double lumi_unc = 1.023;
 
-TString triggerfile_output_name = "trigger_eff_HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_10x_v1.root";
+TString triggerfile_output_name = "trigger_eff_HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_94x_v10.root";
 
 TString kfactor_tau_file = "kfactor_tau.root";
 TString kfactor_mu_file  = "kfactor_mu.root";
 
 const int iPeriod = 8;
 
-const vector<TString> SingleMuon_sample = { "SingleMuon_Run2018A",
-					    "SingleMuon_Run2018B",
-					    "SingleMuon_Run2018C",
-					    "SingleMuon_Run2018D" };
+const vector<TString> SingleMuon_sample = { "SingleMuon_Run2017_0",
+					    "SingleMuon_Run2017_1",
+					    "SingleMuon_Run2017_2",
+					    "SingleMuon_Run2017_3",
+					    "SingleMuon_Run2017_4",
+					    "SingleMuon_Run2017_5",
+					    "SingleMuon_Run2017_6",
+					    "SingleMuon_Run2017_7",
+					    "SingleMuon_Run2017_8",
+					    "SingleMuon_Run2017_9" };
 
-const vector<TString> JetHT_sample = { "JetHT_Run2018A",
-				       "JetHT_Run2018B",
-				       "JetHT_Run2018C",
-				       "JetHT_Run2018D" };
+const vector<TString> JetHT_sample = { "JetHT_Run2017" };
 
-const vector<TString> MET_sample = { "MET_Run2018A",
-				     "MET_Run2018B",
-				     "MET_Run2018C",
-				     "MET_Run2018D" };
+const vector<TString> MET_sample = { "MET_Run2017" };
 
 const vector<TString> WToTauNu_sample = { "WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola" };
 
@@ -39,6 +39,16 @@ const TString w1jets = "W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8";
 const TString w2jets = "W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8";
 const TString w3jets = "W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8";
 const TString w4jets = "W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8";
+
+const TString wjets_1Jets_LHEWpT_100To150 = "W1JetsToLNu_LHEWpT_100-150";
+const TString wjets_1Jets_LHEWpT_150To250 = "W1JetsToLNu_LHEWpT_150-250";
+const TString wjets_1Jets_LHEWpT_250To400 = "W1JetsToLNu_LHEWpT_250-400";
+const TString wjets_1Jets_LHEWpT_400Toinf = "W1JetsToLNu_LHEWpT_400-inf";
+const TString wjets_2Jets_LHEWpT_100To150 = "W2JetsToLNu_LHEWpT_100-150";
+const TString wjets_2Jets_LHEWpT_150To250 = "W2JetsToLNu_LHEWpT_150-250";
+const TString wjets_2Jets_LHEWpT_250To400 = "W2JetsToLNu_LHEWpT_250-400";
+const TString wjets_2Jets_LHEWpT_400Toinf = "W2JetsToLNu_LHEWpT_400-inf";
+
 const TString wjets_HT70To100    = "WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8";
 const TString wjets_HT100To200   = "WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8";
 const TString wjets_HT200To400   = "WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8";
@@ -49,8 +59,8 @@ const TString wjets_HT1200To2500 = "WJetsToLNu_HT-1200To2500_TuneCP5_13TeV-madgr
 const TString wjets_HT2500ToInf  = "WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8";
 
 const vector<TString> WJets_Trigger_sample = { wjets, w1jets, w2jets, w3jets, w4jets };
-const vector<TString> WJets_sample = { wjets, w1jets, w2jets, w3jets, w4jets, wjets_HT70To100, wjets_HT100To200, wjets_HT200To400, wjets_HT400To600, wjets_HT600To800, wjets_HT800To1200, wjets_HT1200To2500, wjets_HT2500ToInf };
-const vector<TString> WJets_ff_sample = WJets_sample;
+const vector<TString> WJets_sample = WJets_Trigger_sample;
+const vector<TString> WJets_ff_sample = { wjets_1Jets_LHEWpT_100To150, wjets_1Jets_LHEWpT_150To250, wjets_1Jets_LHEWpT_250To400, wjets_1Jets_LHEWpT_400Toinf, wjets_2Jets_LHEWpT_100To150, wjets_2Jets_LHEWpT_150To250, wjets_2Jets_LHEWpT_250To400, wjets_2Jets_LHEWpT_400Toinf};
 
 const TString dyjets  = "DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8";
 const TString dy1jets = "DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8";

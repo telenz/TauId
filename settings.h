@@ -48,6 +48,7 @@ map<TString,TH2D>* h_fakerate_up   = new map<TString,TH2D>();
 map<TString,TH2D>* h_fakerate_down = new map<TString,TH2D>();
 
 TH1D* h_kFactor= 0;
+
 // ----------------------------------------------------------------------------------------------------
 void loadWorkingPoints()
 {
@@ -248,12 +249,53 @@ void initCuts()
 double getNEventsProcessed(TString filename)
 {
   TFile * file = new TFile(filename);
+  if( !file->GetListOfKeys()->Contains("histWeightsH") ){
+    cout << " File "<<filename<<" not available -> nevents set to 0 !!!!!!" << endl;
+    return 0;
+  }
   TH1D * histWeightsH = (TH1D*)file->Get("histWeightsH");
   double nevents = histWeightsH->GetSumOfWeights();
   file->Close();
   delete file;
   return nevents;
 }
+// Needed for stitching
+double xsecWIncl = xsecs[wjets];
+double xsecW1Jet = xsecs[w1jets];
+double xsecW2Jet = xsecs[w2jets];
+double xsecW3Jet = xsecs[w3jets];
+double xsecW4Jet = xsecs[w4jets];
+double xsecWHT70To100    = xsecs[wjets_HT70To100];
+double xsecWHT100To200   = xsecs[wjets_HT100To200];
+double xsecWHT200To400   = xsecs[wjets_HT200To400];
+double xsecWHT400To600   = xsecs[wjets_HT400To600];
+double xsecWHT600To800   = xsecs[wjets_HT600To800];
+double xsecWHT800To1200  = xsecs[wjets_HT800To1200];
+double xsecWHT1200To2500 = xsecs[wjets_HT1200To2500];
+double xsecWHT2500ToInf  = xsecs[wjets_HT2500ToInf];
+double nevtsProcessedWIncl = getNEventsProcessed(dir+wjets+".root");
+double nevtsProcessedW1Jet = getNEventsProcessed(dir+w1jets+".root");
+double nevtsProcessedW2Jet = getNEventsProcessed(dir+w2jets+".root");
+double nevtsProcessedW3Jet = getNEventsProcessed(dir+w3jets+".root");
+double nevtsProcessedW4Jet = getNEventsProcessed(dir+w4jets+".root");
+double nevtsProcessedWHT70To100    = getNEventsProcessed(dir+wjets_HT70To100+".root");
+double nevtsProcessedWHT100To200   = getNEventsProcessed(dir+wjets_HT100To200+".root");
+double nevtsProcessedWHT200To400   = getNEventsProcessed(dir+wjets_HT200To400+".root");
+double nevtsProcessedWHT400To600   = getNEventsProcessed(dir+wjets_HT400To600+".root");
+double nevtsProcessedWHT600To800   = getNEventsProcessed(dir+wjets_HT600To800+".root");
+double nevtsProcessedWHT800To1200  = getNEventsProcessed(dir+wjets_HT800To1200+".root");
+double nevtsProcessedWHT1200To2500 = getNEventsProcessed(dir+wjets_HT1200To2500+".root");
+double nevtsProcessedWHT2500ToInf  = getNEventsProcessed(dir+wjets_HT2500ToInf+".root");
+double xsecDYIncl = xsecs[dyjets];
+double xsecDY1Jet = xsecs[dy1jets];
+double xsecDY2Jet = xsecs[dy2jets];
+double xsecDY3Jet = xsecs[dy3jets];
+double xsecDY4Jet = xsecs[dy4jets];
+double nevtsProcessedDYIncl = getNEventsProcessed(dir+dyjets+".root");
+double nevtsProcessedDY1Jet = getNEventsProcessed(dir+dy1jets+".root");
+double nevtsProcessedDY2Jet = getNEventsProcessed(dir+dy2jets+".root");
+double nevtsProcessedDY3Jet = getNEventsProcessed(dir+dy3jets+".root");
+double nevtsProcessedDY4Jet = getNEventsProcessed(dir+dy4jets+".root");
 // ----------------------------------------------------------------------------------------------------
 void loadFakeRates(TString filename)
 {
@@ -482,44 +524,6 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
   int nevtsProcessed = getNEventsProcessed(fullPath);
   double norm = xsec*luminosity/nevtsProcessed;
 
-  // Needed for stitching
-  double xsecWIncl = xsecs[wjets];
-  double xsecW1Jet = xsecs[w1jets];
-  double xsecW2Jet = xsecs[w2jets];
-  double xsecW3Jet = xsecs[w3jets];
-  double xsecW4Jet = xsecs[w4jets];
-  double xsecWHT70To100    = xsecs[wjets_HT70To100];
-  double xsecWHT100To200   = xsecs[wjets_HT100To200];
-  double xsecWHT200To400   = xsecs[wjets_HT200To400];
-  double xsecWHT400To600   = xsecs[wjets_HT400To600];
-  double xsecWHT600To800   = xsecs[wjets_HT600To800];
-  double xsecWHT800To1200  = xsecs[wjets_HT800To1200];
-  double xsecWHT1200To2500 = xsecs[wjets_HT1200To2500];
-  double xsecWHT2500ToInf  = xsecs[wjets_HT2500ToInf];
-  double nevtsProcessedWIncl = getNEventsProcessed(dir+wjets+".root");
-  double nevtsProcessedW1Jet = getNEventsProcessed(dir+w1jets+".root");
-  double nevtsProcessedW2Jet = getNEventsProcessed(dir+w2jets+".root");
-  double nevtsProcessedW3Jet = getNEventsProcessed(dir+w3jets+".root");
-  double nevtsProcessedW4Jet = getNEventsProcessed(dir+w4jets+".root");
-  double nevtsProcessedWHT70To100    = getNEventsProcessed(dir+wjets_HT70To100+".root");
-  double nevtsProcessedWHT100To200   = getNEventsProcessed(dir+wjets_HT100To200+".root");
-  double nevtsProcessedWHT200To400   = getNEventsProcessed(dir+wjets_HT200To400+".root");
-  double nevtsProcessedWHT400To600   = getNEventsProcessed(dir+wjets_HT400To600+".root");
-  double nevtsProcessedWHT600To800   = getNEventsProcessed(dir+wjets_HT600To800+".root");
-  double nevtsProcessedWHT800To1200  = getNEventsProcessed(dir+wjets_HT800To1200+".root");
-  double nevtsProcessedWHT1200To2500 = getNEventsProcessed(dir+wjets_HT1200To2500+".root");
-  double nevtsProcessedWHT2500ToInf  = getNEventsProcessed(dir+wjets_HT2500ToInf+".root");
-  double xsecDYIncl = xsecs[dyjets];
-  double xsecDY1Jet = xsecs[dy1jets];
-  double xsecDY2Jet = xsecs[dy2jets];
-  double xsecDY3Jet = xsecs[dy3jets];
-  double xsecDY4Jet = xsecs[dy4jets];
-  double nevtsProcessedDYIncl = getNEventsProcessed(dir+dyjets+".root");
-  double nevtsProcessedDY1Jet = getNEventsProcessed(dir+dy1jets+".root");
-  double nevtsProcessedDY2Jet = getNEventsProcessed(dir+dy2jets+".root");
-  double nevtsProcessedDY3Jet = getNEventsProcessed(dir+dy3jets+".root");
-  double nevtsProcessedDY4Jet = getNEventsProcessed(dir+dy4jets+".root");
-
   bool isData = filename.Contains("SingleMuon") || filename.Contains("JetHT") || filename.Contains("MET");
   
   double metx = 0.;
@@ -625,7 +629,7 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
        else if(*npartons == 3)  add_NEvtsOverXsec += nevtsProcessedW3Jet/xsecW3Jet ;
        else if(*npartons == 4)  add_NEvtsOverXsec += nevtsProcessedW4Jet/xsecW4Jet ;
 
-       if (*genHt >= 70){
+       if (*genHt >= 70 && era != "2017"){
           if (*genHt < 100)       add_NEvtsOverXsec += nevtsProcessedWHT70To100/xsecWHT70To100;
           else if (*genHt < 200)  add_NEvtsOverXsec += nevtsProcessedWHT100To200/xsecWHT100To200;
           else if (*genHt < 400)  add_NEvtsOverXsec += nevtsProcessedWHT200To400/xsecWHT200To400;

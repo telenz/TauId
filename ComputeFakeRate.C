@@ -20,7 +20,7 @@ void ComputeFakeRate() {
   std::vector< std::pair<TString,std::vector<TString>> > samples;
   std::vector<TString> data_SingleMuon = SingleMuon_sample;
   std::vector<TString> data_JetHT      = JetHT_sample;
-  std::vector<TString> wjets           = WJets_sample;
+  std::vector<TString> wjets           = WJets_ff_sample;
   std::vector<TString> genuineTaus     = DYJets_sample;
   genuineTaus.insert( genuineTaus.end(), VV_sample.begin()   , VV_sample.end() );
   genuineTaus.insert( genuineTaus.end(), TT_ST_sample.begin(), TT_ST_sample.end() );
@@ -75,7 +75,7 @@ void ComputeFakeRate() {
 	  select.tauGenMatchDecayLow   = 0;  // a matching to real tau is implicity done
 	  select.tauGenMatchDecayHigh  = 100000;
 	}
-	makeSelection(dir+samples[idx_sample].second[idx_list]+".root","NTuple",getXSec(samples[idx_sample].second[idx_list]),iso[idx_iso],select,h_num,var1,var2,var3);
+	makeSelection(dir+"/"+samples[idx_sample].second[idx_list]+".root","NTuple",getXSec(samples[idx_sample].second[idx_list]),iso[idx_iso],select,h_num,var1,var2,var3);
 	select = cr_fakerate_den;
 	cr_fakerate_dijet_den.pfJetTrigger = true;
 	if(samples[idx_sample].second[idx_list].Contains("JetHT")) select =  cr_fakerate_dijet_den;
@@ -83,8 +83,8 @@ void ComputeFakeRate() {
 	  select.tauGenMatchDecayLow   = 0;
 	  select.tauGenMatchDecayHigh  = 100000;
 	}
-	makeSelection(dir+samples[idx_sample].second[idx_list]+".root","NTuple",getXSec(samples[idx_sample].second[idx_list]),iso[idx_iso],select,h_den,var1,var2,var3);
-	makeSelection(dir+samples[idx_sample].second[idx_list]+".root","NTuple",getXSec(samples[idx_sample].second[idx_list]),iso[idx_iso],select,h_den_FineBinning,var1,var2,var3);
+	makeSelection(dir+"/"+samples[idx_sample].second[idx_list]+".root","NTuple",getXSec(samples[idx_sample].second[idx_list]),iso[idx_iso],select,h_den,var1,var2,var3);
+	makeSelection(dir+"/"+samples[idx_sample].second[idx_list]+".root","NTuple",getXSec(samples[idx_sample].second[idx_list]),iso[idx_iso],select,h_den_FineBinning,var1,var2,var3);
       }
 
       histoMap[samples[idx_sample].first + "_" + iso[idx_iso]] = (TH2D*) h_num -> Clone();

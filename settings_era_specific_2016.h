@@ -1,6 +1,8 @@
 #ifndef SETTINGS_ERA_SPECIFIC_2016_H
 #define SETTINGS_ERA_SPECIFIC_2016_H
 
+TString era = "2016";
+
 TString dir = "NTuples/2016//";
 
 double luminosity = 35890; // lumi used for 2016 analysis
@@ -57,6 +59,7 @@ const TString wjets_HT2500ToInf  = "WJetsToLNu_HT-2500ToInf";
 
 const vector<TString> WJets_Trigger_sample = { wjets, w1jets, w2jets, w3jets, w4jets };
 const vector<TString> WJets_sample = { wjets, w1jets, w2jets, w3jets, w4jets, wjets_HT70To100, wjets_HT100To200, wjets_HT200To400, wjets_HT400To600, wjets_HT600To800, wjets_HT800To1200, wjets_HT1200To2500, wjets_HT2500ToInf };
+const vector<TString> WJets_ff_sample = WJets_sample;
 
 const TString dyjets  = "DYJetsToLL_M-50";
 const TString dy1jets = "DY1JetsToLL_M-50";
