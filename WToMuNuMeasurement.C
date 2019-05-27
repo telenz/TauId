@@ -12,7 +12,7 @@ void WToMuNuMeasurement() {
   TH2::SetDefaultSumw2();
 
   initCuts();
-  loadkFactors("kfactor_mu.root");
+  loadkFactors(kfactor_mu_file);
 
   std::vector< std::pair<TString,std::vector<TString>> > samples;
 

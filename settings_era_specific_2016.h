@@ -4,8 +4,12 @@
 TString dir = "NTuples/2016//";
 
 double luminosity = 35890; // lumi used for 2016 analysis
+double lumi_unc = 1.025;
 
 TString triggerfile_output_name = "trigger_eff_HLT_PFMETNoMu110_PFMHTNoMu110_IDTight_2016-legacy_v2.root";
+
+TString kfactor_tau_file = "kfactor_tau_2016.root";
+TString kfactor_mu_file  = "kfactor_mu_2016.root";
 
 const vector<TString> SingleMuon_sample = { "SingleMuon_Run2016B",
 					    "SingleMuon_Run2016C",
@@ -30,6 +34,10 @@ const vector<TString> MET_sample = { "MET_Run2016B",
 				     "MET_Run2016F",
 				     "MET_Run2016G",
 				     "MET_Run2016H" };
+
+const vector<TString> WToTauNu_sample = { "WToTauNu_M-200" };
+
+const vector<TString> WToMuNu_sample = { "WToMuNu_M-200" };
 
 const TString wjets  = "WJetsToLNu";
 const TString w1jets = "W1JetsToLNu";

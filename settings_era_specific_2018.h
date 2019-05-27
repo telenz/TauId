@@ -4,8 +4,12 @@
 TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2018/TauIDWithVirtualW/first_measurement/TauId/NTuples/";
 
 double luminosity = 59740; // lumi determined by brilcalc
+double lumi_unc = 1.025;
 
 TString triggerfile_output_name = "trigger_eff_HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_10x_v1.root";
+
+TString kfactor_tau_file = "kfactor_tau.root";
+TString kfactor_mu_file  = "kfactor_mu.root";
 
 const vector<TString> SingleMuon_sample = { "SingleMuon_Run2018A",
 					    "SingleMuon_Run2018B",

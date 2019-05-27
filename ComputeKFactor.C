@@ -5,9 +5,12 @@
 
 // sigma(mu) = 5.92
 // sigma(tau) = 6.37
+// LO_xsec_WToMuNu(2016) = 6.238
+// LO_xsec_WToTauNu(2016) = 6.206
 void ComputeKFactor(TString lepton = "mu",
 		    TString inputFileName = "NTuples/WToMuNu_M-200_TuneCP5_13TeV-pythia8",
-		    float xsec=7.273) {
+		    float xsec=7.273,
+		    TString era = "2016") {
   
   SetStyle();
   TFile * fileNNLO = new TFile("StoredN_NLO_hists.root"); // comes from Klaas Padeken (see here : https://github.com/padeken/k-Factor_calulations)
@@ -47,7 +50,7 @@ void ComputeKFactor(TString lepton = "mu",
   }
 
   kfactor -> Draw("e1");
-  TFile * file = new TFile("kfactor_"+lepton+".root","recreate");
+  TFile * file = new TFile("kfactor_"+lepton+"_"+era+".root","recreate");
   kfactor->SetName("kfactor_"+lepton);
   kfactor->Write("kfactor_"+lepton);
   file->Write();
@@ -55,5 +58,5 @@ void ComputeKFactor(TString lepton = "mu",
   kfactor->GetXaxis()->SetRangeUser(0,1000);
   kfactor->GetXaxis()->SetTitle("m_{W} [GeV]");
   kfactor->GetYaxis()->SetTitle("k factor");
-  gPad->SaveAs("kfactor_"+lepton+".pdf");
+  gPad->SaveAs("kfactor_"+lepton+"_"+era+".pdf");
 }

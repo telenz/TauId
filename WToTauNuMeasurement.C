@@ -15,7 +15,7 @@ void WToTauNuMeasurement() {
   loadWorkingPoints();
   initCuts();
   loadFakeRates("output/fakerates" + tauDecayMode + ".root");
-  loadkFactors("kfactor_tau.root");
+  loadkFactors(kfactor_tau_file);
 
   for(unsigned int idx_iso=0; idx_iso<iso.size(); idx_iso++){
 
