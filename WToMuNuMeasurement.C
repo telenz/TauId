@@ -138,7 +138,7 @@ void WToMuNuMeasurement() {
   if(histoMap["EWK"]) leg->AddEntry(histoMap["EWK"],"electroweak","f");
   writeExtraText = true;
   extraText = "Internal";
-  CMS_lumi(upper,8,33);
+  CMS_lumi(upper,iPeriod,33);
   leg->Draw("same");
 
   TH1D * ratioH = 0;
