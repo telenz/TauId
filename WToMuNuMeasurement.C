@@ -72,7 +72,7 @@ void WToMuNuMeasurement() {
       makeSelection(dir+"/"+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),"Tight",select,histo,var,var,var);
       histoSamples->Add(histo);
       histoSamples->SetFillStyle(1001);
-      if(samples[i].first.Contains("TT"))       histoSamples->SetFillColor(TColor::GetColor("#FFCCFF"));
+      if(samples[i].first.Contains("TT"))       histoSamples->SetFillColor(TColor::GetColor("#BEE6E7"));
       else if(samples[i].first.Contains("EWK")) histoSamples->SetFillColor(TColor::GetColor("#6F2D35"));
       else if(samples[i].first.Contains("W"))   histoSamples->SetFillColor(TColor::GetColor("#FFCC66"));
     }
