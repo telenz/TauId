@@ -13,8 +13,8 @@ void compare_results_across_years(){
   double x[6]     = {0.5,1.5,2.5,3.5,4.5,5.5};
   double x_err[6] = {0,0,0,0,0,0};
 
-  double id_sfs_2016[6]     = { 1.04, 0.97, 0.91, 0.94, 0.85, 0.82 };
-  double id_sfs_err_2016[6] = { 0.09, 0.07, 0.06, 0.06, 0.06, 0.06 };
+  double id_sfs_2016[6]     = { 0.97, 0.90, 0.93, 0.84, 0.92, 0.94 };
+  double id_sfs_err_2016[6] = { 0.09, 0.08, 0.07, 0.06, 0.07, 0.07 };
 
   double id_sfs_2017[6]     = { 1.04, 0.97, 0.91, 0.94, 0.85, 0.82 };
   double id_sfs_err_2017[6] = { 0.09, 0.07, 0.06, 0.06, 0.06, 0.06 };
@@ -31,31 +31,36 @@ void compare_results_across_years(){
 
   TGraphErrors* g_2016 = new TGraphErrors( 6, x, id_sfs_2016, x_err, id_sfs_err_2016);
   g_2016->SetTitle("");
-  g_2016->SetLineColor(kBlack);
-  g_2016->SetMarkerColor(kBlack);
-  g_2016->SetMarkerStyle(21);
+  Color_t color_2016 = kBlack ;//TColor::GetColor("#FFA500");
+  g_2016->SetLineColor(color_2016);
+  g_2016->SetMarkerColor(color_2016);
+  g_2016->SetMarkerStyle(20);
 
   TGraphErrors* g_2017 = new TGraphErrors( 6, x, id_sfs_2017, x_err, id_sfs_err_2017);
   g_2017->SetTitle("");
-  g_2017->SetLineColor(kRed);
+  Color_t color_2017 = kRed;
+  g_2017->SetLineColor(color_2017);
+  g_2017->SetMarkerColor(color_2017);
   g_2017->SetMarkerColor(kRed);
-  g_2017->SetMarkerStyle(21);
+  g_2017->SetMarkerStyle(20);
 
   TGraphErrors* g_2018 = new TGraphErrors( 6, x, id_sfs_2018, x_err, id_sfs_err_2018);
   g_2018->SetTitle("");
-  g_2018->SetLineColor(kBlue);
-  g_2018->SetMarkerColor(kBlue);
-  g_2018->SetMarkerStyle(21);
+  Color_t color_2018 = TColor::GetColor("#03A8F5");
+  g_2018->SetLineColor(color_2018);
+  g_2018->SetMarkerColor(color_2018);
+  g_2018->SetMarkerStyle(20);
 
-  TLegend* leg = new TLegend(0.70,0.70,0.90,0.90);
+  TLegend* leg = new TLegend(0.65,0.70,0.90,0.90);
   SetLegendStyle(leg);
   leg->SetTextSize(0.06);
-  //leg->AddEntry(g_2016,"2016 (non-legacy)","lp");
+  leg->AddEntry(g_2016,"2016 (legacy)","lp");
   leg->AddEntry(g_2017,"2017","lp");
   leg->AddEntry(g_2018,"2018","lp");
 
-  TCanvas *c1 = new TCanvas("tau_id_sfs","Tau ID SFs comparison across years",10,10,800,500);
+  TCanvas *c1 = new TCanvas("tau_id_sfs","Tau ID SFs comparison across years",10,10,900,500);
   h->Draw();
+  g_2016->Draw("P");
   g_2017->Draw("P");
   g_2018->Draw("P");
   leg->Draw();
