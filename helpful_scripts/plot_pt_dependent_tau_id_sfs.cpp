@@ -14,6 +14,16 @@ void plot_pt_dependent_tau_id_sfs(TString year = "2018"){
   double x[4]     = { 0.5, 1.5, 2.5, 3.5 };
   double x_err[4] = { 0, 0, 0, 0 };
 
+  // 2016-legacy numbers
+  double vloose_2016[4]     = { 0.93, 0.84, 0.91, 1.28 };
+  double vloose_err_2016[4] = { 0.12, 0.13, 0.17, 0.19 };
+
+  double medium_2016[4]     = { 0.90, 0.85, 0.92, 1.11 };
+  double medium_err_2016[4] = { 0.08, 0.09, 0.16, 0.17 };
+
+  double vtight_2016[4]     = { 0.94, 0.78, 0.83, 1.06 };
+  double vtight_err_2016[4] = { 0.08, 0.09, 0.14, 0.27 };
+
   // 2017 numbers
   double vloose_2017[4]     = { 1.12, 0.94, 1.05, 0.96 };
   double vloose_err_2017[4] = { 0.13, 0.12, 0.15, 0.15 };
@@ -37,7 +47,15 @@ void plot_pt_dependent_tau_id_sfs(TString year = "2018"){
 
   double *vloose, *vloose_err, *medium, *medium_err, *vtight, *vtight_err;
 
-  if( year == "2017" ){
+  if( year == "2016" ){
+    vloose     = vloose_2016;
+    vloose_err = vloose_err_2016;
+    medium     = medium_2016;
+    medium_err = medium_err_2016;
+    vtight     = vtight_2016;
+    vtight_err = vtight_err_2016;
+  }
+  else if( year == "2017" ){
     vloose     = vloose_2017;
     vloose_err = vloose_err_2017;
     medium     = medium_2017;
