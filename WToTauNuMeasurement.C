@@ -243,7 +243,7 @@ void WToTauNuMeasurement() {
     canv->Modified();
     canv->SetSelected(canv);
     canv->Update();
-    canv->Print("figures/" + (TString) h_data->GetName() + "_" + iso[idx_iso] + "_WToTauNu" + tauDecayMode + "_prefit.pdf");
+    canv->Print("figures/" + (TString) h_data->GetName() + "_" + iso[idx_iso] + "_WToTauNu" + tauDecayMode + "_prefit.png");
 
     // Get bin-by-bin uncertainties for WTauNu
     TH1D* histo = 0;
