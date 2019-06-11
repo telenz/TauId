@@ -285,7 +285,8 @@ void WToTauNuMeasurement() {
     map<TString,TH1D*>::iterator it;
     for ( it = histoMap.begin(); it != histoMap.end(); it++ )
       {
-	histoMap[it->first]    ->Write(it->first);
+	histoMap[it->first] -> SetName(it->first);
+	histoMap[it->first] -> Write(it->first);
       }    
     delete canv;
   }
