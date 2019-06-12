@@ -144,8 +144,8 @@ void CalculateEWKfraction() {
 	double fraction_err       = h_fEWK_1Dim -> GetBinError(j);
 
 	double comb = (1-fraction)*FFJetHT+fraction*FFSingleMu;
-	double combErr_Up   = sqrt( pow(FFSingleMu-FFJetHT,2)*pow(fraction_err,2) + pow(fraction,2)*(pow(FFSingleMuErr_Up,2) + pow(FFJetHTErr_Up,2)) );
-	double combErr_Down = sqrt( pow(FFSingleMu-FFJetHT,2)*pow(fraction_err,2) + pow(fraction,2)*(pow(FFSingleMuErr_Down,2) + pow(FFJetHTErr_Down,2)) );
+	double combErr_Up   = sqrt( pow(FFSingleMu-FFJetHT,2)*pow(fraction_err,2) + pow(fraction,2)*pow(FFSingleMuErr_Up,2) + pow(1-fraction,2)*pow(FFJetHTErr_Up,2) );
+	double combErr_Down = sqrt( pow(FFSingleMu-FFJetHT,2)*pow(fraction_err,2) + pow(fraction,2)*pow(FFSingleMuErr_Down,2) + pow(1-fraction,2)pow(FFJetHTErr_Down,2) );
 	if(combErr_Down > comb) combErr_Down = comb;
 
 	effCombined      -> SetBinContent(i , j , comb);
