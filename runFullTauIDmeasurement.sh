@@ -26,7 +26,8 @@ source RunCombine.sh
 cd ..
 
 # Make postfit plots 
-root -l -b -q MakePostFitPlots.C+
+root -l -b -q MakePostAndPreFitPlots.C+"(0)"
+root -l -b -q MakePostAndPreFitPlots.C+"(1)"
 
 # For the measurement the fake rates saved in output/FakeRates_FinerBinning/ are used. This can be seen in WToTauNuMeasurement.C
 # If you want to change this, please change the filename in loadFakeRates();
