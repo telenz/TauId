@@ -152,7 +152,7 @@ void MakePostFitPlots() {
     canv1->cd();
     canv1->SetSelected(canv1);
     canv1->Update();
-    canv1->Print("figures/"+inputFileName+"_postfit.pdf");
+    canv1->Print("figures/"+inputFileName+"_postfit.png");
     //canv1->Print("figures/"+inputFileName+"_postfit.pdf","Portrait pdf");
   }
 }
