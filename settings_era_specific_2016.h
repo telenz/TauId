@@ -3,7 +3,7 @@
 
 TString era = "2016";
 
-TString dir = "NTuples/2016//";
+TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2018/TauIDWithVirtualW/2016-legacy/TauId/NTuples/2016/";
 
 double luminosity = 35890; // lumi used for 2016 analysis
 double lumi_unc = 1.025;
