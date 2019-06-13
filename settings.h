@@ -52,13 +52,13 @@ TH1D* h_kFactor= 0;
 // ----------------------------------------------------------------------------------------------------
 void loadWorkingPoints()
 {
-  iso.push_back("VVTightMva2017v2");
-  iso.push_back("VTightMva2017v2");
-  iso.push_back("TightMva2017v2");
-  iso.push_back("MediumMva2017v2");
-  iso.push_back("LooseMva2017v2");
-  iso.push_back("VLooseMva2017v2");
   /* iso.push_back("VVLooseMva2017v2"); */
+  iso.push_back("VLooseMva2017v2");
+  iso.push_back("LooseMva2017v2");
+  iso.push_back("MediumMva2017v2");
+  iso.push_back("TightMva2017v2");
+  iso.push_back("VTightMva2017v2");
+  iso.push_back("VVTightMva2017v2");
   /* iso.push_back("Tight"); */
   /* iso.push_back("Medium"); */
   /* iso.push_back("Loose"); */
