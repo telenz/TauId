@@ -31,8 +31,8 @@ echo -e  "\n\n\n"
 echo -e " ------------- RESULTS ${tauDecayMode} --------------------------------------------------------------------------------------"
 while read -r iso
 do
-    printf "${iso} : "
-    grep "tauId" output_${iso}${tauDecayMode}.txt | tail -1
+    printf '%-20s' "${iso} : "
+    grep "Best fit tauId: " output_${iso}${tauDecayMode}.txt
 done < iso.txt
 echo -e " --------------------- --------------------------------------------------------------------------------------"
 echo -e  "\n\n\n"
