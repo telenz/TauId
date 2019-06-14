@@ -4,7 +4,7 @@
 #include "TColor.h"
 #include "settings.h"
 
-void MakePostAndPreFitPlots(bool make_postfit = true) {
+void MakePostAndPreFitPlots(bool make_postfit = true, bool is_wtotaunu = true) {
 
   cout << "make_postfit = "<< make_postfit << endl;
 
@@ -15,6 +15,12 @@ void MakePostAndPreFitPlots(bool make_postfit = true) {
 
   TString xtitle = "m_{T} (GeV)";
   TString ytitle = "Events";
+
+
+  vector<Float_t> bins;
+  if(is_wtotaunu) bins = mttau_bins;
+  else            bins = mtmuon_bins;
+  const int nBins  = bins.size()-1;
 
   for(unsigned int idx_iso=0; idx_iso<iso.size(); idx_iso++){
 
@@ -28,35 +34,68 @@ void MakePostAndPreFitPlots(bool make_postfit = true) {
       exit(-1);      
     }
 
+    // Define helper histogram
+    TH1D* h_aux   = new TH1D("h_aux","",nBins,&bins[0]);
+    TH1D* h_W     = new TH1D("h_W","",nBins,&bins[0]);
+    TH1D* h_bkg1  = new TH1D("h_bkg1","",nBins,&bins[0]);
+    TH1D* h_bkg2  = new TH1D("h_bkg2","",nBins,&bins[0]);
+    TH1D* h_total = new TH1D("h_total","",nBins,&bins[0]);
+    TGraphAsymmErrors * h_Data = new TGraphAsymmErrors(h_aux);
+
+    TString channel = "ch2";
+    if(!is_wtotaunu) channel = "ch1";
+
     // Read histograms from fitDiagnostics
-    TGraphAsymmErrors * h_Data = (TGraphAsymmErrors*)mlfit->Get(path+"/ch2/data");
-    TH1F * h_FakeTaus = (TH1F*)mlfit->Get(path+"/ch2/FakeTaus");
-    TH1F * h_TrueTaus = (TH1F*)mlfit->Get(path+"/ch2/TrueTaus");
-    TH1F * h_WToTauNu = (TH1F*)mlfit->Get(path+"/ch2/W");
-    TH1F * h_total    = (TH1F*)mlfit->Get(path+"/ch2/total");
+    TString bkg1_name = "TrueTaus";
+    if(!is_wtotaunu) bkg1_name = "EWK";
+    TH1F * h_bkg1_ = (TH1F*)mlfit->Get(path+"/"+channel+"/"+bkg1_name);
+
+    TString bkg2_name = "FakeTaus";
+    if(!is_wtotaunu) bkg2_name = "TT";
+    TH1F * h_bkg2_ = (TH1F*)mlfit->Get(path+"/"+channel+"/"+bkg2_name);
+
+    TH1F * h_W_ = (TH1F*)mlfit->Get(path+"/"+channel+"/W");
+    TH1F * h_total_    = (TH1F*)mlfit->Get(path+"/"+channel+"/total");
+    TGraphAsymmErrors * h_Data_ = (TGraphAsymmErrors*)mlfit->Get(path+"/"+channel+"/data");
+    double *y_data = h_Data_->GetY();
+    double *eyh_data = h_Data_->GetEYhigh();
+    double *eyl_data = h_Data_->GetEYlow();
+
+    for(int i=1; i<=h_aux->GetNbinsX(); i++)
+      {
+	h_bkg1 -> SetBinContent(i,h_bkg1_->GetBinContent(i));
+	h_bkg1 -> SetBinError(i,h_bkg1_->GetBinError(i));
+	h_bkg2 -> SetBinContent(i,h_bkg2_->GetBinContent(i));
+	h_bkg2 -> SetBinError(i,h_bkg2_->GetBinError(i));
+	h_W -> SetBinContent(i,h_W_->GetBinContent(i));
+	h_W -> SetBinError(i,h_W_->GetBinError(i));
+	h_total    -> SetBinContent(i,h_total_->GetBinContent(i));
+	h_total    -> SetBinError(i,h_total_->GetBinError(i));
+	h_Data     -> SetPoint(i-1 , h_aux->GetBinCenter(i) , y_data[i-1]);
+	h_Data     -> SetPointError(i-1, h_aux->GetBinWidth(i)/2. , h_aux->GetBinWidth(i)/2.  , eyl_data[i-1] , eyh_data[i-1]);
+      }
 
     // Set styles
     h_total->SetFillStyle(3013);
-
     h_total->SetFillColor(1);
     h_total->SetMarkerStyle(21);
     h_total->SetMarkerSize(0);
-    //h_total->SetBinError(1,0);
-    //h_total->SetBinError(2,0);
-    h_WToTauNu->SetFillColor(TColor::GetColor("#FFCC66"));
-    h_FakeTaus->SetFillColor(TColor::GetColor("#FFCCFF"));
-    h_TrueTaus->SetFillColor(TColor::GetColor("#6F2D35"));
+    h_W   ->SetFillColor(TColor::GetColor("#FFCC66"));
+    h_bkg1->SetFillColor(TColor::GetColor("#6F2D35")); // true taus and ewk
+    h_bkg2->SetFillColor(TColor::GetColor("#FFCCFF"));
+    if(!is_wtotaunu)  h_bkg2->SetFillColor(TColor::GetColor("#BEE6E7"));
     h_Data->SetTitle("");
     h_Data->GetXaxis()->SetTitle("");
     h_Data->GetYaxis()->SetTitle(ytitle);
     h_Data->GetXaxis()->SetLabelSize(0.);
     h_Data->SetMaximum(h_Data->GetHistogram()->GetMaximum()*1.3);
+    h_Data->GetXaxis()->SetRangeUser(bins[0],bins[nBins]);
 
     // Make stack from all contributions
     THStack *stack = new THStack(iso[idx_iso],"");
-    stack->Add(h_TrueTaus);
-    stack->Add(h_FakeTaus);
-    stack->Add(h_WToTauNu);
+    stack->Add(h_bkg1);
+    stack->Add(h_bkg2);
+    stack->Add(h_W);
 
     TCanvas * canv1 = MakeCanvas("canv1", "", 700, 800);
     TPad * upper = new TPad("upper", "pad",0,0.19,1,1);
@@ -70,11 +109,18 @@ void MakePostAndPreFitPlots(bool make_postfit = true) {
     TLegend * leg = new TLegend(0.56,0.49,0.83,0.83);
     //TLegend * leg = new TLegend(0.19,0.49,0.45,0.83); // for last tau pt bin figure
     SetLegendStyle(leg);
-    leg->SetHeader(iso[idx_iso]);
+    if(is_wtotaunu) leg->SetHeader(iso[idx_iso]);
     leg->AddEntry(h_Data,"Data","lp");
-    leg->AddEntry(h_WToTauNu,"W#rightarrow#tau#nu","f");
-    leg->AddEntry(h_FakeTaus,"bkgd (fake taus)","f");
-    leg->AddEntry(h_TrueTaus,"bkgd (true taus)","f");
+    if(is_wtotaunu){
+      leg->AddEntry(h_W,"W#rightarrow#tau#nu","f");
+      leg->AddEntry(h_bkg1,"bkgd (true taus)","f");
+      leg->AddEntry(h_bkg2,"bkgd (fake taus)","f");
+    }
+    else{
+      leg->AddEntry(h_W,"W#rightarrow#mu#nu","f");
+      leg->AddEntry(h_bkg1,"electroweak","f");
+      leg->AddEntry(h_bkg2,"tt + single top","f");
+    }
     leg->Draw();
     writeExtraText = true;
     extraText = "Preliminary";
@@ -99,8 +145,7 @@ void MakePostAndPreFitPlots(bool make_postfit = true) {
 
     ratioH->GetYaxis()->SetRangeUser(0.4,1.6);
     ratioH->GetYaxis()->SetNdivisions(505);
-    ratioH->GetXaxis()->SetTitle("bin number");
-    //ratioH->GetXaxis()->SetTitle("m_{T} [GeV]");
+    ratioH->GetXaxis()->SetTitle("m_{T} [GeV]");
     ratioH->GetYaxis()->SetTitle("Obs./Exp.");
     ratioH->GetYaxis()->CenterTitle();
     ratioH->GetXaxis()->SetTitleOffset(3.5);
@@ -119,6 +164,7 @@ void MakePostAndPreFitPlots(bool make_postfit = true) {
     lower->Draw();
     lower->cd();
     lower->SetGridy();
+    ratioH->GetXaxis()->SetRangeUser(bins[0],bins[nBins]);
     ratioH->Draw("AP");
     ratioErrH->Draw("e2same");
     
@@ -131,6 +177,9 @@ void MakePostAndPreFitPlots(bool make_postfit = true) {
     canv1->Update();
     TString outname = "postfit";
     if(!make_postfit) outname = "prefit";
-    canv1->Print("figures/mttau_"+iso[idx_iso]+"_WToTauNu_" + outname + ".png");
+    TString filename = "mttau_"+iso[idx_iso]+"_WToTauNu_";
+    if(!is_wtotaunu) filename = "mtmuon_WToMuNu_";
+    canv1->Print("figures/" + filename + outname + ".png");
+    if(!is_wtotaunu) break;
   }
 }

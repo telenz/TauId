@@ -17,9 +17,9 @@
 #include "TH2.h"
 #include "TVector2.h"
 #include "TLorentzVector.h"
-//#define ERA_2018
+#define ERA_2018
 //#define ERA_2017
-#define ERA_2016
+//#define ERA_2016
 
 #ifdef ERA_2018
     #include"settings_era_specific_2018.h"
@@ -49,15 +49,22 @@ map<TString,TH2D>* h_fakerate_down = new map<TString,TH2D>();
 
 TH1D* h_kFactor= 0;
 
+// Definition of mttau and mtmuon bins
+vector<Float_t> mtmuon_bins = { 0 , 100 , 200 , 300 , 400 , 500 , 600 , 700 , 1000};
+vector<Float_t> mttau_bins  = { 0 , 100 , 200 , 300 , 400 , 500 , 600 , 700 , 800 , 900 , 1000};
+    //Float_t bins[] = { 200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500};
+    //Float_t bins[] = { 100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300};
+    //Float_t bins[] = {0.4,0.6,0.8,1.0,1.2,1.4,1.6,1.8};  // tauMass binning 3prong
+    //Float_t bins[] = {0.0, 0.1,0.2, 0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9, 2.0,2.1, 2.2,2.2, 2.4};  // tauMass binning
+
 // ----------------------------------------------------------------------------------------------------
 void loadWorkingPoints()
 {
-  /* iso.push_back("VVLooseMva2017v2"); */
-  iso.push_back("VLooseMva2017v2");
-  iso.push_back("LooseMva2017v2");
-  iso.push_back("MediumMva2017v2");
-  iso.push_back("TightMva2017v2");
-  iso.push_back("VTightMva2017v2");
+  /* iso.push_back("VLooseMva2017v2"); */
+  /* iso.push_back("LooseMva2017v2"); */
+  /* iso.push_back("MediumMva2017v2"); */
+  /* iso.push_back("TightMva2017v2"); */
+  /* iso.push_back("VTightMva2017v2"); */
   iso.push_back("VVTightMva2017v2");
   /* iso.push_back("Tight"); */
   /* iso.push_back("Medium"); */
@@ -196,8 +203,8 @@ void initCuts()
   cr_fakerate_den.tauIso = false;
   cr_fakerate_den.mttauLow = 0;
   cr_fakerate_den.recoilDPhiLow = 0.0;
-  cr_fakerate_den.tauPtLow = tau_pt_low;
-  cr_fakerate_den.tauPtHigh = tau_pt_high;
+  cr_fakerate_den.tauPtLow = 100;
+  cr_fakerate_den.tauPtHigh = 1000000;
   cr_fakerate_den.recoilPtLow = 0.;
   cr_fakerate_den.dPhiMetTauLow = 2.8;
   
@@ -227,8 +234,8 @@ void initCuts()
   cr_fakerate_dijet_den.nJetsCentral30High = 2;
   cr_fakerate_dijet_den.nJetsForward30Low  = 0;
   cr_fakerate_dijet_den.nJetsForward30High = 0;
-  cr_fakerate_dijet_den.tauPtLow = tau_pt_low;
-  cr_fakerate_dijet_den.tauPtHigh = tau_pt_high;
+  cr_fakerate_dijet_den.tauPtLow = 100;
+  cr_fakerate_dijet_den.tauPtHigh = 1000000;
   cr_fakerate_dijet_den.recoilDPhiLow = 2.8;
   cr_fakerate_dijet_den.metFilters = true;
   cr_fakerate_dijet_den.tauDM = true;

@@ -50,8 +50,7 @@ void WToMuNuMeasurement() {
   samples.push_back(make_pair("W_uesDown" , WToMuNu_uesDown));
 
   TString var = "mtmuon";
-  Float_t bins[] = { 0 , 100 , 200 , 300 , 400 , 500 , 600 , 700 , 800, 900, 1000};
-  const int nBins = sizeof(bins)/sizeof(Float_t) - 1;
+  const int nBins = mtmuon_bins.size() - 1;
 
   THStack *stack = new THStack("stack_mtmuon","");
   TH1D* h_data = 0;
@@ -61,13 +60,13 @@ void WToMuNuMeasurement() {
     
     cout<<"Process "<<samples[i].first<<endl;
     
-    TH1D* histoSamples = new TH1D(samples[i].first,"",nBins,bins);
+    TH1D* histoSamples = new TH1D(samples[i].first,"",nBins,&mtmuon_bins[0]);
     
     for(unsigned int idx_list=0; idx_list<samples[i].second.size(); idx_list++){
 
       cout<<".............. Sample : "<<samples[i].second[idx_list]<<endl;
 
-      TH1D* histo = new TH1D(samples[i].second[idx_list],samples[i].second[idx_list],nBins,bins);
+      TH1D* histo = new TH1D(samples[i].second[idx_list],samples[i].second[idx_list],nBins,&mtmuon_bins[0]);
       selectionCuts select = sr_munu;
       makeSelection(dir+"/"+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),"Tight",select,histo,var,var,var);
       histoSamples->Add(histo);

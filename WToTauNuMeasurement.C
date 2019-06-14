@@ -75,13 +75,7 @@ void WToTauNuMeasurement() {
     TString var1 = "mttau";
     TString var2 = var1;
 
-    Float_t bins[] = { 0 , 100 , 200 , 300 , 400 , 500 , 600 , 700 , 800 , 900 , 1000};
-    //Float_t bins[] = { 200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500};
-    //Float_t bins[] = { 100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300};
-    //Float_t bins[] = {0.4,0.6,0.8,1.0,1.2,1.4,1.6,1.8};  // tauMass binning 3prong
-    //Float_t bins[] = {0.0, 0.1,0.2, 0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9, 2.0,2.1, 2.2,2.2, 2.4};  // tauMass binning
-
-    const int nBins = sizeof(bins)/sizeof(Float_t) - 1;
+    const int nBins = mttau_bins.size() - 1;
 
 
     cout<<endl<<endl<<"--------------------------------------  "<<iso[idx_iso]<<"  ------------------------------------"<<endl;
@@ -94,13 +88,13 @@ void WToTauNuMeasurement() {
 
       cout<<"Process "<<samples[i].first<<endl;
 
-      TH1D* histoSamples = new TH1D(samples[i].first + "_" + iso[idx_iso],"",nBins,bins);
+      TH1D* histoSamples = new TH1D(samples[i].first + "_" + iso[idx_iso],"",nBins,&mttau_bins[0]);
 
       for(unsigned int idx_list=0; idx_list<samples[i].second.size(); idx_list++){
 
 	cout<<".............. Sample : "<<samples[i].second[idx_list]<<endl;
 
-	TH1D* histo = new TH1D(samples[i].second[idx_list],samples[i].second[idx_list],nBins,bins);
+	TH1D* histo = new TH1D(samples[i].second[idx_list],samples[i].second[idx_list],nBins,&mttau_bins[0]);
 	selectionCuts select = sr_trueTaus;
 	if( samples[i].first.Contains("FakeTaus") ){
 	  select =  cr_antiiso;
