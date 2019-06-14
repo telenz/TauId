@@ -178,8 +178,8 @@ void MakePostAndPreFitPlots(bool make_postfit = true, bool is_wtotaunu = true) {
     TString outname = "postfit";
     if(!make_postfit) outname = "prefit";
     TString filename = "mttau_"+iso[idx_iso]+"_WToTauNu_";
-    if(!is_wtotaunu) filename = "mtmuon_WToMuNu_";
+    if(!is_wtotaunu) filename = "mtmuon_"+iso[idx_iso]+"_WToMuNu_";
     canv1->Print("figures/" + filename + outname + ".png");
-    if(!is_wtotaunu) break;
+    //if(!is_wtotaunu) break;
   }
 }
