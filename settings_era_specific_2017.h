@@ -13,7 +13,7 @@ TString triggerfile_output_name = "trigger_eff_HLT_PFMETNoMu120_PFMHTNoMu120_IDT
 TString kfactor_tau_file = "kfactor_tau.root";
 TString kfactor_mu_file  = "kfactor_mu.root";
 
-const int iPeriod = 8;
+const int iPeriod = 6;
 
 const vector<TString> SingleMuon_sample = { "SingleMuon_Run2017_0",
 					    "SingleMuon_Run2017_1",
