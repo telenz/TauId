@@ -44,6 +44,15 @@ Tau:
 
 -------------------------------------------------------------------------------------
 
+EMBEDDING
+
+/EmbeddingRun2018A/ElMuFinalState-inputDoubleMu_102X_miniAOD-v1/USER
+/EmbeddingRun2018B/ElMuFinalState-inputDoubleMu_102X_miniAOD-v1/USER
+/EmbeddingRun2018C/ElMuFinalState-inputDoubleMu_102X_miniAOD-v1/USER
+/EmbeddingRun2018D/ElMuFinalState-inputDoubleMu_102X_miniAOD-v1/USER
+
+-------------------------------------------------------------------------------------
+
 MC:
 
 W*->μν / τν:
