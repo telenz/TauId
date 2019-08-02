@@ -60,6 +60,13 @@ vector<Float_t> mttau_bins  = { 0 , 100 , 200 , 300 , 400 , 500 , 600 , 700 , 80
 // ----------------------------------------------------------------------------------------------------
 void loadWorkingPoints()
 {
+  iso.push_back("VVLooseDeepTau2017v2");
+  iso.push_back("VLooseDeepTau2017v2");
+  iso.push_back("LooseDeepTau2017v2");
+  iso.push_back("MediumDeepTau2017v2");
+  iso.push_back("TightDeepTau2017v2");
+  iso.push_back("VTightDeepTau2017v2");
+  iso.push_back("VVTightDeepTau2017v2");
   iso.push_back("VLooseMva2017v2");
   iso.push_back("LooseMva2017v2");
   iso.push_back("MediumMva2017v2");
@@ -480,17 +487,34 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
   TTreeReaderValue< UInt_t  >  nJetsCentral30(   *myReader,       "nJetsCentral30");
   TTreeReaderValue< UInt_t  >  nJetsForward30(   *myReader,       "nJetsForward30");
   TTreeReaderValue< Bool_t  >  tauDM(            *myReader,       "tauDM");
-  TTreeReaderValue< Bool_t  >  tauAntiMuonLoose3(*myReader,       "tauAntiMuonTight3");
-  TTreeReaderValue< Bool_t  >  tauAntiElectronLooseMVA6(*myReader,"tauAntiElectronVTightMVA6");
-  TTreeReaderValue< Bool_t  >  tauIso(           *myReader,       "tau"+iso+"Iso");
-  TTreeReaderValue< Bool_t  >  tauIsoLooseMva(   *myReader,       "tauLooseMva2017v2Iso");
-  TTreeReaderValue< Bool_t  >  tauIsoMediumMva(  *myReader,       "tauMediumMva2017v2Iso");
-  TTreeReaderValue< Bool_t  >  tauIsoTightMva(   *myReader,       "tauTightMva2017v2Iso");
-  TTreeReaderValue< Bool_t  >  tauIsoVTightMva(  *myReader,       "tauVTightMva2017v2Iso");
-  TTreeReaderValue< Bool_t  >  tauIsoVVTightMva( *myReader,       "tauVVTightMva2017v2Iso");
+  TTreeReaderValue< Bool_t  >  tauNewDM(         *myReader,       "tauNewDM");
+  TTreeReaderValue< Bool_t  >  *tauIso = NULL;
+  TTreeReaderValue< Bool_t  >  *tauAntiMuonLoose3 = NULL;
+  TTreeReaderValue< Bool_t  >  *tauAntiElectronLooseMVA6 = NULL;
+  TTreeReaderValue< Bool_t  >  *tauIsoLooseMva = NULL;
+  TTreeReaderValue< Bool_t  >  *tauIsoMediumMva = NULL;
+  TTreeReaderValue< Bool_t  >  *tauIsoTightMva = NULL;
+  TTreeReaderValue< Bool_t  >  *tauIsoVTightMva = NULL;
+  TTreeReaderValue< Bool_t  >  *tauIsoVVTightMva = NULL;
+  if(iso.Contains("Deep")){
+     tauIso = new TTreeReaderValue<Bool_t> (       *myReader,       "tauby"+iso+"VSjet");
+     tauAntiMuonLoose3 = new TTreeReaderValue<Bool_t>(*myReader,       "taubyTightDeepTau2017v2VSmu");
+     tauAntiElectronLooseMVA6 = new TTreeReaderValue<Bool_t>(*myReader,"taubyVVTightDeepTau2017v2VSe");
+  }
+  else{
+     tauAntiMuonLoose3 = new TTreeReaderValue<Bool_t> (*myReader,       "tauAntiMuonTight3");
+     tauAntiElectronLooseMVA6 = new TTreeReaderValue<Bool_t>(*myReader,"tauAntiElectronVTightMVA6");
+     tauIso = new TTreeReaderValue<Bool_t>(           *myReader,       "tau"+iso+"Iso");
+     tauIsoLooseMva = new TTreeReaderValue<Bool_t>(   *myReader,       "tauLooseMva2017v2Iso");
+     tauIsoMediumMva = new TTreeReaderValue<Bool_t>(  *myReader,       "tauMediumMva2017v2Iso");
+     tauIsoTightMva = new TTreeReaderValue<Bool_t>(   *myReader,       "tauTightMva2017v2Iso");
+     tauIsoVTightMva = new TTreeReaderValue<Bool_t>(  *myReader,       "tauVTightMva2017v2Iso");
+     tauIsoVVTightMva = new TTreeReaderValue<Bool_t>( *myReader,       "tauVVTightMva2017v2Iso");
+  }
   TTreeReaderValue< Bool_t  >  *tauIsoLoose = NULL;
   /* tauIsoLoose = new TTreeReaderValue<Bool_t>(*myReader,"tauVVLooseMva2017v2Iso"); */
   if(iso.Contains("Mva")) tauIsoLoose = new TTreeReaderValue<Bool_t>(*myReader,"tauVVLooseMva2017v2Iso");
+  else if(iso.Contains("Deep")) tauIsoLoose = new TTreeReaderValue<Bool_t>(*myReader,"taubyVVVLooseDeepTau2017v2VSjet");
   else                    tauIsoLoose = new TTreeReaderValue<Bool_t>(*myReader,"tauLooseIso");
   TTreeReaderValue< Int_t   >  tauGenMatchDecay( *myReader,       "tauGenMatchDecay");
   TTreeReaderValue< UInt_t  >  tauGenMatch(      *myReader,       "tauGenMatch");
@@ -603,7 +627,12 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
     if(*nJetsCentral30<sel.nJetsCentral30Low || *nJetsCentral30>sel.nJetsCentral30High) continue;
     if(*nJetsForward30<sel.nJetsForward30Low || *nJetsForward30>sel.nJetsForward30High) continue;
 
-    if(*tauDM != sel.tauDM && sel.selection!=2) continue;
+    if (iso.Contains("Deep")){
+       if(*tauNewDM != sel.tauDM && sel.selection!=2) continue;
+    }
+    else{
+       if(*tauDM != sel.tauDM && sel.selection!=2) continue;
+    }
     if(*tauAntiMuonLoose3 != sel.tauAntiMuonLoose3 && sel.selection!=2) continue;
     if(*tauAntiElectronLooseMVA6 != sel.tauAntiElectronLooseMVA6 && sel.selection!=2) continue;
     /* if(*tauIsoTightMva == true && sel.selection!=2) continue; */
@@ -671,7 +700,7 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
 
     if((*tauDecay < 1 || *tauDecay>4) && sel.selection != 2 && tauDecayMode == "_1prongUpTo4pizeros") continue;
     if(*tauDecay != 0 && sel.selection != 2 && tauDecayMode == "_1prong0pizeros") continue;
-    if(*tauDecay != 10 && sel.selection != 2 && tauDecayMode == "_3prong0pizeros") continue;
+    if(*tauDecay != 10 && *tauDecay != 11 && sel.selection != 2 && tauDecayMode == "_3prong0pizeros") continue;
 
     if( histo->InheritsFrom("TH2") ){
       if(variableToFill_1==variableToFill_2) ((TH2*) histo) -> Fill(abs(*var1), abs(*var3), weight);
