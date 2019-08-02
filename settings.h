@@ -700,7 +700,7 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
 
     if((*tauDecay < 1 || *tauDecay>4) && sel.selection != 2 && tauDecayMode == "_1prongUpTo4pizeros") continue;
     if(*tauDecay != 0 && sel.selection != 2 && tauDecayMode == "_1prong0pizeros") continue;
-    if(*tauDecay != 10 && *tauDecay != 11 && sel.selection != 2 && tauDecayMode == "_3prong0pizeros") continue;
+    if(*tauDecay != 10 && *tauDecay != 11 && *tauDecay != 7 && sel.selection != 2 && tauDecayMode == "_3prong0pizeros") continue;
 
     if( histo->InheritsFrom("TH2") ){
       if(variableToFill_1==variableToFill_2) ((TH2*) histo) -> Fill(abs(*var1), abs(*var3), weight);
