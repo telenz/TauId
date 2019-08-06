@@ -43,14 +43,18 @@ void ComputeFakeRate() {
       cout<<endl<<"tau ID :  "<<iso[idx_iso]<<" : "<<endl;
 
       // Definition of fake factor binning
-      vector<Float_t> binsRatio =  { 0.0 , 0.7 , 0.75 , 0.80 , 2.}; // new analysis binning for 2018
+      vector<Float_t> binsRatio;
+      if (!doTauESmeasurement) binsRatio =  { 0.0 , 0.7 , 0.75 , 0.80 , 2.}; // new analysis binning for 2018
+      else binsRatio =  { 0.0 , 0.7 , 0.75 , 0.775, 0.80 , 0.9, 2.}; //finer binning for TES
+
       vector<Float_t> binsJetPt;
       // if( iso[idx_iso] == "VVLooseMva2017v2" || iso[idx_iso] == "VLooseMva2017v2" || iso[idx_iso] == "LooseMva2017v2" || iso[idx_iso] == "Loose"){
       // 	binsJetPt = {100 , 140 , 160 , 180 , 200 , 220 , 240 , 260 , 300 , 340 , 380 , 420 , 460 , 500 , 1200}; // analysis binning v3
       // }
       // else                                 binsJetPt = {100 , 160 , 240 , 340 , 1200}; // new analysis binning
       // binsJetPt = {100 , 160 , 240 , 340 , 1200}; // new analysis binning
-      binsJetPt = {100 , 160, 240 , 1200}; // new analysis binning for 2018
+      if (!doTauESmeasurement) binsJetPt = {100 , 160, 240 , 1200}; // new analysis binning for 2018
+      else binsJetPt = {100 , 160, 180, 200, 240 , 1200}; //finer binning for TES
 
       int nBinsRatio = binsRatio.size() - 1;
       int nBinsJetPt = binsJetPt.size() - 1;
