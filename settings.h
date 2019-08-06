@@ -633,10 +633,10 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
     else{
        if(*tauDM != sel.tauDM && sel.selection!=2) continue;
     }
-    if(*tauAntiMuonLoose3 != sel.tauAntiMuonLoose3 && sel.selection!=2) continue;
-    if(*tauAntiElectronLooseMVA6 != sel.tauAntiElectronLooseMVA6 && sel.selection!=2) continue;
+    if(*(*tauAntiMuonLoose3) != sel.tauAntiMuonLoose3 && sel.selection!=2) continue;
+    if(*(*tauAntiElectronLooseMVA6) != sel.tauAntiElectronLooseMVA6 && sel.selection!=2) continue;
     /* if(*tauIsoTightMva == true && sel.selection!=2) continue; */
-    if(*tauIso != sel.tauIso && sel.selection!=2 && sel.name != "cr_fakerate_norm") continue;
+    if(*(*tauIso) != sel.tauIso && sel.selection!=2 && sel.name != "cr_fakerate_norm") continue;
     if(*(*tauIsoLoose) != true && sel.name.Contains("cr_fakerate") ) continue;
     if((*tauGenMatchDecay<sel.tauGenMatchDecayLow || *tauGenMatchDecay>sel.tauGenMatchDecayHigh) && !isData) continue;
 
