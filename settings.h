@@ -52,6 +52,7 @@ TH1D* h_kFactor= 0;
 // Definition of mttau and mtmuon bins
 vector<Float_t> mtmuon_bins = { 0 , 100 , 200 , 300 , 400 , 500 , 600 , 700 , 1000};
 vector<Float_t> mttau_bins  = { 0 , 100 , 200 , 300 , 400 , 500 , 600 , 700 , 800 , 900 , 1000};
+//vector<Float_t> mttau_bins  = { 0 , 50, 100 , 150, 200 , 250, 300 , 350, 400 , 450, 500 , 550, 600 ,650, 700 ,750, 800 , 850, 900 , 950, 1000};
 //Float_t bins[] = { 200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500};
 //Float_t bins[] = { 100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300};
 //Float_t bins[] = {0.4,0.6,0.8,1.0,1.2,1.4,1.6,1.8};  // tauMass binning 3prong
@@ -496,8 +497,22 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
   TTreeReaderValue< Bool_t  >  *tauIsoTightMva = NULL;
   TTreeReaderValue< Bool_t  >  *tauIsoVTightMva = NULL;
   TTreeReaderValue< Bool_t  >  *tauIsoVVTightMva = NULL;
+  TTreeReaderValue< Bool_t  >  *tauIsoVVLooseDeep = NULL;
+  TTreeReaderValue< Bool_t  >  *tauIsoVLooseDeep = NULL;
+  TTreeReaderValue< Bool_t  >  *tauIsoLooseDeep = NULL;
+  TTreeReaderValue< Bool_t  >  *tauIsoMediumDeep= NULL;
+  TTreeReaderValue< Bool_t  >  *tauIsoTightDeep = NULL;
+  TTreeReaderValue< Bool_t  >  *tauIsoVTightDeep = NULL;
+  TTreeReaderValue< Bool_t  >  *tauIsoVVTightDeep = NULL;
   if(iso.Contains("Deep")){
      tauIso = new TTreeReaderValue<Bool_t> (       *myReader,       "tauby"+iso+"VSjet");
+     tauIsoVVLooseDeep  = new TTreeReaderValue<Bool_t> (       *myReader,       "taubyVVLooseDeepTau2017v2VSjet");
+     tauIsoVLooseDeep  = new TTreeReaderValue<Bool_t> (       *myReader,       "taubyVLooseDeepTau2017v2VSjet");     
+     tauIsoLooseDeep  = new TTreeReaderValue<Bool_t> (       *myReader,       "taubyLooseDeepTau2017v2VSjet");
+     tauIsoMediumDeep  = new TTreeReaderValue<Bool_t> (       *myReader,       "taubyMediumDeepTau2017v2VSjet");
+     tauIsoTightDeep  = new TTreeReaderValue<Bool_t> (       *myReader,       "taubyTightDeepTau2017v2VSjet");
+     tauIsoVTightDeep  = new TTreeReaderValue<Bool_t> (       *myReader,       "taubyVTightDeepTau2017v2VSjet");
+     tauIsoVVTightDeep  = new TTreeReaderValue<Bool_t> (       *myReader,       "taubyVVTightDeepTau2017v2VSjet");
      tauAntiMuonLoose3 = new TTreeReaderValue<Bool_t>(*myReader,       "taubyTightDeepTau2017v2VSmu");
      tauAntiElectronLooseMVA6 = new TTreeReaderValue<Bool_t>(*myReader,"taubyVVTightDeepTau2017v2VSe");
   }
@@ -602,7 +617,7 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
         //metnomu and mhtnomu are not varied
      }
 
-    if(*trig != sel.trigger && (sel.selection == 3 || sel.name == "cr_fakerate_norm")) continue;
+     if(*trig != sel.trigger && (sel.selection == 3 || sel.name == "cr_fakerate_norm" || sel.name == "cr_fakerate_den" || sel.name == "cr_fakerate_num" )) continue;
     //if(sel.selection == 4 && (*pfJet40 != sel.pfJetTrigger && *pfJet60 != sel.pfJetTrigger && *pfJet80 != sel.pfJetTrigger && *pfJet140 != sel.pfJetTrigger && *(*pfJet200) != sel.pfJetTrigger && *(*pfJet260) != sel.pfJetTrigger && *(*pfJet320) != sel.pfJetTrigger && *(*pfJet400) != sel.pfJetTrigger && *(*pfJet450) != sel.pfJetTrigger && *(*pfJet500) != sel.pfJetTrigger)) continue;
     if(sel.selection == 4 && (*pfJet60 != sel.pfJetTrigger && *pfJet80 != sel.pfJetTrigger && *pfJet140 != sel.pfJetTrigger && *(*pfJet200) != sel.pfJetTrigger && *(*pfJet260) != sel.pfJetTrigger && *(*pfJet320) != sel.pfJetTrigger && *(*pfJet400) != sel.pfJetTrigger && *(*pfJet450) != sel.pfJetTrigger)) continue;
 
@@ -635,7 +650,7 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
     }
     if(*(*tauAntiMuonLoose3) != sel.tauAntiMuonLoose3 && sel.selection!=2) continue;
     if(*(*tauAntiElectronLooseMVA6) != sel.tauAntiElectronLooseMVA6 && sel.selection!=2) continue;
-    /* if(*tauIsoTightMva == true && sel.selection!=2) continue; */
+    //if(*(*tauIsoVLooseDeep) == true && sel.selection!=2) continue;
     if(*(*tauIso) != sel.tauIso && sel.selection!=2 && sel.name != "cr_fakerate_norm") continue;
     if(*(*tauIsoLoose) != true && sel.name.Contains("cr_fakerate") ) continue;
     if((*tauGenMatchDecay<sel.tauGenMatchDecayLow || *tauGenMatchDecay>sel.tauGenMatchDecayHigh) && !isData) continue;
