@@ -74,6 +74,8 @@ void WToTauNuMeasurement() {
 
     TString var1 = "mttau";
     TString var2 = var1;
+    TString var3 = "tauPt";
+    TString var4 = var3;
 
     const int nBins = mttau_bins.size() - 1;
 
@@ -81,48 +83,60 @@ void WToTauNuMeasurement() {
     cout<<endl<<endl<<"--------------------------------------  "<<iso[idx_iso]<<"  ------------------------------------"<<endl;
 
     THStack *stack = new THStack(iso[idx_iso],"");
+
     TH1D* h_data = 0;
+    TH1D* h_data_tauPt = 0;
+
     std::map<TString,TH1D*> histoMap;
+    std::map<TString,TH1D*> histoMap_tauPt;
 
     for (unsigned int i=0; i<samples.size(); ++i) {
 
       cout<<"Process "<<samples[i].first<<endl;
 
       TH1D* histoSamples = new TH1D(samples[i].first + "_" + iso[idx_iso],"",nBins,&mttau_bins[0]);
+      TH1D* histoSamples_tauPt = new TH1D(samples[i].first + "_" + iso[idx_iso]+"_tauPt","",nBins,&mttau_bins[0]);
 
       for(unsigned int idx_list=0; idx_list<samples[i].second.size(); idx_list++){
 
 	cout<<".............. Sample : "<<samples[i].second[idx_list]<<endl;
 
 	TH1D* histo = new TH1D(samples[i].second[idx_list],samples[i].second[idx_list],nBins,&mttau_bins[0]);
+   TH1D* histo_tauPt = new TH1D(samples[i].second[idx_list]+"_tauPt",samples[i].second[idx_list]+"_tauPt",nBins,&mttau_bins[0]);
+
 	selectionCuts select = sr_trueTaus;
 	if( samples[i].first.Contains("FakeTaus") ){
 	  select =  cr_antiiso;
 	  select.name = "cr_antiiso_" + samples[i].first(11,samples[i].first.Length()); 
 	}
 	makeSelection(dir+"/"+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),iso[idx_iso],select,histo,var1,var2,var2);
+   makeSelection(dir+"/"+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),iso[idx_iso],select,histo_tauPt,var3,var4,var4);
 
 	histoSamples->Add(histo);
+   histoSamples_tauPt->Add(histo_tauPt);
 	histoSamples->SetName(histo->GetName());
 	histoSamples->SetFillStyle(1001);
 	if(samples[i].first.Contains("FakeTaus")) histoSamples->SetFillColor(TColor::GetColor("#FFCCFF"));
 	else if(samples[i].first.Contains("TrueTaus")) histoSamples->SetFillColor(TColor::GetColor("#6F2D35"));
 	else if(samples[i].first.Contains("W")) histoSamples->SetFillColor(TColor::GetColor("#FFCC66"));
 	delete histo;
+   delete histo_tauPt;
       }
 
       histoMap[samples[i].first] = histoSamples;
+      histoMap_tauPt[samples[i].first] = histoSamples_tauPt;
       if(!samples[i].first.Contains("data_obs") && !samples[i].first.Contains("Up") && !samples[i].first.Contains("Down")){
 	stack->Add(histoSamples);
       }
       else if(samples[i].first.Contains("data_obs")){
-	h_data = (TH1D*) histoSamples->Clone(); 
+	h_data = (TH1D*) histoSamples->Clone();
+   h_data_tauPt = (TH1D*) histoSamples_tauPt->Clone();
 	h_data -> SetDirectory(0);
+   h_data_tauPt -> SetDirectory(0);
       }
       cout<<samples[i].first<<" = "<<histoSamples->Integral()<<" ( Entries = "<<histoSamples->GetEntries()<<" ) "<<endl<<endl;
     }
-
-
+    cout<<"mean pt Data : "<<h_data_tauPt->GetMean(1)<<std::endl;
     // ------------------ Computation of all uncertainties : START  -------
     TH1D * bkgdErr = (TH1D*)stack->GetStack()->Last()->Clone("bkgdErr");
     bkgdErr->SetFillStyle(3013);
@@ -282,6 +296,16 @@ void WToTauNuMeasurement() {
 	histoMap[it->first] -> SetName(it->first);
 	histoMap[it->first] -> Write(it->first);
       }    
+
+    TFile *out_tauPt = new TFile("output/tauPt_" + iso[idx_iso] + tauDecayMode + ".root","RECREATE");
+    out_tauPt->cd();
+    for ( it = histoMap_tauPt.begin(); it != histoMap_tauPt.end(); it++ )
+      {
+         if (it->first.Contains("data")){
+            histoMap_tauPt[it->first] -> SetName(it->first);
+            histoMap_tauPt[it->first] -> Write(it->first);
+         }
+      }
     delete canv;
   }
 }
