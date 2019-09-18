@@ -13,7 +13,7 @@ cmsenv
 cd -
 
 root -l -b -q ComputeFakeRate.C+
-root -l -b -q CalculateEWKfraction.C+ 
+root -l -b -q CalculateEWKfraction.C+
 
 root -l -b -q WToMuNuMeasurement.C+
 root -l -b -q DatacardProducer_WToMuNu.C+
@@ -25,7 +25,7 @@ do
     [[ $line = //* ]] && continue
     [[ $line = /* ]] && continue
     echo $line | sed -E 's/.*\("(.*)"\).*/\1/' >> iso.txt
-done < ../settings.h
+done < settings.h
 
 for ((i=1;i<${#tauptlow[@]}+1;++i)); 
 do
