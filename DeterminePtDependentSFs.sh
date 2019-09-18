@@ -1,8 +1,8 @@
 #!bin/bash
 
 #define the taupt bins here:
-tauptlow=("150" "200" "250")
-taupthigh=("200" "250" "1000000")
+tauptlow=("100" "150" "200")
+taupthigh=("150" "200" "1000000")
 
 CMSSW_Combine=/nfs/dust/cms/user/mameyer/SM_HiggsTauTau/CMSSW_8_1_0
 
@@ -78,5 +78,7 @@ do
     sed -i "s|double tau_pt_low = ${tauptlow[i]};|double tau_pt_low = 100;|g" settings.h
     sed -i "s|double tau_pt_high = ${taupthigh[i]};|double tau_pt_high = 1000000;|g" settings.h
 done
+
+
 
 
