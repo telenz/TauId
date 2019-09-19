@@ -123,7 +123,9 @@ void TriggerEfficiency() {
     for(int ibin=1; ibin<=histo_den->GetNbinsY(); ibin++){
 
       TGraphAsymmErrors *eff = new TGraphAsymmErrors();
-      eff -> Divide( (TH1D*) histo_num->ProjectionX(histo_num->GetName()+ibin,ibin,ibin) , (TH1D*) histo_den->ProjectionX(histo_den->GetName()+ibin,ibin,ibin) , "n");
+      std::string name_num=std::string(histo_num->GetName())+std::string(Form("_%i",ibin));
+      std::string name_den=std::string(histo_den->GetName())+std::string(Form("_%i",ibin));
+      eff -> Divide( (TH1D*) histo_num->ProjectionX(name_num.c_str(),ibin,ibin) , (TH1D*) histo_den->ProjectionX(name_den.c_str(),ibin,ibin) , "n");
 
       int lowEdge    = static_cast<int>(histo_den->GetYaxis() -> GetBinLowEdge(ibin));
       int upEdge     = static_cast<int>(histo_den->GetYaxis() -> GetBinUpEdge(ibin));
