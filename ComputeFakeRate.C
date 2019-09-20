@@ -53,7 +53,7 @@ void ComputeFakeRate() {
       // }
       // else                                 binsJetPt = {100 , 160 , 240 , 340 , 1200}; // new analysis binning
       // binsJetPt = {100 , 160 , 240 , 340 , 1200}; // new analysis binning
-      if (!doTauESmeasurement) binsJetPt = {100 ,140, 160, 200, 240 , 1200}; // new analysis binning for 2018
+      if (!doTauESmeasurement) binsJetPt = {100 ,160, 200, 240 , 1200}; // new analysis binning for 2018
       else binsJetPt = {100 , 160, 180, 200, 240 , 1200}; //finer binning for TES
 
       int nBinsRatio = binsRatio.size() - 1;
