@@ -1,10 +1,18 @@
-#!bin/bash
+#!bin/sh
+
+#--------------------------------------------------------------------------------------------------------------------
 
 #define the taupt bins here:
 tauptlow=("100" "150" "200")
 taupthigh=("150" "200" "1000000")
 
+# define which working point should be used for determination ogf mean pT
+isoWPMeanPt=MediumMva2017v2
+
+# set the CMSSW versionf or combine
 CMSSW_Combine=/nfs/dust/cms/user/mameyer/SM_HiggsTauTau/CMSSW_8_1_0
+
+#--------------------------------------------------------------------------------------------------------------------
 
 source /cvmfs/cms.cern.ch/cmsset_default.sh
 export SCRAM_ARCH=slc6_amd64_gcc530
@@ -40,7 +48,7 @@ do
 
     cd datacards
     source RunCombine.sh
-    #source make_pulls_impacts_plots.sh
+   #source make_pulls_impacts_plots.sh
     python readTauIDs.py >results.txt
     cd ..
 
@@ -50,7 +58,7 @@ do
     root -l -b -q MakePostAndPreFitPlots.C+"(1,1)"
 
 
-    #loop here over WPs
+   #loop here over WPs
     while read -r iso
     do
         cd output
@@ -60,25 +68,72 @@ do
         mv  datacard_mttau_${iso}_WToTauNu.txt TauPt_${tauptlow[i]}_${taupthigh[i]}
         cd ..
 
-        cd figures
-        mkdir  TauPt_${tauptlow[i]}_${taupthigh[i]}
-        mv mtmuon_${iso}_WToMuNu_prefit.png  TauPt_${tauptlow[i]}_${taupthigh[i]}
-        mv mtmuon_${iso}_WToMuNu_postfit.png  TauPt_${tauptlow[i]}_${taupthigh[i]}
-        mv mttau_${iso}_WToTauNu_prefit.png   TauPt_${tauptlow[i]}_${taupthigh[i]}
-        mv mttau_${iso}_WToTauNu_postfit.png  TauPt_${tauptlow[i]}_${taupthigh[i]}
-        cd ..
+       cd figures
+       mkdir  TauPt_${tauptlow[i]}_${taupthigh[i]}
+       mv mtmuon_${iso}_WToMuNu_prefit.png  TauPt_${tauptlow[i]}_${taupthigh[i]}
+       mv mtmuon_${iso}_WToMuNu_postfit.png  TauPt_${tauptlow[i]}_${taupthigh[i]}
+       mv mttau_${iso}_WToTauNu_prefit.png   TauPt_${tauptlow[i]}_${taupthigh[i]}
+       mv mttau_${iso}_WToTauNu_postfit.png  TauPt_${tauptlow[i]}_${taupthigh[i]}
+       cd ..
 
-        cd datacards
-        mkdir  TauPt_${tauptlow[i]}_${taupthigh[i]}
-        mv impacts_${iso}.pdf  TauPt_${tauptlow[i]}_${taupthigh[i]}
-        mv results.txt   TauPt_${tauptlow[i]}_${taupthigh[i]}
-        cd ..
-    done <iso.txt
+       cd datacards
+       mkdir  TauPt_${tauptlow[i]}_${taupthigh[i]}
+       mv impacts_${iso}.pdf  TauPt_${tauptlow[i]}_${taupthigh[i]}
+       cd ..
+   done <iso.txt
     
-    sed -i "s|double tau_pt_low = ${tauptlow[i]};|double tau_pt_low = 100;|g" settings.h
-    sed -i "s|double tau_pt_high = ${taupthigh[i]};|double tau_pt_high = 1000000;|g" settings.h
+   cd datacards
+   mv results.txt   TauPt_${tauptlow[i]}_${taupthigh[i]}
+   cd ..
+   
+   sed -i "s|double tau_pt_low = ${tauptlow[i]};|double tau_pt_low = 100;|g" settings.h
+   sed -i "s|double tau_pt_high = ${taupthigh[i]};|double tau_pt_high = 1000000;|g" settings.h
 done
 
 
+#determine mean pT
+for ((i=1;i<${#tauptlow[@]}+1;++i));
+do
+cd output/TauPt_${tauptlow[i]}_${taupthigh[i]}
+root -b -l tauPt_${isoWPMeanPt}.root <<EOF > mean_${tauptlow[i]}_${taupthigh[i]}.txt
+std::cout<<"  "<<data_obs->GetMean(1)<<std::endl;
+EOF
+cd -
+done
 
+#put results into a table
+rm TauPtDependentSFs.txt
+echo -n '\\begin{tabular}{|l|'>>TauPtDependentSFs.txt
+for ((i=1;i<${#tauptlow[@]}+1;++i));
+do
+    echo -n 'c|' >>TauPtDependentSFs.txt
+done
+echo '}' >>TauPtDependentSFs.txt  
+echo "\\hline" >>TauPtDependentSFs.txt
+echo -n "Discriminant                                " >>TauPtDependentSFs.txt      
+for ((i=1;i<${#tauptlow[@]}+1;++i));
+do
+  echo -n "& \$${tauptlow[i]}<p_{T}^{\\\tau}<${taupthigh[i]}\$" >>TauPtDependentSFs.txt
+done
+echo "\\\\\\">>TauPtDependentSFs.txt
+echo -n "$\\langle p_{T}\\\rangle\\left[\\\textrm{GeV}\\\right]\$ " >>TauPtDependentSFs.txt
+for ((i=1;i<${#tauptlow[@]}+1;++i));
+do
+    echo -n "&" >>TauPtDependentSFs.txt
+    echo -n "$(<output/TauPt_${tauptlow[i]}_${taupthigh[i]}/mean_${tauptlow[i]}_${taupthigh[i]}.txt)" | grep "  " | tr "\n" "\t" >>TauPtDependentSFs.txt
+done
+echo "\\\\\\" >>TauPtDependentSFs.txt
+echo "\\hline" >>TauPtDependentSFs.txt
 
+while read -r iso
+do
+    echo -n "${iso}                " >>TauPtDependentSFs.txt
+    for ((i=1;i<${#tauptlow[@]}+1;++i));
+    do
+        echo -n "&" >>TauPtDependentSFs.txt
+        fgrep ${iso}  datacards/TauPt_${tauptlow[i]}_${taupthigh[i]}/results.txt | sed "s/${iso} : //g" | tr '\n' '\0' >>TauPtDependentSFs.txt
+    done
+    echo "\\\\\\" >>TauPtDependentSFs.txt
+done <iso.txt
+echo "\\hline" >>TauPtDependentSFs.txt
+echo '\\end{tabular}' >>TauPtDependentSFs.txt
