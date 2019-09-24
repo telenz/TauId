@@ -76,7 +76,7 @@ void SetStyle()
 
   // Histograms
   HttStyle->SetHistFillColor(2);
-  HttStyle->SetHistFillStyle(0);
+  //HttStyle->SetHistFillStyle(0);
   HttStyle->SetHistLineColor(1);
   HttStyle->SetHistLineStyle(0);
   HttStyle->SetHistLineWidth(2);
