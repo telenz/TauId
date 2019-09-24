@@ -6,7 +6,7 @@
 tauptlow=("100" "150" "200")
 taupthigh=("150" "200" "1000000")
 
-# define which working point should be used for determination ogf mean pT
+# define which working point should be used for determination of mean pT
 isoWPMeanPt=MediumMva2017v2
 
 # set the CMSSW versionf or combine
@@ -81,11 +81,11 @@ do
        mv impacts_${iso}.pdf  TauPt_${tauptlow[i]}_${taupthigh[i]}
        cd ..
    done <iso.txt
-    
+
    cd datacards
    mv results.txt   TauPt_${tauptlow[i]}_${taupthigh[i]}
    cd ..
-   
+
    sed -i "s|double tau_pt_low = ${tauptlow[i]};|double tau_pt_low = 100;|g" settings.h
    sed -i "s|double tau_pt_high = ${taupthigh[i]};|double tau_pt_high = 1000000;|g" settings.h
 done
@@ -131,7 +131,7 @@ do
     for ((i=1;i<${#tauptlow[@]}+1;++i));
     do
         echo -n "&" >>TauPtDependentSFs.txt
-        fgrep ${iso}  datacards/TauPt_${tauptlow[i]}_${taupthigh[i]}/results.txt | sed "s/${iso} : //g" | tr '\n' '\0' >>TauPtDependentSFs.txt
+        fgrep -w ${iso}  datacards/TauPt_${tauptlow[i]}_${taupthigh[i]}/results.txt | sed "s/${iso} : //g" | tr '\n' '\0' >>TauPtDependentSFs.txt
     done
     echo "\\\\\\" >>TauPtDependentSFs.txt
 done <iso.txt
