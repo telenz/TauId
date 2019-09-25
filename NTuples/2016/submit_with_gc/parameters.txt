@@ -1,0 +1,3 @@
+CONFIGFILE,FILELIST
+analysisNTupleProducer_tauid_Data_2016.conf,/nfs/dust/cms/user/tlenz/13TeV/2018/TauIDWithVirtualW/redo_all_years_with_bug_fix/TauId/NTuples/2016/submit_with_gc/SingleMuon_Run2016B_files/SingleMuon_Run2016B_0
+analysisNTupleProducer_tauid_Data_2016.conf,/nfs/dust/cms/user/tlenz/13TeV/2018/TauIDWithVirtualW/redo_all_years_with_bug_fix/TauId/NTuples/2016/submit_with_gc/SingleMuon_Run2016B_files/SingleMuon_Run2016B_1
