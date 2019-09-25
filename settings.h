@@ -51,8 +51,8 @@ TH1D* h_kFactor= 0;
 
 // Definition of mttau and mtmuon bins
 vector<Float_t> mtmuon_bins = { 0 , 100 , 200 , 300 , 400 , 500 , 600 , 700 , 1000};
-vector<Float_t> mttau_bins  = { 0 , 100 , 200 , 300 , 400 , 500 , 600 , 700 , 800 , 900 , 1000};
-//vector<Float_t> mttau_bins  = { 0 , 50, 100 , 150, 200 , 250, 300 , 350, 400 , 450, 500 , 550, 600 ,650, 700 ,750, 800 , 850, 900 , 950, 1000};
+//vector<Float_t> mttau_bins  = { 0 , 100 , 200 , 300 , 400 , 500 , 600 , 700 , 800 , 900 , 1000};
+vector<Float_t> mttau_bins  = { 0 , 50, 100 , 150, 200 , 250, 300 , 350, 400 , 450, 500 , 550, 600 ,650, 700 ,750, 800 , 850, 900 , 950, 1000};
 //Float_t bins[] = { 200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500};
 //Float_t bins[] = { 100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300};
 //Float_t bins[] = {0.4,0.6,0.8,1.0,1.2,1.4,1.6,1.8};  // tauMass binning 3prong
@@ -120,7 +120,7 @@ void initCuts()
   sr.selection = 3;
   sr.trigger   = true;
   sr.recoilDPhiLow = 2.8;
-  sr.metLow = 120;
+  sr.metLow = 130;
   sr.tauPtLow = tau_pt_low;
   sr.tauPtHigh = tau_pt_high;
   sr.metFilters = true;
@@ -144,8 +144,8 @@ void initCuts()
   sr.mtmuonHigh = 100000000;
   sr.mttauLow  = 0;
   sr.mttauHigh = 100000000;
-  sr.mhtNoMuLow = 120;
-  sr.metNoMuLow = 120;
+  sr.mhtNoMuLow = 130;
+  sr.metNoMuLow = 130;
 
   // sr for true taus
   sr_trueTaus = sr;
@@ -167,7 +167,7 @@ void initCuts()
   sr_munu.nSelTausHigh = 0;
   sr_munu.nMuonLow = 1;
   sr_munu.nMuonHigh = 1;
-  sr_munu.metLow = 120;
+  sr_munu.metLow = 130;
   sr_munu.muonAbsEtaHigh = 2.1;
   sr_munu.muonPtLow = 120;
   sr_munu.trigger = false;
@@ -207,7 +207,7 @@ void initCuts()
   cr_fakerate_den.nJetsCentral30Low  = 1;
   cr_fakerate_den.nJetsCentral30High = 1;
   cr_fakerate_den.mtmuonLow = 0;
-  cr_fakerate_den.metLow = 120;
+  cr_fakerate_den.metLow = 130;
   cr_fakerate_den.tauIso = false;
   cr_fakerate_den.mttauLow = 0;
   cr_fakerate_den.recoilDPhiLow = 0.0;
@@ -225,8 +225,8 @@ void initCuts()
   cr_fakerate_norm = cr_fakerate_den;
   cr_fakerate_norm.name = "cr_fakerate_norm";
   cr_fakerate_norm.trigger = true;
-  cr_fakerate_norm.mhtNoMuLow = 120.;
-  cr_fakerate_norm.metNoMuLow = 120.;
+  cr_fakerate_norm.mhtNoMuLow = 130.;
+  cr_fakerate_norm.metNoMuLow = 130.;
 
 
   // cr_fakerate_dijet_den
