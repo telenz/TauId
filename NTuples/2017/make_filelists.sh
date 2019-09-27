@@ -5,7 +5,7 @@
 dirDataSingleMuon=/pnfs/desy.de/cms/tier2/store/user/mmeyer/ntuples/2017/data/SingleMuon/
 dirDataJetHT=/pnfs/desy.de/cms/tier2/store/user/mmeyer/ntuples/2017/data/JetHT/
 dirDataMET=/pnfs/desy.de/cms/tier2/store/user/mmeyer/ntuples/2017/data/MET/
-dirMC=/pnfs/desy.de/cms/tier2/store/user/mmeyer/ntuples/2017/mc_v2/
+dirMC=/pnfs/desy.de/cms/tier2/store/user/mmeyer/ntuples/2017/mc_v3/
 
 ls $dirDataSingleMuon/SingleMuon_Run2017B-31Mar2018*/*root > SingleMuon_Run2017B
 ls $dirDataSingleMuon/SingleMuon_Run2017C-31Mar2018*/*root > SingleMuon_Run2017C
