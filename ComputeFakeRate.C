@@ -5,7 +5,7 @@
 #include "TMath.h"
 #include "Math/QuantFuncMathCore.h"
 
-void ComputeFakeRate() {
+void ComputeFakeRate(bool make_closure = false) {
 
   loadWorkingPoints();
   initCuts();
@@ -25,10 +25,12 @@ void ComputeFakeRate() {
   genuineTaus.insert( genuineTaus.end(), VV_sample.begin()   , VV_sample.end() );
   genuineTaus.insert( genuineTaus.end(), TT_ST_sample.begin(), TT_ST_sample.end() );
 
-  samples.push_back(make_pair("WJetsToLNu" , wjets));
-  samples.push_back(make_pair("GenuineTausBkg" , genuineTaus));
-  samples.push_back(make_pair("SingleMuon" , data_SingleMuon));
-  samples.push_back(make_pair("JetHT" , data_JetHT));
+  if(make_closure) samples.push_back(make_pair("WJetsToLNu" , wjets));
+  else{
+    samples.push_back(make_pair("GenuineTausBkg" , genuineTaus));
+    samples.push_back(make_pair("SingleMuon" , data_SingleMuon));
+    samples.push_back(make_pair("JetHT" , data_JetHT));
+  }
 
   std::map<TString,TH2D*> histoMap;
 
