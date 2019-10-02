@@ -17,8 +17,8 @@
 #include "TH2.h"
 #include "TVector2.h"
 #include "TLorentzVector.h"
-#define ERA_2018
-//#define ERA_2017
+//#define ERA_2018
+#define ERA_2017
 //#define ERA_2016
 
 #ifdef ERA_2018
@@ -53,6 +53,7 @@ TH1D* h_kFactor= 0;
 vector<Float_t> mtmuon_bins = { 0 , 100 , 200 , 300 , 400 , 500 , 600 , 700 , 1000};
 //vector<Float_t> mttau_bins  = { 0 , 100 , 200 , 300 , 400 , 500 , 600 , 700 , 800 , 900 , 1000};
 vector<Float_t> mttau_bins  = { 0 , 50, 100 , 150, 200 , 250, 300 , 350, 400 , 450, 500 , 550, 600 ,650, 700 ,750, 800 , 850, 900 , 950, 1000};
+
 //Float_t bins[] = { 200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500};
 //Float_t bins[] = { 100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300};
 //Float_t bins[] = {0.4,0.6,0.8,1.0,1.2,1.4,1.6,1.8};  // tauMass binning 3prong
@@ -61,13 +62,13 @@ vector<Float_t> mttau_bins  = { 0 , 50, 100 , 150, 200 , 250, 300 , 350, 400 , 4
 // ----------------------------------------------------------------------------------------------------
 void loadWorkingPoints()
 {
-  iso.push_back("VVLooseDeepTau2017v2");
-  iso.push_back("VLooseDeepTau2017v2");
-  iso.push_back("LooseDeepTau2017v2");
-  iso.push_back("MediumDeepTau2017v2");
-  iso.push_back("TightDeepTau2017v2");
-  iso.push_back("VTightDeepTau2017v2");
-  iso.push_back("VVTightDeepTau2017v2");
+  iso.push_back("VVLooseDeepTau2017v2p1");
+  iso.push_back("VLooseDeepTau2017v2p1");
+  iso.push_back("LooseDeepTau2017v2p1");
+  iso.push_back("MediumDeepTau2017v2p1");
+  iso.push_back("TightDeepTau2017v2p1");
+  iso.push_back("VTightDeepTau2017v2p1");
+  iso.push_back("VVTightDeepTau2017v2p1");
   iso.push_back("VLooseMva2017v2");
   iso.push_back("LooseMva2017v2");
   iso.push_back("MediumMva2017v2");
@@ -280,27 +281,27 @@ double xsecW1Jet = xsecs[w1jets];
 double xsecW2Jet = xsecs[w2jets];
 double xsecW3Jet = xsecs[w3jets];
 double xsecW4Jet = xsecs[w4jets];
-double xsecWHT70To100    = xsecs[wjets_HT70To100];
-double xsecWHT100To200   = xsecs[wjets_HT100To200];
-double xsecWHT200To400   = xsecs[wjets_HT200To400];
-double xsecWHT400To600   = xsecs[wjets_HT400To600];
-double xsecWHT600To800   = xsecs[wjets_HT600To800];
-double xsecWHT800To1200  = xsecs[wjets_HT800To1200];
-double xsecWHT1200To2500 = xsecs[wjets_HT1200To2500];
-double xsecWHT2500ToInf  = xsecs[wjets_HT2500ToInf];
 double nevtsProcessedWIncl = getNEventsProcessed(dir+wjets+".root");
 double nevtsProcessedW1Jet = getNEventsProcessed(dir+w1jets+".root");
 double nevtsProcessedW2Jet = getNEventsProcessed(dir+w2jets+".root");
 double nevtsProcessedW3Jet = getNEventsProcessed(dir+w3jets+".root");
 double nevtsProcessedW4Jet = getNEventsProcessed(dir+w4jets+".root");
-double nevtsProcessedWHT70To100    = getNEventsProcessed(dir+wjets_HT70To100+".root");
-double nevtsProcessedWHT100To200   = getNEventsProcessed(dir+wjets_HT100To200+".root");
-double nevtsProcessedWHT200To400   = getNEventsProcessed(dir+wjets_HT200To400+".root");
-double nevtsProcessedWHT400To600   = getNEventsProcessed(dir+wjets_HT400To600+".root");
-double nevtsProcessedWHT600To800   = getNEventsProcessed(dir+wjets_HT600To800+".root");
-double nevtsProcessedWHT800To1200  = getNEventsProcessed(dir+wjets_HT800To1200+".root");
-double nevtsProcessedWHT1200To2500 = getNEventsProcessed(dir+wjets_HT1200To2500+".root");
-double nevtsProcessedWHT2500ToInf  = getNEventsProcessed(dir+wjets_HT2500ToInf+".root");
+double xsecWHT70To100    = 0;
+double xsecWHT100To200   = 0;
+double xsecWHT200To400   = 0;
+double xsecWHT400To600   = 0;
+double xsecWHT600To800   = 0;
+double xsecWHT800To1200  = 0;
+double xsecWHT1200To2500 = 0;
+double xsecWHT2500ToInf  = 0;
+double nevtsProcessedWHT70To100    = 0;
+double nevtsProcessedWHT100To200   = 0;
+double nevtsProcessedWHT200To400   = 0;
+double nevtsProcessedWHT400To600   = 0;
+double nevtsProcessedWHT600To800   = 0;
+double nevtsProcessedWHT800To1200  = 0;
+double nevtsProcessedWHT1200To2500 = 0;
+double nevtsProcessedWHT2500ToInf  = 0;
 double xsecDYIncl = xsecs[dyjets];
 double xsecDY1Jet = xsecs[dy1jets];
 double xsecDY2Jet = xsecs[dy2jets];
@@ -434,6 +435,25 @@ double mT (TLorentzVector v1, TLorentzVector Metv){
 void makeSelection(TString fullPath, TString treename, double xsec, TString iso, selectionCuts sel, TH1* histo, TString variableToFill_1, TString variableToFill_2, TString variableToFill_3)
 {
 
+  if(era != "2017"){
+    xsecWHT70To100    = xsecs[wjets_HT70To100];
+    xsecWHT100To200   = xsecs[wjets_HT100To200];
+    xsecWHT200To400   = xsecs[wjets_HT200To400];
+    xsecWHT400To600   = xsecs[wjets_HT400To600];
+    xsecWHT600To800   = xsecs[wjets_HT600To800];
+    xsecWHT800To1200  = xsecs[wjets_HT800To1200];
+    xsecWHT1200To2500 = xsecs[wjets_HT1200To2500];
+    xsecWHT2500ToInf  = xsecs[wjets_HT2500ToInf];
+    nevtsProcessedWHT70To100    = getNEventsProcessed(dir+wjets_HT70To100+".root");
+    nevtsProcessedWHT100To200   = getNEventsProcessed(dir+wjets_HT100To200+".root");
+    nevtsProcessedWHT200To400   = getNEventsProcessed(dir+wjets_HT200To400+".root");
+    nevtsProcessedWHT400To600   = getNEventsProcessed(dir+wjets_HT400To600+".root");
+    nevtsProcessedWHT600To800   = getNEventsProcessed(dir+wjets_HT600To800+".root");
+    nevtsProcessedWHT800To1200  = getNEventsProcessed(dir+wjets_HT800To1200+".root");
+    nevtsProcessedWHT1200To2500 = getNEventsProcessed(dir+wjets_HT1200To2500+".root");
+    nevtsProcessedWHT2500ToInf  = getNEventsProcessed(dir+wjets_HT2500ToInf+".root");
+  }
+
   TString filename = fullPath(fullPath.Last('/') + 1 , fullPath.Length());
 
   if(variableToFill_1 == variableToFill_2) histo->SetName(variableToFill_1);
@@ -505,16 +525,16 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
   TTreeReaderValue< Bool_t  >  *tauIsoVTightDeep = NULL;
   TTreeReaderValue< Bool_t  >  *tauIsoVVTightDeep = NULL;
   if(iso.Contains("Deep")){
-     tauIso = new TTreeReaderValue<Bool_t> (       *myReader,       "tauby"+iso+"VSjet");
-     tauIsoVVLooseDeep  = new TTreeReaderValue<Bool_t> (       *myReader,       "taubyVVLooseDeepTau2017v2VSjet");
-     tauIsoVLooseDeep  = new TTreeReaderValue<Bool_t> (       *myReader,       "taubyVLooseDeepTau2017v2VSjet");     
-     tauIsoLooseDeep  = new TTreeReaderValue<Bool_t> (       *myReader,       "taubyLooseDeepTau2017v2VSjet");
-     tauIsoMediumDeep  = new TTreeReaderValue<Bool_t> (       *myReader,       "taubyMediumDeepTau2017v2VSjet");
-     tauIsoTightDeep  = new TTreeReaderValue<Bool_t> (       *myReader,       "taubyTightDeepTau2017v2VSjet");
-     tauIsoVTightDeep  = new TTreeReaderValue<Bool_t> (       *myReader,       "taubyVTightDeepTau2017v2VSjet");
-     tauIsoVVTightDeep  = new TTreeReaderValue<Bool_t> (       *myReader,       "taubyVVTightDeepTau2017v2VSjet");
-     tauAntiMuonLoose3 = new TTreeReaderValue<Bool_t>(*myReader,       "taubyTightDeepTau2017v2VSmu");
-     tauAntiElectronLooseMVA6 = new TTreeReaderValue<Bool_t>(*myReader,"taubyVVTightDeepTau2017v2VSe");
+     tauIso             = new TTreeReaderValue<Bool_t>(       *myReader,       "tauby"+iso+"VSjet");
+     tauIsoVVLooseDeep  = new TTreeReaderValue<Bool_t>(       *myReader,       "taubyVVLooseDeepTau2017v2p1VSjet");
+     tauIsoVLooseDeep   = new TTreeReaderValue<Bool_t>(       *myReader,       "taubyVLooseDeepTau2017v2p1VSjet");
+     tauIsoLooseDeep    = new TTreeReaderValue<Bool_t>(       *myReader,       "taubyLooseDeepTau2017v2p1VSjet");
+     tauIsoMediumDeep   = new TTreeReaderValue<Bool_t>(       *myReader,       "taubyMediumDeepTau2017v2p1VSjet");
+     tauIsoTightDeep    = new TTreeReaderValue<Bool_t>(       *myReader,       "taubyTightDeepTau2017v2p1VSjet");
+     tauIsoVTightDeep   = new TTreeReaderValue<Bool_t>(       *myReader,       "taubyVTightDeepTau2017v2p1VSjet");
+     tauIsoVVTightDeep  = new TTreeReaderValue<Bool_t>(       *myReader,       "taubyVVTightDeepTau2017v2p1VSjet");
+     tauAntiMuonLoose3  = new TTreeReaderValue<Bool_t>(       *myReader,       "taubyTightDeepTau2017v2p1VSmu");
+     tauAntiElectronLooseMVA6 = new TTreeReaderValue<Bool_t>( *myReader,       "taubyVVTightDeepTau2017v2p1VSe");
   }
   else{
      tauAntiMuonLoose3 = new TTreeReaderValue<Bool_t> (*myReader,       "tauAntiMuonTight3");
@@ -529,7 +549,7 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
   TTreeReaderValue< Bool_t  >  *tauIsoLoose = NULL;
   /* tauIsoLoose = new TTreeReaderValue<Bool_t>(*myReader,"tauVVLooseMva2017v2Iso"); */
   if(iso.Contains("Mva")) tauIsoLoose = new TTreeReaderValue<Bool_t>(*myReader,"tauVVLooseMva2017v2Iso");
-  else if(iso.Contains("Deep")) tauIsoLoose = new TTreeReaderValue<Bool_t>(*myReader,"taubyVVVLooseDeepTau2017v2VSjet");
+  else if(iso.Contains("Deep")) tauIsoLoose = new TTreeReaderValue<Bool_t>(*myReader,"taubyVVVLooseDeepTau2017v2p1VSjet");
   else                    tauIsoLoose = new TTreeReaderValue<Bool_t>(*myReader,"tauLooseIso");
   TTreeReaderValue< Int_t   >  tauGenMatchDecay( *myReader,       "tauGenMatchDecay");
   TTreeReaderValue< UInt_t  >  tauGenMatch(      *myReader,       "tauGenMatch");
