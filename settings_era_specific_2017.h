@@ -60,7 +60,7 @@ const TString wjets_HT2500ToInf  = "WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgra
 
 const vector<TString> WJets_Trigger_sample = { wjets, w1jets, w2jets, w3jets, w4jets };
 const vector<TString> WJets_sample = WJets_Trigger_sample;
-const vector<TString> WJets_ff_sample = { wjets_1Jets_LHEWpT_100To150, wjets_1Jets_LHEWpT_150To250, wjets_1Jets_LHEWpT_250To400, wjets_1Jets_LHEWpT_400Toinf, wjets_2Jets_LHEWpT_100To150, wjets_2Jets_LHEWpT_150To250, wjets_2Jets_LHEWpT_250To400, wjets_2Jets_LHEWpT_400Toinf};
+const vector<TString> WJets_closure_sample = { wjets_1Jets_LHEWpT_100To150, wjets_1Jets_LHEWpT_150To250, wjets_1Jets_LHEWpT_250To400, wjets_1Jets_LHEWpT_400Toinf, wjets_2Jets_LHEWpT_100To150, wjets_2Jets_LHEWpT_150To250, wjets_2Jets_LHEWpT_250To400, wjets_2Jets_LHEWpT_400Toinf};
 
 const TString dyjets  = "DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8";
 const TString dy1jets = "DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8";

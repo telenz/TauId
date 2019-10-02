@@ -24,8 +24,8 @@ void ClosureTest_FakeRate() {
 
   std::vector<TString> obs = ZJets_sample;
   std::vector<TString> pred = ZJets_sample;
-  obs.insert(  obs.end() , WJets_sample.begin(), WJets_sample.end() );
-  pred.insert( pred.end(), WJets_sample.begin(), WJets_sample.end() );
+  obs.insert(  obs.end() , WJets_closure_sample.begin(), WJets_closure_sample.end() );
+  pred.insert( pred.end(), WJets_closure_sample.begin(), WJets_closure_sample.end() );
 
   std::vector<double> obs_xsec;
   for(unsigned int i=0; i<obs.size(); i++) obs_xsec.push_back( getXSec(obs[i]) );

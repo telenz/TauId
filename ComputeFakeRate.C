@@ -20,7 +20,7 @@ void ComputeFakeRate() {
   std::vector< std::pair<TString,std::vector<TString>> > samples;
   std::vector<TString> data_SingleMuon = SingleMuon_sample;
   std::vector<TString> data_JetHT      = JetHT_sample;
-  std::vector<TString> wjets           = WJets_ff_sample;
+  std::vector<TString> wjets           = WJets_closure_sample;
   std::vector<TString> genuineTaus     = DYJets_sample;
   genuineTaus.insert( genuineTaus.end(), VV_sample.begin()   , VV_sample.end() );
   genuineTaus.insert( genuineTaus.end(), TT_ST_sample.begin(), TT_ST_sample.end() );
