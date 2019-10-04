@@ -47,16 +47,11 @@ void ComputeFakeRate(bool make_closure = false) {
       // Definition of fake factor binning
       vector<Float_t> binsRatio;
       if (!doTauESmeasurement) binsRatio =  { 0.0 , 0.7 , 0.75 , 0.80 , 2.}; // new analysis binning for 2018
-      else binsRatio =  { 0.0 , 0.7 , 0.75 , 0.775, 0.80 , 0.9, 2.}; //finer binning for TES
+      else                     binsRatio =  { 0.0 , 0.7 , 0.75 , 0.775, 0.80 , 0.9, 2.}; //finer binning for TES
 
       vector<Float_t> binsJetPt;
-      // if( iso[idx_iso] == "VVLooseMva2017v2" || iso[idx_iso] == "VLooseMva2017v2" || iso[idx_iso] == "LooseMva2017v2" || iso[idx_iso] == "Loose"){
-      // 	binsJetPt = {100 , 140 , 160 , 180 , 200 , 220 , 240 , 260 , 300 , 340 , 380 , 420 , 460 , 500 , 1200}; // analysis binning v3
-      // }
-      // else                                 binsJetPt = {100 , 160 , 240 , 340 , 1200}; // new analysis binning
-      // binsJetPt = {100 , 160 , 240 , 340 , 1200}; // new analysis binning
       if (!doTauESmeasurement) binsJetPt = {100 ,160, 200, 240 , 1200}; // new analysis binning for 2018
-      else binsJetPt = {100 , 160, 180, 200, 240 , 1200}; //finer binning for TES
+      else                     binsJetPt = {100 , 160, 180, 200, 240 , 1200}; //finer binning for TES
 
       int nBinsRatio = binsRatio.size() - 1;
       int nBinsJetPt = binsJetPt.size() - 1;
@@ -311,7 +306,7 @@ void ComputeFakeRate(bool make_closure = false) {
       canv->cd();
       canv->SetSelected(canv);
       canv->Update();
-      canv->Print("figures/Unrolled_fakerate_differences_" + iso[idx_iso] + tauDecayMode+ ".png");
+      //canv->Print("figures/Unrolled_fakerate_differences_" + iso[idx_iso] + tauDecayMode+ ".png");
 
       // %%%%%%%%%%%%%%%%%%%%%%%%%  Write fake rates to root file %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       fileOutput->cd("");
