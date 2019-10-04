@@ -1,0 +1,19 @@
+WToTauNu:
+taues_X (shape) : tau energy scale seperately for the three decay modes X (2%)
+FR_XX (shape) : fake factor uncertainties in Bin XX ()
+BkgdNorm (lnN) : background normalization for true taus (MC) (30%) 
+
+
+WToMuNu:
+mu (shape) : muon momentum scale (2%)
+TTNorm (lnN) : tt normalization (15%)
+EWKNorm (lnN) : EWK normalization (15%)
+MuEff (lnN) : muon reconstruction efficiency (4%)
+
+
+Both:
+jes (shape) : jet energy scale
+ues (shape) : unclustered energy scale
+BinX_X (shape) : bin-by-bin uncertainties
+lumi (lnN) : luminosity
+ 
