@@ -176,7 +176,7 @@ void WToMuNuMeasurement() {
   canv->Modified();
   canv->SetSelected(canv);
   canv->Update();
-  canv->Print("figures/" + var + "_WToMuNu.pdf");
+  //canv->Print("figures/" + var + "_WToMuNu.pdf");
   canv->Print("figures/" + var + "_WToMuNu.png");
 
 
