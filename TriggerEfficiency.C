@@ -22,11 +22,11 @@ void TriggerEfficiency() {
   double xsecW2Jet = xsecs[w2jets];
   double xsecW3Jet = xsecs[w3jets];
   double xsecW4Jet = xsecs[w4jets];
-  double nevtsProcessedWIncl = getNEventsProcessed(dir+"/"+wjets+".root");
-  double nevtsProcessedW1Jet = getNEventsProcessed(dir+"/"+w1jets+".root");
-  double nevtsProcessedW2Jet = getNEventsProcessed(dir+"/"+w2jets+".root");
-  double nevtsProcessedW3Jet = getNEventsProcessed(dir+"/"+w3jets+".root");
-  double nevtsProcessedW4Jet = getNEventsProcessed(dir+"/"+w4jets+".root");
+  double nevtsProcessedWIncl = getNEventsProcessed(wjets);
+  double nevtsProcessedW1Jet = getNEventsProcessed(w1jets);
+  double nevtsProcessedW2Jet = getNEventsProcessed(w2jets);
+  double nevtsProcessedW3Jet = getNEventsProcessed(w3jets);
+  double nevtsProcessedW4Jet = getNEventsProcessed(w4jets);
 
   std::map<string,TGraphAsymmErrors*> effMapData;
   std::map<string,TGraphAsymmErrors*> effMapMC;
@@ -76,7 +76,7 @@ void TriggerEfficiency() {
       cout<<"---------- Processing  "<<samples[i].second[idx_list]<<"  ---------- "<<endl;
 
       double xsec = getXSec(samples[i].second[idx_list]);
-      double nevtsProcessed = getNEventsProcessed(dir + "/" + samples[i].second[idx_list] + ".root");
+      double nevtsProcessed = getNEventsProcessed(samples[i].second[idx_list]);
       double norm = luminosity*xsec/nevtsProcessed;
 
       while(myReader->Next()){

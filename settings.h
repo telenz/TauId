@@ -262,8 +262,9 @@ void initCuts()
   cr_fakerate_dijet_num.tauIso = true;
 }
 // ----------------------------------------------------------------------------------------------------
-double getNEventsProcessed(TString filename)
+double getNEventsProcessed(TString samplename)
 {
+  TString filename = dir + samplename + ".root";
   TFile * file = new TFile(filename);
   if( !file->GetListOfKeys()->Contains("histWeightsH") ){
     cout << " File "<<filename<<" not available -> nevents set to 0 !!!!!!" << endl;
@@ -273,6 +274,12 @@ double getNEventsProcessed(TString filename)
   double nevents = histWeightsH->GetSumOfWeights();
   file->Close();
   delete file;
+
+  // add hardcoded numbers for new 2016 and 2017 ntuples
+  if(era == "2017"){
+    if(samplename.Contains("_Run2017")) return 0;
+    return n_events_per_sample.at(samplename);
+  }
   return nevents;
 }
 // Needed for stitching
@@ -281,11 +288,11 @@ double xsecW1Jet = xsecs[w1jets];
 double xsecW2Jet = xsecs[w2jets];
 double xsecW3Jet = xsecs[w3jets];
 double xsecW4Jet = xsecs[w4jets];
-double nevtsProcessedWIncl = getNEventsProcessed(dir+wjets+".root");
-double nevtsProcessedW1Jet = getNEventsProcessed(dir+w1jets+".root");
-double nevtsProcessedW2Jet = getNEventsProcessed(dir+w2jets+".root");
-double nevtsProcessedW3Jet = getNEventsProcessed(dir+w3jets+".root");
-double nevtsProcessedW4Jet = getNEventsProcessed(dir+w4jets+".root");
+double nevtsProcessedWIncl = getNEventsProcessed(wjets);
+double nevtsProcessedW1Jet = getNEventsProcessed(w1jets);
+double nevtsProcessedW2Jet = getNEventsProcessed(w2jets);
+double nevtsProcessedW3Jet = getNEventsProcessed(w3jets);
+double nevtsProcessedW4Jet = getNEventsProcessed(w4jets);
 double xsecWHT70To100    = 0;
 double xsecWHT100To200   = 0;
 double xsecWHT200To400   = 0;
@@ -307,11 +314,11 @@ double xsecDY1Jet = xsecs[dy1jets];
 double xsecDY2Jet = xsecs[dy2jets];
 double xsecDY3Jet = xsecs[dy3jets];
 double xsecDY4Jet = xsecs[dy4jets];
-double nevtsProcessedDYIncl = getNEventsProcessed(dir+dyjets+".root");
-double nevtsProcessedDY1Jet = getNEventsProcessed(dir+dy1jets+".root");
-double nevtsProcessedDY2Jet = getNEventsProcessed(dir+dy2jets+".root");
-double nevtsProcessedDY3Jet = getNEventsProcessed(dir+dy3jets+".root");
-double nevtsProcessedDY4Jet = getNEventsProcessed(dir+dy4jets+".root");
+double nevtsProcessedDYIncl = getNEventsProcessed(dyjets);
+double nevtsProcessedDY1Jet = getNEventsProcessed(dy1jets);
+double nevtsProcessedDY2Jet = getNEventsProcessed(dy2jets);
+double nevtsProcessedDY3Jet = getNEventsProcessed(dy3jets);
+double nevtsProcessedDY4Jet = getNEventsProcessed(dy4jets);
 // ----------------------------------------------------------------------------------------------------
 void loadFakeRates(TString filename)
 {
@@ -444,17 +451,18 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
     xsecWHT800To1200  = xsecs[wjets_HT800To1200];
     xsecWHT1200To2500 = xsecs[wjets_HT1200To2500];
     xsecWHT2500ToInf  = xsecs[wjets_HT2500ToInf];
-    nevtsProcessedWHT70To100    = getNEventsProcessed(dir+wjets_HT70To100+".root");
-    nevtsProcessedWHT100To200   = getNEventsProcessed(dir+wjets_HT100To200+".root");
-    nevtsProcessedWHT200To400   = getNEventsProcessed(dir+wjets_HT200To400+".root");
-    nevtsProcessedWHT400To600   = getNEventsProcessed(dir+wjets_HT400To600+".root");
-    nevtsProcessedWHT600To800   = getNEventsProcessed(dir+wjets_HT600To800+".root");
-    nevtsProcessedWHT800To1200  = getNEventsProcessed(dir+wjets_HT800To1200+".root");
-    nevtsProcessedWHT1200To2500 = getNEventsProcessed(dir+wjets_HT1200To2500+".root");
-    nevtsProcessedWHT2500ToInf  = getNEventsProcessed(dir+wjets_HT2500ToInf+".root");
+    nevtsProcessedWHT70To100    = getNEventsProcessed(wjets_HT70To100);
+    nevtsProcessedWHT100To200   = getNEventsProcessed(wjets_HT100To200);
+    nevtsProcessedWHT200To400   = getNEventsProcessed(wjets_HT200To400);
+    nevtsProcessedWHT400To600   = getNEventsProcessed(wjets_HT400To600);
+    nevtsProcessedWHT600To800   = getNEventsProcessed(wjets_HT600To800);
+    nevtsProcessedWHT800To1200  = getNEventsProcessed(wjets_HT800To1200);
+    nevtsProcessedWHT1200To2500 = getNEventsProcessed(wjets_HT1200To2500);
+    nevtsProcessedWHT2500ToInf  = getNEventsProcessed(wjets_HT2500ToInf);
   }
 
   TString filename = fullPath(fullPath.Last('/') + 1 , fullPath.Length());
+  TString samplename = filename(0,filename.Length()-5);
 
   if(variableToFill_1 == variableToFill_2) histo->SetName(variableToFill_1);
   else                                     histo->SetName(variableToFill_1 + "_" + variableToFill_2);
@@ -587,7 +595,7 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
   TTreeReaderValue< Float_t >  var2(             *myReader,       variableToFill_2);
   TTreeReaderValue< Float_t >  var3(             *myReader,       variableToFill_3);
 
-  int nevtsProcessed = getNEventsProcessed(fullPath);
+  int nevtsProcessed = getNEventsProcessed(samplename);
   double norm = xsec*luminosity/nevtsProcessed;
 
   bool isData = filename.Contains("SingleMuon") || filename.Contains("JetHT") || filename.Contains("MET");
