@@ -244,7 +244,6 @@ void ComputeFakeRate(bool make_closure = false) {
       h_y->SetMinimum(0.000001);
       h_x->Draw();
 
-      //canv->SetLogy();
       TLegend * leg1 = new TLegend(0.35,0.2,0.89,0.4);
       SetLegendStyle(leg1);
       leg1->SetHeader(iso[idx_iso]);
@@ -257,7 +256,7 @@ void ComputeFakeRate(bool make_closure = false) {
       leg1->Draw();
       //canv->Print("figures/fakerate_"+samples[idx_sample].first+"_"+iso[idx_iso]+tauDecayMode+"_projectionY_tauJetPtDependence.png");
 
-       TH1D* h_unrolled = new TH1D("h_unrolled_"+samples[idx_sample].first+"_"+iso[idx_iso],"unrolled distribution",nBinsRatio*nBinsJetPt,1,nBinsRatio*nBinsJetPt+1);
+       TH1D* h_unrolled = new TH1D("h_unrolled_"+samples[idx_sample].first+"_"+iso[idx_iso],"",nBinsRatio*nBinsJetPt,1,nBinsRatio*nBinsJetPt+1);
 
        int index=1;
        for(int i=1; i<=nBinsRatio; i++){
@@ -278,6 +277,7 @@ void ComputeFakeRate(bool make_closure = false) {
       upper->cd();
       h_unrolled->GetYaxis()->SetTitle("fake rate");
       h_unrolled->GetXaxis()->SetTitle("bin number");
+      h_unrolled->GetYaxis()->SetTitleOffset(1.5);
       h_unrolled->Draw();
 
       leg1->Draw("same");
@@ -290,6 +290,7 @@ void ComputeFakeRate(bool make_closure = false) {
       TH1D* ratio = (TH1D*) h_unrolled->Clone("ratio_"+samples[idx_sample].first+"_"+iso[idx_iso]);
       ratio->GetYaxis()->SetTitle("low pt/all");
       ratio->GetXaxis()->SetTitle("");
+      ratio->GetYaxis()->SetTitleOffset(1.5);
       ratio->GetYaxis()->CenterTitle();
       ratio->GetYaxis()->SetRangeUser(0,4);
       TPad * lower = new TPad("lower", "pad",0,0,1,0.29);
