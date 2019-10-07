@@ -306,7 +306,7 @@ void ComputeFakeRate(bool make_closure = false) {
       canv->cd();
       canv->SetSelected(canv);
       canv->Update();
-      //canv->Print("figures/Unrolled_fakerate_differences_" + iso[idx_iso] + tauDecayMode+ ".png");
+      canv->Print("figures/Unrolled_fakerate_differences_" + iso[idx_iso] + tauDecayMode+ ".png");
 
       // %%%%%%%%%%%%%%%%%%%%%%%%%  Write fake rates to root file %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       fileOutput->cd("");
