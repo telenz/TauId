@@ -45,6 +45,7 @@ void ClosureTest_FakeRate() {
   //Float_t bins[] = {100,200,300,400,500,700};  // met binning
   //Float_t bins[] = {100,140,180,220,260,300,340,380,420,460,500,600,800}; // tauJetPt + tauPt + met fine binning
   Float_t bins[] = {200,300,400,500,600,800};  // mttau binning
+  //Float_t bins[] = {200,250,300,350,400,450,500,550,600,650,700,750,800};  // fine mttau binning
   //Float_t bins[] = {0.4,0.6,0.8,1.0,1.2,1.4,1.6,1.8};  // tauMass binning 3prong
   //Float_t bins[] = {0.0, 0.2, 0.4,0.6,0.8,1.0,1.2,1.4,1.6,1.8, 2.0, 2.2, 2.4};  // tauMass binning
   //Float_t bins[] = {0.05,0.1,0.125,0.15,0.2,0.25,0.3}; //tauMass binning 1prong 0pizeros
@@ -116,7 +117,7 @@ void ClosureTest_FakeRate() {
       observation->SetMaximum(prediction->GetMaximum()*1.2);
     }
 
-    TLegend * leg = new TLegend(0.55,0.4,0.85,0.78);
+    TLegend * leg = new TLegend(0.45,0.65,0.85,0.9);
     SetLegendStyle(leg);
     leg->SetTextSize(0.047);
     leg->SetHeader(iso[idx_iso]);
