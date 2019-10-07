@@ -132,14 +132,14 @@ void ClosureTest_FakeRate() {
     upper->Update();
     canv1->cd();
 
-    TH1D * ratioH = (TH1D*)prediction->Clone("ratioH");
-    ratioH->Divide(observation);
+    TH1D * ratioH = (TH1D*)observation->Clone("ratioH");
+    ratioH->Divide(prediction);
     ratioH->SetMarkerColor(1);
     ratioH->SetMarkerStyle(20);
     ratioH->SetMarkerSize(1.2);
     ratioH->SetLineColor(1);
     ratioH->GetYaxis()->SetRangeUser(0.0,2.0);
-    ratioH->GetYaxis()->SetTitle("pred/obs");
+    ratioH->GetYaxis()->SetTitle("obs/pred");
     ratioH->GetXaxis()->SetTitle("");
     ratioH->GetYaxis()->CenterTitle();
     // ------------>Primitives in pad: lower
