@@ -177,7 +177,7 @@ void WToMuNuMeasurement() {
   canv->SetSelected(canv);
   canv->Update();
   //canv->Print("figures/" + var + "_WToMuNu.pdf");
-  canv->Print("figures/" + var + "_WToMuNu.png");
+  //canv->Print("figures/" + var + "_WToMuNu.png");
 
 
   // Get bin-by-bin uncertainties for WMuNu
