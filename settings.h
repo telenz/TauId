@@ -276,8 +276,8 @@ double getNEventsProcessed(TString samplename)
   delete file;
 
   // add hardcoded numbers for new 2016 and 2017 ntuples
-  if(era == "2017"){
-    if(samplename.Contains("_Run2017")) return 0;
+  if(era == "2017" || era == "2016"){
+    if(samplename.Contains("_Run2017") || samplename.Contains("_Run2016")) return 0;
     return n_events_per_sample.at(samplename);
   }
   return nevents;
