@@ -106,7 +106,9 @@ void MakePostAndPreFitPlots(bool make_postfit = true, bool is_wtotaunu = true) {
     h_Data  -> Draw("P same");
     h_total -> Draw("e2 same");
 
-    TLegend * leg = new TLegend(0.43,0.49,0.83,0.83);
+    TLegend * leg = 0;
+    if(is_wtotaunu)  leg = new TLegend(0.43,0.49,0.83,0.83);
+    else             leg = new TLegend(0.6,0.49,0.83,0.83);
     //TLegend * leg = new TLegend(0.19,0.49,0.45,0.83); // for last tau pt bin figure
     SetLegendStyle(leg);
     if(is_wtotaunu) leg->SetHeader(iso[idx_iso]);
@@ -135,8 +137,8 @@ void MakePostAndPreFitPlots(bool make_postfit = true, bool is_wtotaunu = true) {
     float r = upper->GetRightMargin();
     float t = upper->GetTopMargin();
     latex.SetTextSize(lumiTextSize*t);
-    if(make_postfit) latex.DrawLatex(r+0.21,1-t+lumiTextOffset*t,"Post-fit");
-    else             latex.DrawLatex(r+0.19,1-t+lumiTextOffset*t,"Pre-fit");
+    if(make_postfit) latex.DrawLatex(r+0.25,1-2.2*t,"Post-fit");
+    else             latex.DrawLatex(r+0.23,1-2.2*t,"Pre-fit");
 
 
     upper->Draw("SAME");
