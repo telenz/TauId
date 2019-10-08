@@ -89,7 +89,7 @@ void MakePostAndPreFitPlots(bool make_postfit = true, bool is_wtotaunu = true) {
     h_Data->GetYaxis()->SetTitle(ytitle);
     h_Data->GetXaxis()->SetLabelSize(0.);
     h_Data->SetMaximum(h_Data->GetHistogram()->GetMaximum()*1.3);
-    h_Data->GetXaxis()->SetRangeUser(bins[0],bins[nBins]);
+    h_Data->GetXaxis()->SetRangeUser(100,bins[nBins]);
 
     // Make stack from all contributions
     THStack *stack = new THStack(iso[idx_iso],"");
@@ -106,7 +106,7 @@ void MakePostAndPreFitPlots(bool make_postfit = true, bool is_wtotaunu = true) {
     h_Data  -> Draw("P same");
     h_total -> Draw("e2 same");
 
-    TLegend * leg = new TLegend(0.56,0.49,0.83,0.83);
+    TLegend * leg = new TLegend(0.43,0.49,0.83,0.83);
     //TLegend * leg = new TLegend(0.19,0.49,0.45,0.83); // for last tau pt bin figure
     SetLegendStyle(leg);
     if(is_wtotaunu) leg->SetHeader(iso[idx_iso]);
@@ -125,6 +125,19 @@ void MakePostAndPreFitPlots(bool make_postfit = true, bool is_wtotaunu = true) {
     writeExtraText = true;
     extraText = "Preliminary";
     CMS_lumi(upper,iPeriod,33);
+    TLatex latex;
+    latex.SetNDC();
+    latex.SetTextAngle(0);
+    latex.SetTextColor(kBlack);
+    latex.SetTextFont(42);
+    latex.SetTextAlign(31);
+    latex.SetTextSize(10);
+    float r = upper->GetRightMargin();
+    float t = upper->GetTopMargin();
+    latex.SetTextSize(lumiTextSize*t);
+    if(make_postfit) latex.DrawLatex(r+0.21,1-t+lumiTextOffset*t,"Post-fit");
+    else             latex.DrawLatex(r+0.19,1-t+lumiTextOffset*t,"Pre-fit");
+
 
     upper->Draw("SAME");
     upper->RedrawAxis();
@@ -164,7 +177,7 @@ void MakePostAndPreFitPlots(bool make_postfit = true, bool is_wtotaunu = true) {
     lower->Draw();
     lower->cd();
     lower->SetGridy();
-    ratioH->GetXaxis()->SetRangeUser(bins[0],bins[nBins]);
+    ratioH->GetXaxis()->SetRangeUser(100,bins[nBins]);
     ratioH->Draw("AP");
     ratioErrH->Draw("e2same");
     
