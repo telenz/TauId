@@ -3,12 +3,12 @@
 
 TString era = "2016";
 
-TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2018/TauIDWithVirtualW/2016-legacy/TauId/NTuples/2016/";
+TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2018/TauIDWithVirtualW/DeepTauId/TauId/NTuples/2016/";
 
 double luminosity = 35890; // lumi used for 2016 analysis
 double lumi_unc = 1.025;
 
-TString triggerfile_output_name = "trigger_eff_HLT_PFMETNoMu110_PFMHTNoMu110_IDTight_2016-legacy_v2.root";
+TString triggerfile_output_name = "trigger_eff_HLT_PFMETNoMu110_PFMHTNoMu110_IDTight_2016-legacy_v3.root";
 
 TString kfactor_tau_file = "kfactor_tau_2016.root";
 TString kfactor_mu_file  = "kfactor_mu_2016.root";
@@ -153,5 +153,59 @@ map<TString, double> xsecs = {
 // (34-44) LO: https://cms-gen-dev.cern.ch/xsdb (DAS=WToTauNu_M-200_TuneCUETP8M1_13TeV-pythia8-tauola) - mass-dependent k-factors applied later
 // (45-51) LO: https://cms-gen-dev.cern.ch/xsdb (DAS=WToMuNu_M-200_TuneCUETP8M1_13TeV-pythia8) - mass-dependent k-factors applied later
 
+map<TString, int> n_events_per_sample = {
+{"WJetsToLNu"  , 86916455},
+{"W1JetsToLNu" , 45283121},
+{"W2JetsToLNu" , 30374504},
+{"W3JetsToLNu" , 39501912},
+{"W4JetsToLNu" , 20824737},
+{"WJetsToLNu_HT-70To100"    , 10020533},
+{"WJetsToLNu_HT-100To200"   , 78043017},
+{"WJetsToLNu_HT-200To400"   , 38984322},
+{"WJetsToLNu_HT-400To600"   , 7759701},
+{"WJetsToLNu_HT-600To800"   , 18687480},
+{"WJetsToLNu_HT-800To1200"  , 7830536},
+{"WJetsToLNu_HT-1200To2500" , 6872441},
+{"WJetsToLNu_HT-2500ToInf"  , 2637821},
+{"ZJetsToNuNu_HT-100To200"   , 24272858},
+{"ZJetsToNuNu_HT-200To400"   , 24761211},
+{"ZJetsToNuNu_HT-400To600"   , 9862869},
+{"ZJetsToNuNu_HT-600To800"   , 5766322},
+{"ZJetsToNuNu_HT-800To1200"  , 2170137},
+{"ZJetsToNuNu_HT-1200To2500" , 513471},
+{"ZJetsToNuNu_HT-2500ToInf"  , 405030},
+{"ZZ" , 1988098},
+{"WW" , 7982180},
+{"WZ" , 3997571},
+{"DYJetsToLL_M-10to50" , 35114961},
+{"DYJetsToLL_M-50"     , 146280395},
+{"DY1JetsToLL_M-50"    , 63730337},
+{"DY2JetsToLL_M-50"    , 19879279},
+{"DY3JetsToLL_M-50"    , 5857441},
+{"DY4JetsToLL_M-50"    , 4197868},
+{"TT" , 76915549},
+{"ST_t-channel_top_4f_inclusiveDecays"     , 67105876},
+{"ST_t-channel_antitop_4f_inclusiveDecays" , 38811017},
+{"ST_tW_top_5f_inclusiveDecays"            , 6952830},
+{"ST_tW_antitop_5f_inclusiveDecays"        , 6933094},
+{"WToTauNu_M-200"         , 999130},
+{"WToTauNu_M-200_jesUp"   , 999130},
+{"WToTauNu_M-200_jesDown" , 999130},
+{"WToTauNu_M-200_uesUp"   , 999130},
+{"WToTauNu_M-200_uesDown" , 999130},
+{"WToTauNu_M-200_taues_1prong0pizerosUp"       , 999130},
+{"WToTauNu_M-200_taues_1prong0pizerosDown"     , 999130},
+{"WToTauNu_M-200_taues_1prongUpTo4pizerosUp"   , 999130},
+{"WToTauNu_M-200_taues_1prongUpTo4pizerosDown" , 999130},
+{"WToTauNu_M-200_taues_3prong0pizerosUp"       , 999130},
+{"WToTauNu_M-200_taues_3prong0pizerosDown"     , 999130},
+{"WToMuNu_M-200"          , 996128},
+{"WToMuNu_M-200_jesUp"    , 996128},
+{"WToMuNu_M-200_jesDown"  , 996128},
+{"WToMuNu_M-200_muUp"     , 996128},
+{"WToMuNu_M-200_muDown"   , 996128},
+{"WToMuNu_M-200_uesUp"    , 996128},
+{"WToMuNu_M-200_uesDown"  , 996128},
+};
 
 #endif
