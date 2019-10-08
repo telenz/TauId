@@ -272,7 +272,7 @@ void ComputeFakeRate(bool make_closure = false) {
       }
       canv->cd();
       canv->Clear();
-      TPad * upper = new TPad("upper", "pad",0,0.29,1,1);
+      TPad * upper = new TPad("upper", "pad",0,0.5,1,1);
       upper->Draw();
       upper->cd();
       h_unrolled->GetYaxis()->SetTitle("fake rate");
@@ -287,21 +287,13 @@ void ComputeFakeRate(bool make_closure = false) {
       upper->Modified();
       upper->Update();
       canv->cd();
-      TH1D* ratio = (TH1D*) h_unrolled->Clone("ratio_"+samples[idx_sample].first+"_"+iso[idx_iso]);
-      ratio->GetYaxis()->SetTitle("low pt/all");
-      ratio->GetXaxis()->SetTitle("");
-      ratio->GetYaxis()->SetTitleOffset(1.5);
-      ratio->GetYaxis()->CenterTitle();
-      ratio->GetYaxis()->SetRangeUser(0,4);
-      TPad * lower = new TPad("lower", "pad",0,0,1,0.29);
+      TPad * lower = new TPad("lower", "pad",0,0,1,0.5);
       lower->Draw();
       lower->cd();
       lower->SetGridy();
-      ratio->SetLineColor(kBlack);
-      ratio->SetMarkerColor(kBlack);
-      ratio->Draw();
       lower->Modified();
       lower->RedrawAxis();
+      h_unrolled->Draw();
       canv->cd();
       canv->Modified();
       canv->cd();
