@@ -71,4 +71,4 @@ ls $dirMC/ST_tW_top_5f*/*root > ST_tW_top_5f_inclusiveDecays
 
 ls $dirMC/WW_TuneCUETP8M1_13TeV-pythia8*/*root > WW
 ls $dirMC/WZ_TuneCUETP8M1_13TeV-pythia8*/*root > WZ
-ls $dirMC/ZZ_TuneCUETP8M1_13TeV-pythia8*/*root > ZZ
+ls $dirMC/ZZ_TuneCUETP8M1_13TeV*/*root > ZZ
