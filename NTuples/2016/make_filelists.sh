@@ -3,8 +3,8 @@
 # this script creates filelists for 2016-legacy data
 
 dirDataSingleMuon=/pnfs/desy.de/cms/tier2/store/user/mmeyer/ntuples/2016/data/SingleMuon/
-dirDataJetHT=/pnfs/desy.de/cms/tier2/store/user/mmeyer/ntuples/2016/data/JetHT/
-dirDataMET=/pnfs/desy.de/cms/tier2/store/user/mmeyer/ntuples/2016/data/MET/
+dirDataJetHT=/pnfs/desy.de/cms/tier2/store/user/mmeyer/ntuples/2016/data/JetHT_v2/
+dirDataMET=/pnfs/desy.de/cms/tier2/store/user/mmeyer/ntuples/2016/data/MET_v2/
 dirMC=/pnfs/desy.de/cms/tier2/store/user/mmeyer/ntuples/2016/mc/
 
 ls $dirDataSingleMuon/SingleMuon_Run2016B-17Jul2018*/*root > SingleMuon_Run2016B
