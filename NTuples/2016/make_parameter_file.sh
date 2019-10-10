@@ -26,21 +26,21 @@ echo "CONFIGFILE,FILELIST" > parameters.txt
 ./split_filelist.sh analysisNTupleProducer_tauid_Data_2016.conf SingleMuon_Run2016G 20
 ./split_filelist.sh analysisNTupleProducer_tauid_Data_2016.conf SingleMuon_Run2016H 20
 
-./split_filelist.sh analysisNTupleProducer_tauid_Data_2016.conf JetHT_Run2016B 40
-./split_filelist.sh analysisNTupleProducer_tauid_Data_2016.conf JetHT_Run2016C 40
-./split_filelist.sh analysisNTupleProducer_tauid_Data_2016.conf JetHT_Run2016D 40
-./split_filelist.sh analysisNTupleProducer_tauid_Data_2016.conf JetHT_Run2016E 40
-./split_filelist.sh analysisNTupleProducer_tauid_Data_2016.conf JetHT_Run2016F 40
-./split_filelist.sh analysisNTupleProducer_tauid_Data_2016.conf JetHT_Run2016G 40
-./split_filelist.sh analysisNTupleProducer_tauid_Data_2016.conf JetHT_Run2016H 40
+./split_filelist.sh analysisNTupleProducer_tauid_Data_2016.conf JetHT_Run2016B 20
+./split_filelist.sh analysisNTupleProducer_tauid_Data_2016.conf JetHT_Run2016C 20
+./split_filelist.sh analysisNTupleProducer_tauid_Data_2016.conf JetHT_Run2016D 20
+./split_filelist.sh analysisNTupleProducer_tauid_Data_2016.conf JetHT_Run2016E 20
+./split_filelist.sh analysisNTupleProducer_tauid_Data_2016.conf JetHT_Run2016F 20
+./split_filelist.sh analysisNTupleProducer_tauid_Data_2016.conf JetHT_Run2016G 20
+./split_filelist.sh analysisNTupleProducer_tauid_Data_2016.conf JetHT_Run2016H 20
 
-./split_filelist.sh analysisNTupleProducer_tauid_Data_2016.conf MET_Run2016B 40
-./split_filelist.sh analysisNTupleProducer_tauid_Data_2016.conf MET_Run2016C 40
-./split_filelist.sh analysisNTupleProducer_tauid_Data_2016.conf MET_Run2016D 40
-./split_filelist.sh analysisNTupleProducer_tauid_Data_2016.conf MET_Run2016E 40
-./split_filelist.sh analysisNTupleProducer_tauid_Data_2016.conf MET_Run2016F 40
-./split_filelist.sh analysisNTupleProducer_tauid_Data_2016.conf MET_Run2016G 40
-./split_filelist.sh analysisNTupleProducer_tauid_Data_2016.conf MET_Run2016H 40
+./split_filelist.sh analysisNTupleProducer_tauid_Data_2016.conf MET_Run2016B 20
+./split_filelist.sh analysisNTupleProducer_tauid_Data_2016.conf MET_Run2016C 20
+./split_filelist.sh analysisNTupleProducer_tauid_Data_2016.conf MET_Run2016D 20
+./split_filelist.sh analysisNTupleProducer_tauid_Data_2016.conf MET_Run2016E 20
+./split_filelist.sh analysisNTupleProducer_tauid_Data_2016.conf MET_Run2016F 20
+./split_filelist.sh analysisNTupleProducer_tauid_Data_2016.conf MET_Run2016G 20
+./split_filelist.sh analysisNTupleProducer_tauid_Data_2016.conf MET_Run2016H 20
 
 ./split_filelist.sh analysisNTupleProducer_tauid_MC_2016.conf WJetsToLNu 40
 ./split_filelist.sh analysisNTupleProducer_tauid_MC_2016.conf W1JetsToLNu 40
