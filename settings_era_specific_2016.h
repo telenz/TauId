@@ -109,11 +109,11 @@ map<TString, double> xsecs = {
 {"ZJetsToNuNu_HT-800To1200"     , 1.1802},   // LO (18)
 {"ZJetsToNuNu_HT-1200To2500"    , 0.28629},  // LO (19)
 {"ZJetsToNuNu_HT-2500ToInf"     , 0.006912}, // LO (20)
-{"DYJetsToLL_M-50"              , 6225.42},  // NNLO (21)
-{"DY1JetsToLL_M-50"             , 1012.0*1.254}, // NNLO (22)
-{"DY2JetsToLL_M-50"             , 334.7*1.254},  // NNLO (23)
-{"DY3JetsToLL_M-50"             , 102.3*1.254},  // NNLO (24)
-{"DY4JetsToLL_M-50"             , 54.52*1.254},  // NNLO (25)
+{"DYJetsToLL_M-50"              , 6077.22},  // NNLO (21)
+{"DY1JetsToLL_M-50"             , 1012.0*1.225}, // NNLO (22)
+{"DY2JetsToLL_M-50"             , 334.7*1.225},  // NNLO (23)
+{"DY3JetsToLL_M-50"             , 102.3*1.225},  // NNLO (24)
+{"DY4JetsToLL_M-50"             , 54.52*1.225},  // NNLO (25)
 {"ZZ"                           , 10.16},  // LO (26)
 {"WW"                           , 64.3},   // LO (27)
 {"WZ"                           , 23.43},  // LO (28)
@@ -145,7 +145,7 @@ map<TString, double> xsecs = {
 // (1) NNLO: https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat13TeV; LO: https://cms-gen-dev.cern.ch/xsdb (DAS=WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8) -> k-factor=61526.7/50260.0 = 1.224
 // (2-13) LO: https://cms-gen-dev.cern.ch/xsdb (e.g. DAS=W1JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8) for W3Jets from old measurement, k-factor see (1)
 // (14-20) LO: https://cms-gen-dev.cern.ch/xsdb (e.g. DAS=ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph)
-// (21) NNLO: https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat13TeV; LO: https://cms-gen-dev.cern.ch/xsdb (DAS=DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM) -> k-factor = 6225.42/4963.0 = 1.254
+// (21) NNLO: https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat13TeV; LO: https://cms-gen-dev.cern.ch/xsdb (DAS=DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM) -> k-factor = 6077.22/4963.0 = 1.225
 // (22-25) LO: https://cms-gen-dev.cern.ch/xsdb (e.g. DAS=DY1JetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM)
 // (26-28) LO: https://cms-gen-dev.cern.ch/xsdb (e.g. DAS=WZ_TuneCUETP8M1_13TeV-pythia8)
 // (29) https://twiki.cern.ch/twiki/bin/view/LHCPhysics/TtbarNNLO#Top_quark_pair_cross_sections_at
