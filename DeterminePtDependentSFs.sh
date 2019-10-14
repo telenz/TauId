@@ -7,7 +7,7 @@ tauptlow=("100" "150" "200")
 taupthigh=("150" "200" "1000000")
 
 # define which working point should be used for determination of mean pT
-isoWPMeanPt=MediumMva2017v2
+isoWPMeanPt=MediumDeepTau2017v2p1
 
 # set the CMSSW versionf or combine
 CMSSW_Combine=/nfs/dust/cms/user/mameyer/SM_HiggsTauTau/CMSSW_8_1_0
@@ -35,13 +35,13 @@ do
     echo $line | sed -E 's/.*\("(.*)"\).*/\1/' >> iso.txt
 done < settings.h
 
-for ((i=1;i<${#tauptlow[@]}+1;++i)); 
+for ((i=0;i<${#tauptlow[@]};++i));
 do
     echo "------------------------------------------------------------------------"
     printf "Processing tau Pt bin from  %s to %s\n" "${tauptlow[i]}" "${taupthigh[i]}"
 
-    sed -i "s|double tau_pt_low = 100;|double tau_pt_low = ${tauptlow[i]};|g" settings.h
-    sed -i "s|double tau_pt_high = 1000000;|double tau_pt_high = ${taupthigh[i]};|g" settings.h 
+    sed -i "s|double tau_pt_low =.*|double tau_pt_low = ${tauptlow[i]};|g" settings.h
+    sed -i "s|double tau_pt_high =.*|double tau_pt_high = ${taupthigh[i]};|g" settings.h
 
     root -l -b -q WToTauNuMeasurement.C+
     root -l -b -q DatacardProducer_WToTauNu.C+
