@@ -1,5 +1,7 @@
 #!bin/sh
 
+echo "CONFIGFILE,FILELIST" > parameters.txt
+
 # For trigger efficiencies
 #./split_filelist.sh analysisNTupleProducer_tauid_Data_2018.conf SingleMuon_Run2018A 20
 #./split_filelist.sh analysisNTupleProducer_tauid_Data_2018.conf SingleMuon_Run2018B 20
