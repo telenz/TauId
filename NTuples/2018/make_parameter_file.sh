@@ -37,7 +37,7 @@ echo "CONFIGFILE,FILELIST" > parameters.txt
 ./split_filelist.sh analysisNTupleProducer_tauid_MC_2018.conf W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8 20
 ./split_filelist.sh analysisNTupleProducer_tauid_MC_2018.conf W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8 20
 
- Wjets HT binned
+# Wjets HT binned
 ./split_filelist.sh analysisNTupleProducer_tauid_MC_2018.conf WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8 20
 ./split_filelist.sh analysisNTupleProducer_tauid_MC_2018.conf WJetsToLNu_HT-1200To2500_TuneCP5_13TeV-madgraphMLM-pythia8 20
 ./split_filelist.sh analysisNTupleProducer_tauid_MC_2018.conf WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8 20
