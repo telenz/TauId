@@ -14,7 +14,8 @@ combine -M FitDiagnostics \
     -m 81 datacard_$1_Combined$2.txt \
     --redefineSignalPOIs tauId \
     --setParameters r=1.0 \
-    -s 1234
+    -s 1234 \
+    --cminDefaultMinimizerStrategy 0 \
 
 # some scale factors were determined with rMin=0.0, some with rMin=0.3
 
