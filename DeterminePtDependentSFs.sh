@@ -1,7 +1,7 @@
 #!bin/sh
+setopt KSH_ARRAYS
 
 #--------------------------------------------------------------------------------------------------------------------
-
 #define the taupt bins here:
 tauptlow=("100" "150" "200")
 taupthigh=("150" "200" "1000000")
@@ -92,7 +92,7 @@ done
 
 
 #determine mean pT
-for ((i=1;i<${#tauptlow[@]}+1;++i));
+for ((i=0;i<${#tauptlow[@]};++i));
 do
 cd output/TauPt_${tauptlow[i]}_${taupthigh[i]}
 root -b -l tauPt_${isoWPMeanPt}.root <<EOF > mean_${tauptlow[i]}_${taupthigh[i]}.txt
@@ -104,20 +104,20 @@ done
 #put results into a table
 rm TauPtDependentSFs.txt
 echo -n '\\begin{tabular}{|l|'>>TauPtDependentSFs.txt
-for ((i=1;i<${#tauptlow[@]}+1;++i));
+for ((i=0;i<${#tauptlow[@]};++i));
 do
     echo -n 'c|' >>TauPtDependentSFs.txt
 done
 echo '}' >>TauPtDependentSFs.txt  
 echo "\\hline" >>TauPtDependentSFs.txt
 echo -n "Discriminant                                " >>TauPtDependentSFs.txt      
-for ((i=1;i<${#tauptlow[@]}+1;++i));
+for ((i=0;i<${#tauptlow[@]};++i));
 do
   echo -n "& \$${tauptlow[i]}<p_{T}^{\\\tau}<${taupthigh[i]}\$" >>TauPtDependentSFs.txt
 done
 echo "\\\\\\">>TauPtDependentSFs.txt
 echo -n "$\\langle p_{T}\\\rangle\\left[\\\textrm{GeV}\\\right]\$ " >>TauPtDependentSFs.txt
-for ((i=1;i<${#tauptlow[@]}+1;++i));
+for ((i=0;i<${#tauptlow[@]};++i));
 do
     echo -n "&" >>TauPtDependentSFs.txt
     echo -n "$(<output/TauPt_${tauptlow[i]}_${taupthigh[i]}/mean_${tauptlow[i]}_${taupthigh[i]}.txt)" | grep "  " | tr "\n" "\t" >>TauPtDependentSFs.txt
@@ -128,7 +128,7 @@ echo "\\hline" >>TauPtDependentSFs.txt
 while read -r iso
 do
     echo -n "${iso}                " >>TauPtDependentSFs.txt
-    for ((i=1;i<${#tauptlow[@]}+1;++i));
+    for ((i=0;i<${#tauptlow[@]};++i));
     do
         echo -n "&" >>TauPtDependentSFs.txt
         fgrep -w ${iso}  datacards/TauPt_${tauptlow[i]}_${taupthigh[i]}/results.txt | sed "s/${iso} : //g" | tr '\n' '\0' >>TauPtDependentSFs.txt
