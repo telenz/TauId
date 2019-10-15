@@ -89,7 +89,7 @@ void MakePostAndPreFitPlots(bool make_postfit = true, bool is_wtotaunu = true) {
     h_Data->GetYaxis()->SetTitle(ytitle);
     h_Data->GetXaxis()->SetLabelSize(0.);
     h_Data->SetMaximum(h_Data->GetHistogram()->GetMaximum()*1.3);
-    h_Data->GetXaxis()->SetRangeUser(100,bins[nBins]);
+    h_Data->GetXaxis()->SetRangeUser(bins[0],bins[nBins]);
 
     // Make stack from all contributions
     THStack *stack = new THStack(iso[idx_iso],"");
@@ -179,7 +179,7 @@ void MakePostAndPreFitPlots(bool make_postfit = true, bool is_wtotaunu = true) {
     lower->Draw();
     lower->cd();
     lower->SetGridy();
-    ratioH->GetXaxis()->SetRangeUser(100,bins[nBins]);
+    ratioH->GetXaxis()->SetRangeUser(bins[0],bins[nBins]);
     ratioH->Draw("AP");
     ratioErrH->Draw("e2same");
     
