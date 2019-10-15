@@ -1,5 +1,4 @@
 #!bin/sh
-setopt KSH_ARRAYS
 
 #--------------------------------------------------------------------------------------------------------------------
 #define the taupt bins here:
@@ -47,8 +46,8 @@ do
     root -l -b -q DatacardProducer_WToTauNu.C+
 
     cd datacards
-    source RunCombine.sh
-   #source make_pulls_impacts_plots.sh
+    sh RunCombine.sh
+   #sh make_pulls_impacts_plots.sh
     python readTauIDs.py >results.txt
     cd ..
 
@@ -103,27 +102,27 @@ done
 
 #put results into a table
 rm TauPtDependentSFs.txt
-echo -n '\\begin{tabular}{|l|'>>TauPtDependentSFs.txt
+echo -n '\begin{tabular}{|l|'>>TauPtDependentSFs.txt
 for ((i=0;i<${#tauptlow[@]};++i));
 do
     echo -n 'c|' >>TauPtDependentSFs.txt
 done
 echo '}' >>TauPtDependentSFs.txt  
-echo "\\hline" >>TauPtDependentSFs.txt
+echo "\hline" >>TauPtDependentSFs.txt
 echo -n "Discriminant                                " >>TauPtDependentSFs.txt      
 for ((i=0;i<${#tauptlow[@]};++i));
 do
-  echo -n "& \$${tauptlow[i]}<p_{T}^{\\\tau}<${taupthigh[i]}\$" >>TauPtDependentSFs.txt
+  echo -n "& \$${tauptlow[i]}<p_{T}^{\\tau}<${taupthigh[i]}\$" >>TauPtDependentSFs.txt
 done
-echo "\\\\\\">>TauPtDependentSFs.txt
-echo -n "$\\langle p_{T}\\\rangle\\left[\\\textrm{GeV}\\\right]\$ " >>TauPtDependentSFs.txt
+echo "\\\\">>TauPtDependentSFs.txt
+echo -n "$\langle p_{T}\\rangle\\left[\\textrm{GeV}\\right]\$ " >>TauPtDependentSFs.txt
 for ((i=0;i<${#tauptlow[@]};++i));
 do
     echo -n "&" >>TauPtDependentSFs.txt
     echo -n "$(<output/TauPt_${tauptlow[i]}_${taupthigh[i]}/mean_${tauptlow[i]}_${taupthigh[i]}.txt)" | grep "  " | tr "\n" "\t" >>TauPtDependentSFs.txt
 done
-echo "\\\\\\" >>TauPtDependentSFs.txt
-echo "\\hline" >>TauPtDependentSFs.txt
+echo "\\\\" >>TauPtDependentSFs.txt
+echo "\hline" >>TauPtDependentSFs.txt
 
 while read -r iso
 do
@@ -133,7 +132,7 @@ do
         echo -n "&" >>TauPtDependentSFs.txt
         fgrep -w ${iso}  datacards/TauPt_${tauptlow[i]}_${taupthigh[i]}/results.txt | sed "s/${iso} : //g" | tr '\n' '\0' >>TauPtDependentSFs.txt
     done
-    echo "\\\\\\" >>TauPtDependentSFs.txt
+    echo "\\\\" >>TauPtDependentSFs.txt
 done <iso.txt
-echo "\\hline" >>TauPtDependentSFs.txt
-echo '\\end{tabular}' >>TauPtDependentSFs.txt
+echo '\hline' >>TauPtDependentSFs.txt
+echo '\end{tabular}' >>TauPtDependentSFs.txt
