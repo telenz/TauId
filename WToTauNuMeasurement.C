@@ -95,14 +95,14 @@ void WToTauNuMeasurement() {
       cout<<"Process "<<samples[i].first<<endl;
 
       TH1D* histoSamples = new TH1D(samples[i].first + "_" + iso[idx_iso],"",nBins,&mttau_bins[0]);
-      TH1D* histoSamples_tauPt = new TH1D(samples[i].first + "_" + iso[idx_iso]+"_tauPt","",nBins,&mttau_bins[0]);
+      TH1D* histoSamples_tauPt = new TH1D(samples[i].first + "_" + iso[idx_iso]+"_tauPt","",100,100,1000);
 
       for(unsigned int idx_list=0; idx_list<samples[i].second.size(); idx_list++){
 
 	cout<<".............. Sample : "<<samples[i].second[idx_list]<<endl;
 
 	TH1D* histo = new TH1D(samples[i].second[idx_list],samples[i].second[idx_list],nBins,&mttau_bins[0]);
-   TH1D* histo_tauPt = new TH1D(samples[i].second[idx_list]+"_tauPt",samples[i].second[idx_list]+"_tauPt",nBins,&mttau_bins[0]);
+        TH1D* histo_tauPt = new TH1D(samples[i].second[idx_list]+"_tauPt",samples[i].second[idx_list]+"_tauPt",100,100,1000);
 
 	selectionCuts select = sr_trueTaus;
 	if( samples[i].first.Contains("FakeTaus") ){
@@ -113,14 +113,14 @@ void WToTauNuMeasurement() {
    makeSelection(dir+"/"+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),iso[idx_iso],select,histo_tauPt,var3,var4,var4);
 
 	histoSamples->Add(histo);
-   histoSamples_tauPt->Add(histo_tauPt);
+        histoSamples_tauPt->Add(histo_tauPt);
 	histoSamples->SetName(histo->GetName());
 	histoSamples->SetFillStyle(1001);
 	if(samples[i].first.Contains("FakeTaus")) histoSamples->SetFillColor(TColor::GetColor("#FFCCFF"));
 	else if(samples[i].first.Contains("TrueTaus")) histoSamples->SetFillColor(TColor::GetColor("#6F2D35"));
 	else if(samples[i].first.Contains("W")) histoSamples->SetFillColor(TColor::GetColor("#FFCC66"));
 	delete histo;
-   delete histo_tauPt;
+        delete histo_tauPt;
       }
 
       histoMap[samples[i].first] = histoSamples;
