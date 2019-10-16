@@ -50,9 +50,9 @@ map<TString,TH2D>* h_fakerate_down = new map<TString,TH2D>();
 TH1D* h_kFactor= 0;
 
 // Definition of mttau and mtmuon bins
-vector<Float_t> mtmuon_bins = { 0 , 100 , 200 , 300 , 400 , 500 , 600 , 700 , 1000};
+vector<Float_t> mtmuon_bins = { 100 , 200 , 300 , 400 , 500 , 600 , 700 , 1000};
+vector<Float_t> mttau_bins  = { 160 , 220 , 280 , 340 , 420 , 500 , 580 , 680 ,  800 , 1000};
 //vector<Float_t> mttau_bins  = { 0 , 100 , 200 , 300 , 400 , 500 , 600 , 700 , 800 , 900 , 1000};
-vector<Float_t> mttau_bins  = { 0 , 50, 100 , 150, 200 , 250, 300 , 350, 400 , 450, 500 , 550, 600 ,650, 700 ,750, 800 , 850, 900 , 950, 1000};
 
 //Float_t bins[] = { 200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500};
 //Float_t bins[] = { 100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300};
@@ -645,7 +645,7 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
         //metnomu and mhtnomu are not varied
      }
 
-     if(*trig != sel.trigger && (sel.selection == 3 || sel.name == "cr_fakerate_norm" || sel.name == "cr_fakerate_den" || sel.name == "cr_fakerate_num" )) continue;
+     if(*trig != sel.trigger && (sel.selection == 3 || sel.name == "cr_fakerate_norm" )) continue;
     //if(sel.selection == 4 && (*pfJet40 != sel.pfJetTrigger && *pfJet60 != sel.pfJetTrigger && *pfJet80 != sel.pfJetTrigger && *pfJet140 != sel.pfJetTrigger && *(*pfJet200) != sel.pfJetTrigger && *(*pfJet260) != sel.pfJetTrigger && *(*pfJet320) != sel.pfJetTrigger && *(*pfJet400) != sel.pfJetTrigger && *(*pfJet450) != sel.pfJetTrigger && *(*pfJet500) != sel.pfJetTrigger)) continue;
     if(sel.selection == 4 && (*pfJet60 != sel.pfJetTrigger && *pfJet80 != sel.pfJetTrigger && *pfJet140 != sel.pfJetTrigger && *(*pfJet200) != sel.pfJetTrigger && *(*pfJet260) != sel.pfJetTrigger && *(*pfJet320) != sel.pfJetTrigger && *(*pfJet400) != sel.pfJetTrigger && *(*pfJet450) != sel.pfJetTrigger)) continue;
 
