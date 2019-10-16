@@ -69,12 +69,12 @@ void loadWorkingPoints()
   iso.push_back("TightDeepTau2017v2p1");
   iso.push_back("VTightDeepTau2017v2p1");
   iso.push_back("VVTightDeepTau2017v2p1");
-  iso.push_back("VLooseMva2017v2");
-  iso.push_back("LooseMva2017v2");
-  iso.push_back("MediumMva2017v2");
-  iso.push_back("TightMva2017v2");
-  iso.push_back("VTightMva2017v2");
-  iso.push_back("VVTightMva2017v2");
+  /* iso.push_back("VLooseMva2017v2"); */
+  /* iso.push_back("LooseMva2017v2"); */
+  /* iso.push_back("MediumMva2017v2"); */
+  /* iso.push_back("TightMva2017v2"); */
+  /* iso.push_back("VTightMva2017v2"); */
+  /* iso.push_back("VVTightMva2017v2"); */
   /* iso.push_back("Tight"); */
   /* iso.push_back("Medium"); */
   /* iso.push_back("Loose"); */
