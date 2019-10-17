@@ -22,8 +22,8 @@ root -l -b -q DatacardProducer_WToMuNu.C+
 # Make datacards and run Combine
 iniCMSSW_8_1_0   # needed for Combine (definition see below)
 cd datacards
-source RunCombine.sh
-#source make_pulls_impacts_plots.sh
+sh RunCombine.sh
+#sh make_pulls_impacts_plots.sh
 cd ..
 
 # Make postfit plots 
