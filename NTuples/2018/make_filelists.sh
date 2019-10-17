@@ -20,11 +20,11 @@ ls $dirMETData/MET_Run2018B-17Sep2018-v1/*root > MET_Run2018B
 ls $dirMETData/MET_Run2018C-17Sep2018-v1/*root > MET_Run2018C
 ls $dirMETData/MET_Run2018D-PromptReco-v2/*root > MET_Run2018D
 
-ls $dirMC/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/*root > DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8
-ls $dirMC/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/*root > DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8
-ls $dirMC/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/*root > DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8
-ls $dirMC/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/*root > DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8
-ls $dirMC/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/*root > DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8
+ls $dirMC/DYJetsToLL_M-50/*root > DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8
+ls $dirMC/DY1JetsToLL_M-50/*root > DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8
+ls $dirMC/DY2JetsToLL_M-50/*root > DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8
+ls $dirMC/DY3JetsToLL_M-50/*root > DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8
+ls $dirMC/DY4JetsToLL_M-50/*root > DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8
 
 ls $dirMC/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8/*root > TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8
 ls $dirMC/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/*root > TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8
@@ -48,13 +48,13 @@ ls $dirMC/WJetsToLNu_HT-800To1200_TuneCP5_13TeV-madgraphMLM-pythia8/*root > WJet
 ls $dirMC/WToMuNu_M-200_TuneCP5_13TeV-pythia8/*root > WToMuNu_M-200_TuneCP5_13TeV-pythia8
 ls $dirMC/WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola/*root > WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola
 
-ls $dirMC/ZJetsToNuNu_HT-100To200_13TeV-madgraph/*root > ZJetsToNuNu_HT-100To200_13TeV-madgraph
-ls $dirMC/ZJetsToNuNu_HT-1200To2500_13TeV-madgraph/*root > ZJetsToNuNu_HT-1200To2500_13TeV-madgraph
-ls $dirMC/ZJetsToNuNu_HT-200To400_13TeV-madgraph/*root > ZJetsToNuNu_HT-200To400_13TeV-madgraph
-ls $dirMC/ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph/*root > ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph
-ls $dirMC/ZJetsToNuNu_HT-400To600_13TeV-madgraph/*root > ZJetsToNuNu_HT-400To600_13TeV-madgraph
-ls $dirMC/ZJetsToNuNu_HT-600To800_13TeV-madgraph/*root > ZJetsToNuNu_HT-600To800_13TeV-madgraph
-ls $dirMC/ZJetsToNuNu_HT-800To1200_13TeV-madgraph/*root > ZJetsToNuNu_HT-800To1200_13TeV-madgraph
+ls $dirMC/ZToNuNu/ZJetsToNuNu_HT-100To200_13TeV-madgraph/*root > ZJetsToNuNu_HT-100To200_13TeV-madgraph
+ls $dirMC/ZToNuNu/ZJetsToNuNu_HT-1200To2500_13TeV-madgraph/*root > ZJetsToNuNu_HT-1200To2500_13TeV-madgraph
+ls $dirMC/ZToNuNu/ZJetsToNuNu_HT-200To400_13TeV-madgraph/*root > ZJetsToNuNu_HT-200To400_13TeV-madgraph
+ls $dirMC/ZToNuNu/ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph/*root > ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph
+ls $dirMC/ZToNuNu/ZJetsToNuNu_HT-400To600_13TeV-madgraph/*root > ZJetsToNuNu_HT-400To600_13TeV-madgraph
+ls $dirMC/ZToNuNu/ZJetsToNuNu_HT-600To800_13TeV-madgraph/*root > ZJetsToNuNu_HT-600To800_13TeV-madgraph
+ls $dirMC/ZToNuNu/ZJetsToNuNu_HT-800To1200_13TeV-madgraph/*root > ZJetsToNuNu_HT-800To1200_13TeV-madgraph
 
 ls $dirMC/ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8/*root > ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8
 ls $dirMC/ST_t-channel_top_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8/*root > ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8
