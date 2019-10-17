@@ -8,7 +8,7 @@ TString dir = "/nfs/dust/cms/user/mameyer/TauIdAndES_2018Data/TauId/NTuples/";
 double luminosity = 59740; // lumi determined by brilcalc
 double lumi_unc = 1.025;
 
-TString triggerfile_output_name = "trigger_eff_HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_10x_v1.root";
+TString triggerfile_output_name = "trigger_eff_HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_2018_v1.root";
 
 TString kfactor_tau_file = "kfactor_tau.root";
 TString kfactor_mu_file  = "kfactor_mu.root";
@@ -165,5 +165,7 @@ map<TString, double> xsecs = {                             // numbers from 2017,
 // (29-45) LO GenXSec analyzer (https://twiki.cern.ch/twiki/bin/view/CMS/HowToGenXSecAnalyzer), NNLO-QCD NLO-EWK from: https://cms-gen-dev.cern.ch/xsdb (DAS=WToMuNu_M-200_TuneCUETP8M1_13TeV-pythia8), k-factor: see (28-38)
 // (46) from GenXSec analyzer, k-factor: see (1)
 // (46-50) from DAS, k-factor: see (1)
+
+map<TString, int> n_events_per_sample = {};
 
 #endif
