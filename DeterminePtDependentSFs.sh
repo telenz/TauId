@@ -56,7 +56,9 @@ do
     root -l -b -q MakePostAndPreFitPlots.C+"(0,1)"
     root -l -b -q MakePostAndPreFitPlots.C+"(1,1)"
 
-
+    rm -r output/TauPt_${tauptlow[i]}_${taupthigh[i]}
+    rm -r figures/TauPt_${tauptlow[i]}_${taupthigh[i]}
+    rm -r datacards/TauPt_${tauptlow[i]}_${taupthigh[i]}
    #loop here over WPs
     while read -r iso
     do
