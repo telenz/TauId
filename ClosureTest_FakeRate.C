@@ -43,8 +43,10 @@ void ClosureTest_FakeRate() {
 
   //Float_t bins[] = {100,150,200,250,300,400,500};  // tauPt binning
   //Float_t bins[] = {100,200,300,400,500,700};  // met binning
-  //Float_t bins[] = {180,220,260,300,340,380,420,460,500,560,620,700,800}; // tauJetPt + tauPt + met fine binning
-  Float_t bins[] = {200,300,400,500,600,800};  // mttau binning
+  //Float_t bins[] = {80,100,120,140,150,160,180,220,240,260,280,300,320,340,380,420,460,500,560,620,700,800}; // tauJetPt + tauPt
+  Float_t bins[] = { 160 , 220 , 280 , 340 , 420 , 500 , 580 , 680 ,  800 , 1000}; // SR binning
+  //Float_t bins[] = {180,220,260,300,340,380,420,460,500,560,620,700,800}; //  met fine binning
+  //Float_t bins[] = {200,300,400,500,600,800};  // mttau binning
   //Float_t bins[] = {200,250,300,350,400,450,500,550,600,650,700,750,800};  // fine mttau binning
   //Float_t bins[] = {0.4,0.6,0.8,1.0,1.2,1.4,1.6,1.8};  // tauMass binning 3prong
   //Float_t bins[] = {0.0, 0.2, 0.4,0.6,0.8,1.0,1.2,1.4,1.6,1.8, 2.0, 2.2, 2.4};  // tauMass binning
