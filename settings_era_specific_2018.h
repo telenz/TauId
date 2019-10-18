@@ -3,12 +3,12 @@
 
 TString era = "2018";
 
-TString dir = "/nfs/dust/cms/user/mameyer/TauIdAndES_2018Data/TauId/NTuples/";
+TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2018/TauIDWithVirtualW/DeepTauId/TauId/NTuples/2018/";
 
 double luminosity = 59740; // lumi determined by brilcalc
 double lumi_unc = 1.025;
 
-TString triggerfile_output_name = "trigger_eff_HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_2018_v1.root";
+TString triggerfile_output_name = "trigger_eff_HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_2018_v2.root";
 
 TString kfactor_tau_file = "kfactor_tau.root";
 TString kfactor_mu_file  = "kfactor_mu.root";
