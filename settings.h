@@ -17,8 +17,8 @@
 #include "TH2.h"
 #include "TVector2.h"
 #include "TLorentzVector.h"
-//#define ERA_2018
-#define ERA_2017
+#define ERA_2018
+//#define ERA_2017
 //#define ERA_2016
 
 #ifdef ERA_2018
