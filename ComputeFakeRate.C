@@ -50,7 +50,10 @@ void ComputeFakeRate(bool make_closure = false) {
       else                     binsRatio =  { 0.0 , 0.7 , 0.75 , 0.775, 0.80 , 0.9, 2.}; //finer binning for TES
 
       vector<Float_t> binsJetPt;
-      if (!doTauESmeasurement) binsJetPt = {100 ,160, 200, 240 , 1200}; // new analysis binning for 2018
+      if (!doTauESmeasurement){
+        if( iso[idx_iso] == "VVLooseDeepTau2017v2p1" ) binsJetPt = {100 , 1200};
+        else                                           binsJetPt = {100 , 160 , 200 , 240 , 1200};
+      }
       else                     binsJetPt = {100 , 160, 180, 200, 240 , 1200}; //finer binning for TES
 
       int nBinsRatio = binsRatio.size() - 1;
