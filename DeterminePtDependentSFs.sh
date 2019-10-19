@@ -132,7 +132,7 @@ do
     for ((i=0;i<${#tauptlow[@]};++i));
     do
         echo -n "&" >>TauPtDependentSFs.txt
-        fgrep -w ${iso}  datacards/TauPt_${tauptlow[i]}_${taupthigh[i]}/results.txt | sed "s/${iso} : //g" | tr '\n' '\0' >>TauPtDependentSFs.txt
+        fgrep -w ${iso}  datacards/TauPt_${tauptlow[i]}_${taupthigh[i]}/results.txt | sed "s/${iso} : //g" | tr '\n' ' ' >>TauPtDependentSFs.txt
     done
     echo "\\\\" >>TauPtDependentSFs.txt
 done <iso.txt
