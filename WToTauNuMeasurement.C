@@ -72,6 +72,10 @@ void WToTauNuMeasurement() {
     samples.push_back(make_pair("W_uesUp" , WToTauNu_uesUp));
     samples.push_back(make_pair("W_uesDown" , WToTauNu_uesDown));
 
+    if(tau_pt_low == 100 && tau_pt_high == 150)      mttau_bins  = mttau_bins_ptbin1;
+    else if(tau_pt_low == 150 && tau_pt_high == 200) mttau_bins  = mttau_bins_ptbin2;
+    else if(tau_pt_low == 200 )                      mttau_bins  = mttau_bins_ptbin3;
+
     TString var1 = "mttau";
     TString var2 = var1;
     TString var3 = "tauPt";

@@ -51,7 +51,10 @@ TH1D* h_kFactor= 0;
 
 // Definition of mttau and mtmuon bins
 vector<Float_t> mtmuon_bins = { 100 , 200 , 300 , 400 , 500 , 600 , 700 , 1000};
-vector<Float_t> mttau_bins  = { 170 , 220 , 270 , 320 , 400 , 480 , 580 , 680 ,  800 , 1000};
+vector<Float_t> mttau_bins  = { 160 , 220 , 280 , 340 , 420 , 500 , 580 , 680 ,  800 , 1000};
+vector<Float_t> mttau_bins_ptbin1  = { 170 , 220 , 270 , 320 , 370 , 1000};
+vector<Float_t> mttau_bins_ptbin2  = { 170 , 220 , 270 , 320 , 370 , 420 , 480 , 580 , 680 ,  800 , 1000};
+vector<Float_t> mttau_bins_ptbin3  = { 170 , 220 , 270 , 320 , 370 , 420 , 480 , 580 , 680 ,  800 , 1000};
 //vector<Float_t> mttau_bins  = { 160 , 220 , 280 , 340 , 420 , 600, 800, 1000}; //new binning for 2017 VVLooseWP
 //vector<Float_t> mttau_bins  = { 0 , 100 , 200 , 300 , 400 , 500 , 600 , 700 , 800 , 900 , 1000};
 
