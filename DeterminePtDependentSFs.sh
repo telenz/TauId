@@ -2,8 +2,8 @@
 
 #--------------------------------------------------------------------------------------------------------------------
 #define the taupt bins here:
-tauptlow=("100" "200")
-taupthigh=("200" "1000000")
+tauptlow=("100" "150" "200")
+taupthigh=("150" "200" "1000000")
 
 # define which working point should be used for determination of mean pT
 isoWPMeanPt=MediumDeepTau2017v2p1
