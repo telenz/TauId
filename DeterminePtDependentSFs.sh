@@ -2,14 +2,23 @@
 
 #--------------------------------------------------------------------------------------------------------------------
 #define the taupt bins here:
-tauptlow=("100" "150" "200")
-taupthigh=("150" "200" "1000000")
+tauptlow=("100" "200")
+taupthigh=("200" "1000000")
 
 # define which working point should be used for determination of mean pT
 isoWPMeanPt=MediumDeepTau2017v2p1
 
 # set the CMSSW versionf or combine
 CMSSW_Combine=/nfs/dust/cms/user/mameyer/SM_HiggsTauTau/CMSSW_8_1_0
+
+# define the year here:
+year=2018
+
+#define the last part of the WP here (DeepTau2017v2p1 or Mva2017v2)
+StringToCutFromWP=DeepTau2017v2p1
+
+#define the numbers for each tau pt bin according to Yuta's convention
+ptbin=("8" "9")
 
 #--------------------------------------------------------------------------------------------------------------------
 
@@ -59,7 +68,7 @@ do
     rm -r output/TauPt_${tauptlow[i]}_${taupthigh[i]}
     rm -r figures/TauPt_${tauptlow[i]}_${taupthigh[i]}
     rm -r datacards/TauPt_${tauptlow[i]}_${taupthigh[i]}
-   #loop here over WPs
+  #loop here over WPs
     while read -r iso
     do
         cd output
@@ -138,3 +147,29 @@ do
 done <iso.txt
 echo '\hline' >>TauPtDependentSFs.txt
 echo '\end{tabular}' >>TauPtDependentSFs.txt
+
+
+#make table for Yuta
+rm TableForYuta_${year}.txt
+
+for ((i=0;i<${#ptbin[@]};++i));
+do
+    echo -n "mean ${ptbin[i]} pt" >> TableForYuta_${year}.txt
+    echo "$(<output/TauPt_${tauptlow[i]}_${taupthigh[i]}/mean_${tauptlow[i]}_${taupthigh[i]}.txt)" | grep "  " | tr "" "\t" >> TableForYuta_${year}.txt
+done
+echo "" >> TableForYuta_${year}.txt
+echo "=======================================" >> TableForYuta_${year}.txt
+for ((i=0;i<${#ptbin[@]};++i));
+do
+    while read -r iso
+    do
+        echo -n "setting ${year} " >> TableForYuta_${year}.txt
+        echo -n "${iso/${StringToCutFromWP}/ }" >> TableForYuta_${year}.txt
+        echo -n "${ptbin[i]} " >> TableForYuta_${year}.txt
+        echo "pt" >> TableForYuta_${year}.txt
+        echo -n "ZTT_mu = "  >> TableForYuta_${year}.txt
+        fgrep -w ${iso}  datacards/TauPt_${tauptlow[i]}_${taupthigh[i]}/results.txt | sed "s/${iso} : \\$//g ; s/\^{+/ +- /g ; s/}_{-/ /g ; s/}\\$//g " | tr '' ' ' >>TableForYuta_${year}.txt
+        echo "" >> TableForYuta_${year}.txt
+    done <iso.txt
+done
+echo "=======================================" >> TableForYuta_${year}.txt
