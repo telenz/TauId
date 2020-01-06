@@ -16,9 +16,10 @@ void MakePostAndPreFitPlots(bool make_postfit = true, bool is_wtotaunu = true) {
   TString xtitle = "m_{T} (GeV)";
   TString ytitle = "Events";
 
-  if(tau_pt_low == 100 && tau_pt_high == 150)      mttau_bins  = mttau_bins_ptbin1;
-  else if(tau_pt_low == 150 && tau_pt_high == 200) mttau_bins  = mttau_bins_ptbin2;
-  else if(tau_pt_low == 200 )                      mttau_bins  = mttau_bins_ptbin3;
+  if(tau_pt_low == 100 && tau_pt_high == 200)      mttau_bins  = mttau_bins_ptbin1;
+  //else if(tau_pt_low == 100 && tau_pt_high == 200) mttau_bins  = mttau_bins_ptbin2;
+  //else if(tau_pt_low == 150 && tau_pt_high == 200) mttau_bins  = mttau_bins_ptbin2;
+  else if(tau_pt_low == 200 )                      mttau_bins  = mttau_bins_ptbin2;
 
   vector<Float_t> bins;
   if(is_wtotaunu) bins = mttau_bins;
