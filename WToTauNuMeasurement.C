@@ -77,7 +77,7 @@ void WToTauNuMeasurement() {
     //else if(tau_pt_low == 150 && tau_pt_high == 200) mttau_bins  = mttau_bins_ptbin2;
     else if(tau_pt_low == 200 )                      mttau_bins  = mttau_bins_ptbin2;
 
-    TString var1 = "tauPt";
+    TString var1 = "mttau";
     TString var2 = var1;
     TString var3 = "tauPt";
     TString var4 = var3;
