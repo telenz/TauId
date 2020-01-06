@@ -54,7 +54,8 @@ vector<Float_t> mtmuon_bins = { 100 , 200 , 300 , 400 , 500 , 600 , 700 , 1000};
 vector<Float_t> mttau_bins  = { 160 , 220 , 280 , 340 , 420 , 500 , 580 , 680 ,  800 , 1000};
 vector<Float_t> mttau_bins_ptbin1  = { 170 , 220 , 270 , 320 , 370 , 1000};
 vector<Float_t> mttau_bins_ptbin2  = { 170 , 220 , 270 , 320 , 370 , 420 , 480 , 580 , 680 ,  800 , 1000};
-vector<Float_t> mttau_bins_ptbin3  = { 170 , 220 , 270 , 320 , 370 , 420 , 480 , 580 , 680 ,  800 , 1000};
+//vector<Float_t> mttau_bins_ptbin2  = { 170 , 220 , 270 , 320 , 370 , 420 , 480 , 680 ,  800 , 1000};
+//vector<Float_t> mttau_bins_ptbin3  = { 170 , 220 , 270 , 320 , 370 , 420 , 480 , 580 , 680 ,  800 , 1000};
 //vector<Float_t> mttau_bins  = { 160 , 220 , 280 , 340 , 420 , 600, 800, 1000}; //new binning for 2017 VVLooseWP
 //vector<Float_t> mttau_bins  = { 0 , 100 , 200 , 300 , 400 , 500 , 600 , 700 , 800 , 900 , 1000};
 
@@ -149,9 +150,14 @@ void initCuts()
   sr.mtmuonHigh = 100000000;
   sr.mttauLow  = 0;
   sr.mttauHigh = 100000000;
-  sr.mhtNoMuLow = 130;
-  sr.metNoMuLow = 130;
-
+  if (doTauESmeasurement){
+     sr.mhtNoMuLow = 0;
+     sr.metNoMuLow = 0;
+  }
+  else{
+     sr.mhtNoMuLow = 130;
+     sr.metNoMuLow = 130;
+  }
   // sr for true taus
   sr_trueTaus = sr;
   sr_trueTaus.name = "sr_trueTaus";
