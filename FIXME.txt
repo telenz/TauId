@@ -1,0 +1,5 @@
+to be fixed for next iteration of SFs:
+   
+   - PU distributions for 2017: some of the samples, already have the correct PU distribution (see https://docs.google.com/spreadsheets/d/1RTFfWOmyYE9Rkio-LX3XC4EKWINDtQAR4xfkav4xWRQ/edit#gid=0, but note that not all samples in the google doc have been checked), therefore some histograms used for PU reweighting have to be updated
+
+   - datacards: lumi uncertainty should not be applied to fake background and to W*->munu/W*->taunu samples
