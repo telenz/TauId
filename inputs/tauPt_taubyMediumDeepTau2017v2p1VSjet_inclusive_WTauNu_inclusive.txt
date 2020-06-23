@@ -1,0 +1,24 @@
+imax 1   number of channels
+jmax *   number of backgrounds
+kmax *   number of nuisance parameters
+-----------------
+observation 5237
+-----------------
+shapes * * tauPt_taubyMediumDeepTau2017v2p1VSjet_inclusive_WTauNu_inclusive.root  $PROCESS    $PROCESS_$SYSTEMATIC 
+-----------------
+bin             WtoTauNu  WtoTauNu
+process              W       Fakes
+process              0         1  
+rate    3556.54 1518.07
+JES         shape   1.00       -  
+TES         shape   1.00       -  
+fakeRate_bin0         shape   -      1.0
+fakeRate_bin1         shape   -      1.0
+fakeRate_bin2         shape   -      1.0
+fakeRate_bin3         shape   -      1.0
+fakeRate_bin4         shape   -      1.0
+fakeRate_bin5         shape   -      1.0
+fakeRate_bin6         shape   -      1.0
+fakeRate_bin7         shape   -      1.0
+fakeRate_bin8         shape   -      1.0
+* autoMCStats 0
