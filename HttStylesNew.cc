@@ -4,9 +4,6 @@
 #include <TCanvas.h>
 #include <TLegend.h>
 #include <TPaveText.h>
-#include <TLatex.h>
-#include <TGaxis.h>
-#include <TROOT.h>
 
 /// define common styles
 void SetStyle();
@@ -35,7 +32,6 @@ void plotchannel(TString channel);
 
 void SetStyle()
 {
-  TGaxis::SetMaxDigits(4);
   TStyle *HttStyle = new TStyle("Htt-Style","The Perfect Style for Plots ;-)");
   gStyle = HttStyle;
 
@@ -50,15 +46,15 @@ void SetStyle()
 
   // color palette for 2D temperature plots
   HttStyle->SetPalette(1,0);
-
+  
   // Pads
   HttStyle->SetPadColor       (0);
   HttStyle->SetPadBorderSize  (10);
   HttStyle->SetPadBorderMode  (0);
-  HttStyle->SetPadBottomMargin(0.17);
-  HttStyle->SetPadTopMargin   (0.06);
-  HttStyle->SetPadLeftMargin  (0.17);
-  HttStyle->SetPadRightMargin (0.06);
+  HttStyle->SetPadBottomMargin(0.15);
+  HttStyle->SetPadTopMargin   (0.08);
+  HttStyle->SetPadLeftMargin  (0.18);
+  HttStyle->SetPadRightMargin (0.05);
   HttStyle->SetPadGridX       (0);
   HttStyle->SetPadGridY       (0);
   HttStyle->SetPadTickX       (1);
@@ -76,11 +72,11 @@ void SetStyle()
 
   // Histograms
   HttStyle->SetHistFillColor(2);
-  //HttStyle->SetHistFillStyle(0);
+  HttStyle->SetHistFillStyle(0);
   HttStyle->SetHistLineColor(1);
   HttStyle->SetHistLineStyle(0);
-  HttStyle->SetHistLineWidth(2);
-  HttStyle->SetNdivisions(506,"XY");
+  HttStyle->SetHistLineWidth(3);
+  HttStyle->SetNdivisions(505);
 
   // Functions
   HttStyle->SetFuncColor(1);
@@ -94,28 +90,32 @@ void SetStyle()
 
   HttStyle->SetTitleBorderSize(0);
   HttStyle->SetTitleFillColor (0);
-  //HttStyle->SetTitleX         (0.2);
+  HttStyle->SetTitleX         (0.2);
+
+  HttStyle->SetTitleSize  (0.055,"X");
+  HttStyle->SetTitleOffset(1.200,"X");
+  HttStyle->SetLabelOffset(0.005,"X");
+  HttStyle->SetLabelSize  (0.050,"X");
+  HttStyle->SetLabelFont  (42   ,"X");
 
   HttStyle->SetStripDecimals(kFALSE);
   HttStyle->SetLineStyleString(11,"20 10");
 
-  HttStyle->SetTitleSize  (30,"XY");
-  HttStyle->SetTitleOffset(1.60,"X");
-  HttStyle->SetTitleOffset(2.10,"Y");
-  HttStyle->SetLabelOffset(0.010,"XY");
-  HttStyle->SetLabelFont  (43,"XY");
-  HttStyle->SetLabelSize  (30,"XY");
+  HttStyle->SetTitleSize  (0.055,"Y");
+  HttStyle->SetTitleOffset(1.600,"Y");
+  HttStyle->SetLabelOffset(0.010,"Y");
+  HttStyle->SetLabelSize  (0.050,"Y");
+  HttStyle->SetLabelFont  (42   ,"Y");
 
-  //HttStyle->SetTextFont   (43);
-  //HttStyle->SetTextSize   (30);
+  HttStyle->SetTextSize   (0.055);
+  HttStyle->SetTextFont   (42);
 
-  HttStyle->SetStatFont   (43);
-  HttStyle->SetTitleFont  (43);
-  HttStyle->SetTitleFont  (43,"XY");
+  HttStyle->SetStatFont   (42);
+  HttStyle->SetTitleFont  (42);
+  HttStyle->SetTitleFont  (42,"X");
+  HttStyle->SetTitleFont  (42,"Y");
 
   HttStyle->SetOptStat    (0);
-
-  gROOT->ForceStyle();
   return;
 }
 
@@ -128,7 +128,7 @@ TCanvas* MakeCanvas(const char* name, const char *title, int dX, int dY)
   canvas->SetBorderMode     (0);
   canvas->SetBorderSize     (10);
   // Set margins to reasonable defaults
-  canvas->SetLeftMargin     (0.16);
+  canvas->SetLeftMargin     (0.18);
   canvas->SetRightMargin    (0.05);
   canvas->SetTopMargin      (0.08);
   canvas->SetBottomMargin   (0.15);
@@ -149,9 +149,9 @@ void InitSubPad(TPad* pad, int i)
 {
   pad->cd(i);
   TPad *tmpPad = (TPad*) pad->GetPad(i);
-  tmpPad->SetLeftMargin  (0.16);
+  tmpPad->SetLeftMargin  (0.18);
   tmpPad->SetTopMargin   (0.05);
-  tmpPad->SetRightMargin (0.07);
+  tmpPad->SetRightMargin (0.05);
   tmpPad->SetBottomMargin(0.15);
   return;
 }
@@ -203,7 +203,6 @@ void SetLegendStyle(TLegend* leg)
   leg->SetFillStyle (0);
   leg->SetFillColor (0);
   leg->SetBorderSize(0);
-  leg->SetTextSize(0.045);
 }
 
 void CMSPrelim(const char* dataset, double lowX, double lowY)
