@@ -2,8 +2,8 @@
 
 #--------------------------------------------------------------------------------------------------------------------
 #define the taupt bins here:
-tauptlow=("100" "150" "200")
-taupthigh=("150" "200" "1000000")
+tauptlow=("100" "200")
+taupthigh=("200" "1000000")
 
 # define which working point should be used for determination of mean pT
 isoWPMeanPt=MediumDeepTau2017v2p1
@@ -12,7 +12,7 @@ isoWPMeanPt=MediumDeepTau2017v2p1
 CMSSW_Combine=/nfs/dust/cms/user/mameyer/SM_HiggsTauTau/CMSSW_8_1_0
 
 # define the year here:
-year=2018
+year=2016 # has to be also set in settings.h!
 
 #define the last part of the WP here (DeepTau2017v2p1 or Mva2017v2)
 StringToCutFromWP=DeepTau2017v2p1
@@ -56,7 +56,7 @@ do
 
     cd datacards
     sh RunCombine.sh
-   #sh make_pulls_impacts_plots.sh
+    sh make_pulls_impacts_plots.sh
     python readTauIDs.py >results.txt
     cd ..
 
