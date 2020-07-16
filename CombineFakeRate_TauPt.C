@@ -82,7 +82,7 @@ void CombineFakeRate_TauPt(TString iso="taubyMediumDeepTau2017v2p1VSjet",
    
   }
 
-  TString dir = "./";
+  //TString dir = "./";
 
   TString DataFile("MET_Run2018");
 

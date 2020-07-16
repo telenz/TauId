@@ -75,7 +75,7 @@ void ComputeFakeRate_TauPt(TString iso="taubyMediumDeepTau2017v2p1VSjet",
   TString variable="tauPt";
   TString xtitle="p_{T} [GeV]";
 
-  TString dir = "./";
+  //TString dir = "./";
 
   float xmin =  100.;
   float xmax = 2000.;

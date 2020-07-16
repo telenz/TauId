@@ -3,7 +3,7 @@
 
 TString era = "2018";
 
-TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2018/TauIDWithVirtualW/DeepTauId/TauId/NTuples/2018/";
+TString dir = "/nfs/dust/cms/user/rasp/Run/Run2018/TauTrigger/";
 
 double luminosity = 59740; // lumi determined by brilcalc
 double lumi_unc = 1.025;
@@ -127,6 +127,8 @@ map<TString, double> xsecs = {                             // numbers from 2017,
 {"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_taues_3prong0pizerosDown"           , 1.0*7.246}, // LO, NNLO-QCD NLO-EWK (36)
 {"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_uesUp"       , 1.0*7.246}, // LO, NNLO-QCD NLO-EWK (37)
 {"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_uesDown"     , 1.0*7.246}, // LO, NNLO-QCD NLO-EWK (38)
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_tauesUp"     , 1.0*7.246}, // LO, NNLO-QCD NLO-EWK (37)
+{"WToTauNu_M-200_TuneCP5_13TeV-pythia8-tauola_tauesDown"   , 1.0*7.246}, // LO, NNLO-QCD NLO-EWK (38)
 {"WToMuNu_M-200_TuneCP5_13TeV-pythia8"                     , 1.0*7.273}, // LO, NNLO-QCD NLO-EWK (39)
 {"WToMuNu_M-200_TuneCP5_13TeV-pythia8_jesUp"               , 1.0*7.273}, // LO, NNLO-QCD NLO-EWK (40)
 {"WToMuNu_M-200_TuneCP5_13TeV-pythia8_jesDown"             , 1.0*7.273}, // LO, NNLO-QCD NLO-EWK (41)
