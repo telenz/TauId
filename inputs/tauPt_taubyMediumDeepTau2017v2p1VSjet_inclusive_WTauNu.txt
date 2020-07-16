@@ -1,0 +1,29 @@
+Combination of tauPt_taubyMediumDeepTau2017v2p1VSjet_inclusive_WTauNu_Trigger.txt  tauPt_taubyMediumDeepTau2017v2p1VSjet_inclusive_WTauNu_notTrigger.txt
+imax 2 number of bins
+jmax 1 number of processes minus 1
+kmax 11 number of nuisance parameters
+----------------------------------------------------------------------------------------------------------------------------------
+shapes *    ch1  tauPt_taubyMediumDeepTau2017v2p1VSjet_inclusive_WTauNu_Trigger.root $PROCESS $PROCESS_$SYSTEMATIC
+shapes *    ch2  tauPt_taubyMediumDeepTau2017v2p1VSjet_inclusive_WTauNu_notTrigger.root $PROCESS $PROCESS_$SYSTEMATIC
+----------------------------------------------------------------------------------------------------------------------------------
+bin          ch1    ch2  
+observation  780    4457 
+----------------------------------------------------------------------------------------------------------------------------------
+bin                                ch1      ch1      ch2      ch2    
+process                            W        Fakes    W        Fakes  
+process                            0        1        0        1      
+rate                               622.198  77.3148  2934.34  1440.75
+----------------------------------------------------------------------------------------------------------------------------------
+JES                     shape      1.0      -        1.0      -      
+TES                     shape      1.0      -        1.0      -      
+fakeRate_bin0           shape      -        1.0      -        1.0    
+fakeRate_bin1           shape      -        1.0      -        1.0    
+fakeRate_bin2           shape      -        1.0      -        1.0    
+fakeRate_bin3           shape      -        1.0      -        1.0    
+fakeRate_bin4           shape      -        1.0      -        1.0    
+fakeRate_bin5           shape      -        1.0      -        1.0    
+fakeRate_bin6           shape      -        1.0      -        1.0    
+fakeRate_bin7           shape      -        1.0      -        1.0    
+fakeRate_bin8           shape      -        1.0      -        1.0    
+ch1 autoMCStats 0 0 1
+ch2 autoMCStats 0 0 1
