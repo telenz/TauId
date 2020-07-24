@@ -2,18 +2,33 @@
 #include "settings.h"
 #include <sstream> 
 
-void DatacardProducer_WToTauNu() {
+void DatacardProducer_WToTauNu(TString selection = "inclusive") {
+  // selection can be
+  //      - "inclusive"     (no single tau trigger selection is applied, needed for tauID measurement),
+  //      - "tautrigger"    (for probes passing single tau trigger selection),
+  //      - "NOTtautrigger" (for probes failing single tau trigger selection)
+
+  if (!doTauTriggerEffmeasurement) selection = "inclusive";
 
   loadWorkingPoints();
-  TString Variable = "mttau";
+  TString Variable;
+  if(doTauTriggerEffmeasurement) Variable = "tauPt";
+  else Variable = "mttau";
 
   for(unsigned int idx_iso=0; idx_iso<iso.size(); idx_iso++){
 
     // ***************
     // Creating datacard inputs
     // *************** 
-    TString BaseName = "datacard_"+Variable+"_"+iso[idx_iso]+"_WToTauNu";
-    TString rootFileName =  Variable+"_"+iso[idx_iso]+"_WToTauNu_shapes" + tauDecayMode + ".root";
+    TString BaseName;
+    if (selection == "tautrigger") BaseName = "datacard_"+Variable+"_"+iso[idx_iso]+"_WToTauNu_passingprobes";
+    else if (selection == "NOTtautrigger") BaseName = "datacard_"+Variable+"_"+iso[idx_iso]+"_WToTauNu_failingprobes";
+    else BaseName = "datacard_"+Variable+"_"+iso[idx_iso]+"_WToTauNu";
+
+    TString rootFileName;
+    if (selection == "tautrigger") rootFileName =  Variable+"_"+iso[idx_iso]+"_WToTauNu_shapes" + tauDecayMode + "_trigger_passingprobes.root";
+    else if (selection == "NOTtautrigger") rootFileName =  Variable+"_"+iso[idx_iso]+"_WToTauNu_shapes" + tauDecayMode + "_trigger_failingprobes.root";
+    else rootFileName =  Variable+"_"+iso[idx_iso]+"_WToTauNu_shapes" + tauDecayMode + ".root";
 
     ostringstream str;
     str << "output/" << BaseName << tauDecayMode << ".txt";
@@ -44,7 +59,9 @@ void DatacardProducer_WToTauNu() {
     textFile << "-----------------" << endl;
     textFile << "shapes * * " <<rootFileName << "  $PROCESS    $PROCESS_$SYSTEMATIC " << endl;
     textFile << "-----------------" << endl;
-    textFile << setw(45) << "bin"     << setw(15) << "WTauNu" << setw(15) << "WTauNu"   << setw(15) << "WTauNu"   << endl;
+    if (selection == "tautrigger") textFile << setw(45) << "bin"     << setw(15) << "WTauNu_pass" << setw(15) << "WTauNu_pass"   << setw(15) << "WTauNu_pass"   << endl;
+    else if (selection == "NOTtautrigger") textFile << setw(45) << "bin"     << setw(15) << "WTauNu_fail" << setw(15) << "WTauNu_fail"   << setw(15) << "WTauNu_fail"   << endl;
+    else textFile << setw(45) << "bin"     << setw(15) << "WTauNu" << setw(15) << "WTauNu"   << setw(15) << "WTauNu"   << endl;
     textFile << setw(45) << "process" << setw(15) << "W"      << setw(15) << "FakeTaus" << setw(15) << "TrueTaus" << endl;
     textFile << setw(45) << "process" << setw(15) << "0"      << setw(15) << "1"        << setw(15) << "2"        << endl;
     textFile << setw(45) << "rate"    << setw(15) << h_WToTauNu->Integral() << setw(15) << h_FakeTaus->Integral() << setw(15) << h_TrueTaus->Integral() << endl;
@@ -91,7 +108,7 @@ void DatacardProducer_WToTauNu() {
     }
     textFile << setw(15) << "BkgdNorm" << setw(15) << "lnN" << setw(15) << "-"      << setw(15) << "-"      << setw(15) << "1.30"   << endl;
     textFile << setw(15) << "lumi"     << setw(15) << "lnN" << setw(15) << lumi_unc << setw(15) << lumi_unc << setw(15) << lumi_unc << endl;
-    textFile << "tauId  rateParam WTauNu W  1  [0.0,2.0]" << endl;
+    if (!doTauTriggerEffmeasurement) textFile << "tauId  rateParam WTauNu W  1  [0.0,2.0]" << endl;
   
     // *******************
     // end creating datacard inputs

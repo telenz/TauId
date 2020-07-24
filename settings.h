@@ -37,6 +37,7 @@ TString tauDecayMode = "";
 //TString tauDecayMode = "_1prongUpTo4pizeros";
 double tauMomScale = 1.00;
 bool doTauESmeasurement = false; //if set to true: tau mass cuts depending on the studied decay mode are applied
+bool doTauTriggerEffmeasurement = false; //if set to true: measurement of single tau trigger efficiency as fct. of tauPt is performed
 
 // Introduce global variables for tau pt dependent measurement
 double tau_pt_low = 100;
@@ -63,6 +64,7 @@ vector<Float_t> mttau_bins_ptbin2  = { 170 , 220 , 270 , 320 , 370 , 420 , 480 ,
 //Float_t bins[] = { 100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300};
 //Float_t bins[] = {0.4,0.6,0.8,1.0,1.2,1.4,1.6,1.8};  // tauMass binning 3prong
 //Float_t bins[] = {0.0, 0.1,0.2, 0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9, 2.0,2.1, 2.2,2.2, 2.4};  // tauMass binning
+vector<Float_t> pttau_bins  = { 100, 120, 140, 160, 180, 200, 225, 250, 300, 400, 1700}; //needed for trigger eff measurement
 
 // ----------------------------------------------------------------------------------------------------
 void loadWorkingPoints()
@@ -117,7 +119,8 @@ struct selectionCuts {
   float dPhiMetTauLow = 0;
   float mhtNoMuLow = 0;
   float metNoMuLow = 0;
-} sr, sr_trueTaus, sr_fakeTaus, cr_antiiso,  cr_antiiso_trueTaus, cr_antiiso_fakeTaus, cr_ewkFraction, cr_fakerate_den, cr_fakerate_num, cr_fakerate_norm, cr_fakerate_dijet_den, cr_fakerate_dijet_num, sr_munu;
+  bool singleTauTrigger;
+} sr, sr_trueTaus, sr_trueTaus_passingprobes, sr_trueTaus_failingprobes, sr_fakeTaus, cr_antiiso, cr_antiiso_passingprobes, cr_antiiso_failingprobes, cr_antiiso_trueTaus, cr_antiiso_fakeTaus, cr_ewkFraction, cr_fakerate_den, cr_fakerate_num, cr_fakerate_norm, cr_fakerate_dijet_den, cr_fakerate_dijet_num, sr_munu;
 // ----------------------------------------------------------------------------------------------------
 void initCuts()
 {
@@ -164,6 +167,16 @@ void initCuts()
   sr_trueTaus.tauGenMatchDecayLow  = 0;
   sr_trueTaus.tauGenMatchDecayHigh = 1000;
 
+  // sr for true taus, probes passing single tau trigger
+  sr_trueTaus_passingprobes = sr_trueTaus;
+  sr_trueTaus_passingprobes.name = "sr_trueTaus_passingprobes";
+  sr_trueTaus_passingprobes.singleTauTrigger = true;
+
+  // sr for true taus, probes failing single tau trigger
+  sr_trueTaus_failingprobes = sr_trueTaus;
+  sr_trueTaus_failingprobes.name = "sr_trueTaus_failingprobes";
+  sr_trueTaus_failingprobes.singleTauTrigger = false;
+
   // sr for fake taus
   sr_fakeTaus = sr;
   sr_fakeTaus.name = "sr_fakeTaus";
@@ -192,6 +205,16 @@ void initCuts()
   cr_antiiso = sr;
   cr_antiiso.name = "cr_antiiso";
   cr_antiiso.tauIso = false;
+
+  // antiiso region, probes passing single tau trigger
+  cr_antiiso_passingprobes = cr_antiiso;
+  cr_antiiso_passingprobes.name = "cr_antiiso_passingprobes";
+  cr_antiiso_passingprobes.singleTauTrigger = true;
+
+  // antiiso region, probes failing single tau trigger
+  cr_antiiso_failingprobes = cr_antiiso;
+  cr_antiiso_failingprobes.name = "cr_antiiso_failingprobes";
+  cr_antiiso_failingprobes.singleTauTrigger = false;
 
   // antiiso region true taus
   cr_antiiso_trueTaus = sr_trueTaus;
@@ -375,9 +398,9 @@ double getFakeRates(float ratio, float jetPt, TString iso, TString err)
       if( ratio > h_fakerate->at(iso).GetXaxis()->GetBinLowEdge(i) && ratio < h_fakerate->at(iso).GetXaxis()->GetBinUpEdge(i)){
          for(int j=1; j<= h_fakerate->at(iso).GetNbinsY(); j++){
             if( jetPt > h_fakerate->at(iso).GetYaxis()->GetBinLowEdge(j) && jetPt < h_fakerate->at(iso).GetYaxis()->GetBinUpEdge(j)){
-               if( err == Form("%i%iUp",i,j))         return h_fakerate_up->at(iso+"_Up").GetBinContent(i,j);
-               else if( err == Form("%i%iDown",i,j) ) return h_fakerate_down->at(iso+"_Down").GetBinContent(i,j);
-               else                                   return h_fakerate->at(iso).GetBinContent(i,j);
+               if( err.Contains(Form("%i%iUp",i,j)))         return h_fakerate_up->at(iso+"_Up").GetBinContent(i,j);
+               else if( err.Contains(Form("%i%iDown",i,j)) ) return h_fakerate_down->at(iso+"_Down").GetBinContent(i,j);
+               else                                          return h_fakerate->at(iso).GetBinContent(i,j);
             }
       }
     }
@@ -494,6 +517,8 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
   TTreeReaderValue< Float_t >  genWeight(        *myReader,       "genWeight");
   TTreeReaderValue< Float_t >  trigWeight(       *myReader,       "trigWeight");
   TTreeReaderValue< Bool_t  >  trig(             *myReader,       "trigger");
+  TTreeReaderValue< Bool_t  >  tauSinglePFTau180Trk50(*myReader,  "tauSinglePFTau180Trk50");
+  TTreeReaderValue< Bool_t  >  tauSinglePFTau180Trk50oneprong(*myReader,  "tauSinglePFTau180Trk50oneprong");
   TTreeReaderValue< Float_t >  mutrigweight(     *myReader,       "mutrigweight");
   TTreeReaderValue< Float_t >  mueffweight(      *myReader,       "mueffweight");
   TTreeReaderValue< Int_t   >  Selection(        *myReader,       "Selection");
@@ -660,6 +685,8 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
      if(*trig != sel.trigger && (sel.selection == 3 || sel.name == "cr_fakerate_norm" )) continue;
     //if(sel.selection == 4 && (*pfJet40 != sel.pfJetTrigger && *pfJet60 != sel.pfJetTrigger && *pfJet80 != sel.pfJetTrigger && *pfJet140 != sel.pfJetTrigger && *(*pfJet200) != sel.pfJetTrigger && *(*pfJet260) != sel.pfJetTrigger && *(*pfJet320) != sel.pfJetTrigger && *(*pfJet400) != sel.pfJetTrigger && *(*pfJet450) != sel.pfJetTrigger && *(*pfJet500) != sel.pfJetTrigger)) continue;
     if(sel.selection == 4 && (*pfJet60 != sel.pfJetTrigger && *pfJet80 != sel.pfJetTrigger && *pfJet140 != sel.pfJetTrigger && *(*pfJet200) != sel.pfJetTrigger && *(*pfJet260) != sel.pfJetTrigger && *(*pfJet320) != sel.pfJetTrigger && *(*pfJet400) != sel.pfJetTrigger && *(*pfJet450) != sel.pfJetTrigger)) continue;
+    bool singletautrig = *tauSinglePFTau180Trk50>0.5 || *tauSinglePFTau180Trk50oneprong>0.5;
+    if (singletautrig != sel.singleTauTrigger && (sel.name.Contains("sr_trueTaus_passingprobes") || sel.name.Contains("sr_trueTaus_failingprobes") || sel.name.Contains("cr_antiiso_passingprobes") || sel.name.Contains("cr_antiiso_failingprobes"))) continue;
 
     if(*Selection != sel.selection) continue;
     if(*recoilDPhi < sel.recoilDPhiLow) continue;

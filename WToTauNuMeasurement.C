@@ -6,7 +6,13 @@
 #include "TLegend.h"
 #include "TColor.h"
 
-void WToTauNuMeasurement() {
+void WToTauNuMeasurement(TString selection = "inclusive") {
+  // selection can be
+  //      - "inclusive"     (no single tau trigger selection is applied, needed for tauID measurement),
+  //      - "tautrigger"    (for probes passing single tau trigger selection),
+  //      - "NOTtautrigger" (for probes failing single tau trigger selection)
+
+  if (!doTauTriggerEffmeasurement) selection = "inclusive";
 
   SetStyle();
   TH1::SetDefaultSumw2();
@@ -77,12 +83,16 @@ void WToTauNuMeasurement() {
     //else if(tau_pt_low == 150 && tau_pt_high == 200) mttau_bins  = mttau_bins_ptbin2;
     else if(tau_pt_low == 200 )                      mttau_bins  = mttau_bins_ptbin2;
 
-    TString var1 = "mttau";
+    TString var1;
+    if(doTauTriggerEffmeasurement) var1 = "tauPt";
+    else                           var1 = "mttau";
     TString var2 = var1;
     TString var3 = "tauPt";
     TString var4 = var3;
 
-    const int nBins = mttau_bins.size() - 1;
+    int nBins;
+    if(doTauTriggerEffmeasurement) nBins = pttau_bins.size() - 1;
+    else                           nBins = mttau_bins.size() - 1;
 
 
     cout<<endl<<endl<<"--------------------------------------  "<<iso[idx_iso]<<"  ------------------------------------"<<endl;
@@ -98,22 +108,40 @@ void WToTauNuMeasurement() {
     for (unsigned int i=0; i<samples.size(); ++i) {
 
       cout<<"Process "<<samples[i].first<<endl;
-
-      TH1D* histoSamples = new TH1D(samples[i].first + "_" + iso[idx_iso],"",nBins,&mttau_bins[0]);
+      TH1D* histoSamples;
+      if (doTauTriggerEffmeasurement) histoSamples = new TH1D(samples[i].first + "_" + iso[idx_iso],"",nBins,&pttau_bins[0]);
+      else                            histoSamples = new TH1D(samples[i].first + "_" + iso[idx_iso],"",nBins,&mttau_bins[0]);
       TH1D* histoSamples_tauPt = new TH1D(samples[i].first + "_" + iso[idx_iso]+"_tauPt","",100,100,1000);
 
       for(unsigned int idx_list=0; idx_list<samples[i].second.size(); idx_list++){
 
 	cout<<".............. Sample : "<<samples[i].second[idx_list]<<endl;
 
-	TH1D* histo = new TH1D(samples[i].second[idx_list],samples[i].second[idx_list],nBins,&mttau_bins[0]);
-        TH1D* histo_tauPt = new TH1D(samples[i].second[idx_list]+"_tauPt",samples[i].second[idx_list]+"_tauPt",100,100,1000);
+	TH1D* histo;
+  if (doTauTriggerEffmeasurement) histo = new TH1D(samples[i].second[idx_list],samples[i].second[idx_list],nBins,&pttau_bins[0]);
+  else                            histo = new TH1D(samples[i].second[idx_list],samples[i].second[idx_list],nBins,&mttau_bins[0]);
+  TH1D* histo_tauPt = new TH1D(samples[i].second[idx_list]+"_tauPt",samples[i].second[idx_list]+"_tauPt",100,100,1000);
 
-	selectionCuts select = sr_trueTaus;
+  selectionCuts select;
+  if (selection == "inclusive")          select = sr_trueTaus;
+  else if (selection == "tautrigger")    select = sr_trueTaus_passingprobes;
+  else if (selection == "NOTtautrigger") select = sr_trueTaus_failingprobes;
+
 	if( samples[i].first.Contains("FakeTaus") ){
-	  select =  cr_antiiso;
-	  select.name = "cr_antiiso_" + samples[i].first(11,samples[i].first.Length()); 
+	  if (selection == "inclusive") {
+      select =  cr_antiiso;
+      select.name = "cr_antiiso_" + samples[i].first(11,samples[i].first.Length());
+    }
+    else if (selection == "tautrigger") {
+      select = cr_antiiso_passingprobes;
+      select.name = "cr_antiiso_passingprobes_" + samples[i].first(11,samples[i].first.Length());
+    }
+    else if (selection == "NOTtautrigger") {
+      select = cr_antiiso_failingprobes;
+      select.name = "cr_antiiso_failingprobes_" + samples[i].first(11,samples[i].first.Length());
+    }
 	}
+
 	makeSelection(dir+"/"+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),iso[idx_iso],select,histo,var1,var2,var2);
    makeSelection(dir+"/"+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),iso[idx_iso],select,histo_tauPt,var3,var4,var4);
 
@@ -190,6 +218,7 @@ void WToTauNuMeasurement() {
     upper->Draw();
     upper->cd();
     //upper->SetLogy();
+    if (doTauTriggerEffmeasurement) upper->SetLogx();
 
     if(stack->GetMaximum()>h_data->GetMaximum()){    
       h_data->SetMaximum(stack->GetMaximum()*1.2);
@@ -248,6 +277,7 @@ void WToTauNuMeasurement() {
     lower->SetBottomMargin(0.32);
     lower->SetGridy();
     lower->Draw();
+    if (doTauTriggerEffmeasurement) lower->SetLogx();
     lower->cd();
     if(h_data) ratioH->Draw("e1");
     ratioErrH->Draw("e2 same");
@@ -256,7 +286,9 @@ void WToTauNuMeasurement() {
     canv->Modified();
     canv->SetSelected(canv);
     canv->Update();
-    canv->Print("figures/" + (TString) h_data->GetName() + "_" + iso[idx_iso] + "_WToTauNu" + tauDecayMode + "_prefit.png");
+    if (selection == "tautrigger")         canv->Print("figures/" + (TString) h_data->GetName() + "_" + iso[idx_iso] + "_WToTauNu" + tauDecayMode + "_passingprobes_prefit.png");
+    else if (selection == "NOTtautrigger") canv->Print("figures/" + (TString) h_data->GetName() + "_" + iso[idx_iso] + "_WToTauNu" + tauDecayMode + "_failingprobes_prefit.png");
+    else                                   canv->Print("figures/" + (TString) h_data->GetName() + "_" + iso[idx_iso] + "_WToTauNu" + tauDecayMode + "_prefit.png");
 
     // Get bin-by-bin uncertainties for WTauNu
     TH1D* histo = 0;
@@ -292,7 +324,10 @@ void WToTauNuMeasurement() {
     }
 
     // Save all histograms in one file
-    TFile *out = new TFile("output/" + (TString) h_data->GetName() + "_" + iso[idx_iso] + "_WToTauNu_shapes" + tauDecayMode + ".root","RECREATE");
+    TFile *out;
+    if (selection == "tautrigger") out = new TFile("output/" + (TString) h_data->GetName() + "_" + iso[idx_iso] + "_WToTauNu_shapes_trigger_passingprobes" + tauDecayMode + ".root","RECREATE");
+    else if (selection == "NOTtautrigger") out = new TFile("output/" + (TString) h_data->GetName() + "_" + iso[idx_iso] + "_WToTauNu_shapes_trigger_failingprobes" + tauDecayMode + ".root","RECREATE");
+    else out = new TFile("output/" + (TString) h_data->GetName() + "_" + iso[idx_iso] + "_WToTauNu_shapes" + tauDecayMode + ".root","RECREATE");
     out->cd();
 
     map<TString,TH1D*>::iterator it;

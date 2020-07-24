@@ -4,7 +4,11 @@
 #include "TColor.h"
 #include "settings.h"
 
-void MakePostAndPreFitPlots(bool make_postfit = true, bool is_wtotaunu = true) {
+void MakePostAndPreFitPlots(bool make_postfit = true, bool is_wtotaunu = true, bool is_triggermeasurement = false) {
+  // is_wtotaunu && !is_triggermeasurement --> W->taunu signal region + variable = mttau
+  // !is_wtotaunu && !is_triggermeasurement --> W->munu signal region + variable = mtmuon
+  // is_wtotaunu && is_triggermeasurement --> W->taunu signal region, failing probes + variable = pttau
+  // !is_wtotaunu && is_triggermeasurement --> W->taunu signal region, passing probes + variable = pttau
 
   cout << "make_postfit = "<< make_postfit << endl;
 
@@ -16,14 +20,17 @@ void MakePostAndPreFitPlots(bool make_postfit = true, bool is_wtotaunu = true) {
   TString xtitle = "m_{T} (GeV)";
   TString ytitle = "Events";
 
+  if (!is_triggermeasurement){
   if(tau_pt_low == 100 && tau_pt_high == 200)      mttau_bins  = mttau_bins_ptbin1;
   //else if(tau_pt_low == 100 && tau_pt_high == 200) mttau_bins  = mttau_bins_ptbin2;
   //else if(tau_pt_low == 150 && tau_pt_high == 200) mttau_bins  = mttau_bins_ptbin2;
   else if(tau_pt_low == 200 )                      mttau_bins  = mttau_bins_ptbin2;
+  }
 
   vector<Float_t> bins;
-  if(is_wtotaunu) bins = mttau_bins;
-  else            bins = mtmuon_bins;
+  if (is_triggermeasurement) bins = pttau_bins;
+  else if (is_wtotaunu)      bins = mttau_bins;
+  else                       bins = mtmuon_bins;
   const int nBins  = bins.size()-1;
 
   for(unsigned int idx_iso=0; idx_iso<iso.size(); idx_iso++){
@@ -31,7 +38,9 @@ void MakePostAndPreFitPlots(bool make_postfit = true, bool is_wtotaunu = true) {
     cout<<endl<<endl<<"........................... Processing "<<iso[idx_iso]<<endl;
 
     // Read fitDiagnostics.root file
-    TString mlfitFileName = "fitDiagnostics_"+iso[idx_iso];
+    TString mlfitFileName;
+    if (!is_triggermeasurement) mlfitFileName = "fitDiagnostics_"+iso[idx_iso];
+    else mlfitFileName = "fitDiagnostics_tauPt_"+iso[idx_iso];
     TFile * mlfit  = new TFile("datacards/"+mlfitFileName+tauDecayMode+".root");
     if(!mlfit){
       cout<<"File "<<mlfitFileName<<".root not available. Please Check."<<endl;
@@ -51,11 +60,11 @@ void MakePostAndPreFitPlots(bool make_postfit = true, bool is_wtotaunu = true) {
 
     // Read histograms from fitDiagnostics
     TString bkg1_name = "TrueTaus";
-    if(!is_wtotaunu) bkg1_name = "EWK";
+    if(!is_wtotaunu && !is_triggermeasurement) bkg1_name = "EWK";
     TH1F * h_bkg1_ = (TH1F*)mlfit->Get(path+"/"+channel+"/"+bkg1_name);
 
     TString bkg2_name = "FakeTaus";
-    if(!is_wtotaunu) bkg2_name = "TT";
+    if(!is_wtotaunu && !is_triggermeasurement) bkg2_name = "TT";
     TH1F * h_bkg2_ = (TH1F*)mlfit->Get(path+"/"+channel+"/"+bkg2_name);
 
     TH1F * h_W_ = (TH1F*)mlfit->Get(path+"/"+channel+"/W");
@@ -87,7 +96,7 @@ void MakePostAndPreFitPlots(bool make_postfit = true, bool is_wtotaunu = true) {
     h_W   ->SetFillColor(TColor::GetColor("#FFCC66"));
     h_bkg1->SetFillColor(TColor::GetColor("#6F2D35")); // true taus and ewk
     h_bkg2->SetFillColor(TColor::GetColor("#FFCCFF"));
-    if(!is_wtotaunu)  h_bkg2->SetFillColor(TColor::GetColor("#BEE6E7"));
+    if(!is_wtotaunu && !is_triggermeasurement)  h_bkg2->SetFillColor(TColor::GetColor("#BEE6E7"));
     h_Data->SetTitle("");
     h_Data->GetXaxis()->SetTitle("");
     h_Data->GetYaxis()->SetTitle(ytitle);
@@ -105,19 +114,22 @@ void MakePostAndPreFitPlots(bool make_postfit = true, bool is_wtotaunu = true) {
     TPad * upper = new TPad("upper", "pad",0,0.19,1,1);
     upper->Draw();
     upper->cd();
+    if (is_triggermeasurement) upper->SetLogx();
     h_Data  -> Draw("AP");
     stack   -> Draw("hist same");
     h_Data  -> Draw("P same");
     h_total -> Draw("e2 same");
 
     TLegend * leg = 0;
-    if(is_wtotaunu)  leg = new TLegend(0.43,0.49,0.83,0.83);
+    if(is_wtotaunu || is_triggermeasurement)  leg = new TLegend(0.43,0.49,0.83,0.83);
     else             leg = new TLegend(0.6,0.49,0.83,0.83);
     //TLegend * leg = new TLegend(0.19,0.49,0.45,0.83); // for last tau pt bin figure
     SetLegendStyle(leg);
-    if(is_wtotaunu) leg->SetHeader(iso[idx_iso]);
+    if(is_wtotaunu && !is_triggermeasurement) leg->SetHeader(iso[idx_iso]);
+    if (is_triggermeasurement && is_wtotaunu) leg->SetHeader("failing probes");
+    if (is_triggermeasurement && !is_wtotaunu) leg->SetHeader("passing probes");
     leg->AddEntry(h_Data,"Data","lp");
-    if(is_wtotaunu){
+    if(is_wtotaunu || is_triggermeasurement){
       leg->AddEntry(h_W,"W#rightarrow#tau#nu","f");
       leg->AddEntry(h_bkg1,"bkgd (true taus)","f");
       leg->AddEntry(h_bkg2,"bkgd (fake taus)","f");
@@ -141,8 +153,10 @@ void MakePostAndPreFitPlots(bool make_postfit = true, bool is_wtotaunu = true) {
     float r = upper->GetRightMargin();
     float t = upper->GetTopMargin();
     latex.SetTextSize(lumiTextSize*t);
-    if(make_postfit) latex.DrawLatex(r+0.25,1-2.2*t,"Post-fit");
-    else             latex.DrawLatex(r+0.23,1-2.2*t,"Pre-fit");
+    if(make_postfit && !is_triggermeasurement) latex.DrawLatex(r+0.25,1-2.2*t,"Post-fit");
+    else if (!make_postfit && !is_triggermeasurement) latex.DrawLatex(r+0.23,1-2.2*t,"Pre-fit");
+    else if (make_postfit && is_triggermeasurement) latex.DrawLatex(r+0.62,1-2.2*t,"Post-fit, "+ iso[idx_iso]);
+    else latex.DrawLatex(r+0.62,1-2.2*t,"Pre-fit, "+ iso[idx_iso]);
 
 
     upper->Draw("SAME");
@@ -162,14 +176,6 @@ void MakePostAndPreFitPlots(bool make_postfit = true, bool is_wtotaunu = true) {
       ratioH->SetPointEYlow(i_bin,h_Data->GetErrorYlow(i_bin)/scale);
     }
 
-    ratioH->GetYaxis()->SetRangeUser(0.4,1.6);
-    ratioH->GetYaxis()->SetNdivisions(505);
-    ratioH->GetXaxis()->SetTitle("m_{T} [GeV]");
-    ratioH->GetYaxis()->SetTitle("Obs./Exp.");
-    ratioH->GetYaxis()->CenterTitle();
-    ratioH->GetXaxis()->SetTitleOffset(3.5);
-    ratioH->GetXaxis()->SetLabelSize(30);
-
     TH1D * ratioErrH = (TH1D*)h_total->Clone("ratioErrH");
     for(int i=1; i<=h_total->GetNbinsX(); i++){
       ratioErrH->SetBinContent(i,1);
@@ -184,6 +190,14 @@ void MakePostAndPreFitPlots(bool make_postfit = true, bool is_wtotaunu = true) {
     lower->cd();
     lower->SetGridy();
     ratioH->GetXaxis()->SetRangeUser(bins[0],bins[nBins]);
+    if (is_triggermeasurement) lower->SetLogx();
+    ratioH->GetYaxis()->SetRangeUser(0.4,1.6);
+    ratioH->GetYaxis()->SetNdivisions(505);
+    ratioH->GetXaxis()->SetTitle("m_{T} [GeV]");
+    ratioH->GetYaxis()->SetTitle("Obs./Exp.");
+    ratioH->GetYaxis()->CenterTitle();
+    ratioH->GetXaxis()->SetTitleOffset(3.5);
+    ratioH->GetXaxis()->SetLabelSize(30);
     ratioH->Draw("AP");
     ratioErrH->Draw("e2same");
     
@@ -196,8 +210,11 @@ void MakePostAndPreFitPlots(bool make_postfit = true, bool is_wtotaunu = true) {
     canv1->Update();
     TString outname = "postfit";
     if(!make_postfit) outname = "prefit";
-    TString filename = "mttau_"+iso[idx_iso]+"_WToTauNu_";
-    if(!is_wtotaunu) filename = "mtmuon_"+iso[idx_iso]+"_WToMuNu_";
+    TString filename;
+    if (is_wtotaunu && !is_triggermeasurement) filename= "mttau_"+iso[idx_iso]+"_WToTauNu_";
+    else if(is_triggermeasurement && !is_wtotaunu) filename = "pttau_passingprobes_"+iso[idx_iso]+"_WToMuNu_";
+    else if(is_triggermeasurement && is_wtotaunu) filename = "pttau_failingprobes_"+iso[idx_iso]+"_WToMuNu_";
+    else if(!is_wtotaunu && !is_triggermeasurement) filename = "mtmuon_"+iso[idx_iso]+"_WToMuNu_";
     canv1->Print("figures/" + filename + outname + ".png");
     //if(!is_wtotaunu) break;
   }
