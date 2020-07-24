@@ -3,7 +3,7 @@
 
 TString era = "2018";
 
-TString dir = "/nfs/dust/cms/user/rasp/Run/Run2018/TauTrigger/";
+TString dir = "/nfs/dust/cms/user/mameyer/TauIdAndES_ULData/TauId/NTuples/2018/";
 
 double luminosity = 59740; // lumi determined by brilcalc
 double lumi_unc = 1.025;
