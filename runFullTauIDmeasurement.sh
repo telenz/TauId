@@ -20,7 +20,12 @@ root -l -b -q WToMuNuMeasurement.C+
 root -l -b -q DatacardProducer_WToMuNu.C+
 
 # Make datacards and run Combine
-iniCMSSW_8_1_0   # needed for Combine (definition see below)
+#iniCMSSW_8_1_0   # needed for Combine (definition see below)
+source /cvmfs/cms.cern.ch/cmsset_default.sh
+export SCRAM_ARCH=slc6_amd64_gcc700
+cd /nfs/dust/cms/user/mameyer/SM_HiggsTauTau/CMSSW_8_1_0/src 
+cmsenv
+cd -
 cd datacards
 sh RunCombine.sh
 #sh make_pulls_impacts_plots.sh
