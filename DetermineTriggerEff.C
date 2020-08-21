@@ -38,7 +38,7 @@ void DetermineTriggerEff( bool prefit = false) {
     TH1D *sigPassH_rebinned = new TH1D("signal passing trigger", "signal passing trigger", 10, &pttau_bins[0]);
     TH1D *sigFailH_rebinned = new TH1D("signal failing trigger", "signal failing trigger", 10, &pttau_bins[0]); 
     
-    for(int iB=1; iB<nBins+1; iB++){
+    for(int iB=0; iB<nBins+1; iB++){
         fakesPassH_rebinned->SetBinContent(iB,fakesPassH->GetBinContent(iB));
         fakesPassH_rebinned->SetBinError(iB,fakesPassH->GetBinError(iB));
         fakesFailH_rebinned->SetBinContent(iB,fakesFailH->GetBinContent(iB));
@@ -52,17 +52,52 @@ void DetermineTriggerEff( bool prefit = false) {
     dataPassH->Add(fakesPassH_rebinned,-1);
     dataFailH->Add(fakesFailH_rebinned,-1);
 
+    // errors are not calculated correctly with TGraphAsymmErrors
     // determine data efficiency
-    TH1D * denominator_data =  (TH1D*) dataFailH->Clone();
-    denominator_data->Add(dataPassH,1.);
-    TGraphAsymmErrors *eff_data = new TGraphAsymmErrors();
-    eff_data -> Divide(dataPassH, denominator_data);
+    // TH1D * denominator_data =  (TH1D*) dataFailH->Clone();
+    // denominator_data->Add(dataPassH,1.);
+    // TGraphAsymmErrors *eff_data = new TGraphAsymmErrors();
+    // eff_data -> Divide(dataPassH, denominator_data, "b");
     
     // determine MC efficiency
-    TH1D * denominator_mc =  (TH1D*) sigFailH_rebinned->Clone();
-    denominator_mc->Add(sigPassH_rebinned,1.);
-    TGraphAsymmErrors *eff_mc = new TGraphAsymmErrors();
-    eff_mc -> Divide(sigPassH_rebinned, denominator_mc);
+    // TH1D * denominator_mc =  (TH1D*) sigFailH_rebinned->Clone();
+    // denominator_mc->Add(sigPassH_rebinned,1.);
+    // TGraphAsymmErrors *eff_mc = new TGraphAsymmErrors();
+    // eff_mc -> Divide(sigPassH_rebinned, denominator_mc);
+
+    TH1D * eff_data =  (TH1D*) dataFailH->Clone();
+    TH1D * eff_mc =  (TH1D*) sigFailH->Clone();
+    for (int iB=1; iB<=nBins; ++iB) {
+      double xPass = dataPassH->GetBinContent(iB);
+      double ePass = dataPassH->GetBinError(iB);
+      double xFail = dataFailH->GetBinContent(iB);
+      double eFail = dataFailH->GetBinError(iB);
+      if (xPass<0.0) xPass = 1e-5;
+      if (xFail<0.0) xFail = 1e-5;
+      double xTotal = xPass + xFail;
+      double xTotal2 = xTotal*xTotal;
+      double e1 = xFail*ePass/xTotal2;
+      double e2 = eFail*xPass/xTotal2;
+      double err = TMath::Sqrt(e1*e1+e2*e2);
+      double eff = xPass / xTotal;
+      eff_data->SetBinContent(iB,eff);
+      eff_data->SetBinError(iB,err);
+    }
+
+    for (int iB=1; iB<=nBins; ++iB) {
+      double xPass = sigPassH->GetBinContent(iB);
+      double ePass = sigPassH->GetBinError(iB);
+      double xFail = sigFailH->GetBinContent(iB);
+      double eFail = sigFailH->GetBinError(iB);
+      double xTotal = xPass + xFail;
+      double xTotal2 = xTotal*xTotal;
+      double e1 = xFail*ePass/xTotal2;
+      double e2 = eFail*xPass/xTotal2;
+      double err = TMath::Sqrt(e1*e1+e2*e2);
+      double eff = xPass / xTotal;
+      eff_mc->SetBinContent(iB,eff);
+      eff_mc->SetBinError(iB,err);
+    }
   
     eff_mc->SetLineColor(2);
     eff_mc->SetMarkerColor(2);
@@ -91,13 +126,14 @@ void DetermineTriggerEff( bool prefit = false) {
     canv->Update();
     canv->Print("figures/trigEff"+iso[idx_iso]+tauDecayMode+"_"+dir+".png");
 
+
     //calculate SF
     TH1D * SF = (TH1D*)dataPassH->Clone("SF");
-    for (int iB=1; iB<=nBins; ++iB) { 
-      double num  = eff_data->Eval(dataPassH->GetXaxis()->GetBinCenter(iB));
-      double numE = eff_data->GetErrorY(iB);
-      double den  = eff_mc->Eval(dataPassH->GetXaxis()->GetBinCenter(iB));
-      double denE = eff_mc->GetErrorY(iB);
+    for (int iB=0; iB<nBins+1; ++iB) {
+      double num  = eff_data->GetBinContent(iB);
+      double numE = eff_data->GetBinError(iB);
+      double den  = eff_mc->GetBinContent(iB);
+      double denE = eff_mc->GetBinError(iB);
       double numR = numE/num;
       double denR = denE/den;
       double R = TMath::Sqrt(numR*numR+denR*denR);
