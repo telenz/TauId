@@ -96,6 +96,7 @@ void PlotWTauNu_TauPt(TString iso = "taubyTightDeepTau2017v2p1VSjet",
   // fake factors and systematics
   TFile * fakeRateFile = new TFile("fakeRates/fakerate_"+Variable+"_"+iso+"_comb"+postfix+".root");
   TH1D * fakeRateHist = (TH1D*)fakeRateFile->Get("fakeRate");
+
   int nFakeBins = fakeRateHist->GetNbinsX();
   std::vector<TString> binName = {
     "0","1","2","3","4","5","6","7","8","9","10","11","12"
@@ -111,7 +112,7 @@ void PlotWTauNu_TauPt(TString iso = "taubyTightDeepTau2017v2p1VSjet",
 
   TString cutsTauId        ("tauNewDM>0.5&&"+antiMuDiscriminant+">0.5&&"+antiEleDiscriminant+">0.5&&"+iso+">0.5");
   TString cutsInverseTauIso("tauNewDM>0.5&&"+antiMuDiscriminant+">0.5&&"+antiEleDiscriminant+">0.5&&"+iso+"<0.5&&taubyVVVLooseDeepTau2017v2p1VSjet>0.5");
-  
+
   TString CutsBkg = cutsTrigger+cutsTopology+cutsLeptonVeto+cutsJetVeto+cutsInverseTauIso+CutTauTrigger;
   TString CutsSig = cutsTrigger+cutsTopology+cutsLeptonVeto+cutsJetVeto+cutsTauId+CutTauTrigger;
   TString CutsBkgData = CutsBkg + CutTauTrigger;
@@ -146,15 +147,15 @@ void PlotWTauNu_TauPt(TString iso = "taubyTightDeepTau2017v2p1VSjet",
     "ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8",     // (18) topW
     "ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8", // (19) atopW
     "WW_TuneCP5_13TeV-pythia8", // (20) WW
-    "WW_TuneCP5_13TeV-pythia8", // (21) WZ
+    "WZ_TuneCP5_13TeV-pythia8", // (21) WZ
     "ZZ_TuneCP5_13TeV-pythia8"  // (22) ZZ
   };
 
   TString cuts[40];
   TString cutsSB[40];
   for (int i=0; i<40; ++i) {
-    cuts[i]   = Weight+"("+CutsSig+")&&tauGenMatchDecay>=0";
-    cutsSB[i] = Weight+"("+CutsBkg+")&&tauGenMatchDecay>=0";
+  cuts[i]   = Weight+"("+CutsSig+"&&tauGenMatchDecay>=0)";
+  cutsSB[i] = Weight+"("+CutsBkg+"&&tauGenMatchDecay>=0)";
   }
   cuts[0] = CutsSigData;
   cutsSB[0] = CutsBkgData;
@@ -186,7 +187,7 @@ void PlotWTauNu_TauPt(TString iso = "taubyTightDeepTau2017v2p1VSjet",
     tree->Draw(Variable+">>"+histName,cuts[i]);
     tree->Draw(Variable+">>"+histNameSB,cutsSB[i]);
 
-    std::cout << sampleNames[i] << " : " << norm*hist[i]->GetSumOfWeights() << std::endl;  
+    std::cout << sampleNames[i] << " : " << norm*hist[i]->GetSumOfWeights() << std::endl;
     if (i>0) {
       for (int iB=1; iB<=nBins; ++iB) {
 	double x = hist[i]->GetBinContent(iB);
@@ -219,9 +220,9 @@ void PlotWTauNu_TauPt(TString iso = "taubyTightDeepTau2017v2p1VSjet",
 
   // fake factors
   for (int iB=1; iB<=nBins; ++iB) {
-    double var = QCD->GetBinCenter(2);
-    int jB = fakeRateHist->FindBin(2);
-    double xF = fakeRateHist->GetBinContent(2);
+    double var = QCD->GetBinCenter(iB);
+    int jB = fakeRateHist->FindBin(var);
+    double xF = fakeRateHist->GetBinContent(jB);
     double xB = QCD->GetBinContent(iB);
     double eB = QCD->GetBinError(iB);
     double x = xF*xB;
