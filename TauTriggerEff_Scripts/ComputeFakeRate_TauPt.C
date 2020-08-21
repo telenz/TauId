@@ -144,7 +144,7 @@ void ComputeFakeRate_TauPt(TString iso="taubyMediumDeepTau2017v2p1VSjet",
     "ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8", // 24
     "ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8", // 25
     "WW_TuneCP5_13TeV-pythia8", // 26
-    "WW_TuneCP5_13TeV-pythia8", // 27
+    "WZ_TuneCP5_13TeV-pythia8", // 27
     "ZZ_TuneCP5_13TeV-pythia8",  // 28
     "",
   };
@@ -227,14 +227,12 @@ void ComputeFakeRate_TauPt(TString iso="taubyMediumDeepTau2017v2p1VSjet",
     histDen[1]->Add(histDen[1],histDen[i]);
   }
  
-  
   if (subtractGenuineTaus) {
     for (int i=1; i<nSamples; ++i) {
       histNum[0]->Add(histNum[0],histNumSub[i],1,-1);
       histDen[0]->Add(histDen[0],histDenSub[i],1,-1);
     }
   }
-  
 
   double dataNum = histNum[0]->GetSumOfWeights();
   double dataDen = histDen[0]->GetSumOfWeights(); 
@@ -285,6 +283,7 @@ void ComputeFakeRate_TauPt(TString iso="taubyMediumDeepTau2017v2p1VSjet",
   TH2F * frame = new TH2F("frame","",2,xmin,xmax,2,0,ymax);
   frame->GetYaxis()->SetTitle("Fake Rate");
   frame->GetXaxis()->SetTitle(xtitle);
+	frame->GetYaxis()->SetRangeUser(0,0.5);
   frame->Draw();
   eff->Draw("epsame");
   if (!isDijet)
