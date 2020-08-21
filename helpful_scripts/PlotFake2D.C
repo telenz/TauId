@@ -4,14 +4,14 @@
 // TightMva2017v2
 // VTightMva2017v2
 
-void PlotFake2D(TString iso = "VLooseMva2017v2",
+void PlotFake2D(TString iso = "MediumDeepTau2017v2p1",
 		double yMax = 0.8) {
 
 
   SetStyle();
-  TFile * file = new TFile("/nfs/dust/cms/user/mameyer/TauIdAndES_2018Data/TauId/output/fakerates.root");
-  TFile * fileW = new TFile("/nfs/dust/cms/user/mameyer/TauIdAndES_2018Data/TauId/output/SingleMuon_fakeRate.root");
-  TFile * fileQCD = new TFile("/nfs/dust/cms/user/mameyer/TauIdAndES_2018Data/TauId//output/JetHT_fakeRate.root");
+  TFile * file = new TFile("/nfs/dust/cms/user/mameyer/TauIdAndES_ULData/TauId/output/fakerates.root");
+  TFile * fileW = new TFile("/nfs/dust/cms/user/mameyer/TauIdAndES_ULData/TauId/output/SingleMuon_fakeRate.root");
+  TFile * fileQCD = new TFile("/nfs/dust/cms/user/mameyer/TauIdAndES_ULData/TauId/output/JetHT_fakeRate.root");
 
   TH2D * hist    = (TH2D*)file->Get(iso);
   TH2D * histW   = (TH2D*)fileW->Get(iso);
@@ -98,7 +98,7 @@ void PlotFake2D(TString iso = "VLooseMva2017v2",
   hist1D->GetXaxis()->SetLabelSize(0.05);
 
   //  hist->GetZaxis()->SetRangeUser(0.0,20);
-  hist1D->GetYaxis()->SetRangeUser(0.0,1.6);
+  hist1D->GetYaxis()->SetRangeUser(0.0,0.35);
   hist1D->GetYaxis()->SetTitle("Fake factor");
   hist1D->GetXaxis()->SetTitleOffset(1.1);
   hist1D->GetYaxis()->SetTitleOffset(0.8);
