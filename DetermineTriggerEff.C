@@ -66,7 +66,7 @@ void DetermineTriggerEff( bool prefit = false) {
     // eff_mc -> Divide(sigPassH_rebinned, denominator_mc);
 
     TH1D * eff_data =  (TH1D*) dataFailH->Clone();
-    TH1D * eff_mc =  (TH1D*) sigFailH->Clone();
+    TH1D * eff_mc =  (TH1D*) dataFailH->Clone();
     for (int iB=1; iB<=nBins; ++iB) {
       double xPass = dataPassH->GetBinContent(iB);
       double ePass = dataPassH->GetBinError(iB);
