@@ -120,6 +120,7 @@ struct selectionCuts {
   float mhtNoMuLow = 0;
   float metNoMuLow = 0;
   bool singleTauTrigger;
+  float tauetaHigh = 2.3;
 } sr, sr_trueTaus, sr_trueTaus_passingprobes, sr_trueTaus_failingprobes, sr_fakeTaus, cr_antiiso, cr_antiiso_passingprobes, cr_antiiso_failingprobes, cr_antiiso_trueTaus, cr_antiiso_fakeTaus, cr_ewkFraction, cr_fakerate_den, cr_fakerate_num, cr_fakerate_norm, cr_fakerate_dijet_den, cr_fakerate_dijet_num, sr_munu;
 // ----------------------------------------------------------------------------------------------------
 void initCuts()
@@ -161,6 +162,10 @@ void initCuts()
      sr.mhtNoMuLow = 130;
      sr.metNoMuLow = 130;
   }
+  if (doTauTriggerEffmeasurement){
+    sr.tauetaHigh = 2.1;
+  }
+  else sr.tauetaHigh = 2.3;
   // sr for true taus
   sr_trueTaus = sr;
   sr_trueTaus.name = "sr_trueTaus";
@@ -721,6 +726,7 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
     if(*(*tauIso) != sel.tauIso && sel.selection!=2 && sel.name != "cr_fakerate_norm") continue;
     if(*(*tauIsoLoose) != true && sel.name.Contains("cr_fakerate") ) continue;
     if((*tauGenMatchDecay<sel.tauGenMatchDecayLow || *tauGenMatchDecay>sel.tauGenMatchDecayHigh) && !isData) continue;
+    if (*tauEta > sel.tauetaHigh && (sel.selection == 3 || sel.name.Contains("cr_antiiso"))) continue;
 
     if(*mtmuon < sel.mtmuonLow || *mtmuon > sel.mtmuonHigh ) continue;
     if(abs(*muonEta) > sel.muonAbsEtaHigh && sel.selection == 2) continue;
