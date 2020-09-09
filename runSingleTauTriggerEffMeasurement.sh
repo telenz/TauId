@@ -37,6 +37,7 @@ cd -
 # run combine
 cd datacards
 sh RunCombine_TriggerMeasurement.sh
+sh make_pulls_impacts_plots_trigger.sh
 cd ..
 
 # Make prefit plots (using fitDiagnostics.root) for passing and failing probes
