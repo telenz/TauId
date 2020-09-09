@@ -11,6 +11,7 @@ void DatacardProducer_WToTauNu(TString selection = "inclusive") {
   if (!doTauTriggerEffmeasurement) selection = "inclusive";
 
   loadWorkingPoints();
+  SetDir();
   TString Variable;
   if(doTauTriggerEffmeasurement) Variable = "tauPt";
   else Variable = "mttau";

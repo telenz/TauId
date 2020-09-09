@@ -8,6 +8,7 @@
 void ComputeFakeRate(bool make_closure = false) {
 
   loadWorkingPoints();
+  SetDir();
   initCuts();
 
   SetStyle();

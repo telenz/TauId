@@ -12,6 +12,7 @@ void WToMuNuMeasurement() {
   TH1::SetDefaultSumw2();
   TH2::SetDefaultSumw2();
 
+  SetDir();
   initCuts();
   loadkFactors(kfactor_mu_file);
 

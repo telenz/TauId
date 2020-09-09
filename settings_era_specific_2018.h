@@ -4,6 +4,7 @@
 TString era = "2018";
 
 TString dir = "/nfs/dust/cms/user/mameyer/TauIdAndES_ULData/TauId/NTuples/2018/";
+TString dir_trigger = "/nfs/dust/cms/user/mameyer/TauIdAndES_ULData/TauId/NTuples/2018/TriggerEfficiencyMeasurement/";
 
 double luminosity = 59740; // lumi determined by brilcalc
 double lumi_unc = 1.025;

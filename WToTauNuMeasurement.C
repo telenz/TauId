@@ -13,7 +13,8 @@ void WToTauNuMeasurement(TString selection = "inclusive") {
   //      - "NOTtautrigger" (for probes failing single tau trigger selection)
 
   if (!doTauTriggerEffmeasurement) selection = "inclusive";
-
+  
+  SetDir();
   SetStyle();
   TH1::SetDefaultSumw2();
   TH2::SetDefaultSumw2();

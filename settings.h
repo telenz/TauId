@@ -67,6 +67,10 @@ vector<Float_t> mttau_bins_ptbin2  = { 170 , 220 , 270 , 320 , 370 , 420 , 480 ,
 vector<Float_t> pttau_bins  = { 100, 120, 140, 160, 180, 200, 225, 250, 300, 400, 1700}; //needed for trigger eff measurement
 
 // ----------------------------------------------------------------------------------------------------
+void SetDir(){
+if (doTauTriggerEffmeasurement) dir = dir_trigger;
+}
+// ----------------------------------------------------------------------------------------------------
 void loadWorkingPoints()
 {
   iso.push_back("VVLooseDeepTau2017v2p1");
@@ -185,6 +189,7 @@ void initCuts()
   // sr for fake taus
   sr_fakeTaus = sr;
   sr_fakeTaus.name = "sr_fakeTaus";
+  //sr_fakeTaus.singleTauTrigger = false;
   sr_fakeTaus.tauGenMatchDecayLow  = -1000;
   sr_fakeTaus.tauGenMatchDecayHigh = -1;
   
@@ -209,6 +214,7 @@ void initCuts()
   // antiiso region
   cr_antiiso = sr;
   cr_antiiso.name = "cr_antiiso";
+  //cr_antiiso.singleTauTrigger = false;
   cr_antiiso.tauIso = false;
 
   // antiiso region, probes passing single tau trigger
@@ -240,6 +246,7 @@ void initCuts()
   // cr_fakerate_den
   cr_fakerate_den = sr;
   cr_fakerate_den.name = "cr_fakerate_den";
+//  cr_fakerate_den.singleTauTrigger = false;
   cr_fakerate_den.selection = 1;
   cr_fakerate_den.nMuonLow  = 1;
   cr_fakerate_den.nMuonHigh = 1;
@@ -261,6 +268,7 @@ void initCuts()
   cr_fakerate_num = cr_fakerate_den;
   cr_fakerate_num.name = "cr_fakerate_num";
   cr_fakerate_num.tauIso = true;
+//  cr_fakerate_num.singleTauTrigger = false;
 
   // cr_fakerate for WJets and ZJets normalization
   cr_fakerate_norm = cr_fakerate_den;
@@ -272,6 +280,7 @@ void initCuts()
 
   // cr_fakerate_dijet_den
   cr_fakerate_dijet_den.name = "cr_fakerate_dijet_den";
+  //cr_fakerate_dijet_den.singleTauTrigger = false;
   cr_fakerate_dijet_den.selection = 4;
   cr_fakerate_dijet_den.nMuonLow  = 0;
   cr_fakerate_dijet_den.nMuonHigh = 0;
@@ -299,6 +308,7 @@ void initCuts()
   // cr_fakerate_num
   cr_fakerate_dijet_num = cr_fakerate_dijet_den;
   cr_fakerate_dijet_num.name = "cr_fakerate_dijet_num";
+  //cr_fakerate_dijet_num.singleTauTrigger = false;
   cr_fakerate_dijet_num.tauIso = true;
 }
 // ----------------------------------------------------------------------------------------------------
@@ -691,6 +701,7 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
     //if(sel.selection == 4 && (*pfJet40 != sel.pfJetTrigger && *pfJet60 != sel.pfJetTrigger && *pfJet80 != sel.pfJetTrigger && *pfJet140 != sel.pfJetTrigger && *(*pfJet200) != sel.pfJetTrigger && *(*pfJet260) != sel.pfJetTrigger && *(*pfJet320) != sel.pfJetTrigger && *(*pfJet400) != sel.pfJetTrigger && *(*pfJet450) != sel.pfJetTrigger && *(*pfJet500) != sel.pfJetTrigger)) continue;
     if(sel.selection == 4 && (*pfJet60 != sel.pfJetTrigger && *pfJet80 != sel.pfJetTrigger && *pfJet140 != sel.pfJetTrigger && *(*pfJet200) != sel.pfJetTrigger && *(*pfJet260) != sel.pfJetTrigger && *(*pfJet320) != sel.pfJetTrigger && *(*pfJet400) != sel.pfJetTrigger && *(*pfJet450) != sel.pfJetTrigger)) continue;
     bool singletautrig = *tauSinglePFTau180Trk50>0.5 || *tauSinglePFTau180Trk50oneprong>0.5;
+    //if (singletautrig != sel.singleTauTrigger && (sel.name.Contains("cr_fakerate_den")  || sel.name.Contains("cr_fakerate_num") || sel.name.Contains("sr_trueTaus_passingprobes") || sel.name.Contains("sr_trueTaus_failingprobes") || sel.name.Contains("cr_antiiso_passingprobes") || sel.name.Contains("cr_antiiso_failingprobes"))) continue;
     if (singletautrig != sel.singleTauTrigger && (sel.name.Contains("sr_trueTaus_passingprobes") || sel.name.Contains("sr_trueTaus_failingprobes") || sel.name.Contains("cr_antiiso_passingprobes") || sel.name.Contains("cr_antiiso_failingprobes"))) continue;
 
     if(*Selection != sel.selection) continue;
@@ -781,7 +792,6 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
 
     if(*recoilPt<sel.recoilPtLow) continue;
     if(*dPhiMetTau<sel.dPhiMetTauLow) continue;
-    
     double weight = (*mueffweight)*(*mutrigweight)*(*puWeight)*(*trigWeight)*(*genWeight)*norm*k_factor*fakerate;
     if(isData) weight =1;
     if(isData && sel.name.Contains("cr_antiiso")) weight = fakerate;
@@ -810,4 +820,3 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
 // ----------------------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------------------------
 #endif
-

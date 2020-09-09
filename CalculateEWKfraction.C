@@ -5,6 +5,7 @@
 void CalculateEWKfraction() {
 
   loadWorkingPoints();
+  SetDir();
   initCuts();
 
   SetStyle();

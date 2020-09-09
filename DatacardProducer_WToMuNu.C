@@ -5,6 +5,7 @@
 void DatacardProducer_WToMuNu() {
 
   loadWorkingPoints();
+  SetDir();
   TString Variable = "mtmuon";
 
   // ***************
