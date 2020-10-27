@@ -4,6 +4,7 @@
 TString era = "2017";
 
 TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2018/TauIDWithVirtualW/redo_all_years_with_bug_fix/TauId/NTuples/2017/";
+TString dir_trigger = "/nfs/dust/cms/user/mameyer/TauIdAndES_ULData/TauId/NTuples/2017/TriggerEfficiencyMeasurement/";
 
 double luminosity = 40991; // lumi determined by brilcalc
 double lumi_unc = 1.023;
@@ -122,9 +123,9 @@ map<TString, double> xsecs = {
 {"DY2JetsToLL_M-50"      , 306.9*1.137}, // NNLO (20b)
 {"DY3JetsToLL_M-50"      , 111.9*1.137}, // NNLO (20c)
 {"DY4JetsToLL_M-50"      , 43.97*1.137}, // NNLO (20d)
-{"TTTo2L2Nu"        , 88.29},  // NNLO (21)
-{"TTToHadronic"     , 377.96}, // NNLO (22)
-{"TTToSemiLeptonic" , 365.34}, // NNLO (23)
+//{"TTTo2L2Nu"        , 88.29},  // NNLO (21)
+//{"TTToHadronic"     , 377.96}, // NNLO (22)
+//{"TTToSemiLeptonic" , 365.34}, // NNLO (23)
 {"ST_t-channel_top_4f_inclusiveDecays"     , 44.33}, // ? (24) -> could be improved
 {"ST_t-channel_antitop_4f_inclusiveDecays" , 26.38}, // ? (25) -> could be improved
 {"ST_tW_top_5f_inclusiveDecays"            , 35.85}, // ? (26) -> could be improved
