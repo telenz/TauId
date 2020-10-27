@@ -114,6 +114,15 @@ void DetermineTriggerEff( bool prefit = false) {
     frame->Draw();
     eff_data->Draw("p same");
     eff_mc->Draw("p same");
+    
+    // To do: add WP and era
+    TFile *f = new TFile("SingleTauTriggerEff.root","RECREATE");
+    f->cd();
+    eff_data->SetName("Data");
+    eff_data->Write();
+    eff_mc->SetName("MC");
+    eff_mc->Write();
+    
 
     TLegend * leg = new TLegend(0.5,0.2,0.9,0.4);
     leg->AddEntry(eff_data,"Data","Aelp");
