@@ -2,10 +2,11 @@
 
 # this script creates filelists for 2017 data
 
-dirDataSingleMuon=/pnfs/desy.de/cms/tier2/store/user/mmeyer/ntuples/2017/data/SingleMuon/
+dirDataSingleMuon=/pnfs/desy.de/cms/tier2/store/user/ywen/ntuples_Apr2020/2017/data/
 dirDataJetHT=/pnfs/desy.de/cms/tier2/store/user/mmeyer/ntuples/2017/data/JetHT/
 dirDataMET=/pnfs/desy.de/cms/tier2/store/user/mmeyer/ntuples/2017/data/MET/
 dirMC=/pnfs/desy.de/cms/tier2/store/user/mmeyer/ntuples/2017/mc_v3/
+dirtt_st=/pnfs/desy.de/cms/tier2/store/user/ywen/ntuples_Apr2020/2017/mc/
 
 ls $dirDataSingleMuon/SingleMuon_Run2017B-31Mar2018*/*root > SingleMuon_Run2017B
 ls $dirDataSingleMuon/SingleMuon_Run2017C-31Mar2018*/*root > SingleMuon_Run2017C
@@ -56,14 +57,25 @@ ls $dirMC/ZJetsToNuNu_HT-800To1200_13TeV-madgraph*/*root > ZJetsToNuNu_HT-800To1
 ls $dirMC/ZJetsToNuNu_HT-1200To2500_13TeV-madgraph*/*root > ZJetsToNuNu_HT-1200To2500
 ls $dirMC/ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph*/*root > ZJetsToNuNu_HT-2500ToInf
 
-ls $dirMC/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/*root > TTToHadronic
-ls $dirMC/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/*root > TTToSemiLeptonic
-ls $dirMC/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8/*root > TTTo2L2Nu
+#ls $dirMC/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/*root > TTToHadronic
+#ls $dirMC/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/*root > TTToSemiLeptonic
+#ls $dirMC/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8/*root > TTTo2L2Nu
+ls $dirtt_st/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8/*root > TTTo2L2Nu_part2
+ls $dirtt_st/TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8/*root > TTTo2L2Nu
+ls $dirtt_st/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/*root > TTToHadronic_part2
+ls $dirtt_st/TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8/*root > TTToHadronic
+ls $dirtt_st/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/*root > TTToSemiLeptonic_part2
+ls $dirtt_st/TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8/*root > TTToSemiLeptonic
 
-ls $dirMC/ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8/*root > ST_t-channel_top_4f_inclusiveDecays
-ls $dirMC/ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8/*root > ST_t-channel_antitop_4f_inclusiveDecays
-ls $dirMC/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/*root > ST_tW_top_5f_inclusiveDecays
-ls $dirMC/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/*root > ST_tW_antitop_5f_inclusiveDecays
+ls $dirtt_st/ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8/*root > ST_t-channel_antitop_4f_inclusiveDecays
+ls $dirtt_st/ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8/*root > ST_t-channel_top_4f_inclusiveDecays
+ls $dirtt_st/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/*root > ST_tW_antitop_5f_inclusiveDecays
+ls $dirtt_st/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/*root > ST_tW_top_5f_inclusiveDecays
+
+#ls $dirMC/ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8/*root > ST_t-channel_top_4f_inclusiveDecays
+#ls $dirMC/ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8/*root > ST_t-channel_antitop_4f_inclusiveDecays
+#ls $dirMC/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/*root > ST_tW_top_5f_inclusiveDecays
+#ls $dirMC/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/*root > ST_tW_antitop_5f_inclusiveDecays
 
 ls $dirMC/WW_TuneCP5_13TeV-pythia8/*root > WW
 ls $dirMC/WZ_TuneCP5_13TeV-pythia8/*root > WZ
