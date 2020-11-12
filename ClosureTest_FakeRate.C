@@ -10,10 +10,13 @@
 
 using namespace std;
 
-void ClosureTest_FakeRate() {
+void ClosureTest_FakeRate(bool passing_probes=false) {
 
-  TString fakerateFile  = "output/WJetsToLNu_fakeRate"+tauDecayMode+".root";
-
+  TString fakerateFile;
+  if (doTauTriggerEffmeasurement && passing_probes) fakerateFile  = "output/WJetsToLNu_fakeRate"+tauDecayMode+"_passingprobes.root";
+  else if (doTauTriggerEffmeasurement && !passing_probes) fakerateFile  = "output/WJetsToLNu_fakeRate"+tauDecayMode+"_failingprobes.root";
+  else fakerateFile  = "output/WJetsToLNu_fakeRate"+tauDecayMode+".root";
+  
   loadWorkingPoints();
   SetDir();
   initCuts();
@@ -68,7 +71,9 @@ void ClosureTest_FakeRate() {
     // Make selection and fill histograms for sr and cr
     for (unsigned int i=0; i<obs.size(); ++i) { //W+jets and Znuu main backgrounds, check how many fakes we select in our SR
       TH1D* histo = new TH1D("obs_" + obs[i],"",nBins,bins);
-      makeSelection(dir+"/"+obs[i]+".root","NTuple",obs_xsec[i],iso[idx_iso],sr_fakeTaus,histo,var1,var2,var2);
+      if (doTauTriggerEffmeasurement && passing_probes) makeSelection(dir+"/"+obs[i]+".root","NTuple",obs_xsec[i],iso[idx_iso],sr_fakeTaus_passingprobes,histo,var1,var2,var2);
+      else if (doTauTriggerEffmeasurement && !passing_probes) makeSelection(dir+"/"+obs[i]+".root","NTuple",obs_xsec[i],iso[idx_iso],sr_fakeTaus_failingprobes,histo,var1,var2,var2);
+      else makeSelection(dir+"/"+obs[i]+".root","NTuple",obs_xsec[i],iso[idx_iso],sr_fakeTaus,histo,var1,var2,var2);
       observation->Add(histo);
       observation->SetName(histo->GetName());
       delete histo;
@@ -77,16 +82,21 @@ void ClosureTest_FakeRate() {
 
       loadFakeRates(fakerateFile);
       TH1D* histo = new TH1D("pred_" + pred[i],"",nBins,bins);
-      makeSelection(dir+"/"+pred[i]+".root","NTuple",pred_xsec[i],iso[idx_iso],cr_antiiso,histo,var1,var2,var2);
+      if (doTauTriggerEffmeasurement && passing_probes) makeSelection(dir+"/"+pred[i]+".root","NTuple",pred_xsec[i],iso[idx_iso],cr_antiiso_passingprobes,histo,var1,var2,var2);
+      else if (doTauTriggerEffmeasurement && !passing_probes) makeSelection(dir+"/"+pred[i]+".root","NTuple",pred_xsec[i],iso[idx_iso],cr_antiiso_failingprobes,histo,var1,var2,var2);
+      else makeSelection(dir+"/"+pred[i]+".root","NTuple",pred_xsec[i],iso[idx_iso],cr_antiiso,histo,var1,var2,var2);
 
       h_fakerate->at(iso[idx_iso]) = h_fakerate_up->at(iso[idx_iso]+"_Up");
       TH1D* histoUp = new TH1D("pred_" + pred[i] + "_Up","",nBins,bins);
-      makeSelection(dir+"/"+pred[i]+".root","NTuple",pred_xsec[i],iso[idx_iso],cr_antiiso,histoUp,var1,var2,var2);
+      if (doTauTriggerEffmeasurement && passing_probes) makeSelection(dir+"/"+pred[i]+".root","NTuple",pred_xsec[i],iso[idx_iso],cr_antiiso_passingprobes,histoUp,var1,var2,var2);
+      else if (doTauTriggerEffmeasurement && !passing_probes) makeSelection(dir+"/"+pred[i]+".root","NTuple",pred_xsec[i],iso[idx_iso],cr_antiiso_failingprobes,histoUp,var1,var2,var2);
+      else makeSelection(dir+"/"+pred[i]+".root","NTuple",pred_xsec[i],iso[idx_iso],cr_antiiso,histoUp,var1,var2,var2);
 
       h_fakerate->at(iso[idx_iso]) = h_fakerate_down->at(iso[idx_iso]+"_Down");
       TH1D* histoDown = new TH1D("pred_" + pred[i] + "_Down","",nBins,bins);
-      makeSelection(dir+"/"+pred[i]+".root","NTuple",pred_xsec[i],iso[idx_iso],cr_antiiso,histoDown,var1,var2,var2);
-
+      if (doTauTriggerEffmeasurement && passing_probes) makeSelection(dir+"/"+pred[i]+".root","NTuple",pred_xsec[i],iso[idx_iso],cr_antiiso_passingprobes,histoDown,var1,var2,var2);
+      else if (doTauTriggerEffmeasurement && !passing_probes) makeSelection(dir+"/"+pred[i]+".root","NTuple",pred_xsec[i],iso[idx_iso],cr_antiiso_failingprobes,histoDown,var1,var2,var2); 
+      else makeSelection(dir+"/"+pred[i]+".root","NTuple",pred_xsec[i],iso[idx_iso],cr_antiiso,histoDown,var1,var2,var2); 
       // Set correct uncertainties
       for(int i=1; i<histo->GetNbinsX(); i++){
 	histo->SetBinError(i , sqrt( pow(histo->GetBinError(i),2) + pow(abs(histoUp->GetBinContent(i) - histoDown->GetBinContent(i))/2,2)) );
@@ -109,6 +119,7 @@ void ClosureTest_FakeRate() {
     TPad * upper = new TPad("upper", "pad",0,0.29,1,1);
     upper->Draw();
     upper->cd();
+    upper->SetLogx();
     observation->GetYaxis()->SetTitle("Events");
     prediction->SetLineColor(kRed);
     prediction->SetMarkerColor(kRed);
@@ -152,6 +163,7 @@ void ClosureTest_FakeRate() {
     lower->Draw();
     lower->cd();
     lower->SetGridy();
+    lower->SetLogx();
     ratioH->Draw("e1");
     TLine *line = new TLine(bins[0],1,bins[nBins],1);
     line->Draw("same");
@@ -163,11 +175,16 @@ void ClosureTest_FakeRate() {
     canv1->cd();
     canv1->SetSelected(canv1);
     canv1->Update();
-    canv1->Print("figures/"+(TString)observation->GetName()+"_"+iso[idx_iso]+tauDecayMode+"_WToTauNu_closure.png");
+    if (doTauTriggerEffmeasurement && passing_probes) canv1->Print("figures/"+(TString)observation->GetName()+"_"+iso[idx_iso]+tauDecayMode+"_WToTauNu_closure_passingprobes.png");
+    else if (doTauTriggerEffmeasurement && !passing_probes) canv1->Print("figures/"+(TString)observation->GetName()+"_"+iso[idx_iso]+tauDecayMode+"_WToTauNu_closure_failingprobes.png");
+    else  canv1->Print("figures/"+(TString)observation->GetName()+"_"+iso[idx_iso]+tauDecayMode+"_WToTauNu_closure.png");
     delete canv1;
 
     // Save ratio plot as root file
-    TFile *outFile = new TFile("output/"+(TString)observation->GetName()+"_"+iso[idx_iso]+"_WToTauNu_closure"+tauDecayMode+".root","RECREATE");
+    TFile *outFile;
+    if (doTauTriggerEffmeasurement && passing_probes) outFile = new TFile("output/"+(TString)observation->GetName()+"_"+iso[idx_iso]+"_WToTauNu_closure"+tauDecayMode+"_passingprobes.root","RECREATE");
+    else if (doTauTriggerEffmeasurement && !passing_probes) outFile = new TFile("output/"+(TString)observation->GetName()+"_"+iso[idx_iso]+"_WToTauNu_closure"+tauDecayMode+"_failingprobes.root","RECREATE");
+    else outFile = new TFile("output/"+(TString)observation->GetName()+"_"+iso[idx_iso]+"_WToTauNu_closure"+tauDecayMode+".root","RECREATE");
     outFile -> cd();
     ratioH  -> Write();
     outFile -> Close();

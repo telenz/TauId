@@ -21,7 +21,9 @@ void WToTauNuMeasurement(TString selection = "inclusive") {
 
   loadWorkingPoints();
   initCuts();
-  loadFakeRates("output/fakerates" + tauDecayMode + ".root");
+  if (doTauTriggerEffmeasurement && selection == "tautrigger") loadFakeRates("output/fakerates" + tauDecayMode + "_passingprobes.root");
+  else if (doTauTriggerEffmeasurement && selection == "NOTtautrigger") loadFakeRates("output/fakerates" + tauDecayMode + "_failingprobes.root");
+  else loadFakeRates("output/fakerates" + tauDecayMode + ".root");
   loadkFactors(kfactor_tau_file);
 
   for(unsigned int idx_iso=0; idx_iso<iso.size(); idx_iso++){

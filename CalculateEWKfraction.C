@@ -2,7 +2,7 @@
 #include "TStyle.h"
 #include "settings.h"
 
-void CalculateEWKfraction() {
+void CalculateEWKfraction(bool passing_probes = false) {
 
   loadWorkingPoints();
   SetDir();
@@ -28,10 +28,25 @@ void CalculateEWKfraction() {
 
   TH2D *effSingleMu = 0;
 
+  TFile *DataFileJetHT;
+  TFile *DataFileSingleMu;
+  TFile* out_FakeRates;
   // Read single fake rates
-  TFile *DataFileJetHT    = new TFile("output/JetHT_fakeRate"+tauDecayMode+".root");
-  TFile *DataFileSingleMu = new TFile("output/SingleMuon_fakeRate"+tauDecayMode+".root");
-  TFile* out_FakeRates    = new TFile("output/fakerates"+tauDecayMode+".root","RECREATE");
+  if (doTauTriggerEffmeasurement && passing_probes){
+    DataFileJetHT    = new TFile("output/JetHT_fakeRate"+tauDecayMode+"_passingprobes.root");
+    DataFileSingleMu = new TFile("output/SingleMuon_fakeRate"+tauDecayMode+"_passingprobes.root");
+    out_FakeRates    = new TFile("output/fakerates"+tauDecayMode+"_passingprobes.root","RECREATE");
+  }
+  else if (doTauTriggerEffmeasurement && !passing_probes){
+    DataFileJetHT    = new TFile("output/JetHT_fakeRate"+tauDecayMode+"_failingprobes.root");
+    DataFileSingleMu = new TFile("output/SingleMuon_fakeRate"+tauDecayMode+"_failingprobes.root");
+    out_FakeRates    = new TFile("output/fakerates"+tauDecayMode+"_failingprobes.root","RECREATE");
+  }
+  else {
+    DataFileJetHT    = new TFile("output/JetHT_fakeRate"+tauDecayMode+".root");
+    DataFileSingleMu = new TFile("output/SingleMuon_fakeRate"+tauDecayMode+".root");
+    out_FakeRates    = new TFile("output/fakerates"+tauDecayMode+".root","RECREATE");
+  }
 
   // Read binning from fake factor template
   for(unsigned int idx_iso=0; idx_iso<iso.size(); idx_iso++){
@@ -62,7 +77,9 @@ void CalculateEWKfraction() {
 
 	// Calculate normalization factor in fakefactor region (selection=1)
 	makeSelection(dir+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),iso[idx_iso],cr_fakerate_norm,histo_norm[i],var1,var2,var3); //only very small dependence on WP, decay mode selection is applied
-	makeSelection(dir+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),iso[idx_iso],cr_ewkFraction,histo[i],var1,var2,var3);//EWK does not depend on WP, decay mode selection is applied
+	if (doTauTriggerEffmeasurement && passing_probes) makeSelection(dir+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),iso[idx_iso],cr_ewkFraction_passingprobes,histo[i],var1,var2,var3);
+  else if (doTauTriggerEffmeasurement && !passing_probes) makeSelection(dir+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),iso[idx_iso],cr_ewkFraction_failingprobes,histo[i],var1,var2,var3);//EWK does not depend on WP, decay mode selection is applied
+  else makeSelection(dir+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),iso[idx_iso],cr_ewkFraction,histo[i],var1,var2,var3);
       }
     }
 
@@ -116,7 +133,10 @@ void CalculateEWKfraction() {
     cout << endl;
 
     // Save fraction of EWK events in root file
-    TFile* out = new TFile("output/fraction_EWK"+tauDecayMode+".root","RECREATE");
+    TFile* out;
+    if (doTauTriggerEffmeasurement && passing_probes) out = new TFile("output/fraction_EWK"+tauDecayMode+"_passingprobes.root","RECREATE");
+    else if (doTauTriggerEffmeasurement && !passing_probes) out = new TFile("output/fraction_EWK"+tauDecayMode+"_failingprobes.root","RECREATE");
+    else out = new TFile("output/fraction_EWK"+tauDecayMode+".root","RECREATE");
     out->cd();
     h_fEWK_1Dim->Write();
 

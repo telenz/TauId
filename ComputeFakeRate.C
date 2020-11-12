@@ -5,7 +5,7 @@
 #include "TMath.h"
 #include "Math/QuantFuncMathCore.h"
 
-void ComputeFakeRate(bool make_closure = false) {
+void ComputeFakeRate(bool make_closure = false, bool passing_probes = false) {
 
   loadWorkingPoints();
   SetDir();
@@ -37,7 +37,10 @@ void ComputeFakeRate(bool make_closure = false) {
 
   for (unsigned int idx_sample=0; idx_sample<samples.size(); ++idx_sample) { // loop over samples
 
-    TFile *fileOutput = new TFile("output/"+samples[idx_sample].first+"_fakeRate"+tauDecayMode+".root","recreate");
+    TFile *fileOutput;
+    if (doTauTriggerEffmeasurement && passing_probes) fileOutput = new TFile("output/"+samples[idx_sample].first+"_fakeRate"+tauDecayMode+"_passingprobes.root","recreate");
+    else if (doTauTriggerEffmeasurement && !passing_probes) fileOutput = new TFile("output/"+samples[idx_sample].first+"_fakeRate"+tauDecayMode+"_failingprobes.root","recreate");
+    else fileOutput = new TFile("output/"+samples[idx_sample].first+"_fakeRate"+tauDecayMode+".root","recreate");
 
     cout<<endl<<"process  "<<samples[idx_sample].first<<" : "<<endl;
 
@@ -53,6 +56,7 @@ void ComputeFakeRate(bool make_closure = false) {
       vector<Float_t> binsJetPt;
       if (!doTauESmeasurement){
         if( iso[idx_iso] == "VVLooseDeepTau2017v2p1" ) binsJetPt = {100 , 1200};
+        else if (doTauTriggerEffmeasurement && passing_probes) binsJetPt = {100 , 240 , 1200};
         else                                           binsJetPt = {100 , 160 , 200 , 240 , 1200};
       }
       else                     binsJetPt = {100 , 160, 180, 200, 240 , 1200}; //finer binning for TES
@@ -74,16 +78,32 @@ void ComputeFakeRate(bool make_closure = false) {
       for(unsigned int idx_list=0; idx_list<samples[idx_sample].second.size(); idx_list++){ // loop over processes in samples
 	cout<<"---------- Sample "<<samples[idx_sample].second[idx_list]<<" processing. ---------- "<<endl;
 	selectionCuts select = cr_fakerate_num;
+  if (doTauTriggerEffmeasurement && passing_probes) select = cr_fakerate_num_passingprobes;
+  if (doTauTriggerEffmeasurement && !passing_probes) select = cr_fakerate_num_failingprobes;
 	cr_fakerate_dijet_num.pfJetTrigger = true;  //if set to true: only events that have been triggered by at least one dijet trigger pass selection
-	if(samples[idx_sample].second[idx_list].Contains("JetHT")) select =  cr_fakerate_dijet_num;
+  cr_fakerate_dijet_num_passingprobes.pfJetTrigger = true;
+  cr_fakerate_dijet_num_failingprobes.pfJetTrigger = true;
+	if(samples[idx_sample].second[idx_list].Contains("JetHT")) {
+    select =  cr_fakerate_dijet_num;
+    if (doTauTriggerEffmeasurement && passing_probes) select =  cr_fakerate_dijet_num_passingprobes;
+    if (doTauTriggerEffmeasurement && !passing_probes) select =  cr_fakerate_dijet_num_failingprobes;
+  }
 	if(samples[idx_sample].first.Contains("Genuine")){
 	  select.tauGenMatchDecayLow   = 0;  // a matching to real tau is implicity done
 	  select.tauGenMatchDecayHigh  = 100000;
 	}
 	makeSelection(dir+"/"+samples[idx_sample].second[idx_list]+".root","NTuple",getXSec(samples[idx_sample].second[idx_list]),iso[idx_iso],select,h_num,var1,var2,var3);
 	select = cr_fakerate_den;
+  if (doTauTriggerEffmeasurement && passing_probes) select = cr_fakerate_den_passingprobes;
+  if (doTauTriggerEffmeasurement && !passing_probes) select = cr_fakerate_den_failingprobes;
 	cr_fakerate_dijet_den.pfJetTrigger = true;
-	if(samples[idx_sample].second[idx_list].Contains("JetHT")) select =  cr_fakerate_dijet_den;
+  cr_fakerate_dijet_den_passingprobes.pfJetTrigger = true;
+  cr_fakerate_dijet_den_failingprobes.pfJetTrigger = true;
+	if(samples[idx_sample].second[idx_list].Contains("JetHT")){
+     select =  cr_fakerate_dijet_den;
+     if (doTauTriggerEffmeasurement && passing_probes) select =  cr_fakerate_dijet_den_passingprobes;
+     if (doTauTriggerEffmeasurement && !passing_probes) select =  cr_fakerate_dijet_den_failingprobes;
+  }
 	if(samples[idx_sample].first.Contains("Genuine")){
 	  select.tauGenMatchDecayLow   = 0;
 	  select.tauGenMatchDecayHigh  = 100000;
@@ -191,6 +211,12 @@ void ComputeFakeRate(bool make_closure = false) {
 
       h_fakerate_2d_up   -> Divide(h_num_up,h_den);    // gaussian error propagation not valid -> denominator error has negligible impact
       h_fakerate_2d_down -> Divide(h_num_down,h_den);
+
+      for(int i=1; i<=h_fakerate_2d->GetNbinsX(); i++){
+	       for(int j=1; j<=h_fakerate_2d->GetNbinsY(); j++){
+           cout<<"Fake Rate "<<i<<". x-bin (ratio) and "<<j<<". y-bin (tauJetPt) : "<<h_fakerate_2d->GetBinContent(i,j)<<" + "<< h_fakerate_2d_up->GetBinContent(i,j)<<" - "<<h_fakerate_2d_down->GetBinContent(i,j)<<endl;
+         }
+       }
 
       // Statistical precision of fakerate:
       for(int i=1; i<=h_num->GetNbinsX(); i++){
@@ -303,7 +329,9 @@ void ComputeFakeRate(bool make_closure = false) {
       canv->cd();
       canv->SetSelected(canv);
       canv->Update();
-      canv->Print("figures/Unrolled_FF_" + iso[idx_iso] + tauDecayMode + "_" + samples[idx_sample].first + ".png");
+      if (doTauTriggerEffmeasurement && passing_probes) canv->Print("figures/Unrolled_FF_" + iso[idx_iso] + tauDecayMode + "_" + samples[idx_sample].first + "_passingprobes.png");
+      else if (doTauTriggerEffmeasurement && !passing_probes) canv->Print("figures/Unrolled_FF_" + iso[idx_iso] + tauDecayMode + "_" + samples[idx_sample].first + "_failingprobes.png");
+      else canv->Print("figures/Unrolled_FF_" + iso[idx_iso] + tauDecayMode + "_" + samples[idx_sample].first + ".png");
 
       // %%%%%%%%%%%%%%%%%%%%%%%%%  Write fake rates to root file %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       fileOutput->cd("");

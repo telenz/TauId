@@ -125,7 +125,7 @@ struct selectionCuts {
   float metNoMuLow = 0;
   bool singleTauTrigger;
   float tauetaHigh = 2.3;
-} sr, sr_trueTaus, sr_trueTaus_passingprobes, sr_trueTaus_failingprobes, sr_fakeTaus, cr_antiiso, cr_antiiso_passingprobes, cr_antiiso_failingprobes, cr_antiiso_trueTaus, cr_antiiso_fakeTaus, cr_ewkFraction, cr_fakerate_den, cr_fakerate_num, cr_fakerate_norm, cr_fakerate_dijet_den, cr_fakerate_dijet_num, sr_munu;
+} sr, sr_trueTaus, sr_trueTaus_passingprobes, sr_trueTaus_failingprobes, sr_fakeTaus, sr_fakeTaus_passingprobes, sr_fakeTaus_failingprobes,cr_antiiso, cr_antiiso_passingprobes, cr_antiiso_failingprobes, cr_antiiso_trueTaus, cr_antiiso_fakeTaus, cr_ewkFraction, cr_fakerate_den, cr_fakerate_num, cr_fakerate_num_passingprobes, cr_fakerate_den_failingprobes, cr_fakerate_den_passingprobes, cr_fakerate_num_failingprobes, cr_fakerate_norm, cr_fakerate_dijet_den, cr_fakerate_dijet_num, cr_fakerate_dijet_den_passingprobes, cr_fakerate_dijet_num_passingprobes, cr_fakerate_dijet_den_failingprobes, cr_fakerate_dijet_num_failingprobes, sr_munu, cr_ewkFraction_failingprobes, cr_ewkFraction_passingprobes;
 // ----------------------------------------------------------------------------------------------------
 void initCuts()
 {
@@ -189,10 +189,19 @@ void initCuts()
   // sr for fake taus
   sr_fakeTaus = sr;
   sr_fakeTaus.name = "sr_fakeTaus";
-  //sr_fakeTaus.singleTauTrigger = false;
   sr_fakeTaus.tauGenMatchDecayLow  = -1000;
   sr_fakeTaus.tauGenMatchDecayHigh = -1;
-  
+
+  // sr for fake taus, probes passing single tau trigger
+  sr_fakeTaus_passingprobes = sr_fakeTaus;
+  sr_fakeTaus_passingprobes.name = "sr_fakeTaus_passingprobes";
+  sr_fakeTaus_passingprobes.singleTauTrigger = true;
+
+  // sr for fake taus, probes failing single tau trigger
+  sr_fakeTaus_failingprobes = sr_fakeTaus;
+  sr_fakeTaus_failingprobes.name = "sr_fakeTaus_failingprobes";
+  sr_fakeTaus_failingprobes.singleTauTrigger = false;
+
   // sr for W->munu selection
   sr_munu = sr;
   sr_munu.name = "sr_munu";
@@ -214,7 +223,6 @@ void initCuts()
   // antiiso region
   cr_antiiso = sr;
   cr_antiiso.name = "cr_antiiso";
-  //cr_antiiso.singleTauTrigger = false;
   cr_antiiso.tauIso = false;
 
   // antiiso region, probes passing single tau trigger
@@ -243,10 +251,17 @@ void initCuts()
   cr_ewkFraction.tauPtHigh = 1000000;
   cr_ewkFraction.name = "cr_ewkFraction";
 
+  cr_ewkFraction_passingprobes = cr_ewkFraction;
+  cr_ewkFraction_passingprobes.singleTauTrigger = true;
+  cr_ewkFraction_passingprobes.name = "cr_ewkFraction_passingprobes";
+
+  cr_ewkFraction_failingprobes = cr_ewkFraction;
+  cr_ewkFraction_failingprobes.singleTauTrigger = false;
+  cr_ewkFraction_failingprobes.name = "cr_ewkFraction_failingprobes";
+
   // cr_fakerate_den
   cr_fakerate_den = sr;
   cr_fakerate_den.name = "cr_fakerate_den";
-//  cr_fakerate_den.singleTauTrigger = false;
   cr_fakerate_den.selection = 1;
   cr_fakerate_den.nMuonLow  = 1;
   cr_fakerate_den.nMuonHigh = 1;
@@ -263,12 +278,27 @@ void initCuts()
   cr_fakerate_den.tauPtHigh = 1000000;
   cr_fakerate_den.recoilPtLow = 0.;
   cr_fakerate_den.dPhiMetTauLow = 2.8;
-  
+
+  cr_fakerate_den_passingprobes = cr_fakerate_den;
+  cr_fakerate_den_passingprobes.name = "cr_fakerate_den_passingprobes";
+  cr_fakerate_den_passingprobes.singleTauTrigger = true;
+
+  cr_fakerate_den_failingprobes = cr_fakerate_den;
+  cr_fakerate_den_failingprobes.name = "cr_fakerate_den_failingprobes";
+  cr_fakerate_den_failingprobes.singleTauTrigger = false;
+
   // cr_fakerate_num
   cr_fakerate_num = cr_fakerate_den;
   cr_fakerate_num.name = "cr_fakerate_num";
   cr_fakerate_num.tauIso = true;
-//  cr_fakerate_num.singleTauTrigger = false;
+
+  cr_fakerate_num_passingprobes = cr_fakerate_num;
+  cr_fakerate_num_passingprobes.name = "cr_fakerate_num_passingprobes";
+  cr_fakerate_num_passingprobes.singleTauTrigger = true;
+
+  cr_fakerate_num_failingprobes = cr_fakerate_num;
+  cr_fakerate_num_failingprobes.name = "cr_fakerate_num_failingprobes";
+  cr_fakerate_num_failingprobes.singleTauTrigger = false;
 
   // cr_fakerate for WJets and ZJets normalization
   cr_fakerate_norm = cr_fakerate_den;
@@ -280,7 +310,6 @@ void initCuts()
 
   // cr_fakerate_dijet_den
   cr_fakerate_dijet_den.name = "cr_fakerate_dijet_den";
-  //cr_fakerate_dijet_den.singleTauTrigger = false;
   cr_fakerate_dijet_den.selection = 4;
   cr_fakerate_dijet_den.nMuonLow  = 0;
   cr_fakerate_dijet_den.nMuonHigh = 0;
@@ -305,11 +334,26 @@ void initCuts()
   cr_fakerate_dijet_den.recoilPtLow = 120.;
   cr_fakerate_dijet_den.pfJetTrigger  = true;
 
+  cr_fakerate_dijet_den_passingprobes = cr_fakerate_dijet_den;
+  cr_fakerate_dijet_den_passingprobes.name = "cr_fakerate_dijet_den_passingprobes";
+  cr_fakerate_dijet_den_passingprobes.singleTauTrigger = true;
+
+  cr_fakerate_dijet_den_failingprobes = cr_fakerate_dijet_den;
+  cr_fakerate_dijet_den_failingprobes.name = "cr_fakerate_dijet_den_failingprobes";
+  cr_fakerate_dijet_den_failingprobes.singleTauTrigger = false;
+
   // cr_fakerate_num
   cr_fakerate_dijet_num = cr_fakerate_dijet_den;
   cr_fakerate_dijet_num.name = "cr_fakerate_dijet_num";
-  //cr_fakerate_dijet_num.singleTauTrigger = false;
   cr_fakerate_dijet_num.tauIso = true;
+
+  cr_fakerate_dijet_num_passingprobes = cr_fakerate_dijet_num;
+  cr_fakerate_dijet_num_passingprobes.name = "cr_fakerate_dijet_num_passingprobes";
+  cr_fakerate_dijet_num_passingprobes.singleTauTrigger = true;
+
+  cr_fakerate_dijet_num_failingprobes = cr_fakerate_dijet_num;
+  cr_fakerate_dijet_num_failingprobes.name = "cr_fakerate_dijet_num_failingprobes";
+  cr_fakerate_dijet_num_failingprobes.singleTauTrigger = false;
 }
 // ----------------------------------------------------------------------------------------------------
 double getNEventsProcessed(TString samplename)
@@ -465,6 +509,7 @@ double GetkFactor(TString filename, float_t wmass){
    }
    return 0;
 }
+// ----------------------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------------------------
 float dPhiFrom2P(float Px1, float Py1, float Px2, float Py2) {
 	float prod = Px1*Px2 + Py1*Py2;
@@ -702,8 +747,7 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
     //if(sel.selection == 4 && (*pfJet40 != sel.pfJetTrigger && *pfJet60 != sel.pfJetTrigger && *pfJet80 != sel.pfJetTrigger && *pfJet140 != sel.pfJetTrigger && *(*pfJet200) != sel.pfJetTrigger && *(*pfJet260) != sel.pfJetTrigger && *(*pfJet320) != sel.pfJetTrigger && *(*pfJet400) != sel.pfJetTrigger && *(*pfJet450) != sel.pfJetTrigger && *(*pfJet500) != sel.pfJetTrigger)) continue;
     if(sel.selection == 4 && (*pfJet60 != sel.pfJetTrigger && *pfJet80 != sel.pfJetTrigger && *pfJet140 != sel.pfJetTrigger && *(*pfJet200) != sel.pfJetTrigger && *(*pfJet260) != sel.pfJetTrigger && *(*pfJet320) != sel.pfJetTrigger && *(*pfJet400) != sel.pfJetTrigger && *(*pfJet450) != sel.pfJetTrigger)) continue;
     bool singletautrig = *tauSinglePFTau180Trk50>0.5 || *tauSinglePFTau180Trk50oneprong>0.5;
-    //if (singletautrig != sel.singleTauTrigger && (sel.name.Contains("cr_fakerate_den")  || sel.name.Contains("cr_fakerate_num") || sel.name.Contains("sr_trueTaus_passingprobes") || sel.name.Contains("sr_trueTaus_failingprobes") || sel.name.Contains("cr_antiiso_passingprobes") || sel.name.Contains("cr_antiiso_failingprobes"))) continue;
-    if (singletautrig != sel.singleTauTrigger && (sel.name.Contains("sr_trueTaus_passingprobes") || sel.name.Contains("sr_trueTaus_failingprobes") || sel.name.Contains("cr_antiiso_passingprobes") || sel.name.Contains("cr_antiiso_failingprobes"))) continue;
+    if (singletautrig != sel.singleTauTrigger && (sel.name.Contains("_passingprobes") || sel.name.Contains("_failingprobes"))) continue;
 
     if(*Selection != sel.selection) continue;
     if(*recoilDPhi < sel.recoilDPhiLow) continue;
@@ -734,7 +778,7 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
     }
     if(*(*tauAntiMuonLoose3) != sel.tauAntiMuonLoose3 && sel.selection!=2) continue;
     if(*(*tauAntiElectronLooseMVA6) != sel.tauAntiElectronLooseMVA6 && sel.selection!=2) continue;
-    //if(*(*tauIsoVLooseDeep) == true && sel.selection!=2) continue;
+    //if(*(*tauIsoVTightDeep) == true && sel.selection!=2) continue;
     if(*(*tauIso) != sel.tauIso && sel.selection!=2 && sel.name != "cr_fakerate_norm") continue;
     if(*(*tauIsoLoose) != true && sel.name.Contains("cr_fakerate") ) continue;
     if((*tauGenMatchDecay<sel.tauGenMatchDecayLow || *tauGenMatchDecay>sel.tauGenMatchDecayHigh) && !isData) continue;

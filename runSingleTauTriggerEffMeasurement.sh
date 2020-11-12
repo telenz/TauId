@@ -9,8 +9,11 @@ sed -i 's|bool doTauTriggerEffmeasurement = false;|bool doTauTriggerEffmeasureme
 # root -l -b -q TriggerEfficiency.C+ # commented out since this is only executed once
 
 # Compute fake rates in W+jets and dijets events and combine them 
-root -l -b -q ComputeFakeRate.C+
-root -l -b -q CalculateEWKfraction.C+   # This script calculates the EWK fraction and combines the SingleMu and JetHT fake rates
+root -l -b -q ComputeFakeRate.C+"(false,false)"
+root -l -b -q ComputeFakeRate.C+"(false,true)"
+
+root -l -b -q CalculateEWKfraction.C+"(false)"   # This script calculates the EWK fraction and combines the SingleMu and JetHT fake rates
+root -l -b -q CalculateEWKfraction.C+"(true)"
 
 # Run W -> tau nu measurement and create a root file for the tauPt distribution including all relevant systematics for events passing the single tau trigger
 root -l -b -q WToTauNuMeasurement.C+"(\"tautrigger\")"
