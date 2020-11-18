@@ -13,9 +13,9 @@ using namespace std;
 void ClosureTest_FakeRate(bool passing_probes=false) {
 
   TString fakerateFile;
-  if (doTauTriggerEffmeasurement && passing_probes) fakerateFile  = "output/WJetsToLNu_fakeRate"+tauDecayMode+"_passingprobes.root";
-  else if (doTauTriggerEffmeasurement && !passing_probes) fakerateFile  = "output/WJetsToLNu_fakeRate"+tauDecayMode+"_failingprobes.root";
-  else fakerateFile  = "output/WJetsToLNu_fakeRate"+tauDecayMode+".root";
+  if (doTauTriggerEffmeasurement && passing_probes) fakerateFile  = "output/"+era+ "/"+"WJetsToLNu_fakeRate"+tauDecayMode+"_passingprobes.root";
+  else if (doTauTriggerEffmeasurement && !passing_probes) fakerateFile  = "output/"+era+ "/"+"WJetsToLNu_fakeRate"+tauDecayMode+"_failingprobes.root";
+  else fakerateFile  = "output/"+era+ "/"+"WJetsToLNu_fakeRate"+tauDecayMode+".root";
   
   loadWorkingPoints();
   SetDir();
@@ -175,16 +175,16 @@ void ClosureTest_FakeRate(bool passing_probes=false) {
     canv1->cd();
     canv1->SetSelected(canv1);
     canv1->Update();
-    if (doTauTriggerEffmeasurement && passing_probes) canv1->Print("figures/"+(TString)observation->GetName()+"_"+iso[idx_iso]+tauDecayMode+"_WToTauNu_closure_passingprobes.png");
-    else if (doTauTriggerEffmeasurement && !passing_probes) canv1->Print("figures/"+(TString)observation->GetName()+"_"+iso[idx_iso]+tauDecayMode+"_WToTauNu_closure_failingprobes.png");
-    else  canv1->Print("figures/"+(TString)observation->GetName()+"_"+iso[idx_iso]+tauDecayMode+"_WToTauNu_closure.png");
+    if (doTauTriggerEffmeasurement && passing_probes) canv1->Print("figures/"+era+ "/"+(TString)observation->GetName()+"_"+iso[idx_iso]+tauDecayMode+"_WToTauNu_closure_passingprobes.png");
+    else if (doTauTriggerEffmeasurement && !passing_probes) canv1->Print("figures/"+era+ "/"+(TString)observation->GetName()+"_"+iso[idx_iso]+tauDecayMode+"_WToTauNu_closure_failingprobes.png");
+    else  canv1->Print("figures/"+era+ "/"+(TString)observation->GetName()+"_"+iso[idx_iso]+tauDecayMode+"_WToTauNu_closure.png");
     delete canv1;
 
     // Save ratio plot as root file
     TFile *outFile;
-    if (doTauTriggerEffmeasurement && passing_probes) outFile = new TFile("output/"+(TString)observation->GetName()+"_"+iso[idx_iso]+"_WToTauNu_closure"+tauDecayMode+"_passingprobes.root","RECREATE");
-    else if (doTauTriggerEffmeasurement && !passing_probes) outFile = new TFile("output/"+(TString)observation->GetName()+"_"+iso[idx_iso]+"_WToTauNu_closure"+tauDecayMode+"_failingprobes.root","RECREATE");
-    else outFile = new TFile("output/"+(TString)observation->GetName()+"_"+iso[idx_iso]+"_WToTauNu_closure"+tauDecayMode+".root","RECREATE");
+    if (doTauTriggerEffmeasurement && passing_probes) outFile = new TFile("output/"+era+ "/"+(TString)observation->GetName()+"_"+iso[idx_iso]+"_WToTauNu_closure"+tauDecayMode+"_passingprobes.root","RECREATE");
+    else if (doTauTriggerEffmeasurement && !passing_probes) outFile = new TFile("output/"+era+ "/"+(TString)observation->GetName()+"_"+iso[idx_iso]+"_WToTauNu_closure"+tauDecayMode+"_failingprobes.root","RECREATE");
+    else outFile = new TFile("output/"+era+ "/"+(TString)observation->GetName()+"_"+iso[idx_iso]+"_WToTauNu_closure"+tauDecayMode+".root","RECREATE");
     outFile -> cd();
     ratioH  -> Write();
     outFile -> Close();

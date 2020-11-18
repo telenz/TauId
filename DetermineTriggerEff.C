@@ -18,9 +18,9 @@ void DetermineTriggerEff( bool prefit = false) {
   
   for(unsigned int idx_iso=0; idx_iso<iso.size(); idx_iso++){
     
-    TFile * inputPass = new TFile("output/tauPt_"+iso[idx_iso]+tauDecayMode+"_WToTauNu_shapes_trigger_passingprobes.root");
-    TFile * inputFail = new TFile("output/tauPt_"+iso[idx_iso]+tauDecayMode+"_WToTauNu_shapes_trigger_failingprobes.root");
-    TFile * mlfit = new TFile("datacards/fitDiagnostics_tauPt_"+iso[idx_iso]+tauDecayMode+".root");
+    TFile * inputPass = new TFile("output/"+era+ "/"+"tauPt_"+iso[idx_iso]+tauDecayMode+"_WToTauNu_shapes_trigger_passingprobes.root");
+    TFile * inputFail = new TFile("output/"+era+ "/"+"tauPt_"+iso[idx_iso]+tauDecayMode+"_WToTauNu_shapes_trigger_failingprobes.root");
+    TFile * mlfit = new TFile("datacards/"+era+ "/"+"fitDiagnostics_tauPt_"+iso[idx_iso]+tauDecayMode+".root");
     
     TH1D * dataPassH = (TH1D*)inputPass->Get("data_obs");
     TH1D * dataFailH = (TH1D*)inputFail->Get("data_obs");
@@ -124,7 +124,7 @@ void DetermineTriggerEff( bool prefit = false) {
     CMS_lumi(canv,iPeriod,33); 
     canv->SetLogx(); 
     canv->Update();
-    canv->Print("figures/trigEff"+iso[idx_iso]+tauDecayMode+"_"+dir+".png");
+    canv->Print("figures/"+era+ "/"+"trigEff"+iso[idx_iso]+tauDecayMode+"_"+dir+".png");
 
 
     //calculate SF
@@ -156,9 +156,9 @@ void DetermineTriggerEff( bool prefit = false) {
     CMS_lumi(canv1,iPeriod,33);
     canv1->Update();
     canv1->SetLogx();
-    canv1->Print("figures/SF_"+iso[idx_iso]+tauDecayMode+"_"+dir+".png");
+    canv1->Print("figures/"+era+ "/"+"SF_"+iso[idx_iso]+tauDecayMode+"_"+dir+".png");
     
-    TFile *f = new TFile("output/SingleTauTriggerEff_"+iso[idx_iso]+".root","RECREATE");
+    TFile *f = new TFile("output/"+era+ "/"+"SingleTauTriggerEff_"+iso[idx_iso]+".root","RECREATE");
     f->cd();
     eff_data->SetName("Data");
     eff_data->Write();

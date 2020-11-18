@@ -15,12 +15,12 @@ void DatacardProducer_WToMuNu() {
   TString rootFileName =  Variable+"_WToMuNu_shapes.root";
 
   ostringstream str;
-  str << "output/" << BaseName << ".txt";
+  str << "output/"+era+ "/" << BaseName << ".txt";
   string nn = str.str();
   const char * p = nn.c_str();
 
   // Open histogram with all information
-  TFile *in = new TFile("output/" + rootFileName,"READ");
+  TFile *in = new TFile("output/"+era+ "/"+ rootFileName,"READ");
   TH1D* h_data     = 0;
   TH1D* h_WToMuNu = 0;
   TH1D* h_FakeTaus = 0;

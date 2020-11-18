@@ -33,19 +33,19 @@ void CalculateEWKfraction(bool passing_probes = false) {
   TFile* out_FakeRates;
   // Read single fake rates
   if (doTauTriggerEffmeasurement && passing_probes){
-    DataFileJetHT    = new TFile("output/JetHT_fakeRate"+tauDecayMode+"_passingprobes.root");
-    DataFileSingleMu = new TFile("output/SingleMuon_fakeRate"+tauDecayMode+"_passingprobes.root");
-    out_FakeRates    = new TFile("output/fakerates"+tauDecayMode+"_passingprobes.root","RECREATE");
+    DataFileJetHT    = new TFile("output/"+era+ "/"+"JetHT_fakeRate"+tauDecayMode+"_passingprobes.root");
+    DataFileSingleMu = new TFile("output/"+era+ "/"+"SingleMuon_fakeRate"+tauDecayMode+"_passingprobes.root");
+    out_FakeRates    = new TFile("output/"+era+ "/"+"fakerates"+tauDecayMode+"_passingprobes.root","RECREATE");
   }
   else if (doTauTriggerEffmeasurement && !passing_probes){
-    DataFileJetHT    = new TFile("output/JetHT_fakeRate"+tauDecayMode+"_failingprobes.root");
-    DataFileSingleMu = new TFile("output/SingleMuon_fakeRate"+tauDecayMode+"_failingprobes.root");
-    out_FakeRates    = new TFile("output/fakerates"+tauDecayMode+"_failingprobes.root","RECREATE");
+    DataFileJetHT    = new TFile("output/"+era+ "/"+"JetHT_fakeRate"+tauDecayMode+"_failingprobes.root");
+    DataFileSingleMu = new TFile("output/"+era+ "/"+"SingleMuon_fakeRate"+tauDecayMode+"_failingprobes.root");
+    out_FakeRates    = new TFile("output/"+era+ "/"+"fakerates"+tauDecayMode+"_failingprobes.root","RECREATE");
   }
   else {
-    DataFileJetHT    = new TFile("output/JetHT_fakeRate"+tauDecayMode+".root");
-    DataFileSingleMu = new TFile("output/SingleMuon_fakeRate"+tauDecayMode+".root");
-    out_FakeRates    = new TFile("output/fakerates"+tauDecayMode+".root","RECREATE");
+    DataFileJetHT    = new TFile("output/"+era+ "/"+"JetHT_fakeRate"+tauDecayMode+".root");
+    DataFileSingleMu = new TFile("output/"+era+ "/"+"SingleMuon_fakeRate"+tauDecayMode+".root");
+    out_FakeRates    = new TFile("output/"+era+ "/"+"fakerates"+tauDecayMode+".root","RECREATE");
   }
 
   // Read binning from fake factor template
@@ -134,9 +134,9 @@ void CalculateEWKfraction(bool passing_probes = false) {
 
     // Save fraction of EWK events in root file
     TFile* out;
-    if (doTauTriggerEffmeasurement && passing_probes) out = new TFile("output/fraction_EWK"+tauDecayMode+"_passingprobes.root","RECREATE");
-    else if (doTauTriggerEffmeasurement && !passing_probes) out = new TFile("output/fraction_EWK"+tauDecayMode+"_failingprobes.root","RECREATE");
-    else out = new TFile("output/fraction_EWK"+tauDecayMode+".root","RECREATE");
+    if (doTauTriggerEffmeasurement && passing_probes) out = new TFile("output/"+era+ "/"+"fraction_EWK"+tauDecayMode+"_passingprobes.root","RECREATE");
+    else if (doTauTriggerEffmeasurement && !passing_probes) out = new TFile("output/"+era+ "/"+"fraction_EWK"+tauDecayMode+"_failingprobes.root","RECREATE");
+    else out = new TFile("output/"+era+ "/"+"fraction_EWK"+tauDecayMode+".root","RECREATE");
     out->cd();
     h_fEWK_1Dim->Write();
 

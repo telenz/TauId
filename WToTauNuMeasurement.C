@@ -21,9 +21,9 @@ void WToTauNuMeasurement(TString selection = "inclusive") {
 
   loadWorkingPoints();
   initCuts();
-  if (doTauTriggerEffmeasurement && selection == "tautrigger") loadFakeRates("output/fakerates" + tauDecayMode + "_passingprobes.root");
-  else if (doTauTriggerEffmeasurement && selection == "NOTtautrigger") loadFakeRates("output/fakerates" + tauDecayMode + "_failingprobes.root");
-  else loadFakeRates("output/fakerates" + tauDecayMode + ".root");
+  if (doTauTriggerEffmeasurement && selection == "tautrigger") loadFakeRates("output/"+era+ "/"+"fakerates" + tauDecayMode + "_passingprobes.root");
+  else if (doTauTriggerEffmeasurement && selection == "NOTtautrigger") loadFakeRates("output/"+era+ "/"+"fakerates" + tauDecayMode + "_failingprobes.root");
+  else loadFakeRates("output/"+era+ "/"+"fakerates" + tauDecayMode + ".root");
   loadkFactors(kfactor_tau_file);
 
   for(unsigned int idx_iso=0; idx_iso<iso.size(); idx_iso++){
@@ -289,9 +289,9 @@ void WToTauNuMeasurement(TString selection = "inclusive") {
     canv->Modified();
     canv->SetSelected(canv);
     canv->Update();
-    if (selection == "tautrigger")         canv->Print("figures/" + (TString) h_data->GetName() + "_" + iso[idx_iso] + "_WToTauNu" + tauDecayMode + "_passingprobes_prefit.png");
-    else if (selection == "NOTtautrigger") canv->Print("figures/" + (TString) h_data->GetName() + "_" + iso[idx_iso] + "_WToTauNu" + tauDecayMode + "_failingprobes_prefit.png");
-    else                                   canv->Print("figures/" + (TString) h_data->GetName() + "_" + iso[idx_iso] + "_WToTauNu" + tauDecayMode + "_prefit.png");
+    if (selection == "tautrigger")         canv->Print("figures/"+era+ "/" + (TString) h_data->GetName() + "_" + iso[idx_iso] + "_WToTauNu" + tauDecayMode + "_passingprobes_prefit.png");
+    else if (selection == "NOTtautrigger") canv->Print("figures/"+era+ "/"+ (TString) h_data->GetName() + "_" + iso[idx_iso] + "_WToTauNu" + tauDecayMode + "_failingprobes_prefit.png");
+    else                                   canv->Print("figures/"+era+ "/"+ (TString) h_data->GetName() + "_" + iso[idx_iso] + "_WToTauNu" + tauDecayMode + "_prefit.png");
 
     // Get bin-by-bin uncertainties for WTauNu
     TH1D* histo = 0;
@@ -328,9 +328,9 @@ void WToTauNuMeasurement(TString selection = "inclusive") {
 
     // Save all histograms in one file
     TFile *out;
-    if (selection == "tautrigger") out = new TFile("output/" + (TString) h_data->GetName() + "_" + iso[idx_iso] + "_WToTauNu_shapes_trigger_passingprobes" + tauDecayMode + ".root","RECREATE");
-    else if (selection == "NOTtautrigger") out = new TFile("output/" + (TString) h_data->GetName() + "_" + iso[idx_iso] + "_WToTauNu_shapes_trigger_failingprobes" + tauDecayMode + ".root","RECREATE");
-    else out = new TFile("output/" + (TString) h_data->GetName() + "_" + iso[idx_iso] + "_WToTauNu_shapes" + tauDecayMode + ".root","RECREATE");
+    if (selection == "tautrigger") out = new TFile("output/"+era+ "/"+ (TString) h_data->GetName() + "_" + iso[idx_iso] + "_WToTauNu_shapes_trigger_passingprobes" + tauDecayMode + ".root","RECREATE");
+    else if (selection == "NOTtautrigger") out = new TFile("output/"+era+ "/"+(TString) h_data->GetName() + "_" + iso[idx_iso] + "_WToTauNu_shapes_trigger_failingprobes" + tauDecayMode + ".root","RECREATE");
+    else out = new TFile("output/"+era+ "/"+(TString) h_data->GetName() + "_" + iso[idx_iso] + "_WToTauNu_shapes" + tauDecayMode + ".root","RECREATE");
     out->cd();
 
     map<TString,TH1D*>::iterator it;
@@ -340,7 +340,7 @@ void WToTauNuMeasurement(TString selection = "inclusive") {
 	histoMap[it->first] -> Write(it->first);
       }    
 
-    TFile *out_tauPt = new TFile("output/tauPt_" + iso[idx_iso] + tauDecayMode + ".root","RECREATE");
+    TFile *out_tauPt = new TFile("output/"+era+ "/"+"tauPt_" + iso[idx_iso] + tauDecayMode + ".root","RECREATE");
     out_tauPt->cd();
     for ( it = histoMap_tauPt.begin(); it != histoMap_tauPt.end(); it++ )
       {

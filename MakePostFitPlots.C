@@ -18,12 +18,12 @@ void MakePostFitPlots() {
 
     TString inputFileName = "mttau_"+iso[idx_iso]+"_WToTauNu_shapes" + tauDecayMode;
     TString mlfitFileName = "fitDiagnostics_"+iso[idx_iso];
-    TFile * inputs = new TFile("output/"+inputFileName+".root");
+    TFile * inputs = new TFile("output/"+era+ "/"+inputFileName+".root");
     if(!inputs){
       cout<<"File "<<inputFileName<<".root not available. Please Check."<<endl;
       exit(-1);      
     }
-    TFile * mlfit  = new TFile("datacards/"+mlfitFileName+tauDecayMode+".root");
+    TFile * mlfit  = new TFile("datacards/"+era+ "/"+mlfitFileName+tauDecayMode+".root");
     if(!mlfit){
       cout<<"File "<<mlfitFileName<<".root not available. Please Check."<<endl;
       exit(-1);      
@@ -154,7 +154,7 @@ void MakePostFitPlots() {
     canv1->cd();
     canv1->SetSelected(canv1);
     canv1->Update();
-    canv1->Print("figures/"+inputFileName+"_postfit.png");
+    canv1->Print("figures/"+era+ "/"+inputFileName+"_postfit.png");
     //canv1->Print("figures/"+inputFileName+"_postfit.pdf","Portrait pdf");
   }
 }

@@ -41,7 +41,7 @@ void MakePostAndPreFitPlots(bool make_postfit = true, bool is_wtotaunu = true, b
     TString mlfitFileName;
     if (!is_triggermeasurement) mlfitFileName = "fitDiagnostics_"+iso[idx_iso];
     else mlfitFileName = "fitDiagnostics_tauPt_"+iso[idx_iso];
-    TFile * mlfit  = new TFile("datacards/"+mlfitFileName+tauDecayMode+".root");
+    TFile * mlfit  = new TFile("datacards/"+era+ "/"+mlfitFileName+tauDecayMode+".root");
     if(!mlfit){
       cout<<"File "<<mlfitFileName<<".root not available. Please Check."<<endl;
       exit(-1);      
@@ -215,7 +215,7 @@ void MakePostAndPreFitPlots(bool make_postfit = true, bool is_wtotaunu = true, b
     else if(is_triggermeasurement && !is_wtotaunu) filename = "pttau_passingprobes_"+iso[idx_iso]+"_WToMuNu_";
     else if(is_triggermeasurement && is_wtotaunu) filename = "pttau_failingprobes_"+iso[idx_iso]+"_WToMuNu_";
     else if(!is_wtotaunu && !is_triggermeasurement) filename = "mtmuon_"+iso[idx_iso]+"_WToMuNu_";
-    canv1->Print("figures/" + filename + outname + ".png");
+    canv1->Print("figures/"+era+ "/" + filename + outname + ".png");
     //if(!is_wtotaunu) break;
   }
 }

@@ -32,12 +32,12 @@ void DatacardProducer_WToTauNu(TString selection = "inclusive") {
     else rootFileName =  Variable+"_"+iso[idx_iso]+"_WToTauNu_shapes" + tauDecayMode + ".root";
 
     ostringstream str;
-    str << "output/" << BaseName << tauDecayMode << ".txt";
+    str << "output/"+era+ "/" << BaseName << tauDecayMode << ".txt";
     string nn = str.str();
     const char * p = nn.c_str();
 
     // Open histogram with all information
-    TFile *in = new TFile("output/" + rootFileName,"READ");
+    TFile *in = new TFile("output/"+era+ "/"+ rootFileName,"READ");
     TH1D* h_data     = 0;
     TH1D* h_WToTauNu = 0;
     TH1D* h_FakeTaus = 0;

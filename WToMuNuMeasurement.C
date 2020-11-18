@@ -215,7 +215,7 @@ void WToMuNuMeasurement() {
   }
 
   // Save all histograms in one file
-  TFile *out = new TFile("output/" + var + "_WToMuNu_shapes.root","RECREATE");
+  TFile *out = new TFile("output/"+era+ "/"+ var + "_WToMuNu_shapes.root","RECREATE");
   out->cd();
 
   map<TString,TH1D*>::iterator it;

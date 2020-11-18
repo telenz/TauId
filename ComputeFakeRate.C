@@ -38,9 +38,9 @@ void ComputeFakeRate(bool make_closure = false, bool passing_probes = false) {
   for (unsigned int idx_sample=0; idx_sample<samples.size(); ++idx_sample) { // loop over samples
 
     TFile *fileOutput;
-    if (doTauTriggerEffmeasurement && passing_probes) fileOutput = new TFile("output/"+samples[idx_sample].first+"_fakeRate"+tauDecayMode+"_passingprobes.root","recreate");
-    else if (doTauTriggerEffmeasurement && !passing_probes) fileOutput = new TFile("output/"+samples[idx_sample].first+"_fakeRate"+tauDecayMode+"_failingprobes.root","recreate");
-    else fileOutput = new TFile("output/"+samples[idx_sample].first+"_fakeRate"+tauDecayMode+".root","recreate");
+    if (doTauTriggerEffmeasurement && passing_probes) fileOutput = new TFile("output/"+era+ "/"+ samples[idx_sample].first+"_fakeRate"+tauDecayMode+"_passingprobes.root","recreate");
+    else if (doTauTriggerEffmeasurement && !passing_probes) fileOutput = new TFile("output/"+era+ "/"+samples[idx_sample].first+"_fakeRate"+tauDecayMode+"_failingprobes.root","recreate");
+    else fileOutput = new TFile("output/"+era+ "/"+samples[idx_sample].first+"_fakeRate"+tauDecayMode+".root","recreate");
 
     cout<<endl<<"process  "<<samples[idx_sample].first<<" : "<<endl;
 
@@ -329,9 +329,9 @@ void ComputeFakeRate(bool make_closure = false, bool passing_probes = false) {
       canv->cd();
       canv->SetSelected(canv);
       canv->Update();
-      if (doTauTriggerEffmeasurement && passing_probes) canv->Print("figures/Unrolled_FF_" + iso[idx_iso] + tauDecayMode + "_" + samples[idx_sample].first + "_passingprobes.png");
-      else if (doTauTriggerEffmeasurement && !passing_probes) canv->Print("figures/Unrolled_FF_" + iso[idx_iso] + tauDecayMode + "_" + samples[idx_sample].first + "_failingprobes.png");
-      else canv->Print("figures/Unrolled_FF_" + iso[idx_iso] + tauDecayMode + "_" + samples[idx_sample].first + ".png");
+      if (doTauTriggerEffmeasurement && passing_probes) canv->Print("figures/"+era+ "/"+"Unrolled_FF_" + iso[idx_iso] + tauDecayMode + "_" + samples[idx_sample].first + "_passingprobes.png");
+      else if (doTauTriggerEffmeasurement && !passing_probes) canv->Print("figures/"+era+ "/"+"Unrolled_FF_" + iso[idx_iso] + tauDecayMode + "_" + samples[idx_sample].first + "_failingprobes.png");
+      else canv->Print("figures/"+era+ "/"+"Unrolled_FF_" + iso[idx_iso] + tauDecayMode + "_" + samples[idx_sample].first + ".png");
 
       // %%%%%%%%%%%%%%%%%%%%%%%%%  Write fake rates to root file %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       fileOutput->cd("");

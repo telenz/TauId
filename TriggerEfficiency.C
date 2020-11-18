@@ -143,7 +143,7 @@ void TriggerEfficiency() {
   } // end: loop over samples vector (contains Data and MC)
 
 
-  TFile * fileOutput = new TFile("output/" + triggerfile_output_name,"recreate");
+  TFile * fileOutput = new TFile("output/"+era+ "/" + triggerfile_output_name,"recreate");
   fileOutput         -> cd("");    
 
   for (auto const& x : effMapData){
@@ -188,7 +188,7 @@ void TriggerEfficiency() {
     leg->AddEntry(effMapMC[keyMC],"simulation","lp");
     leg->Draw();
     canv->Update();
-    canv->Print( ("figures/trigger_turnon_" + mhtNoMuRangeName + ".png").c_str() );
+    canv->Print( ("figures/"+era+ "/"+"trigger_turnon_" + mhtNoMuRangeName + ".png").c_str() );
     // ################################ Plotting Ends ###########
 
     // ################################ Saving Starts ###########
