@@ -17,8 +17,8 @@
 #include "TH2.h"
 #include "TVector2.h"
 #include "TLorentzVector.h"
-#define ERA_2018
-//#define ERA_2017
+//#define ERA_2018
+#define ERA_2017
 //#define ERA_2016
 
 #ifdef ERA_2018
@@ -37,7 +37,7 @@ TString tauDecayMode = "";
 //TString tauDecayMode = "_1prongUpTo4pizeros";
 double tauMomScale = 1.00;
 bool doTauESmeasurement = false; //if set to true: tau mass cuts depending on the studied decay mode are applied
-bool doTauTriggerEffmeasurement = false; //if set to true: measurement of single tau trigger efficiency as fct. of tauPt is performed
+bool doTauTriggerEffmeasurement = true; //if set to true: measurement of single tau trigger efficiency as fct. of tauPt is performed
 
 // Introduce global variables for tau pt dependent measurement
 double tau_pt_low = 100;
@@ -47,6 +47,10 @@ std::vector<TString> iso;
 map<TString,TH2D>* h_fakerate      = new map<TString,TH2D>();
 map<TString,TH2D>* h_fakerate_up   = new map<TString,TH2D>();
 map<TString,TH2D>* h_fakerate_down = new map<TString,TH2D>();
+
+map<TString,TH1D>* h_nonclosure      = new map<TString,TH1D>();
+map<TString,TH1D>* h_nonclosure_up   = new map<TString,TH1D>();
+map<TString,TH1D>* h_nonclosure_down = new map<TString,TH1D>();
 
 TH1D* h_kFactor= 0;
 
@@ -73,13 +77,13 @@ if (doTauTriggerEffmeasurement) dir = dir_trigger;
 // ----------------------------------------------------------------------------------------------------
 void loadWorkingPoints()
 {
-  iso.push_back("VVLooseDeepTau2017v2p1");
-  iso.push_back("VLooseDeepTau2017v2p1");
-  iso.push_back("LooseDeepTau2017v2p1");
+  //iso.push_back("VVLooseDeepTau2017v2p1");
+  //iso.push_back("VLooseDeepTau2017v2p1");
+  //iso.push_back("LooseDeepTau2017v2p1");
   iso.push_back("MediumDeepTau2017v2p1");
   iso.push_back("TightDeepTau2017v2p1");
   iso.push_back("VTightDeepTau2017v2p1");
-  iso.push_back("VVTightDeepTau2017v2p1");
+  //iso.push_back("VVTightDeepTau2017v2p1");
   /* iso.push_back("VLooseMva2017v2"); */
   /* iso.push_back("LooseMva2017v2"); */
   /* iso.push_back("MediumMva2017v2"); */
@@ -358,6 +362,7 @@ void initCuts()
 // ----------------------------------------------------------------------------------------------------
 double getNEventsProcessed(TString samplename)
 {
+  SetDir();
   TString filename = dir + samplename + ".root";
   TFile * file = new TFile(filename);
   if( !file->GetListOfKeys()->Contains("histWeightsH") ){
@@ -370,8 +375,8 @@ double getNEventsProcessed(TString samplename)
   delete file;
 
   // add hardcoded numbers for new 2016 and 2017 ntuples
-  if(era == "2017" || era == "2016"){
-    if(samplename.Contains("_Run2017") || samplename.Contains("_Run2016")) return 0;
+  if(era == "2017"){
+    if(samplename.Contains("_Run2017")) return 0;
     if (era == "2017" && samplename.Contains("TTTo")) return nevents;
     return n_events_per_sample.at(samplename);
   }
@@ -452,8 +457,45 @@ void loadFakeRates(TString filename)
   delete key;
 }
 // ----------------------------------------------------------------------------------------------------
-double getFakeRates(float ratio, float jetPt, TString iso, TString err)
+void loadNonClosureCorrection(TString filename)
 {
+ 
+  h_nonclosure->clear();
+  h_nonclosure_up->clear();
+  h_nonclosure_down->clear();
+
+  TFile *f1 = new TFile(filename,"READ");
+  if(!f1){
+    cout<<"File "<<filename<<" does not exists. Exiting."<<endl;
+    exit(-1);
+  }
+
+  TIter next(f1->GetListOfKeys());
+  TKey *key = 0;
+
+  while ((key = (TKey*)next())) 
+    {
+      TClass *c = gROOT->GetClass(key->GetClassName());
+      if (!c->InheritsFrom("TH1")) continue;
+      TH1D *h = (TH1D*) key->ReadObj();
+      h->SetDirectory(0);
+      TString hName = h->GetName();
+      if(hName.Contains("_Up")){
+        h_nonclosure_up   -> insert( std::make_pair(h->GetName(),*h) );
+      }
+      else if(hName.Contains("_Down")){
+        h_nonclosure_down -> insert( std::make_pair(h->GetName(),*h) );
+      }
+      else{
+	       h_nonclosure-> insert( std::make_pair(h->GetName(),*h) );
+      }
+      delete h;
+    }
+  delete key;
+}
+// ----------------------------------------------------------------------------------------------------
+double getFakeRates(float ratio, float jetPt, TString iso, TString err)
+{ 
    for(int i=1; i<= h_fakerate->at(iso).GetNbinsX(); i++){
       if( ratio > h_fakerate->at(iso).GetXaxis()->GetBinLowEdge(i) && ratio < h_fakerate->at(iso).GetXaxis()->GetBinUpEdge(i)){
          for(int j=1; j<= h_fakerate->at(iso).GetNbinsY(); j++){
@@ -465,6 +507,18 @@ double getFakeRates(float ratio, float jetPt, TString iso, TString err)
       }
     }
   }
+  return 0;
+}
+// ----------------------------------------------------------------------------------------------------
+double getNonClosureCorrection(float tauPt, TString iso, TString err)
+{
+   for(int i=1; i<= h_nonclosure->at(iso).GetNbinsX(); i++){
+      if( tauPt > h_nonclosure->at(iso).GetXaxis()->GetBinLowEdge(i) && tauPt < h_nonclosure->at(iso).GetXaxis()->GetBinUpEdge(i)){
+               if( err.Contains("ClosureCorrectionUp") )           return h_nonclosure_up->at(iso+"_Up").GetBinContent(i);
+               else if( err.Contains("ClosureCorrectionDown") )       return h_nonclosure_down->at(iso+"_Down").GetBinContent(i);
+               else                                          return h_nonclosure->at(iso).GetBinContent(i);
+            }
+      }
   return 0;
 }
 // ----------------------------------------------------------------------------------------------------
@@ -537,7 +591,7 @@ double mT (TLorentzVector v1, TLorentzVector Metv){
 // ----------------------------------------------------------------------------------------------------
 void makeSelection(TString fullPath, TString treename, double xsec, TString iso, selectionCuts sel, TH1* histo, TString variableToFill_1, TString variableToFill_2, TString variableToFill_3)
 {
-
+  SetDir();
   if(era != "2017"){
     xsecWHT70To100    = xsecs[wjets_HT70To100];
     xsecWHT100To200   = xsecs[wjets_HT100To200];
@@ -778,7 +832,7 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
     }
     if(*(*tauAntiMuonLoose3) != sel.tauAntiMuonLoose3 && sel.selection!=2) continue;
     if(*(*tauAntiElectronLooseMVA6) != sel.tauAntiElectronLooseMVA6 && sel.selection!=2) continue;
-    //if(*(*tauIsoVTightDeep) == true && sel.selection!=2) continue;
+    //if(*(*tauIsoTightDeep) == true && sel.selection!=2) continue;
     if(*(*tauIso) != sel.tauIso && sel.selection!=2 && sel.name != "cr_fakerate_norm") continue;
     if(*(*tauIsoLoose) != true && sel.name.Contains("cr_fakerate") ) continue;
     if((*tauGenMatchDecay<sel.tauGenMatchDecayLow || *tauGenMatchDecay>sel.tauGenMatchDecayHigh) && !isData) continue;
@@ -794,6 +848,8 @@ void makeSelection(TString fullPath, TString treename, double xsec, TString iso,
     }
     if(sel.name.Contains("cr_antiiso")){
       fakerate = getFakeRates( *tauPt/(*tauJetPt),*tauJetPt,iso, sel.name(11,sel.name.Length()) );
+      if (doTauTriggerEffmeasurement && apply_nonclosurecorrection_failingprobes && sel.name.Contains("_failingprobes")) fakerate = fakerate * getNonClosureCorrection(*tauPt, iso, sel.name(11,sel.name.Length()));
+      if (doTauTriggerEffmeasurement && apply_nonclosurecorrection_passingprobes && sel.name.Contains("_passingprobes")) fakerate = fakerate * getNonClosureCorrection(*tauPt, iso, sel.name(11,sel.name.Length()));
     }
     if(sel.name.Contains("cr_fakerate_num") || sel.name.Contains("cr_fakerate_den") || sel.name.Contains("sr_munu")) *trigWeight = 1;
     if(!sel.name.Contains("cr_fakerate") && !sel.name.Contains("sr_munu")){*mueffweight=1;*mutrigweight=1;}
