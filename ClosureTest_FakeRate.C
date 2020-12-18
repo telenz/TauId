@@ -12,13 +12,13 @@ using namespace std;
 
 void ClosureTest_FakeRate(bool passing_probes=false) {
 
+  SetDir();
   TString fakerateFile;
   if (doTauTriggerEffmeasurement && passing_probes) fakerateFile  = "output/"+era+ "/"+"WJetsToLNu_fakeRate"+tauDecayMode+"_passingprobes.root";
   else if (doTauTriggerEffmeasurement && !passing_probes) fakerateFile  = "output/"+era+ "/"+"WJetsToLNu_fakeRate"+tauDecayMode+"_failingprobes.root";
   else fakerateFile  = "output/"+era+ "/"+"WJetsToLNu_fakeRate"+tauDecayMode+".root";
   
   loadWorkingPoints();
-  SetDir();
   initCuts();
   loadFakeRates(fakerateFile);
 
@@ -60,6 +60,37 @@ void ClosureTest_FakeRate(bool passing_probes=false) {
   //Float_t bins[] = {0,0.5,1.1,2.3}; //tauEta binning
   //Float_t bins[] = {0.4,0.5,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0,2.0}; //ratio binning
   const int nBins = sizeof(bins)/sizeof(Float_t) - 1;
+  
+  TH1D * ratioH;
+  TH1D * ratioH_up;
+  TH1D * ratioH_down;
+  TFile *nonclosure;
+  TString nonclosure_name;
+  if (doTauTriggerEffmeasurement){
+    if (passing_probes) nonclosure_name = "output/"+era+ "/"+"nonclosurecorrection_"+tauDecayMode+"_passingprobes.root";
+    else if (!passing_probes) nonclosure_name = "output/"+era+ "/"+"nonclosurecorrection_"+tauDecayMode+"_failingprobes.root";
+    nonclosure = new TFile(nonclosure_name,"RECREATE");
+    for(unsigned int idx_iso=0; idx_iso<iso.size(); idx_iso++){
+        ratioH =  new TH1D("ratioH_"+iso[idx_iso],"",nBins,bins);
+        ratioH_up =  new TH1D("ratioH_up_"+iso[idx_iso],"",nBins,bins);
+        ratioH_down =  new TH1D("ratioH_down_"+iso[idx_iso],"",nBins,bins);
+        ratioH->SetName(iso[idx_iso]);
+        ratioH_up->SetName(iso[idx_iso]+"_Up");
+        ratioH_down->SetName(iso[idx_iso]+"_Down");
+        for (unsigned int i=1; i<nBins+1; ++i) { 
+          ratioH ->SetBinContent(i,1);
+          ratioH_up ->SetBinContent(i,1);
+          ratioH_down ->SetBinContent(i,1);
+        }
+        nonclosure->cd();
+        ratioH ->Write();
+        ratioH_up ->Write();
+        ratioH_down ->Write();
+      }
+  } 
+  //nonclosure->Close();
+  if (doTauTriggerEffmeasurement) loadNonClosureCorrection(nonclosure_name);
+  nonclosure = new TFile(nonclosure_name,"RECREATE");
   
   for(unsigned int idx_iso=0; idx_iso<iso.size(); idx_iso++){
 
@@ -115,6 +146,8 @@ void ClosureTest_FakeRate(bool passing_probes=false) {
     cout<<"Observation : "<<nObs<< " +/- "<<obsE<< " (nevents = "<<observation->GetEntries()<<") "<<endl;
     cout<<"Prediction  : "<<nPred<<" +/- "<<predE<<" (nevents = "<<prediction ->GetEntries()<<") "<<endl;
 
+    cout<<"Scale Factor  : "<<nObs/nPred<<endl;
+
     TCanvas * canv1 = MakeCanvas("canv1", "", 700, 800);
     TPad * upper = new TPad("upper", "pad",0,0.29,1,1);
     upper->Draw();
@@ -148,7 +181,7 @@ void ClosureTest_FakeRate(bool passing_probes=false) {
     upper->Update();
     canv1->cd();
 
-    TH1D * ratioH = (TH1D*)observation->Clone("ratioH");
+    ratioH = (TH1D*)observation->Clone("ratioH");
     ratioH->Divide(prediction);
     ratioH->SetMarkerColor(1);
     ratioH->SetMarkerStyle(20);
@@ -189,11 +222,27 @@ void ClosureTest_FakeRate(bool passing_probes=false) {
     ratioH  -> Write();
     outFile -> Close();
     delete outFile;
-
+    
+    if (doTauTriggerEffmeasurement){
+      nonclosure->cd();
+      ratioH->SetName(iso[idx_iso]);
+      ratioH_up->SetName(iso[idx_iso]+"_Up");
+      ratioH_up->Write();
+      ratioH_down = (TH1D*)ratioH->Clone();
+      ratioH_down->SetName(iso[idx_iso]+"_Down");
+      ratioH_down -> Add(ratioH,1);
+      ratioH_down -> Add(ratioH_up,-1);
+      ratioH_down->Write(); 
+      ratioH ->Write();
+    } 
+    
     delete observation;
     delete prediction;
 
     std::cout << std::endl;
 
    }
+   nonclosure->Close();
+   delete nonclosure;
+   
 }
