@@ -4,7 +4,7 @@
 #include "TGraphAsymmErrors.h"
 #include "settings.h"
 
-void DetermineTriggerEff( bool prefit = false) {
+void DetermineTriggerEff( bool prefit = true) {
 
   SetStyle();
   loadWorkingPoints();
@@ -158,7 +158,9 @@ void DetermineTriggerEff( bool prefit = false) {
     canv1->SetLogx();
     canv1->Print("figures/"+era+ "/"+"SF_"+iso[idx_iso]+tauDecayMode+"_"+dir+".png");
     
-    TFile *f = new TFile("output/"+era+ "/"+"SingleTauTriggerEff_"+iso[idx_iso]+".root","RECREATE");
+    TFile *f;
+    if (prefit) f = new TFile("output/"+era+ "/"+"SingleTauTriggerEff_"+iso[idx_iso]+"_prefit.root","RECREATE");
+    else  f = new TFile("output/"+era+ "/"+"SingleTauTriggerEff_"+iso[idx_iso]+"_postfit.root","RECREATE");
     f->cd();
     eff_data->SetName("Data");
     eff_data->Write();
