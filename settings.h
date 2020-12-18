@@ -17,8 +17,8 @@
 #include "TH2.h"
 #include "TVector2.h"
 #include "TLorentzVector.h"
-//#define ERA_2018
-#define ERA_2017
+#define ERA_2018
+//#define ERA_2017
 //#define ERA_2016
 
 #ifdef ERA_2018
@@ -37,7 +37,7 @@ TString tauDecayMode = "";
 //TString tauDecayMode = "_1prongUpTo4pizeros";
 double tauMomScale = 1.00;
 bool doTauESmeasurement = false; //if set to true: tau mass cuts depending on the studied decay mode are applied
-bool doTauTriggerEffmeasurement = true; //if set to true: measurement of single tau trigger efficiency as fct. of tauPt is performed
+bool doTauTriggerEffmeasurement = false; //if set to true: measurement of single tau trigger efficiency as fct. of tauPt is performed
 
 // Introduce global variables for tau pt dependent measurement
 double tau_pt_low = 100;
@@ -77,13 +77,13 @@ if (doTauTriggerEffmeasurement) dir = dir_trigger;
 // ----------------------------------------------------------------------------------------------------
 void loadWorkingPoints()
 {
-  //iso.push_back("VVLooseDeepTau2017v2p1");
-  //iso.push_back("VLooseDeepTau2017v2p1");
-  //iso.push_back("LooseDeepTau2017v2p1");
+  iso.push_back("VVLooseDeepTau2017v2p1");
+  iso.push_back("VLooseDeepTau2017v2p1");
+  iso.push_back("LooseDeepTau2017v2p1");
   iso.push_back("MediumDeepTau2017v2p1");
   iso.push_back("TightDeepTau2017v2p1");
   iso.push_back("VTightDeepTau2017v2p1");
-  //iso.push_back("VVTightDeepTau2017v2p1");
+  iso.push_back("VVTightDeepTau2017v2p1");
   /* iso.push_back("VLooseMva2017v2"); */
   /* iso.push_back("LooseMva2017v2"); */
   /* iso.push_back("MediumMva2017v2"); */
