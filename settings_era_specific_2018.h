@@ -4,7 +4,7 @@
 TString era = "2018";
 
 TString dir = "/nfs/dust/cms/user/mameyer/TauIdAndES_ULData/TauId/NTuples/2018/";
-TString dir_trigger = "/nfs/dust/cms/user/mameyer/TauIdAndES_ULData/TauId/NTuples/2018/TriggerEfficiencyMeasurement/";
+TString dir_trigger = "/nfs/dust/cms/user/mameyer/TauIdAndES_ULData/TauId/NTuples/2018/TriggerEfficiencyMeasurement/NominalROOTFiles/";
 
 double luminosity = 59740; // lumi determined by brilcalc
 double lumi_unc = 1.025;
@@ -13,6 +13,9 @@ TString triggerfile_output_name = "trigger_eff_HLT_PFMETNoMu120_PFMHTNoMu120_IDT
 
 TString kfactor_tau_file = "kfactor_tau.root";
 TString kfactor_mu_file  = "kfactor_mu.root";
+
+bool apply_nonclosurecorrection_passingprobes = false;
+bool apply_nonclosurecorrection_failingprobes = true;
 
 const int iPeriod = 8;
 
