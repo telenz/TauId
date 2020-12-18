@@ -50,7 +50,8 @@ void ComputeFakeRate(bool make_closure = false, bool passing_probes = false) {
 
       // Definition of fake factor binning
       vector<Float_t> binsRatio;
-      if (!doTauESmeasurement) binsRatio =  { 0.0 , 0.7 , 0.75 , 0.80 , 2.}; // new analysis binning for 2018
+      if (!doTauESmeasurement && passing_probes && era=="2016") binsRatio =  { 0.0 , 0.7 , 0.80 , 2.}; // new analysis binning for 2018
+      else if (!doTauESmeasurement)  binsRatio =  { 0.0 , 0.7 , 0.75, 0.80 , 2.};
       else                     binsRatio =  { 0.0 , 0.7 , 0.75 , 0.775, 0.80 , 0.9, 2.}; //finer binning for TES
 
       vector<Float_t> binsJetPt;
