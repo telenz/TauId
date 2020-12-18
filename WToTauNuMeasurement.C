@@ -25,7 +25,12 @@ void WToTauNuMeasurement(TString selection = "inclusive") {
   else if (doTauTriggerEffmeasurement && selection == "NOTtautrigger") loadFakeRates("output/"+era+ "/"+"fakerates" + tauDecayMode + "_failingprobes.root");
   else loadFakeRates("output/"+era+ "/"+"fakerates" + tauDecayMode + ".root");
   loadkFactors(kfactor_tau_file);
-
+  
+  if (doTauTriggerEffmeasurement){
+    if (selection == "NOTtautrigger") loadNonClosureCorrection("output/"+era+ "/"+"nonclosurecorrection_"+tauDecayMode+"_failingprobes.root");
+    else if (selection == "tautrigger") loadNonClosureCorrection("output/"+era+ "/"+"nonclosurecorrection_"+tauDecayMode+"_passingprobes.root");
+  }  
+  
   for(unsigned int idx_iso=0; idx_iso<iso.size(); idx_iso++){
 
     std::vector< std::pair<TString,std::vector<TString>> > samples;
@@ -66,6 +71,10 @@ void WToTauNuMeasurement(TString selection = "inclusive") {
 	samples.push_back(make_pair(Form("FakeTaus_FR%i%iDown",i,j) , fakeTaus_FRDown));
       }
     }
+    if (doTauTriggerEffmeasurement){
+      fakeTaus_closurecorrectionUp = MET_sample;
+      fakeTaus_closurecorrectionDown = MET_sample;
+    }
     samples.push_back(make_pair("TrueTaus" , trueTaus));
     samples.push_back(make_pair("FakeTaus" , fakeTaus));
     samples.push_back(make_pair("W" , WToTauNu));
@@ -80,7 +89,10 @@ void WToTauNuMeasurement(TString selection = "inclusive") {
     samples.push_back(make_pair("W_taues_3prong0pizerosDown" , WToTauNu_taues_3prong0pizerosDown));
     samples.push_back(make_pair("W_uesUp" , WToTauNu_uesUp));
     samples.push_back(make_pair("W_uesDown" , WToTauNu_uesDown));
-
+    if (doTauTriggerEffmeasurement){
+      samples.push_back(make_pair("FakeTaus_FRClosureCorrectionUp" , fakeTaus_closurecorrectionUp));
+      samples.push_back(make_pair("FakeTaus_FRClosureCorrectionDown" , fakeTaus_closurecorrectionDown));
+    }  
     if(tau_pt_low == 100 && tau_pt_high == 200)      mttau_bins  = mttau_bins_ptbin1;
     //else if(tau_pt_low == 100 && tau_pt_high == 200) mttau_bins  = mttau_bins_ptbin2;
     //else if(tau_pt_low == 150 && tau_pt_high == 200) mttau_bins  = mttau_bins_ptbin2;
@@ -144,7 +156,6 @@ void WToTauNuMeasurement(TString selection = "inclusive") {
       select.name = "cr_antiiso_failingprobes_" + samples[i].first(11,samples[i].first.Length());
     }
 	}
-
 	makeSelection(dir+"/"+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),iso[idx_iso],select,histo,var1,var2,var2);
    makeSelection(dir+"/"+samples[i].second[idx_list]+".root","NTuple",getXSec(samples[i].second[idx_list]),iso[idx_iso],select,histo_tauPt,var3,var4,var4);
 
