@@ -3,7 +3,8 @@
 
 TString era = "2016";
 
-TString dir = "/nfs/dust/cms/user/tlenz/13TeV/2018/TauIDWithVirtualW/DeepTauId/TauId/NTuples/2016/";
+TString dir = "";
+TString dir_trigger = "/nfs/dust/cms/user/mameyer/TauIdAndES_ULData/TauId/NTuples/2016/TriggerEfficiencies/";
 
 double luminosity = 35890; // lumi used for 2016 analysis
 double lumi_unc = 1.025;
@@ -12,6 +13,9 @@ TString triggerfile_output_name = "trigger_eff_HLT_PFMETNoMu110_PFMHTNoMu110_IDT
 
 TString kfactor_tau_file = "kfactor_tau_2016.root";
 TString kfactor_mu_file  = "kfactor_mu_2016.root";
+
+bool apply_nonclosurecorrection_passingprobes = true;
+bool apply_nonclosurecorrection_failingprobes = false;
 
 const int iPeriod = 4;
 
@@ -153,7 +157,8 @@ map<TString, double> xsecs = {
 // (34-44) LO: https://cms-gen-dev.cern.ch/xsdb (DAS=WToTauNu_M-200_TuneCUETP8M1_13TeV-pythia8-tauola) - mass-dependent k-factors applied later
 // (45-51) LO: https://cms-gen-dev.cern.ch/xsdb (DAS=WToMuNu_M-200_TuneCUETP8M1_13TeV-pythia8) - mass-dependent k-factors applied later
 
-map<TString, int> n_events_per_sample = {
+map<TString, int> n_events_per_sample = {};
+/*map<TString, int> n_events_per_sample = {
 {"WJetsToLNu"  , 86916455},
 {"W1JetsToLNu" , 45283121},
 {"W2JetsToLNu" , 30374504},
@@ -206,6 +211,6 @@ map<TString, int> n_events_per_sample = {
 {"WToMuNu_M-200_muDown"   , 996128},
 {"WToMuNu_M-200_uesUp"    , 996128},
 {"WToMuNu_M-200_uesDown"  , 996128},
-};
+};*/
 
 #endif
