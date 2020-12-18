@@ -8,6 +8,7 @@ to be fixed for next iteration of SFs:
    
    - Danny suggested to include a new control region to be able to constrain the fake factors better (for tauId and trigger):
     W*->enu + jets , Can this solve the problem of low tau Id SF in 2017?
+   - what has to be changed if both passing and failing probes need a non-closure correction?
    
 further ideas:
 
