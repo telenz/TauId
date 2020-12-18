@@ -14,6 +14,9 @@ TString triggerfile_output_name = "trigger_eff_HLT_PFMETNoMu120_PFMHTNoMu120_IDT
 TString kfactor_tau_file = "kfactor_tau.root";
 TString kfactor_mu_file  = "kfactor_mu.root";
 
+bool apply_nonclosurecorrection_passingprobes = false;
+bool apply_nonclosurecorrection_failingprobes = false;
+
 const int iPeriod = 6;
 
 const vector<TString> SingleMuon_sample = { "SingleMuon_Run2017B",
