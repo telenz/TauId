@@ -6,37 +6,48 @@
 # root -l -b -q TriggerEfficiency.C+ # commented out since this is only executed once
 
 # Compute fake rates in W+jets and dijets events and combine them 
-root -l -b -q ComputeFakeRate.C+
-root -l -b -q CalculateEWKfraction.C+   # This script calculates the EWK fraction and combines the SingleMu and JetHT fake rates
+while read -r line
+do
+    [[ $line != \#define\ ERA_* ]] && continue
+    echo $line | sed -E 's/#define ERA_//g' >> era.txt
+done < settings.h
+
+while read -r era
+do
+  root -l -b -q ComputeFakeRate.C+
+  root -l -b -q CalculateEWKfraction.C+   # This script calculates the EWK fraction and combines the SingleMu and JetHT fake rates
 
 # Run W -> tau nu measurement and create a root file including all relevant systematics
-root -l -b -q WToTauNuMeasurement.C+
+  root -l -b -q WToTauNuMeasurement.C+
 # Make W -> tau nu datacard
-root -l -b -q DatacardProducer_WToTauNu.C+
+  root -l -b -q DatacardProducer_WToTauNu.C+
 
 # Run W -> mu nu measurement and create a root file including all relevant systematics
-root -l -b -q WToMuNuMeasurement.C+
+  root -l -b -q WToMuNuMeasurement.C+
 # Make W -> mu nu datacard
-root -l -b -q DatacardProducer_WToMuNu.C+
+  root -l -b -q DatacardProducer_WToMuNu.C+
 
-# Make datacards and run Combine
-#iniCMSSW_8_1_0   # needed for Combine (definition see below)
-source /cvmfs/cms.cern.ch/cmsset_default.sh
-export SCRAM_ARCH=slc6_amd64_gcc700
-cd /nfs/dust/cms/user/mameyer/SM_HiggsTauTau/CMSSW_8_1_0/src 
-cmsenv
-cd -
-cd datacards
-sh RunCombine.sh
-#sh make_pulls_impacts_plots.sh
-cd ..
+  # Make datacards and run Combine
+  #iniCMSSW_8_1_0   # needed for Combine (definition see below)
+  source /cvmfs/cms.cern.ch/cmsset_default.sh
+  export SCRAM_ARCH=slc6_amd64_gcc700
+  cd /nfs/dust/cms/user/mameyer/SM_HiggsTauTau/CMSSW_8_1_0/src 
+  cmsenv
+  cd -
+  cd datacards
+  sh RunCombine.sh
+  sh make_pulls_impacts_plots.sh
+  cd ..
 
-# Make postfit plots 
-root -l -b -q MakePostAndPreFitPlots.C+"(0,0)"
-root -l -b -q MakePostAndPreFitPlots.C+"(1,0)"
-root -l -b -q MakePostAndPreFitPlots.C+"(0,1)"
-root -l -b -q MakePostAndPreFitPlots.C+"(1,1)"
+  # Make postfit plots 
+  root -l -b -q MakePostAndPreFitPlots.C+"(0,0)"
+  root -l -b -q MakePostAndPreFitPlots.C+"(1,0)"
+  root -l -b -q MakePostAndPreFitPlots.C+"(0,1)"
+  root -l -b -q MakePostAndPreFitPlots.C+"(1,1)"
 
+done < era.txt
+
+rm era.txt
 # For the measurement the fake rates saved in output/FakeRates_FinerBinning/ are used. This can be seen in WToTauNuMeasurement.C
 # If you want to change this, please change the filename in loadFakeRates();
 
