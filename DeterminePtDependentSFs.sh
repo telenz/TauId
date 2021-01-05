@@ -28,6 +28,14 @@ cd $CMSSW_Combine/src
 cmsenv
 cd -
 
+rm era.txt
+
+while read -r line
+do
+    [[ $line != \#define\ ERA_* ]] && continue
+    echo $line | sed -E 's/#define ERA_//g' >> era.txt
+done < settings.h
+
 root -l -b -q ComputeFakeRate.C+
 root -l -b -q CalculateEWKfraction.C+
 
@@ -54,47 +62,47 @@ do
     root -l -b -q WToTauNuMeasurement.C+
     root -l -b -q DatacardProducer_WToTauNu.C+
 
-    cd datacards
-    sh RunCombine.sh
-    sh make_pulls_impacts_plots.sh
-    python readTauIDs.py >results.txt
-    cd ..
+    cd datacards/${year}
+    sh ../RunCombine.sh
+    sh ../make_pulls_impacts_plots.sh
+    python ../readTauIDs.py >results.txt
+    cd ../../
 
     root -l -b -q MakePostAndPreFitPlots.C+"(0,0)"
     root -l -b -q MakePostAndPreFitPlots.C+"(1,0)"
     root -l -b -q MakePostAndPreFitPlots.C+"(0,1)"
     root -l -b -q MakePostAndPreFitPlots.C+"(1,1)"
 
-    rm -r output/TauPt_${tauptlow[i]}_${taupthigh[i]}
-    rm -r figures/TauPt_${tauptlow[i]}_${taupthigh[i]}
-    rm -r datacards/TauPt_${tauptlow[i]}_${taupthigh[i]}
+    rm -r output/${year}/TauPt_${tauptlow[i]}_${taupthigh[i]}
+    rm -r figures/${year}/TauPt_${tauptlow[i]}_${taupthigh[i]}
+    rm -r datacards/${year}/TauPt_${tauptlow[i]}_${taupthigh[i]}
   #loop here over WPs
     while read -r iso
     do
-        cd output
+        cd output/${year}/
         mkdir TauPt_${tauptlow[i]}_${taupthigh[i]}
         mv mttau_${iso}_WToTauNu_shapes.root TauPt_${tauptlow[i]}_${taupthigh[i]}
         mv tauPt_${iso}.root TauPt_${tauptlow[i]}_${taupthigh[i]}
         mv  datacard_mttau_${iso}_WToTauNu.txt TauPt_${tauptlow[i]}_${taupthigh[i]}
-        cd ..
+        cd ../../
 
-       cd figures
+       cd figures/${year}/
        mkdir  TauPt_${tauptlow[i]}_${taupthigh[i]}
        mv mtmuon_${iso}_WToMuNu_prefit.png  TauPt_${tauptlow[i]}_${taupthigh[i]}
        mv mtmuon_${iso}_WToMuNu_postfit.png  TauPt_${tauptlow[i]}_${taupthigh[i]}
        mv mttau_${iso}_WToTauNu_prefit.png   TauPt_${tauptlow[i]}_${taupthigh[i]}
        mv mttau_${iso}_WToTauNu_postfit.png  TauPt_${tauptlow[i]}_${taupthigh[i]}
-       cd ..
+       cd ../../
 
-       cd datacards
+       cd datacards/${year}/
        mkdir  TauPt_${tauptlow[i]}_${taupthigh[i]}
        mv impacts_${iso}.pdf  TauPt_${tauptlow[i]}_${taupthigh[i]}
-       cd ..
+       cd ../../
    done <iso.txt
 
-   cd datacards
+   cd datacards/${year}/
    mv results.txt   TauPt_${tauptlow[i]}_${taupthigh[i]}
-   cd ..
+   cd ../../
 
    sed -i "s|double tau_pt_low = ${tauptlow[i]};|double tau_pt_low = 100;|g" settings.h
    sed -i "s|double tau_pt_high = ${taupthigh[i]};|double tau_pt_high = 1000000;|g" settings.h
@@ -104,7 +112,7 @@ done
 #determine mean pT
 for ((i=0;i<${#tauptlow[@]};++i));
 do
-cd output/TauPt_${tauptlow[i]}_${taupthigh[i]}
+cd output//${year}/TauPt_${tauptlow[i]}_${taupthigh[i]}
 root -b -l tauPt_${isoWPMeanPt}.root <<EOF > mean_${tauptlow[i]}_${taupthigh[i]}.txt
 std::cout<<"  "<<data_obs->GetMean(1)<<std::endl;
 EOF
@@ -130,7 +138,7 @@ echo -n "$\langle p_{T}\\rangle\\left[\\textrm{GeV}\\right]\$ " >>TauPtDependent
 for ((i=0;i<${#tauptlow[@]};++i));
 do
     echo -n "&" >>TauPtDependentSFs.txt
-    echo -n "$(<output/TauPt_${tauptlow[i]}_${taupthigh[i]}/mean_${tauptlow[i]}_${taupthigh[i]}.txt)" | grep "  " | tr "\n" "\t" >>TauPtDependentSFs.txt
+    echo -n "$(<output/${year}/TauPt_${tauptlow[i]}_${taupthigh[i]}/mean_${tauptlow[i]}_${taupthigh[i]}.txt)" | grep "  " | tr "\n" "\t" >>TauPtDependentSFs.txt
 done
 echo "\\\\" >>TauPtDependentSFs.txt
 echo "\hline" >>TauPtDependentSFs.txt
@@ -141,21 +149,21 @@ do
     for ((i=0;i<${#tauptlow[@]};++i));
     do
         echo -n "&" >>TauPtDependentSFs.txt
-        fgrep -w ${iso}  datacards/TauPt_${tauptlow[i]}_${taupthigh[i]}/results.txt | sed "s/${iso} : //g" | tr '\n' ' ' >>TauPtDependentSFs.txt
+        fgrep -w ${iso}  datacards/${year}/TauPt_${tauptlow[i]}_${taupthigh[i]}/results.txt | sed "s/${iso} : //g" | tr '\n' ' ' >>TauPtDependentSFs.txt
     done
     echo "\\\\" >>TauPtDependentSFs.txt
 done <iso.txt
 echo '\hline' >>TauPtDependentSFs.txt
-echo '\end{tabular}' >>TauPtDependentSFs.txt
+echo '\end{tabular}' >>TauPtDependentSFs.txt 
 
-
+mv TauPtDependentSFs.txt TauPtDependentSFs_${year}.txt
 #make table for Yuta
 rm TableForYuta_${year}.txt
 
 for ((i=0;i<${#ptbin[@]};++i));
 do
     echo -n "mean ${ptbin[i]} pt" >> TableForYuta_${year}.txt
-    echo "$(<output/TauPt_${tauptlow[i]}_${taupthigh[i]}/mean_${tauptlow[i]}_${taupthigh[i]}.txt)" | grep "  " | tr "" "\t" >> TableForYuta_${year}.txt
+    echo "$(<output/${year}/TauPt_${tauptlow[i]}_${taupthigh[i]}/mean_${tauptlow[i]}_${taupthigh[i]}.txt)" | grep "  " | tr "" "\t" >> TableForYuta_${year}.txt
 done
 echo "" >> TableForYuta_${year}.txt
 echo "=======================================" >> TableForYuta_${year}.txt
@@ -168,7 +176,7 @@ do
         echo -n "${ptbin[i]} " >> TableForYuta_${year}.txt
         echo "pt" >> TableForYuta_${year}.txt
         echo -n "ZTT_mu = "  >> TableForYuta_${year}.txt
-        fgrep -w ${iso}  datacards/TauPt_${tauptlow[i]}_${taupthigh[i]}/results.txt | sed "s/${iso} : \\$//g ; s/\^{+/ +- /g ; s/}_{-/ /g ; s/}\\$//g " | tr '' ' ' >>TableForYuta_${year}.txt
+        fgrep -w ${iso}  datacards/${year}/TauPt_${tauptlow[i]}_${taupthigh[i]}/results.txt | sed "s/${iso} : \\$//g ; s/\^{+/ +- /g ; s/}_{-/ /g ; s/}\\$//g " | tr '' ' ' >>TableForYuta_${year}.txt
         echo "" >> TableForYuta_${year}.txt
     done <iso.txt
 done

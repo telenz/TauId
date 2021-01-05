@@ -2,7 +2,7 @@
 
 iso_wps = []
 
-file = open("iso.txt")
+file = open("../iso.txt")
 for line in file :
     line = line.rstrip('\n') 
     iso_wps.append(line)

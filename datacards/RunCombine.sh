@@ -23,19 +23,22 @@ do
       # Combine datacards
       combineCards.py ../../output//${era}/datacard_mtmuon_WToMuNu.txt ../../output/${era}/datacard_mttau_${iso}_WToTauNu${tauDecayMode}.txt > datacard_${iso}_Combined${tauDecayMode}.txt
       # Run combine
+      echo ${era}
       ../Fitting.sh ${iso} $tauDecayMode | tee output_${iso}${tauDecayMode}.txt
   done < ../iso.txt
 done < ../../era.txt
 
 
 # Read results and output it on the screen
-echo -e  "\n\n\n"
-echo -e " ------------- RESULTS ${tauDecayMode} --------------------------------------------------------------------------------------"
-while read -r iso
+while read -r era
 do
-    printf '%-20s' "${iso} : "
-    grep "Best fit tauId: " output_${iso}${tauDecayMode}.txt
-done < iso.txt
-echo -e " --------------------- --------------------------------------------------------------------------------------"
-echo -e  "\n\n\n"
-
+  echo -e  "\n\n\n"
+  echo -e " ------------- RESULTS ${tauDecayMode} --------------------------------------------------------------------------------------"
+  while read -r iso
+  do
+        printf '%-20s' "${iso} : "
+        grep "Best fit tauId: " output_${iso}${tauDecayMode}.txt
+  done < ../iso.txt
+  echo -e " --------------------- --------------------------------------------------------------------------------------"
+  echo -e  "\n\n\n"
+done < ../../era.txt

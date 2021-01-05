@@ -1,7 +1,8 @@
 #!bin/sh
 
 # Please initialize CMSSW before
-
+source /cvmfs/cms.cern.ch/cmsset_default.sh
+export SCRAM_ARCH=slc6_amd64_gcc700
 # Make trigger efficiency curve for met trigger (afterwards you need to redo most of the ntuples)
 # root -l -b -q TriggerEfficiency.C+ # commented out since this is only executed once
 
@@ -29,15 +30,14 @@ do
 
   # Make datacards and run Combine
   #iniCMSSW_8_1_0   # needed for Combine (definition see below)
-  source /cvmfs/cms.cern.ch/cmsset_default.sh
-  export SCRAM_ARCH=slc6_amd64_gcc700
+  
   cd /nfs/dust/cms/user/mameyer/SM_HiggsTauTau/CMSSW_8_1_0/src 
   cmsenv
   cd -
-  cd datacards
-  sh RunCombine.sh
-  sh make_pulls_impacts_plots.sh
-  cd ..
+  cd datacards/${era}
+  sh ../RunCombine.sh
+  sh ../make_pulls_impacts_plots.sh
+  cd ../../
 
   # Make postfit plots 
   root -l -b -q MakePostAndPreFitPlots.C+"(0,0)"
