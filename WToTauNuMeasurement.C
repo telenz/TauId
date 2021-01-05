@@ -71,6 +71,8 @@ void WToTauNuMeasurement(TString selection = "inclusive") {
 	samples.push_back(make_pair(Form("FakeTaus_FR%i%iDown",i,j) , fakeTaus_FRDown));
       }
     }
+    std::vector<TString> fakeTaus_closurecorrectionUp;
+    std::vector<TString> fakeTaus_closurecorrectionDown;
     if (doTauTriggerEffmeasurement){
       fakeTaus_closurecorrectionUp = MET_sample;
       fakeTaus_closurecorrectionDown = MET_sample;
